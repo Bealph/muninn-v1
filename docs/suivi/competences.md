@@ -1,6 +1,6 @@
 # Suivi des compétences
 
-**Mis à jour le :** 12 octobre 2026
+**Mis à jour le :** 12 octobre 2026 (fin de phase 0a)
 
 Statuts : « À faire », « En cours », « Preuve produite », « Validée » (validée par le porteur).
 
@@ -8,13 +8,13 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 ## E1 : collecte, stockage et mise à disposition des données (2 à 5 pages, 15 min)
 
-| Code | Compétence (résumé)                                              | Phase | Preuve prévue                                          | Statut  |
-| ---- | ---------------------------------------------------------------- | ----- | ------------------------------------------------------ | ------- |
-| C1   | Automatiser l'extraction (API, scraping, fichier, BDD, big data) | 0, 3  | Scripts de collecte des sources identifiées en phase 0 | À faire |
-| C2   | Requêtes SQL d'extraction (SGBD et big data)                     | 1, 3  | Requêtes documentées et testées                        | À faire |
-| C3   | Agrégation, nettoyage et homogénéisation des données             | 1, 3  | Script d'agrégation et règles de nettoyage             | À faire |
-| C4   | Base de données conforme au RGPD (MCD, MPD, import)              | 1, 3  | Modèles, migrations, registre des traitements          | À faire |
-| C5   | API REST de mise à disposition du jeu de données                 | 1, 3  | API documentée (OpenAPI) et testée                     | À faire |
+| Code | Compétence (résumé)                                              | Phase | Preuve prévue                                                    | Statut   |
+| ---- | ---------------------------------------------------------------- | ----- | ---------------------------------------------------------------- | -------- |
+| C1   | Automatiser l'extraction (API, scraping, fichier, BDD, big data) | 0, 3  | Sources identifiées et vérifiées (phase 0a) ; scripts en phase 3 | En cours |
+| C2   | Requêtes SQL d'extraction (SGBD et big data)                     | 1, 3  | Requêtes documentées et testées                                  | À faire  |
+| C3   | Agrégation, nettoyage et homogénéisation des données             | 1, 3  | Script d'agrégation et règles de nettoyage                       | À faire  |
+| C4   | Base de données conforme au RGPD (MCD, MPD, import)              | 1, 3  | Modèles, migrations, registre des traitements                    | À faire  |
+| C5   | API REST de mise à disposition du jeu de données                 | 1, 3  | API documentée (OpenAPI) et testée                               | À faire  |
 
 ## E2 : veille, benchmark et paramétrage de services d'IA (15 à 20 pages, 15 min)
 
@@ -36,14 +36,14 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 ## E4 : conception et développement de l'application (15 à 20 pages, 20 min)
 
-| Code | Compétence (résumé)                                                    | Phase | Preuve prévue                                 | Statut  |
-| ---- | ---------------------------------------------------------------------- | ----- | --------------------------------------------- | ------- |
-| C14  | Analyse du besoin, spécifications fonctionnelles, accessibilité        | 0     | User stories, flux, exigences d'accessibilité | À faire |
-| C15  | Cadre technique : architecture, outils, méthodes                       | 2     | Dossier d'architecture et décisions (ADR)     | À faire |
-| C16  | Coordination agile en contexte MLOps                                   | 2 à 7 | Backlog, itérations, revues tracées           | À faire |
-| C17  | Développer composants et interfaces (accessibilité, sécurité, données) | 3 à 5 | Code, revues, tests                           | À faire |
-| C18  | Intégration continue des tests                                         | 2, 5  | Pipeline d'intégration continue               | À faire |
-| C19  | Livraison continue de l'application                                    | 2, 5  | Pipeline de livraison et environnements       | À faire |
+| Code | Compétence (résumé)                                                    | Phase | Preuve prévue                                                                            | Statut   |
+| ---- | ---------------------------------------------------------------------- | ----- | ---------------------------------------------------------------------------------------- | -------- |
+| C14  | Analyse du besoin, spécifications fonctionnelles, accessibilité        | 0     | User stories, flux, accessibilité (phase 0a faite) ; modélisation à compléter en phase 1 | En cours |
+| C15  | Cadre technique : architecture, outils, méthodes                       | 2     | Dossier d'architecture et décisions (ADR)                                                | À faire  |
+| C16  | Coordination agile en contexte MLOps                                   | 2 à 7 | Backlog, itérations, revues tracées                                                      | À faire  |
+| C17  | Développer composants et interfaces (accessibilité, sécurité, données) | 3 à 5 | Code, revues, tests                                                                      | À faire  |
+| C18  | Intégration continue des tests                                         | 2, 5  | Pipeline d'intégration continue                                                          | À faire  |
+| C19  | Livraison continue de l'application                                    | 2, 5  | Pipeline de livraison et environnements                                                  | À faire  |
 
 ## E5 : surveillance et résolution d'incidents (2 à 5 pages, 10 min)
 
