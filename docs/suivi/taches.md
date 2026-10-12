@@ -31,21 +31,18 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-12 | Analyse stratégique v2.1 (dimensionnement Urssaf, codes Sirene), v2 archivée | Dossier du concept |
 | 2026-10-12 | Phase 1 validée par le porteur ; décisions D-18 à D-26 consignées | `docs/decisions.md` |
 | 2026-10-12 | Droits Azure relus en lecture seule : Synapse non enregistré, alternatives à l'étude | D-19 |
+| 2026-10-12 | Décisions D-27 à D-33 (big data option A, recours par phrase, brouillon de secours, week-ends, GitHub Pro, modèle LLM à comparer, clés) | `docs/decisions.md` |
+| 2026-10-12 | Phase 2 : besoin de production et SLO, plan de tests (270 tests), observabilité (25 alertes), contrat d'API (68 points, DossierDraft 1.1), chaîne LLMOps, architecture (17 ADR), méthode agile | `docs/conception/phase-2/` |
+| 2026-10-12 | Consolidation : relecture indépendante appliquée, phases 0 et 1 mises à jour (modèle, accès, stories, flux), 44 diagrammes régénérés | Phases 0 à 2 |
+| 2026-10-12 | Phase 2 validée (D-34) ; développement avancé au mercredi 14 octobre (D-35), planning recalé | `docs/decisions.md`, `07-methode-agile.md` |
 
 ## À faire
 
-| Phase | Tâche                                                                      | Échéance visée            | Statut  |
-| ----- | -------------------------------------------------------------------------- | ------------------------- | ------- |
-| 0a    | Traçabilité du document 04 de la phase 0 étendue aux stories US-46 à US-53 | 14 octobre                | À faire |
-| 2     | Besoin de production et objectifs de service                               | 16 octobre                | À faire |
-| 2     | Plan de tests (dont évaluation des réponses et validation des formats)     | 16 octobre                | À faire |
-| 2     | Observabilité : traces, métriques, alertes                                 | 16 octobre                | À faire |
-| 2     | Contrat d'API                                                              | 16 octobre                | À faire |
-| 2     | Chaîne LLMOps et AgentOps                                                  | 16 octobre                | À faire |
-| 2     | Architecture technique et méthode agile                                    | 16 octobre                | À faire |
-| 2     | Choix provisoire du fournisseur LLM pour la démo                           | 16 octobre                | À faire |
-| 3 à 5 | À détailler à la fin de la phase 2                                         | 17 au 24 octobre          | À faire |
-| 7     | Rédaction d'E1 et d'E3 en Word, répétition de la démo                      | 25 au 28 octobre          | À faire |
-| 0b    | Dispositif de veille technique et réglementaire                            | après le 30 octobre       | À faire |
-| 0b    | Benchmark des services d'IA                                                | après le 30 octobre       | À faire |
-| 5 à 7 | E2, E4, E5 ; répétition des 90 minutes                                     | 31 octobre au 11 novembre | À faire |
+| Phase | Tâche                                                               | Échéance visée                 | Statut  |
+| ----- | ------------------------------------------------------------------- | ------------------------------ | ------- |
+| 2     | Comparaison des modèles LLM (T-06, D-32), puis choix et clés (D-33) | avant J2 (vendredi 16 octobre) | À faire |
+| 3 à 5 | Développement J0 à J9 (14 au 23 octobre), sur feu vert du porteur   | 14 au 23 octobre, tampon le 24 | À faire |
+| 7     | Rédaction d'E1 et d'E3 en Word, répétition de la démo               | 25 au 28 octobre               | À faire |
+| 0b    | Dispositif de veille technique et réglementaire                     | après le 30 octobre            | À faire |
+| 0b    | Benchmark des services d'IA                                         | après le 30 octobre            | À faire |
+| 5 à 7 | E2, E4, E5 ; répétition des 90 minutes                              | 31 octobre au 11 novembre      | À faire |
