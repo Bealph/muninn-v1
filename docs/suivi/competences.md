@@ -1,6 +1,6 @@
 # Suivi des compétences
 
-**Mis à jour le :** 12 octobre 2026 (fin de phase 0a)
+**Mis à jour le :** 12 octobre 2026 (fin de phase 1)
 
 Statuts : « À faire », « En cours », « Preuve produite », « Validée » (validée par le porteur).
 
@@ -8,13 +8,13 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 ## E1 : collecte, stockage et mise à disposition des données (2 à 5 pages, 15 min)
 
-| Code | Compétence (résumé)                                              | Phase | Preuve prévue                                                    | Statut   |
-| ---- | ---------------------------------------------------------------- | ----- | ---------------------------------------------------------------- | -------- |
-| C1   | Automatiser l'extraction (API, scraping, fichier, BDD, big data) | 0, 3  | Sources identifiées et vérifiées (phase 0a) ; scripts en phase 3 | En cours |
-| C2   | Requêtes SQL d'extraction (SGBD et big data)                     | 1, 3  | Requêtes documentées et testées                                  | À faire  |
-| C3   | Agrégation, nettoyage et homogénéisation des données             | 1, 3  | Script d'agrégation et règles de nettoyage                       | À faire  |
-| C4   | Base de données conforme au RGPD (MCD, MPD, import)              | 1, 3  | Modèles, migrations, registre des traitements                    | À faire  |
-| C5   | API REST de mise à disposition du jeu de données                 | 1, 3  | API documentée (OpenAPI) et testée                               | À faire  |
+| Code | Compétence (résumé)                                              | Phase | Preuve prévue                                                               | Statut   |
+| ---- | ---------------------------------------------------------------- | ----- | --------------------------------------------------------------------------- | -------- |
+| C1   | Automatiser l'extraction (API, scraping, fichier, BDD, big data) | 0, 3  | Sources identifiées et vérifiées (phase 0a) ; scripts en phase 3            | En cours |
+| C2   | Requêtes SQL d'extraction (SGBD et big data)                     | 1, 3  | Règles d'extraction SQL et big data conçues (phase 1) ; requêtes en phase 3 | En cours |
+| C3   | Agrégation, nettoyage et homogénéisation des données             | 1, 3  | Défauts des sources et cas VD-01 à VD-28 (phase 1) ; script en phase 3      | En cours |
+| C4   | Base de données conforme au RGPD (MCD, MPD, import)              | 1, 3  | Modèles conceptuel et physique, registre RGPD (phase 1) ; base en phase 3   | En cours |
+| C5   | API REST de mise à disposition du jeu de données                 | 1, 3  | API des référentiels spécifiée (phase 1) ; contrat OpenAPI en phase 2       | En cours |
 
 ## E2 : veille, benchmark et paramétrage de services d'IA (15 à 20 pages, 15 min)
 
@@ -26,13 +26,13 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 ## E3 : exposition, intégration et industrialisation du modèle (15 à 20 pages, 20 min dont démo)
 
-| Code | Compétence (résumé)                                            | Phase | Preuve prévue                                                                           | Statut  |
-| ---- | -------------------------------------------------------------- | ----- | --------------------------------------------------------------------------------------- | ------- |
-| C9   | API REST exposant un modèle d'IA                               | 2, 4  | API d'extraction et contrat OpenAPI                                                     | À faire |
-| C10  | Intégrer l'API d'IA dans une application accessible            | 5     | Interface de démonstration, audit d'accessibilité                                       | À faire |
-| C11  | Monitorer un modèle d'IA (métriques, alertes, restitution)     | 2, 4  | Tableau de bord des métriques d'extraction                                              | À faire |
-| C12  | Tests automatisés du modèle (données, préparation, évaluation) | 2, 4  | Tests d'évaluation des réponses du LLM et de validation des formats                     | À faire |
-| C13  | Livraison continue du modèle (approche MLOps)                  | 2, 4  | Pratiques LLMOps et AgentOps : prompts versionnés, évaluation bloquante, retour arrière | À faire |
+| Code | Compétence (résumé)                                            | Phase | Preuve prévue                                                                           | Statut   |
+| ---- | -------------------------------------------------------------- | ----- | --------------------------------------------------------------------------------------- | -------- |
+| C9   | API REST exposant un modèle d'IA                               | 2, 4  | API d'extraction et contrat OpenAPI                                                     | À faire  |
+| C10  | Intégrer l'API d'IA dans une application accessible            | 5     | Interface de démonstration, audit d'accessibilité                                       | À faire  |
+| C11  | Monitorer un modèle d'IA (métriques, alertes, restitution)     | 2, 4  | Tableau de bord des métriques d'extraction                                              | À faire  |
+| C12  | Tests automatisés du modèle (données, préparation, évaluation) | 2, 4  | Cas VE-01 à VE-30, seuils de blocage (phase 1) ; tests en phase 4                       | En cours |
+| C13  | Livraison continue du modèle (approche MLOps)                  | 2, 4  | Pratiques LLMOps et AgentOps : prompts versionnés, évaluation bloquante, retour arrière | À faire  |
 
 ## E4 : conception et développement de l'application (15 à 20 pages, 20 min)
 
