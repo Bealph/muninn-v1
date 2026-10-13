@@ -1,6 +1,6 @@
 # Suivi des compétences
 
-**Mis à jour le :** 13 octobre 2026 (sprint 2, étape 2)
+**Mis à jour le :** 13 octobre 2026 (sprint 2, étape 2 ; preuves à cocher ajoutées)
 
 Statuts : « À faire », « En cours », « Preuve produite », « Validée » (validée par le porteur).
 
@@ -36,14 +36,14 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 ## E4 : conception et développement de l'application (15 à 20 pages, 20 min)
 
-| Code | Compétence (résumé)                                                    | Phase | Preuve prévue                                                                             | Statut   |
-| ---- | ---------------------------------------------------------------------- | ----- | ----------------------------------------------------------------------------------------- | -------- |
-| C14  | Analyse du besoin, spécifications fonctionnelles, accessibilité        | 0     | User stories, flux, accessibilité (phase 0a faite) ; modélisation à compléter en phase 1  | En cours |
-| C15  | Cadre technique : architecture, outils, méthodes                       | 2     | Architecture technique, 17 ADR, coûts (phase 2)                                           | En cours |
-| C16  | Coordination agile en contexte MLOps                                   | 2 à 7 | Méthode agile, backlog et itérations (phase 2) ; application du 15 octobre au 12 novembre | En cours |
-| C17  | Développer composants et interfaces (accessibilité, sécurité, données) | 3 à 5 | Code, revues, tests ; squelette API et console, 17 tests (sprint 2)                       | En cours |
-| C18  | Intégration continue des tests                                         | 2, 5  | Intégration continue conçue : contrôle requis, tests, évaluation (phase 2)                | En cours |
-| C19  | Livraison continue de l'application                                    | 2, 5  | Livraison continue conçue : staging, étiquette, canari, retour arrière (phase 2)          | En cours |
+| Code | Compétence (résumé)                                                    | Phase | Preuve prévue                                                                             | Statut          |
+| ---- | ---------------------------------------------------------------------- | ----- | ----------------------------------------------------------------------------------------- | --------------- |
+| C14  | Analyse du besoin, spécifications fonctionnelles, accessibilité        | 0     | User stories, flux, accessibilité (phase 0a faite) ; modélisation à compléter en phase 1  | Preuve produite |
+| C15  | Cadre technique : architecture, outils, méthodes                       | 2     | Architecture technique, 17 ADR, coûts (phase 2)                                           | Preuve produite |
+| C16  | Coordination agile en contexte MLOps                                   | 2 à 7 | Méthode agile, backlog et itérations (phase 2) ; application du 15 octobre au 12 novembre | En cours        |
+| C17  | Développer composants et interfaces (accessibilité, sécurité, données) | 3 à 5 | Code, revues, tests ; squelette API et console, 17 tests (sprint 2)                       | En cours        |
+| C18  | Intégration continue des tests                                         | 2, 5  | Intégration continue conçue : contrôle requis, tests, évaluation (phase 2)                | En cours        |
+| C19  | Livraison continue de l'application                                    | 2, 5  | Livraison continue conçue : staging, étiquette, canari, retour arrière (phase 2)          | En cours        |
 
 ## E5 : surveillance et résolution d'incidents (2 à 5 pages, 10 min)
 
@@ -51,3 +51,145 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 | ---- | ------------------------------------------------------------------ | ----- | ----------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | C20  | Surveiller l'application (journalisation conforme RGPD, détection) | 2, 6  | Journalisation sans DP, alertes et ouverture d'incident conçues (phase 2) ; journaux du LLM sans contenu échangé, testés (sprint 2) | En cours |
 | C21  | Résoudre et documenter des incidents techniques                    | 6     | Fiches d'incident et correctifs                                                                                                     | À faire  |
+
+## Preuves, case par case
+
+**Cases cochées : 28 sur 61** (au 13 octobre 2026).
+
+Une case n'est cochée que si la preuve existe dans le dépôt. Source des preuves attendues :
+`docs/v1/couverture-competences.md`. Une compétence passe à « Preuve produite » quand toutes
+ses cases sont cochées, puis à « Validée » sur décision du porteur.
+
+### E1 : données (premier oral, 29 octobre)
+
+**C1** (1 sur 3)
+
+- [x] Sources inventoriées et vérifiées : `docs/conception/phase-0/03-sources-de-donnees.md`
+- [ ] Scripts d'extraction : service web, page web, fichiers, base de données (V-04, sprint 3)
+- [ ] Extraction big data Sirene par DuckDB, tâche planifiée (V-06, sprint 3)
+
+**C2** (1 sur 3)
+
+- [x] Règles d'extraction SQL et big data conçues : `docs/conception/phase-1/02-modele-de-donnees.md`
+- [ ] Requêtes SQL sur PostgreSQL (V-04, sprint 3)
+- [ ] Requêtes SQL DuckDB sur Parquet (V-06, sprint 3)
+
+**C3** (1 sur 2)
+
+- [x] Défauts des sources et cas VD : `docs/conception/phase-1/04-verification-exactitude.md`
+- [ ] Script de nettoyage et d'homogénéisation, rejets motivés (V-04, sprint 3)
+
+**C4** (2 sur 3)
+
+- [x] Modèles conceptuel et physique : `docs/conception/phase-1/02-modele-de-donnees.md`
+- [x] Registre RGPD : `docs/conception/phase-1/05-registre-rgpd.md`
+- [ ] Base PostgreSQL et import programmé (V-04, V-06, sprint 3)
+
+**C5** (1 sur 2)
+
+- [x] Contrat de l'API : `docs/conception/phase-2/04-contrat-api.md`
+- [ ] API des référentiels déployée (V-05, sprint 3)
+
+### E2 : veille, benchmark, paramétrage (oral du 12 novembre)
+
+**C6** (0 sur 2)
+
+- [ ] Dispositif de veille : sources, collecte, partage (31 octobre)
+- [ ] Synthèses et recommandations (31 octobre)
+
+**C7** (1 sur 3)
+
+- [x] Comparatif des services big data : `docs/conception/phase-1/06-big-data-externalise.md`
+- [ ] Banc d'essai des modèles LLM (T-06)
+- [ ] Benchmark complet : transcription, synthèse vocale, téléphonie (1er novembre)
+
+**C8** (2 sur 4)
+
+- [x] Modèles déployés en zone UE, authentification Entra ID, choix documentés : `docs/decisions.md` (D-44 à D-46)
+- [x] Interface de fournisseur et faux fournisseur : `src/muninn/llm/fournisseur.py` (sprint 2)
+- [ ] Sortie structurée et appel d'outils (V-07, sprint 4)
+- [ ] Demande de zéro rétention tracée (D-32)
+
+### E3 : modèle, intégration, monitoring, tests, livraison (premier oral, 29 octobre)
+
+**C9** (2 sur 3)
+
+- [x] Contrat `DossierDraft` 1.1 : `docs/conception/phase-2/04-contrat-api.md`
+- [x] Route d'appel au LLM du squelette : `POST /llm/essai` (sprint 2)
+- [ ] API d'extraction et OpenAPI (V-07, sprint 4)
+
+**C10** (2 sur 4)
+
+- [x] Exigences d'accessibilité : `docs/conception/phase-0/04-accessibilite-utilisabilite.md`
+- [x] Console qui appelle l'API, testée par le porteur : `docs/v1/sprints/sprint-2/preuves/`
+- [ ] Contrôle axe-core en CI (sprint 2, étape 3, ou sprint 5)
+- [ ] Audit RGAA manuel (V1.1)
+
+**C11** (1 sur 3)
+
+- [x] Observabilité conçue : `docs/conception/phase-2/03-observabilite.md`
+- [ ] Métriques, écran Qualité, alerte (V-10, sprint 5)
+- [ ] OpenTelemetry vers Application Insights, alerte Azure Monitor (21 octobre)
+
+**C12** (1 sur 3)
+
+- [x] Cas de vérification et seuils de blocage : `docs/conception/phase-1/04-verification-exactitude.md`, `docs/conception/phase-2/02-plan-de-tests.md`
+- [ ] 20 scénarios et 5 cas de conformité (V-08, sprint 4)
+- [ ] Évaluation bloquante en CI (V-08, sprint 4)
+
+**C13** (1 sur 3)
+
+- [x] Chaîne LLMOps conçue : `docs/conception/phase-2/05-chaine-llmops.md`
+- [ ] Validation, tests et évaluation automatisés en CI (sprint 2, étape 4, puis sprint 4)
+- [ ] Déploiement automatisé par la CI (sprint 2, étape 6)
+
+### E4 : conception et réalisation (oral du 12 novembre)
+
+**C14** (2 sur 2)
+
+- [x] User stories, flux, accessibilité : `docs/conception/phase-0/`
+- [x] Dossier V1, section 1 : `docs/v1/dossier-conception-v1.md`
+
+**C15** (2 sur 2)
+
+- [x] Architecture technique et 17 ADR : `docs/conception/phase-2/06-architecture-technique.md`
+- [x] Dossier V1, sections 4 et 5 : `docs/v1/dossier-conception-v1.md`
+
+**C16** (2 sur 4)
+
+- [x] Méthode agile : `docs/conception/phase-2/07-methode-agile.md`
+- [x] Journal des décisions et checklist du sprint 2 : `docs/decisions.md`, `docs/v1/sprints/sprint-2/checklist.md`
+- [ ] Tableau GitHub Projects, PR revues (au fil des sprints)
+- [ ] Comptes rendus de sprint (au fil des sprints)
+
+**C17** (1 sur 2)
+
+- [x] Squelette API et console, 17 tests : `src/muninn/`, `tests/` (sprint 2)
+- [ ] Composants V-01 à V-10 (sprints 2 à 5)
+
+**C18** (2 sur 3)
+
+- [x] Intégration continue conçue : `docs/conception/phase-2/02-plan-de-tests.md`
+- [x] Tests, ruff et mypy automatisés en local : `pyproject.toml`, `tests/` (sprint 2)
+- [ ] Contrôle requis `verdict` sur chaque PR (sprint 2, étape 4)
+
+**C19** (1 sur 4)
+
+- [x] Livraison continue conçue : `docs/conception/phase-2/05-chaine-llmops.md`
+- [ ] Déploiement automatisé en préproduction puis en production (sprint 2, étapes 5 et 6)
+- [ ] Rollback en une opération (sprint 2, étape 8)
+- [ ] Environnement de test (V1.1)
+
+### E5 : surveillance et incidents (oral du 12 novembre)
+
+**C20** (2 sur 4)
+
+- [x] Journalisation sans donnée personnelle et alertes conçues : `docs/conception/phase-2/03-observabilite.md`
+- [x] Journaux du LLM sans contenu échangé, testés : `tests/test_llm.py` (sprint 2)
+- [ ] Alerte et boucle de rétroaction (V-10, sprint 5)
+- [ ] Détection automatique d'incident (V1.1)
+
+**C21** (0 sur 2)
+
+- [ ] Fiche par incident réel : cause, correctif, PR, test de non-régression (au fil des sprints)
+- [ ] Incident provoqué, résolu et documenté (V1.1)
