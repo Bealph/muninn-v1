@@ -16,7 +16,13 @@ docker compose up --build -d  # API sur le port 8000, console sur le port 8001, 
 curl http://localhost:8000/health
 ```
 
-La console s'ouvre sur <http://localhost:8001>.
+La console s'ouvre sur <http://localhost:8001> : elle affiche la version livrée et envoie une
+question au modèle de langage à travers l'API.
+
+Par défaut, `LLM_FOURNISSEUR=faux` : la réponse est simulée, sans réseau. Pour appeler le vrai
+modèle, renseigner dans `.env` `LLM_FOURNISSEUR=azure`, `AZURE_AI_ENDPOINT` et les modèles A et B.
+Hors conteneur, l'authentification passe par `az login` ; dans un conteneur local, par
+`AZURE_AI_API_KEY`.
 
 ## Développer
 

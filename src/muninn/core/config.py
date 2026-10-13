@@ -1,13 +1,14 @@
-"""Configuration lue dans l'environnement, jamais dans le code (R8)."""
+"""Configuration lue dans l'environnement ; aucun secret n'a de valeur par défaut."""
 
 from functools import lru_cache
+from typing import Literal
 
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    """Paramètres de l'application. Les secrets ne sont jamais affichés ni journalisés."""
+    """Réglages de l'application, lus dans les variables d'environnement ou le fichier .env."""
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
@@ -16,8 +17,17 @@ class Settings(BaseSettings):
     database_url: SecretStr | None = None
     api_base_url: str = "http://localhost:8000"
 
+    # LLM (D-44, D-45). « faux » répond sans réseau : c'est le défaut, pour les tests et la CI.
+    llm_fournisseur: Literal["faux", "azure"] = "faux"
+    # Point d'accès de la ressource Azure AI Foundry, par exemple https://<nom>.services.ai.azure.com
+    azure_ai_endpoint: str | None = None
+    azure_ai_model_a: str = "gpt-5.4-mini"
+    azure_ai_model_b: str | None = None
+    # Facultative : sans clé, l'authentification passe par Entra ID (identité managée ou az login).
+    azure_ai_api_key: SecretStr | None = None
+
 
 @lru_cache
 def get_settings() -> Settings:
-    """Rend une configuration unique par processus."""
+    """Rend les réglages, lus une seule fois par processus."""
     return Settings()

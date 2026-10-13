@@ -26,7 +26,7 @@ cochée qu'avec sa preuve (fichier, capture ou exécution de la chaîne).
 - [x] Décision D-43 : les écarts de calendrier exigés par la consigne du sprint 2 (déploiement automatique et environnements avancés) sont validés par le porteur. Preuve : `docs/decisions.md`.
 - [x] Retours de l'atelier n° 1 : le porteur décide de ne pas les consigner dans le dépôt (13 octobre 2026). Le critère P6 sera présenté oralement.
 - [x] Grille de l'atelier n° 1 : non versée, même décision du porteur.
-- [ ] Clé d'API du LLM disponible pour l'appel réel (D-32, D-33) ; elle reste hors du dépôt. En cours chez le porteur, non bloquante : le faux fournisseur sert en attendant.
+- [x] Accès au LLM pour l'appel réel (D-44, D-45) : les deux modèles répondent, par clé (dans `.env`, hors du dépôt) et sans clé par Entra ID. Vérifié le 13 octobre 2026.
 
 ### Étape 1 : un dépôt propre et reproductible
 
@@ -38,10 +38,10 @@ cochée qu'avec sa preuve (fichier, capture ou exécution de la chaîne).
 
 ### Étape 2 : le squelette
 
-- [ ] Route API `GET /health` (état) et `GET /version` (version et SHA livrés).
-- [ ] Route API qui appelle le LLM et rend sa réponse, derrière une interface de fournisseur, avec un faux fournisseur pour les tests (R8, D-32).
-- [ ] Interface minimale : une page de la console qui appelle l'API et affiche la réponse du LLM et la version livrée (test visuel).
-- [ ] Aucun secret ni donnée personnelle dans les journaux (R4).
+- [x] Route API `GET /health` (état) et `GET /version` (version et SHA livrés). Preuve : `tests/test_socle.py` ; SHA passé à l'image par `GIT_SHA`.
+- [x] Route API `POST /llm/essai` qui appelle le LLM (modèle A ou B) et rend sa réponse, derrière une interface de fournisseur, avec un faux fournisseur pour les tests (R8, D-32). Preuve : `src/muninn/llm/fournisseur.py`, `tests/test_llm.py` ; appel réel des deux modèles depuis le conteneur le 13 octobre 2026.
+- [x] Interface minimale : la page de la console (<http://localhost:8001>) appelle l'API et affiche la réponse du LLM et la version livrée. Preuve : `tests/test_console.py` ; test visuel du porteur à faire.
+- [x] Aucun secret ni donnée personnelle dans les journaux (R4) : seuls le modèle, la durée et le nombre de jetons sont tracés ; la question passe en POST, jamais dans l'URL. Preuve : `test_journaux_sans_contenu_echange` et lecture des journaux des conteneurs.
 
 ### Étape 3 : les tests
 
@@ -91,4 +91,4 @@ cochée qu'avec sa preuve (fichier, capture ou exécution de la chaîne).
 | ---------------------------------- | ----------------------------------------------- | ------------------------------------------- | ----------------------------------------------- |
 | Déploiement automatique sur fusion | 20 octobre (V1.0 complète), script manuel avant | Sprint 2                                    | Aucun : avancé dans le temps                    |
 | Environnement de préproduction     | V1.1 (2 et 3 novembre)                          | Sprint 2 (« à travers les environnements ») | Aucun : avancé dans le temps                    |
-| Appel réel au LLM                  | Sprint 4, après le choix du modèle (D-32, D-33) | Sprint 2 (« un appel au LLM qui répond »)   | Aucun : modèle provisoire, Mistral Small (D-32) |
+| Appel réel au LLM                  | Sprint 4, après le choix du modèle (D-32, D-33) | Sprint 2 (« un appel au LLM qui répond »)   | Aucun : modèle provisoire, gpt-5.4-mini (D-44)  |

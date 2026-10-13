@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Muninn, console de démonstration</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 42rem; margin: 2rem auto; padding: 0 1rem;
+           color: #1a1a1a; background: #fff; line-height: 1.5; }
+    label { display: block; font-weight: 600; margin-top: 1rem; }
+    textarea, select { width: 100%; font: inherit; padding: .5rem; box-sizing: border-box; }
+    button { margin-top: 1rem; font: inherit; padding: .5rem 1.25rem; cursor: pointer; }
+    :focus-visible { outline: 3px solid #1f5fbf; outline-offset: 2px; }
+    .reponse { border-left: 4px solid #1f6f3f; padding: .5rem 1rem; background: #f2f8f4; }
+    .erreur { border-left: 4px solid #a31515; padding: .5rem 1rem; background: #fbf0f0; }
+    dl { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem; }
+    dt { font-weight: 600; }
+    dd { margin: 0; font-family: ui-monospace, monospace; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Muninn</h1>
+  <p>Console de démonstration. Squelette du sprint 2 : un appel au modèle de langage à travers l'API.</p>
+
+  <h2>Version livrée</h2>
+  <dl>
+    <dt>API</dt><dd>{{ api.version }} ({{ api.git_sha }})</dd>
+    <dt>Console</dt><dd>{{ console.version }} ({{ console.git_sha }})</dd>
+    <dt>Environnement</dt><dd>{{ api.environment }}</dd>
+  </dl>
+
+  <h2>Essai du modèle</h2>
+  <form method="post" action="/essai">
+    <label for="question">Question (500 caractères au plus)</label>
+    <textarea id="question" name="question" rows="3" maxlength="500" required>{{ question }}</textarea>
+    <label for="modele">Modèle</label>
+    <select id="modele" name="modele">
+      <option value="A" {% if modele == "A" %}selected{% endif %}>A : modèle principal</option>
+      <option value="B" {% if modele == "B" %}selected{% endif %}>B : modèle de comparaison</option>
+    </select>
+    <button type="submit">Envoyer</button>
+  </form>
+
+  <section aria-live="polite">
+    {% if resultat %}
+    <h2>Réponse</h2>
+    <div class="reponse"><p>{{ resultat.reponse }}</p></div>
+    <dl>
+      <dt>Modèle</dt><dd>{{ resultat.modele }}</dd>
+      <dt>Fournisseur</dt><dd>{{ resultat.fournisseur }}</dd>
+      <dt>Durée</dt><dd>{{ resultat.duree_ms }} ms</dd>
+    </dl>
+    {% elif erreur %}
+    <h2>Erreur</h2>
+    <div class="erreur" role="alert"><p>{{ erreur }}</p></div>
+    {% endif %}
+  </section>
+</main>
+</body>
+</html>
