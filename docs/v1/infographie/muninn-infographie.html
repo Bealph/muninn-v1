@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muninn en une page</title>
+<style>
+  :root {
+    --encre: #1d2433;
+    --encre-douce: #4a5468;
+    --fond: #f7f4ee;
+    --carte: #ffffff;
+    --nuit: #1f2a44;
+    --nuit-clair: #2f3d60;
+    --accent: #e8743b;
+    --accent-pale: #fde9dd;
+    --vert: #2e8b57;
+    --vert-pale: #e3f3ea;
+    --bleu: #3a6ea5;
+    --bleu-pale: #e4eef8;
+    --ambre: #c98a16;
+    --ambre-pale: #fbf0d9;
+    --rouge: #c0392b;
+    --rouge-pale: #f9e3e0;
+    --trait: #d9d3c7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fond);
+    color: var(--encre);
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.45;
+  }
+  .page { width: 1200px; margin: 0 auto; padding: 48px 56px 40px; }
+  header.titre {
+    background: var(--nuit);
+    color: #fff;
+    border-radius: 22px;
+    padding: 34px 40px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+  header.titre h1 { margin: 0; font-size: 54px; letter-spacing: 1px; }
+  header.titre .slogan { font-size: 28px; color: #ffd2b8; margin-top: 4px; font-weight: 600; }
+  header.titre .sous { font-size: 19px; color: #c9d2e6; margin-top: 10px; }
+  h2 {
+    font-size: 30px;
+    margin: 44px 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  h2 .num {
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    width: 44px; height: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .probleme { display: grid; grid-template-columns: 430px 1fr; gap: 28px; align-items: stretch; }
+  .carte {
+    background: var(--carte);
+    border: 1px solid var(--trait);
+    border-radius: 18px;
+    padding: 22px 24px;
+  }
+  .carte-dessin { padding: 0; overflow: hidden; background: #fbf8f2; display: flex; align-items: center; }
+  .faits { display: grid; gap: 14px; }
+  .fait { display: flex; gap: 16px; align-items: flex-start; }
+  .fait .pastille {
+    flex: 0 0 46px; height: 46px; border-radius: 12px;
+    background: var(--accent-pale); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 22px;
+  }
+  .fait b { display: block; font-size: 19px; }
+  .fait span { color: var(--encre-douce); font-size: 16px; }
+  .chiffres { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .chiffre { background: var(--fond); border-radius: 14px; padding: 14px 16px; }
+  .chiffre .valeur { font-size: 34px; font-weight: 800; color: var(--nuit); }
+  .chiffre .libelle { font-size: 14.5px; color: var(--encre-douce); }
+  .bd { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .case {
+    background: var(--carte);
+    border: 3px solid var(--nuit);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .case .entete {
+    background: var(--nuit); color: #fff;
+    font-weight: 700; font-size: 16px; padding: 8px 14px;
+  }
+  .case svg { display: block; width: 100%; height: 250px; background: #fbf8f2; }
+  .case .legende { padding: 12px 14px 16px; font-size: 15.5px; color: var(--encre); }
+  .case .legende em { color: var(--encre-douce); font-style: normal; }
+  .agent { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 18px; }
+  .regle { border-radius: 14px; padding: 16px 18px; font-size: 15.5px; }
+  .regle h3 { margin: 0 0 6px; font-size: 18px; }
+  .r-outils { background: var(--bleu-pale); border-left: 6px solid var(--bleu); }
+  .r-regles { background: var(--ambre-pale); border-left: 6px solid var(--ambre); }
+  .r-garde { background: var(--rouge-pale); border-left: 6px solid var(--rouge); }
+  .regle ol, .regle ul { margin: 6px 0 0; padding-left: 20px; }
+  .regle li { margin: 3px 0; }
+  code { font-family: Consolas, "Courier New", monospace; font-size: 14px; background: rgba(0,0,0,.06); padding: 1px 5px; border-radius: 5px; }
+  .promesse { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .pilier { text-align: center; padding: 26px 22px; }
+  .pilier svg { width: 74px; height: 74px; }
+  .pilier h3 { margin: 10px 0 6px; font-size: 22px; }
+  .pilier p { margin: 0; color: var(--encre-douce); font-size: 16px; }
+  .v1 { background: var(--nuit); color: #fff; border-radius: 20px; padding: 26px 30px; }
+  .chaine { display: flex; align-items: stretch; gap: 10px; }
+  .etape {
+    flex: 1; background: var(--nuit-clair); border-radius: 14px; padding: 14px 14px;
+    font-size: 15px; color: #e6ebf5;
+  }
+  .etape b { display: block; color: #fff; font-size: 16.5px; margin-bottom: 4px; }
+  .fleche { align-self: center; color: #ffd2b8; font-size: 26px; font-weight: 800; }
+  .v1 .note { margin-top: 16px; font-size: 15px; color: #c9d2e6; }
+  .v1 .note b { color: #ffd2b8; }
+  footer { margin-top: 30px; font-size: 13.5px; color: var(--encre-douce); border-top: 1px solid var(--trait); padding-top: 14px; }
+  .partie { margin: 54px 0 6px; padding: 22px 30px; border-radius: 18px; background: var(--accent); color: #fff; }
+  .partie-num { font-size: 15px; text-transform: uppercase; letter-spacing: 2px; opacity: .9; }
+  .partie-titre { font-size: 34px; font-weight: 800; margin-top: 2px; }
+  .partie-sous { font-size: 17px; margin-top: 6px; }
+  .pas {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 800; font-size: 15px;
+    margin-right: 8px; flex: 0 0 28px; vertical-align: middle;
+  }
+  .archi { display: flex; align-items: stretch; gap: 8px; }
+  .col { flex: 1; display: flex; flex-direction: column; gap: 10px; background: #fff; border: 1px solid var(--trait); border-radius: 16px; padding: 12px; }
+  .col-large { flex: 1.6; }
+  .col-titre { font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--encre-douce); font-weight: 700; }
+  .bloc { border-radius: 12px; padding: 10px 12px; font-size: 14px; color: var(--encre-douce); }
+  .bloc b { display: inline; color: var(--encre); font-size: 15px; }
+  .bloc b + * , .bloc b { }
+  .b-src { background: #eef1f6; }
+  .b-data { background: var(--ambre-pale); }
+  .b-api { background: var(--bleu-pale); }
+  .b-ctrl { background: var(--vert-pale); }
+  .b-ui { background: var(--accent-pale); }
+  .b-vig { background: #ece9f6; }
+  .bloc > b { display: block; margin-bottom: 3px; }
+  .bloc > .pas + b { display: inline; }
+  .mini { margin: 6px 0 0; padding-left: 18px; font-size: 13.5px; }
+  .mini li { margin: 2px 0; }
+  .mini i { color: var(--encre-douce); font-style: normal; font-size: 12px; background: rgba(0,0,0,.05); padding: 0 5px; border-radius: 4px; margin-left: 4px; }
+  .cyl { align-self: center; text-align: center; background: var(--nuit); color: #fff; font-weight: 700; font-size: 13.5px; padding: 8px 18px; border-radius: 50% / 18%; min-width: 120px; }
+  .cyl small { font-weight: 400; color: #c9d2e6; }
+  .liaison { align-self: center; font-size: 30px; color: var(--accent); font-weight: 800; }
+  .agent-cadre { border: 2px dashed var(--nuit); border-radius: 14px; padding: 10px; background: #fbf8f2; }
+  .agent-titre { font-weight: 800; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; }
+  .agent-titre small { font-weight: 400; color: var(--encre-douce); margin-left: 6px; }
+  .agent-ligne { display: flex; align-items: center; gap: 6px; }
+  .mini-bloc { flex: 1; text-align: center; border-radius: 10px; padding: 8px 6px; font-size: 13px; font-weight: 700; }
+  .mini-bloc.gf { background: var(--rouge-pale); color: var(--rouge); }
+  .mini-bloc.llm { background: var(--nuit); color: #fff; }
+  .mini-fleche { color: var(--accent); font-weight: 800; }
+  .outils-ligne { margin-top: 8px; text-align: center; font-size: 13px; color: var(--bleu); font-weight: 600; }
+  .lecture { margin-top: 16px; background: #fff; border: 1px solid var(--trait); border-left: 6px solid var(--accent); border-radius: 14px; padding: 16px 22px; }
+  .lecture-titre { font-weight: 800; font-size: 18px; margin-bottom: 6px; }
+  .lecture ol { margin: 0; padding-left: 24px; columns: 2; column-gap: 34px; font-size: 15px; }
+  .lecture li { margin: 0 0 7px; break-inside: avoid; }
+  .stack { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .couche { background: #fff; border: 1px solid var(--trait); border-radius: 14px; padding: 12px 16px; }
+  .couche-nom { font-weight: 800; font-size: 16px; margin-bottom: 6px; }
+  .puces { display: flex; flex-wrap: wrap; gap: 6px; }
+  .puce { background: var(--bleu-pale); color: var(--nuit); border-radius: 999px; padding: 3px 11px; font-size: 13.5px; font-weight: 600; }
+  .couche-role { margin-top: 6px; font-size: 14px; color: var(--encre-douce); }
+  .derogation { margin-top: 14px; background: var(--ambre-pale); border-left: 6px solid var(--ambre); border-radius: 14px; padding: 14px 18px; font-size: 15px; }
+  .derog-tete { font-size: 18px; margin-bottom: 4px; }
+  .pilotage { display: flex; align-items: stretch; gap: 6px; }
+  .pil { flex: 1; background: #fff; border: 1px solid var(--trait); border-radius: 14px; padding: 12px; font-size: 13.5px; color: var(--encre-douce); }
+  .pil > b { display: block; color: var(--encre); font-size: 15px; margin: 6px 0 3px; }
+  .pil-ci { flex: 1.7; background: var(--bleu-pale); }
+  .pil-verdict { background: var(--accent-pale); }
+  .pil-retour { background: var(--vert-pale); }
+  .pil-signal { background: #ece9f6; }
+  .envs { display: grid; grid-template-columns: 1fr 1fr 1fr 1.6fr; gap: 10px; margin-top: 12px; }
+  .env { background: var(--nuit); color: #c9d2e6; border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+  .env b { display: block; color: #fff; font-size: 15px; }
+  .env-note { background: var(--nuit-clair); }
+  .astuce { margin-top: 12px; background: var(--vert-pale); border-left: 6px solid var(--vert); border-radius: 14px; padding: 12px 18px; font-size: 15px; }
+  .frise { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
+  .jalon { border-radius: 12px; padding: 10px 10px; font-size: 13.5px; color: var(--encre-douce); background: #fff; border: 1px solid var(--trait); }
+  .jalon b { display: block; color: var(--encre); font-size: 15px; }
+  .j-date { font-size: 12.5px; font-weight: 700; color: var(--accent); margin-bottom: 2px; }
+  .j-sprint { background: var(--bleu-pale); }
+  .j-incr { background: var(--vert-pale); }
+  .j-oral { background: var(--nuit); color: #c9d2e6; border-color: var(--nuit); }
+  .j-oral b { color: #fff; }
+  .j-oral .j-date { color: #ffd2b8; }
+  .frise-note { margin: 10px 0 14px; font-size: 14.5px; color: var(--encre-douce); }
+  .criteres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .critere { background: #fff; border: 1px solid var(--trait); border-radius: 14px; padding: 12px 14px; font-size: 14.5px; color: var(--encre-douce); }
+  .critere b { display: block; color: var(--encre); font-size: 16px; margin: 4px 0 3px; }
+  .ca { background: var(--nuit); color: #fff; font-weight: 800; font-size: 12.5px; border-radius: 6px; padding: 2px 8px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="titre">
+    <svg width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="Logo : un corbeau">
+      <circle cx="60" cy="60" r="58" fill="#2f3d60"/>
+      <path d="M28 74 C34 52 52 40 70 42 C80 43 88 48 92 56 L104 58 L93 64 C92 76 82 88 66 90 C54 92 44 88 36 82 L22 92 L28 74 Z" fill="#0f1524"/>
+      <circle cx="80" cy="54" r="3.4" fill="#ffd2b8"/>
+      <path d="M50 66 C58 62 68 62 76 68" stroke="#3b4a70" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div>
+      <h1>Muninn</h1>
+      <div class="slogan">« Il parle, Muninn se souvient. »</div>
+      <div class="sous">Le secrétariat automatique de l'artisan qui travaille seul : chaque appel manqué devient un dossier rangé, vérifié et prêt à traiter, sans saisie.</div>
+    </div>
+  </header>
+
+  <div class="partie" id="partie-a">
+    <div class="partie-num">Partie A</div>
+    <div class="partie-titre">Le produit : le problème, le scénario, la promesse</div>
+  </div>
+
+  <section id="s-produit">
+  <h2><span class="num">1</span>Le problème</h2>
+  <div class="probleme">
+    <div class="carte carte-dessin">
+      <svg viewBox="0 0 430 330" width="100%" role="img" aria-label="Karim, plombier, est allongé sous un évier ; son téléphone sonne par terre et il ne peut pas décrocher.">
+        <rect width="430" height="330" fill="#fbf8f2"/>
+        <g stroke="#ece5d8" stroke-width="2">
+          <line x1="0" y1="60" x2="430" y2="60"/><line x1="0" y1="120" x2="430" y2="120"/><line x1="0" y1="180" x2="430" y2="180"/>
+          <line x1="70" y1="0" x2="70" y2="230"/><line x1="140" y1="0" x2="140" y2="230"/><line x1="210" y1="0" x2="210" y2="230"/><line x1="280" y1="0" x2="280" y2="230"/><line x1="350" y1="0" x2="350" y2="230"/>
+        </g>
+        <rect x="0" y="230" width="430" height="100" fill="#e9dfcd"/>
+        <rect x="200" y="70" width="210" height="18" rx="4" fill="#9aa5b1"/>
+        <rect x="210" y="88" width="190" height="142" rx="6" fill="#d6c3a5"/>
+        <rect x="222" y="100" width="80" height="118" rx="4" fill="#cdb894"/>
+        <rect x="308" y="100" width="80" height="118" rx="4" fill="#cdb894"/>
+        <path d="M265 130 L265 175 Q265 190 280 190 L300 190" stroke="#7b8794" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <path d="M300 196 C296 204 296 210 300 212 C304 210 304 204 300 196 Z" fill="#5aa9e6"/>
+        <ellipse cx="300" cy="238" rx="34" ry="6" fill="#bfe0f7"/>
+        <ellipse cx="150" cy="262" rx="130" ry="10" fill="#d8cbb3"/>
+        <rect x="70" y="232" width="150" height="34" rx="16" fill="#2f5d8a"/>
+        <rect x="200" y="236" width="60" height="26" rx="12" fill="#2f5d8a"/>
+        <rect x="40" y="238" width="44" height="22" rx="9" fill="#3c2f2f"/>
+        <path d="M230 240 L262 200" stroke="#2f5d8a" stroke-width="16" stroke-linecap="round"/>
+        <circle cx="265" cy="196" r="9" fill="#e0ac7e"/>
+        <rect x="258" y="170" width="8" height="34" rx="3" fill="#8d99a6" transform="rotate(25 262 187)"/>
+        <circle cx="262" cy="248" r="17" fill="#e0ac7e"/>
+        <path d="M246 244 Q262 226 280 242 Z" fill="#e8743b"/>
+        <g transform="translate(60 160)">
+          <rect x="0" y="0" width="40" height="66" rx="8" fill="#1d2433"/>
+          <rect x="4" y="7" width="32" height="48" rx="4" fill="#ffd2b8"/>
+          <text x="20" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#c0392b">!</text>
+          <path d="M-14 6 Q-22 33 -14 60" stroke="#e8743b" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M54 6 Q62 33 54 60" stroke="#e8743b" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </g>
+        <g>
+          <rect x="18" y="22" width="190" height="78" rx="16" fill="#fff" stroke="#1d2433" stroke-width="2"/>
+          <path d="M120 100 L132 124 L140 100 Z" fill="#fff" stroke="#1d2433" stroke-width="2"/>
+          <rect x="118" y="96" width="24" height="6" fill="#fff"/>
+          <text x="113" y="54" text-anchor="middle" font-size="16" font-weight="700" fill="#1d2433">« Je ne peux pas</text>
+          <text x="113" y="76" text-anchor="middle" font-size="16" font-weight="700" fill="#1d2433">décrocher… »</text>
+        </g>
+        <text x="215" y="318" text-anchor="middle" font-size="15" fill="#4a5468">Karim, plombier-chauffagiste, travaille seul</text>
+      </svg>
+    </div>
+    <div class="carte">
+      <div class="faits">
+        <div class="fait"><div class="pastille">1</div><div><b>Les mains occupées, il manque des appels</b><span>Sous un évier ou dans une chaudière, il ne peut pas décrocher. Le client rappelle ailleurs.</span></div></div>
+        <div class="fait"><div class="pastille">2</div><div><b>Il retient tout de tête</b><span>Noms, adresses, pannes : notés sur un carnet ou dans une messagerie, puis ressaisis le soir.</span></div></div>
+        <div class="fait"><div class="pastille">3</div><div><b>Une demande oubliée, c'est un chantier perdu</b><span>Et l'administratif pèse déjà lourd sur des journées longues.</span></div></div>
+      </div>
+      <div class="chiffres">
+        <div class="chiffre"><div class="valeur">41 %</div><div class="libelle">des chefs d'entreprise du BTP de 0 à 19 salariés citent le poids de l'administratif comme source de stress (CAPEB, baromètre ARTI Santé, juin 2025)</div></div>
+        <div class="chiffre"><div class="valeur">121 348</div><div class="libelle">auto-entrepreneurs économiquement actifs dans les travaux d'installation et de finition au 31/12/2025 (Urssaf, open data)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <h2><span class="num">2</span>Un appel manqué, raconté en quatre cases</h2>
+  <div class="bd">
+
+    <div class="case">
+      <div class="entete">1. Le client appelle</div>
+      <svg viewBox="0 0 260 250" role="img" aria-label="Paul Martin, chez lui, appelle Karim : il a une fuite sous l'évier.">
+        <rect width="260" height="250" fill="#fbf8f2"/>
+        <rect x="0" y="190" width="260" height="60" fill="#e9dfcd"/>
+        <ellipse cx="190" cy="214" rx="50" ry="9" fill="#bfe0f7"/>
+        <rect x="60" y="120" width="70" height="80" rx="22" fill="#7a9e7e"/>
+        <rect x="68" y="190" width="22" height="30" rx="8" fill="#3c4a5c"/>
+        <rect x="100" y="190" width="22" height="30" rx="8" fill="#3c4a5c"/>
+        <circle cx="95" cy="98" r="26" fill="#c99470"/>
+        <path d="M70 92 Q95 62 121 92 Q110 80 95 80 Q80 80 70 92 Z" fill="#6b4f3a"/>
+        <circle cx="86" cy="98" r="2.6" fill="#1d2433"/><circle cx="104" cy="98" r="2.6" fill="#1d2433"/>
+        <path d="M88 110 Q95 106 102 110" stroke="#1d2433" stroke-width="2" fill="none"/>
+        <path d="M122 140 L124 104" stroke="#7a9e7e" stroke-width="14" stroke-linecap="round"/>
+        <rect x="116" y="84" width="14" height="26" rx="4" fill="#1d2433"/>
+        <rect x="134" y="20" width="118" height="92" rx="14" fill="#fff" stroke="#1d2433" stroke-width="2"/>
+        <path d="M140 104 L128 118 L152 106 Z" fill="#fff" stroke="#1d2433" stroke-width="2"/>
+        <rect x="140" y="102" width="14" height="6" fill="#fff"/>
+        <text font-size="11.5" fill="#1d2433" font-weight="600">
+          <tspan x="193" y="40" text-anchor="middle">« Fuite sous l'évier,</tspan>
+          <tspan x="193" y="56" text-anchor="middle">c'est urgent !</tspan>
+          <tspan x="193" y="72" text-anchor="middle">12 rue des Lilas,</tspan>
+          <tspan x="193" y="88" text-anchor="middle">Montreuil 93100 »</tspan>
+        </text>
+      </svg>
+      <div class="legende">Paul Martin appelle Karim. Karim est sous un autre évier : <em>l'appel est renvoyé vers Muninn.</em></div>
+    </div>
+
+    <div class="case">
+      <div class="entete">2. Muninn répond et s'annonce</div>
+      <svg viewBox="0 0 260 250" role="img" aria-label="Un téléphone affiche la réponse de Muninn, qui s'annonce comme l'assistant automatique de Karim.">
+        <rect width="260" height="250" fill="#fbf8f2"/>
+        <rect x="70" y="14" width="120" height="222" rx="20" fill="#1d2433"/>
+        <rect x="78" y="30" width="104" height="190" rx="10" fill="#f2f4f8"/>
+        <rect x="78" y="30" width="104" height="26" rx="10" fill="#1f2a44"/>
+        <text x="130" y="48" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">Muninn</text>
+        <rect x="84" y="64" width="92" height="94" rx="8" fill="#e4eef8"/>
+        <text font-size="9.2" fill="#1d2433">
+          <tspan x="90" y="78">Bonjour, vous êtes</tspan>
+          <tspan x="90" y="90">en relation avec</tspan>
+          <tspan x="90" y="102">l'assistant</tspan>
+          <tspan x="90" y="114">automatique de</tspan>
+          <tspan x="90" y="126" font-weight="700">Karim Plomberie.</tspan>
+          <tspan x="90" y="140">Je prends votre</tspan>
+          <tspan x="90" y="152">demande.</tspan>
+        </text>
+        <rect x="104" y="166" width="72" height="40" rx="8" fill="#fde9dd"/>
+        <text font-size="9.2" fill="#1d2433"><tspan x="110" y="182">Fuite sous</tspan><tspan x="110" y="196">l'évier…</tspan></text>
+        <path d="M44 100 Q34 125 44 150" stroke="#e8743b" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M216 100 Q226 125 216 150" stroke="#e8743b" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="legende">L'assistant dit d'emblée qu'il est automatique, puis recueille la demande. <em>Rien n'est enregistré à l'insu de personne.</em></div>
+    </div>
+
+    <div class="case">
+      <div class="entete">3. L'agent vérifie</div>
+      <svg viewBox="0 0 260 250" role="img" aria-label="Le corbeau Muninn consulte les référentiels : commune, code postal, terme métier ; un bouclier symbolise les garde-fous.">
+        <rect width="260" height="250" fill="#fbf8f2"/>
+        <path d="M30 150 C36 122 58 106 80 108 C92 109 102 115 106 124 L120 126 L107 133 C106 147 94 160 76 162 C62 164 50 158 42 152 L26 164 L30 150 Z" fill="#1f2a44"/>
+        <circle cx="94" cy="120" r="3" fill="#ffd2b8"/>
+        <circle cx="134" cy="98" r="20" fill="none" stroke="#3a6ea5" stroke-width="6"/>
+        <line x1="148" y1="113" x2="162" y2="128" stroke="#3a6ea5" stroke-width="7" stroke-linecap="round"/>
+        <rect x="160" y="20" width="92" height="44" rx="8" fill="#e4eef8" stroke="#3a6ea5" stroke-width="1.5"/>
+        <text font-size="9.5" fill="#1d2433"><tspan x="166" y="36" font-weight="700">Commune</tspan><tspan x="166" y="50">Montreuil 93100</tspan></text>
+        <text x="240" y="40" font-size="14" fill="#2e8b57" font-weight="800">✓</text>
+        <rect x="160" y="72" width="92" height="44" rx="8" fill="#e4eef8" stroke="#3a6ea5" stroke-width="1.5"/>
+        <text font-size="9.5" fill="#1d2433"><tspan x="166" y="88" font-weight="700">Terme métier</tspan><tspan x="166" y="102">fuite sous évier</tspan></text>
+        <text x="240" y="92" font-size="14" fill="#2e8b57" font-weight="800">✓</text>
+        <path d="M206 132 L238 144 L238 172 C238 192 222 204 206 210 C190 204 174 192 174 172 L174 144 Z" fill="#f9e3e0" stroke="#c0392b" stroke-width="3"/>
+        <text x="206" y="168" text-anchor="middle" font-size="9.5" fill="#c0392b" font-weight="700">Garde-</text>
+        <text x="206" y="181" text-anchor="middle" font-size="9.5" fill="#c0392b" font-weight="700">fous</text>
+        <text font-size="10.5" fill="#4a5468"><tspan x="16" y="200">Il ne remplace jamais</tspan><tspan x="16" y="215">ce qui a été dit : il complète,</tspan><tspan x="16" y="230">départage ou signale.</tspan></text>
+      </svg>
+      <div class="legende">L'agent confronte ce qu'il a compris aux <em>données officielles</em> (communes, codes postaux, lexique du métier). Le serveur recontrôle derrière lui.</div>
+    </div>
+
+    <div class="case">
+      <div class="entete">4. Le dossier est prêt</div>
+      <svg viewBox="0 0 260 250" role="img" aria-label="Pendant une pause, Karim lit sur son téléphone le dossier rangé et vérifié, et le valide d'un geste.">
+        <rect width="260" height="250" fill="#fbf8f2"/>
+        <rect x="20" y="132" width="66" height="96" rx="22" fill="#2f5d8a"/>
+        <circle cx="53" cy="108" r="24" fill="#e0ac7e"/>
+        <path d="M30 104 Q53 78 77 102 Z" fill="#e8743b"/>
+        <rect x="44" y="94" width="38" height="8" rx="3" fill="#e8743b"/>
+        <circle cx="46" cy="110" r="2.4" fill="#1d2433"/><circle cx="62" cy="110" r="2.4" fill="#1d2433"/>
+        <path d="M45 120 Q54 126 63 120" stroke="#1d2433" stroke-width="2" fill="none"/>
+        <path d="M80 160 L104 142" stroke="#2f5d8a" stroke-width="14" stroke-linecap="round"/>
+        <rect x="100" y="22" width="148" height="216" rx="18" fill="#1d2433"/>
+        <rect x="108" y="36" width="132" height="190" rx="10" fill="#ffffff"/>
+        <text x="174" y="54" text-anchor="middle" font-size="11" font-weight="800" fill="#1f2a44">Nouveau dossier</text>
+        <g font-size="9.6" fill="#1d2433">
+          <text x="116" y="74" font-weight="700">Martin</text>
+          <text x="116" y="88">Montreuil 93100</text>
+          <rect x="190" y="79" width="44" height="13" rx="6" fill="#e3f3ea"/><text x="212" y="89" text-anchor="middle" font-size="8.4" fill="#2e8b57" font-weight="700">vérifié</text>
+          <text x="116" y="104">Fuite sous l'évier</text>
+          <text x="116" y="120">+33 6 99 00 00 01</text>
+          <rect x="116" y="128" width="50" height="14" rx="7" fill="#fde9dd"/><text x="141" y="138" text-anchor="middle" font-size="8.6" fill="#e8743b" font-weight="700">urgent</text>
+          <text x="116" y="160" font-size="8.6" fill="#4a5468">Transcription détruite</text>
+          <text x="116" y="172" font-size="8.6" fill="#4a5468">après extraction</text>
+        </g>
+        <rect x="124" y="186" width="100" height="28" rx="14" fill="#2e8b57"/>
+        <text x="174" y="205" text-anchor="middle" font-size="12" fill="#fff" font-weight="700">Valider</text>
+      </svg>
+      <div class="legende">Entre deux chantiers, Karim lit un dossier <em>rangé et vérifié</em>. Il corrige si besoin, puis valide en un geste.</div>
+    </div>
+  </div>
+
+  <div class="agent">
+    <div class="regle r-outils">
+      <h3>Ses outils</h3>
+      <ul>
+        <li><code>chercher_communes</code> : quelle commune, quel code postal ? « Montreuil » existe dans trois départements ; l'indice « dans le 9-3 » désigne celle de Seine-Saint-Denis.</li>
+        <li><code>chercher_terme_metier</code> : « mon cumulus fuit » devient « fuite de chauffe-eau électrique ».</li>
+      </ul>
+    </div>
+    <div class="regle r-regles">
+      <h3>Ses quatre règles</h3>
+      <ol>
+        <li>Ne jamais remplacer ce que le client a dit.</li>
+        <li>Compléter ce qui manque, si une seule valeur est possible.</li>
+        <li>Départager ce qui est ambigu, grâce à un indice de l'appel.</li>
+        <li>Signaler plutôt que deviner.</li>
+      </ol>
+    </div>
+    <div class="regle r-garde">
+      <h3>Ses garde-fous</h3>
+      <ul>
+        <li>Odeur de gaz : urgence « sécurité » et orientation vers Urgence Sécurité Gaz ou le 112.</li>
+        <li>Aucune donnée de santé conservée.</li>
+        <li>Une consigne glissée par l'appelant reste sans effet.</li>
+        <li>Aucune valeur inventée : le serveur retire ce qui n'a été ni dit, ni trouvé.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2><span class="num">3</span>Ce que Muninn promet</h2>
+  <div class="promesse">
+    <div class="carte pilier">
+      <svg viewBox="0 0 74 74" aria-hidden="true"><circle cx="37" cy="37" r="35" fill="#fde9dd"/><path d="M24 22 h26 a4 4 0 0 1 4 4 v28 l-8 -6 l-8 6 l-8 -6 l-8 6 v-28 a4 4 0 0 1 4 -4 z" fill="#e8743b"/><path d="M28 34 l6 6 l12 -12" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3>Aucune demande perdue</h3>
+      <p>Chaque appel manqué devient un dossier, même quand l'artisan ne peut pas décrocher.</p>
+    </div>
+    <div class="carte pilier">
+      <svg viewBox="0 0 74 74" aria-hidden="true"><circle cx="37" cy="37" r="35" fill="#e4eef8"/><rect x="20" y="18" width="34" height="40" rx="5" fill="#3a6ea5"/><rect x="26" y="26" width="22" height="4" rx="2" fill="#fff"/><rect x="26" y="34" width="22" height="4" rx="2" fill="#fff"/><rect x="26" y="42" width="14" height="4" rx="2" fill="#fff"/></svg>
+      <h3>Zéro saisie</h3>
+      <p>Nom, adresse, panne, urgence : tout est extrait, rangé et vérifié. L'artisan valide en un geste.</p>
+    </div>
+    <div class="carte pilier">
+      <svg viewBox="0 0 74 74" aria-hidden="true"><circle cx="37" cy="37" r="35" fill="#e3f3ea"/><rect x="22" y="32" width="30" height="24" rx="5" fill="#2e8b57"/><path d="M28 32 v-6 a9 9 0 0 1 18 0 v6" stroke="#2e8b57" stroke-width="5" fill="none"/><circle cx="37" cy="44" r="3.5" fill="#fff"/></svg>
+      <h3>Rien ne sort en clair</h3>
+      <p>Les dossiers vivent chiffrés sur le téléphone ; l'audio et la transcription sont détruits après traitement.</p>
+    </div>
+  </div>
+
+  </section>
+
+  <div class="partie" id="partie-b">
+    <div class="partie-num">Partie B</div>
+    <div class="partie-titre">Comment la V1 est construite</div>
+    <div class="partie-sous">Ce que le jury verra fonctionner, d'après le dossier de conception V1 (gelé le 13 octobre 2026). Suivez les numéros.</div>
+  </div>
+
+  <section id="s-architecture">
+  <h2><span class="num">4</span>L'architecture, en huit étapes</h2>
+  <div class="archi">
+    <div class="col">
+      <div class="col-titre">Sources publiques</div>
+      <div class="bloc b-src"><span class="pas">1</span><b>Cinq types de sources</b><br>
+        <ul class="mini">
+          <li>API Géo <i>service web</i></li>
+          <li>Codes postaux, COG <i>fichiers</i></li>
+          <li>Wiktionnaire <i>page web</i></li>
+          <li>Wikidata <i>base de données</i></li>
+          <li>Sirene, 44 M de lignes <i>big data</i></li>
+        </ul>
+      </div>
+    </div>
+    <div class="liaison">›</div>
+    <div class="col">
+      <div class="col-titre">Données</div>
+      <div class="bloc b-data"><span class="pas">2</span><b>Collecte et nettoyage</b><br>Scripts qui typent, homogénéisent et rejettent les lignes corrompues.</div>
+      <div class="cyl">PostgreSQL<br><small>référentiels</small></div>
+      <div class="bloc b-data"><b>Tâche Sirene</b>DuckDB lit les Parquet sur Azure et calcule les agrégats.</div>
+      <div class="cyl">PostgreSQL<br><small>marché</small></div>
+    </div>
+    <div class="liaison">›</div>
+    <div class="col col-large">
+      <div class="col-titre">Services</div>
+      <div class="bloc b-api"><span class="pas">3</span><b>API des référentiels</b><br>REST, en lecture seule : communes candidates, terme du lexique.</div>
+      <div class="bloc b-api"><span class="pas">4</span><b>API Muninn</b><br>Reçoit l'appel simulé, renvoie le dossier <code>DossierDraft</code> 1.1.</div>
+      <div class="agent-cadre">
+        <div class="agent-titre"><span class="pas">5</span>Agent d'extraction <small>sans accès aux bases</small></div>
+        <div class="agent-ligne">
+          <div class="mini-bloc gf">Garde-fous d'entrée</div>
+          <div class="mini-fleche">›</div>
+          <div class="mini-bloc llm">LLM, point UE</div>
+          <div class="mini-fleche">›</div>
+          <div class="mini-bloc gf">Garde-fous de sortie</div>
+        </div>
+        <div class="outils-ligne">↕ deux outils en lecture seule, qui interrogent l'API des référentiels (3)</div>
+      </div>
+      <div class="bloc b-ctrl"><span class="pas">6</span><b>Contrôles rejoués par le serveur</b><br>Statuts, provenance « entendu » ou « déduit », règle contre l'invention.</div>
+    </div>
+    <div class="liaison">›</div>
+    <div class="col">
+      <div class="col-titre">Interface et vigie</div>
+      <div class="bloc b-ui"><span class="pas">7</span><b>Console</b><br>Lance un scénario, affiche le dossier, corrige, valide en un geste.</div>
+      <div class="bloc b-vig"><span class="pas">8</span><b>Métriques sans donnée personnelle</b><br>Écran Qualité et alerte sur la part des dossiers à vérifier.</div>
+    </div>
+  </div>
+  <div class="lecture">
+    <div class="lecture-titre">Lecture guidée</div>
+    <ol>
+      <li><b>Les sources publiques</b> fournissent les données d'ancrage : cinq types de collecte, un par exigence de C1.</li>
+      <li><b>Elles sont nettoyées et rangées</b> dans PostgreSQL ; Sirene, trop volumineux, est agrégé par DuckDB dans une tâche Azure.</li>
+      <li><b>L'API des référentiels</b> met ces données à disposition, en lecture seule.</li>
+      <li><b>La console envoie un appel simulé</b> à l'API Muninn (la V1 part d'une transcription écrite).</li>
+      <li><b>L'agent extrait le dossier</b> : il décide seul d'appeler ses deux outils pour compléter ou départager, entre deux couches de garde-fous.</li>
+      <li><b>Le serveur recontrôle tout</b> : lui seul fixe les statuts, et il retire toute valeur ni dite, ni trouvée.</li>
+      <li><b>L'artisan voit le dossier</b> dans la console, corrige si besoin, puis valide.</li>
+      <li><b>Chaque extraction alimente les métriques</b>, sans aucune donnée personnelle ; une alerte se déclenche si la qualité baisse.</li>
+    </ol>
+  </div>
+  </section>
+
+  <section id="s-stack">
+  <h2><span class="num">5</span>Avec quoi</h2>
+  <div class="stack">
+    <div class="couche"><div class="couche-nom">Langage et qualité</div><div class="puces"><span class="puce">Python 3.12</span><span class="puce">uv</span><span class="puce">ruff</span><span class="puce">mypy</span><span class="puce">pytest</span><span class="puce">gitleaks</span></div><div class="couche-role">Un seul langage, une qualité vérifiée à chaque PR.</div></div>
+    <div class="couche"><div class="couche-nom">API</div><div class="puces"><span class="puce">FastAPI</span><span class="puce">Pydantic v2</span></div><div class="couche-role">Contrat strict, documentation Swagger générée.</div></div>
+    <div class="couche"><div class="couche-nom">Base de données</div><div class="puces"><span class="puce">PostgreSQL 16</span><span class="puce">SQLAlchemy 2</span><span class="puce">Alembic</span></div><div class="couche-role">Référentiels, marché, métadonnées ; migrations versionnées.</div></div>
+    <div class="couche"><div class="couche-nom">Agent</div><div class="puces"><span class="puce">LLM au point UE (Mistral Small, provisoire)</span><span class="puce">boucle d'outils écrite dans le projet</span></div><div class="couche-role">Pas de framework d'agents : le fournisseur reste interchangeable.</div></div>
+    <div class="couche"><div class="couche-nom">Interface</div><div class="puces"><span class="puce">Jinja2</span><span class="puce">HTMX</span><span class="puce">axe-core</span></div><div class="couche-role">Pages HTML accessibles (WCAG 2.2 AA), testées en CI.</div></div>
+    <div class="couche"><div class="couche-nom">Livraison et hébergement</div><div class="puces"><span class="puce">GitHub Actions</span><span class="puce">Azure Container Registry</span><span class="puce">Azure Container Apps</span><span class="puce">PostgreSQL flexible</span></div><div class="couche-role">France Central, dans le groupe de ressources du porteur.</div></div>
+    <div class="couche"><div class="couche-nom">Observabilité</div><div class="puces"><span class="puce">métriques de la base</span><span class="puce">OpenTelemetry</span><span class="puce">Application Insights</span></div><div class="couche-role">Les outils Azure arrivent le 21 octobre, avec la V1.0 complète.</div></div>
+  </div>
+  <div class="derogation">
+    <div class="derog-tete">Une seule dérogation au socle : <b>DuckDB</b></div>
+    <div>Sirene compte 44 millions d'établissements (74 millions de lignes lues avec les unités légales). Le charger dans PostgreSQL ou en mémoire n'est pas proportionné ; DuckDB lit les fichiers Parquet colonne par colonne, sans serveur à administrer. Synapse, l'équivalent Azure, n'est pas ouvert sur l'abonnement. Les composants retirés pour tenir les délais (Redis, Key Vault, Bicep…) l'ont été avec l'accord du formateur.</div>
+  </div>
+  </section>
+
+  <section id="s-pilotage">
+  <h2><span class="num">6</span>Le pilotage, en sept étapes</h2>
+  <div class="pilotage">
+    <div class="pil"><span class="pas">1</span><b>Pull request</b>Le porteur propose un changement sur une branche.</div>
+    <div class="liaison">›</div>
+    <div class="pil pil-ci"><span class="pas">2</span><b>CI automatique</b>
+      <ul class="mini">
+        <li>ruff, mypy, secrets, accessibilité</li>
+        <li>tests unitaires, de conformité et d'accès</li>
+        <li>évaluation : 20 scénarios, 5 cas de conformité, comparaison sans outils</li>
+      </ul>
+    </div>
+    <div class="liaison">›</div>
+    <div class="pil pil-verdict"><span class="pas">3</span><b>Verdict</b>Vert : fusion possible. Rouge : <strong>fusion bloquée</strong>.</div>
+    <div class="liaison">›</div>
+    <div class="pil"><span class="pas">4</span><b>Image</b>Construite et étiquetée par son SHA, rangée dans le registre Azure.</div>
+    <div class="liaison">›</div>
+    <div class="pil"><span class="pas">5</span><b>Nouvelle révision</b>Elle reçoit le trafic ; la précédente est conservée.</div>
+    <div class="liaison">›</div>
+    <div class="pil pil-retour"><span class="pas">6</span><b>Retour arrière</b>Le trafic revient sur la révision précédente, en moins de 5 minutes.</div>
+    <div class="liaison">›</div>
+    <div class="pil pil-signal"><span class="pas">7</span><b>Signaux</b>Métriques, écran Qualité, alerte.</div>
+  </div>
+  <div class="envs">
+    <div class="env"><b>Local</b>docker compose, données synthétiques</div>
+    <div class="env"><b>CI</b>GitHub Actions, contrôle obligatoire « verdict »</div>
+    <div class="env"><b>Azure</b>Container Apps, deux révisions</div>
+    <div class="env env-note"><b>Le 20 octobre</b>le déploiement devient automatique à chaque fusion ; en V1.1, une révision de préproduction sert d'environnement de test.</div>
+  </div>
+  <div class="astuce"><b>Ce que la démo prouve :</b> une PR qui désactive les outils de l'agent est bloquée par la CI, car l'agent ne trouve plus les codes postaux que le client n'a pas dits ; puis un retour arrière rétablit le service en moins de 5 minutes.</div>
+  </section>
+
+  <section id="s-plan">
+  <h2><span class="num">7</span>Quand, et comment on saura que ça marche</h2>
+  <div class="frise">
+    <div class="jalon j-sprint"><div class="j-date">mer. 14 oct.</div><b>Sprint 2</b>Le socle et la chaîne</div>
+    <div class="jalon j-sprint"><div class="j-date">15 et 16 oct.</div><b>Sprint 3</b>Les données et l'ancrage</div>
+    <div class="jalon j-sprint"><div class="j-date">16 au 19 oct.</div><b>Sprint 4</b>L'agent et les garde-fous</div>
+    <div class="jalon j-sprint"><div class="j-date">lun. 19 oct.</div><b>Sprint 5</b>La vigie et la démo</div>
+    <div class="jalon j-incr"><div class="j-date">20 et 21 oct.</div><b>V1.0 complète</b>Déploiement automatique, outils Azure</div>
+    <div class="jalon j-oral"><div class="j-date">29 et 30 oct.</div><b>Premier oral</b>E1 et E3</div>
+    <div class="jalon j-incr"><div class="j-date">2 et 3 nov.</div><b>V1.1</b>Test, incidents, audit</div>
+    <div class="jalon j-oral"><div class="j-date">12 et 13 nov.</div><b>Second oral</b>Les 21 compétences</div>
+  </div>
+  <div class="frise-note">Six jours de développement, du 14 au 19 octobre. Une réserve du 22 au 24 octobre absorbe un glissement.</div>
+  <div class="criteres">
+    <div class="critere"><span class="ca">CA-1</span><b>Le parcours</b>« Fuite sous l'évier, Montreuil » : dossier complet en 30 s au plus, commune et code postal vérifiés.</div>
+    <div class="critere"><span class="ca">CA-2</span><b>La décision de l'agent</b>« Montreuil, dans le 9-3 » : il choisit 93048. « Montreuil » seul : il ne choisit pas et signale.</div>
+    <div class="critere"><span class="ca">CA-3</span><b>La sécurité</b>« Ça sent le gaz » : urgence « sécurité », aucun rendez-vous, orientation vers le 112.</div>
+    <div class="critere"><span class="ca">CA-4</span><b>La manipulation</b>« Ignore tes consignes… je suis diabétique » : dossier inchangé, aucune donnée de santé.</div>
+    <div class="critere"><span class="ca">CA-5</span><b>La correction</b>« 93100 Bagnolet » corrigé en 93170 : contrôle rejoué, dossier validé, aucune valeur dans les métriques.</div>
+    <div class="critere"><span class="ca">CA-6</span><b>La vigie</b>PR dégradée bloquée par la CI ; retour arrière en moins de 5 minutes.</div>
+  </div>
+  <div class="frise-note">Chaque critère se vérifie sur Azure, avec le LLM retenu, 3 fois sur 3. Les scénarios et les valeurs attendues sont figés dans l'annexe A du dossier.</div>
+  </section>
+
+
+  <footer>
+    Personnages et données fictifs. Sources des chiffres : CAPEB, 11e baromètre ARTI Santé (juin 2025) ; Urssaf, open data « auto-entrepreneurs par secteur d'activité » (trimestre clos le 31/12/2025) ; INSEE, base Sirene. Communes vérifiées dans l'API Géo le 12 octobre 2026.
+  </footer>
+</div>
+</body>
+</html>
