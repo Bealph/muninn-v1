@@ -1,11 +1,11 @@
 # Muninn : dossier de conception V1
 
 **Sprint :** 1, « Cadrer, choisir, concevoir »
-**Version :** 1.3 (proposition, à valider par le formateur)
+**Version :** 1.4 (proposition, à valider par le formateur)
 **Date :** 12 octobre 2026
 **Statut :** non gelé. Il sera gelé à la validation du formateur. Aucune ligne de code avant
 cette validation et le feu vert du porteur (D-35).
-**Historique :** v1.1 à v1.3 intègrent deux évaluations par un pair et une relecture technique
+**Historique :** la v1.4 organise la V1 en incréments pour couvrir les 21 compétences (D-41). Les v1.1 à v1.3 intègrent deux évaluations par un pair et une relecture technique
 indépendantes. La v1.2 coupe des blocs entiers pour tenir réellement six jours, fixe la politique
 de l'agent et fige les oracles du contrat.
 
@@ -96,27 +96,25 @@ FastAPI ; ils n'ont pas d'écran propre dans la console en V1.
 
 ### 2.3 Hors périmètre V1, assumé
 
-| Élément retiré                                                       | Raison                                                                    | Où il reste décrit            |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------- | ----------------------------- |
-| Téléphonie réelle, renvoi d'appel, agent vocal temps réel            | Ne tient pas en six jours ; aucun achat de numéro (R10)                   | Phase 0, F-01 et F-02         |
-| Audio, même simulé, et sa transcription                              | R2 reste testée sans démonstration à l'écran                              | Phase 2, plan de tests, TC-10 |
-| Contrôle du numéro de téléphone (ARCEP)                              | Le numéro est normalisé au format international, sans statut de contrôle  | US-47, US-51                  |
-| Rendez-vous, créneaux, jours fériés (US-49), rappels SMS, imprévus   | Hors du parcours ; le champ « rendez-vous proposé » du contrat reste vide | EP6, US-49                    |
-| Application mobile, chiffrement pour l'appareil, relais, enveloppes  | La console joue l'appareil ; écart P-03 assumé et dit au jury (D-07)      | Phase 1, modèle de l'appareil |
-| Comptes, codes de connexion, appareils, approbation, révocation      | Un seul compte de démonstration                                           | US-01, US-54                  |
-| Débrief, tickets, dépenses, rentabilité, export                      | Une seule fonctionnalité métier en V1                                     | EP3, EP5                      |
-| Sauvegarde, archive, effacement                                      | Pas de données réelles en V1                                              | EP7                           |
-| Redis, arq, PyNaCl, Key Vault, Bicep                                 | Inutiles sans relais ni chiffrement, ou remplacés plus simplement (D-38)  | Phase 2, architecture, §12    |
-| CD automatisé, préproduction, étiquette de version, canari           | Déploiement par script et retour arrière par le trafic                    | Phase 2, chaîne LLMOps, §6    |
-| Traces dans Application Insights, alerte Azure Monitor               | Métriques et alerte calculées par l'application                           | Phase 2, observabilité        |
-| Lac de données pour Sirene                                           | Lecture directe par HTTPS (D-39)                                          | D-27                          |
-| Écrans Référentiels et Marché de la console                          | Remplacés par l'interface Swagger                                         | Phase 2, architecture, §8.3   |
-| BAN, croisement Urssaf (US-53), bascule de version des référentiels  | Retirés pour tenir six jours                                              | Phase 1, cartographie         |
-| 30 des 35 cas de conformité, juge LLM, jeux de 100 scénarios et plus | Le rapport dit que 20 scénarios ne prouvent pas un seuil de 90 %          | Phase 1, vérification, §3     |
-| Audit RGAA manuel complet                                            | Contrôle automatique en V1 ; audit manuel avant le 12 novembre            | Phase 0, accessibilité        |
-| Serveur MCP pour l'exploitant                                        | Prévu après le 29 octobre (D-21)                                          | Phase 1, accès, §6.3          |
+| Élément retiré                                                       | Raison                                                                                   | Où il reste décrit            |
+| -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ----------------------------- |
+| Téléphonie réelle, renvoi d'appel, agent vocal temps réel            | Ne tient pas en six jours ; aucun achat de numéro (R10)                                  | Phase 0, F-01 et F-02         |
+| Audio, même simulé, et sa transcription                              | R2 reste testée sans démonstration à l'écran                                             | Phase 2, plan de tests, TC-10 |
+| Contrôle du numéro de téléphone (ARCEP)                              | Le numéro est normalisé au format international, sans statut de contrôle                 | US-47, US-51                  |
+| Rendez-vous, créneaux, jours fériés (US-49), rappels SMS, imprévus   | Hors du parcours ; le champ « rendez-vous proposé » du contrat reste vide                | EP6, US-49                    |
+| Application mobile, chiffrement pour l'appareil, relais, enveloppes  | La console joue l'appareil ; écart P-03 assumé et dit au jury (D-07)                     | Phase 1, modèle de l'appareil |
+| Comptes, codes de connexion, appareils, approbation, révocation      | Un seul compte de démonstration                                                          | US-01, US-54                  |
+| Débrief, tickets, dépenses, rentabilité, export                      | Une seule fonctionnalité métier en V1                                                    | EP3, EP5                      |
+| Sauvegarde, archive, effacement                                      | Pas de données réelles en V1                                                             | EP7                           |
+| Redis, arq, PyNaCl, Key Vault, Bicep                                 | Inutiles sans relais ni chiffrement, ou remplacés plus simplement (D-38)                 | Phase 2, architecture, §12    |
+| Étiquette de version posée par le porteur, canari                    | Le déploiement automatisé arrive le 20 octobre (V1.0 complète), la préproduction en V1.1 | Phase 2, chaîne LLMOps, §6    |
+| Lac de données pour Sirene                                           | Lecture directe par HTTPS (D-39)                                                         | D-27                          |
+| Écrans Référentiels et Marché de la console                          | Remplacés par l'interface Swagger                                                        | Phase 2, architecture, §8.3   |
+| BAN, croisement Urssaf (US-53), bascule de version des référentiels  | Retirés pour tenir six jours                                                             | Phase 1, cartographie         |
+| 30 des 35 cas de conformité, juge LLM, jeux de 100 scénarios et plus | Le rapport dit que 20 scénarios ne prouvent pas un seuil de 90 %                         | Phase 1, vérification, §3     |
+| Serveur MCP pour l'exploitant                                        | Prévu après le 29 octobre (D-21)                                                         | Phase 1, accès, §6.3          |
 
-### 2.4 « Si temps », dans cet ordre, sur la réserve du 20 au 24 octobre
+### 2.4 Après les six jours : obligatoire, puis « si temps »
 
 1. CD automatisé par OIDC sur fusion dans `main`. **Obligatoire avant le 29 octobre** : sans lui,
    C13 est partielle au premier oral (`couverture-competences.md`) ; prévu le mardi 20 octobre.
@@ -128,6 +126,22 @@ FastAPI ; ils n'ont pas d'écran propre dans la console en V1.
 6. Audio simulé (R2 montrée à l'écran), puis écran Marché.
 
 ---
+
+### 2.5 Les incréments de la V1
+
+La V1 est ce que le jury évalue : elle est déployée sur Azure et couvre les 21 compétences avant
+le 12 novembre (D-41). Les six jours ci-dessus en sont le premier incrément.
+
+| Incrément               | Dates                    | Contenu                                                                                                                                                                     | Compétences ajoutées                |
+| ----------------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| V1.0                    | 14 au 19 octobre         | Éléments V-01 à V-10 (section 2.2), sprints 2 à 5                                                                                                                           | C1 à C5, C8, C9, C10, C12, C17, C18 |
+| V1.0 complète           | 20 et 21 octobre         | Déploiement automatisé par la CI sur fusion dans `main` (OIDC) ; OpenTelemetry vers Application Insights et alerte Azure Monitor (D-40)                                     | C11, C13 ; C19 et C20 en partie     |
+| Documents du dossier V1 | 31 octobre, 1er novembre | Dispositif de veille et synthèses ; benchmark complet des services d'IA                                                                                                     | C6, C7                              |
+| V1.1                    | 2 et 3 novembre          | Environnement de test (révision de préproduction) ; ouverture automatique d'une fiche d'incident ; incident provoqué, résolu et documenté ; audit RGAA manuel de la console | C19, C20, C21 ; C10 renforcée       |
+
+Au fil des sprints s'ajoutent les traces de C16 (tableau GitHub Projects, PR revues, comptes
+rendus) et une fiche par incident réel pour C21. Le détail, compétence par compétence, est dans
+`couverture-competences.md` ; le calendrier dans `roadmap-v1.md`.
 
 ## 3. La composante agentique : un agent outillé et ancré
 
@@ -225,27 +239,28 @@ mot « imposé » qu'on y lit désignait un socle fixé par le porteur pour la c
 documents, pas un référentiel de la formation. Celui-ci n'est pas joint au dépôt [H : socle par
 défaut supposé Python, FastAPI, PostgreSQL, GitHub Actions, Docker, hébergement cloud].
 
-| Couche            | Choix V1                                                                                                                 | Justification                                                                 |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| Langage et outils | Python 3.12, uv, ruff, mypy, pytest, gitleaks                                                                            | Écosystème IA ; qualité vérifiée en CI                                        |
-| API               | FastAPI, Pydantic v2                                                                                                     | Schémas stricts, OpenAPI et Swagger générés, contrat 1.1 validé               |
-| Base              | PostgreSQL 16, SQLAlchemy 2, Alembic, psycopg 3                                                                          | Référentiels, marché, métadonnées ; migrations versionnées                    |
-| Interface         | Pages HTML rendues par le serveur (Jinja2), enrichies par HTMX ; chaque action reste un formulaire HTML ; axe-core en CI | Cible WCAG 2.2 AA (phase 2, document 06, §8.4) ; un seul langage              |
-| LLM               | Provisoire : Mistral Small, version datée, point UE. Choix final au plus tard le vendredi 16 octobre (ADR-03, D-32)      | Traitement UE ; sortie structurée et appel d'outils, à confirmer par T-06     |
-| Agent             | Boucle d'appel d'outils écrite dans le projet, sur l'interface du fournisseur, sans framework d'agents                   | Indépendante du fournisseur encore ouvert (D-32) ; une dépendance de moins    |
-| CI et déploiement | GitHub Actions, contrôle requis `verdict` ; script de déploiement versionné ; Azure Container Registry                   | Protection de `main` disponible (D-31)                                        |
-| Hébergement       | Azure Container Apps (application et tâche), PostgreSQL flexible, secrets de Container Apps, France Central              | Fournisseurs enregistrés sur l'abonnement (lecture du 12 octobre 2026 ; D-27) |
-| Local             | docker compose (application et PostgreSQL)                                                                               | Environnement reproductible, plan B de la démo                                |
+| Couche            | Choix V1                                                                                                                                                          | Justification                                                                 |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Langage et outils | Python 3.12, uv, ruff, mypy, pytest, gitleaks                                                                                                                     | Écosystème IA ; qualité vérifiée en CI                                        |
+| API               | FastAPI, Pydantic v2                                                                                                                                              | Schémas stricts, OpenAPI et Swagger générés, contrat 1.1 validé               |
+| Base              | PostgreSQL 16, SQLAlchemy 2, Alembic, psycopg 3                                                                                                                   | Référentiels, marché, métadonnées ; migrations versionnées                    |
+| Interface         | Pages HTML rendues par le serveur (Jinja2), enrichies par HTMX ; chaque action reste un formulaire HTML ; axe-core en CI                                          | Cible WCAG 2.2 AA (phase 2, document 06, §8.4) ; un seul langage              |
+| LLM               | Provisoire : Mistral Small, version datée, point UE. Choix final au plus tard le vendredi 16 octobre (ADR-03, D-32)                                               | Traitement UE ; sortie structurée et appel d'outils, à confirmer par T-06     |
+| Agent             | Boucle d'appel d'outils écrite dans le projet, sur l'interface du fournisseur, sans framework d'agents                                                            | Indépendante du fournisseur encore ouvert (D-32) ; une dépendance de moins    |
+| CI et déploiement | GitHub Actions, contrôle requis `verdict` ; script de déploiement versionné, puis déploiement automatisé par OIDC le 20 octobre (D-40) ; Azure Container Registry | Protection de `main` disponible (D-31)                                        |
+| Hébergement       | Azure Container Apps (application et tâche), PostgreSQL flexible, secrets de Container Apps, France Central                                                       | Fournisseurs enregistrés sur l'abonnement (lecture du 12 octobre 2026 ; D-27) |
+| Observabilité     | Métriques tirées de la base dès la V1.0 ; OpenTelemetry vers Application Insights et alerte Azure Monitor le 21 octobre (D-40)                                    | Standard ouvert ; espace Log Analytics prévu (phase 2, document 03)           |
+| Local             | docker compose (application et PostgreSQL)                                                                                                                        | Environnement reproductible, plan B de la démo                                |
 
 **Écarts au socle de la phase 2, liste complète.**
 
-| Sens    | Élément                                                  | Motif                                                                         |
-| ------- | -------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| Ajout   | **DuckDB**, exécuté dans une tâche Container Apps        | Seul outil hors du socle : voir ci-dessous                                    |
-| Retrait | Redis et arq                                             | Extraction synchrone, pas de relais (D-38)                                    |
-| Retrait | PyNaCl                                                   | Pas de chiffrement pour l'appareil en V1                                      |
-| Retrait | Key Vault, Bicep, CD par OIDC, Trivy                     | Remplacés par les secrets de Container Apps, des commandes et un script relus |
-| Retrait | Collecteur et export OpenTelemetry, Application Insights | Métriques calculées dans l'application ; « si temps » n° 2                    |
+| Sens    | Élément                                           | Motif                                                                                        |
+| ------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Ajout   | **DuckDB**, exécuté dans une tâche Container Apps | Seul outil hors du socle : voir ci-dessous                                                   |
+| Retrait | Redis et arq                                      | Extraction synchrone, pas de relais (D-38)                                                   |
+| Retrait | PyNaCl                                            | Pas de chiffrement pour l'appareil en V1                                                     |
+| Retrait | Key Vault, Bicep, Trivy                           | Remplacés par les secrets de Container Apps et des commandes relues                          |
+| Retrait | Collecteur OpenTelemetry séparé                   | Export direct depuis l'application vers Application Insights, réintégré le 21 octobre (D-40) |
 
 **DuckDB.** Le fichier StockEtablissement de Sirene compte 44,3 millions de lignes et 54
 colonnes ; joint à StockUniteLegale, la tâche lit 74 millions de lignes (phase 0, document 03,
@@ -358,6 +373,10 @@ flowchart LR
   MET --> TB
   MET --> AL
 ```
+
+Le schéma montre la V1.0 au 19 octobre. Le 20 octobre, le déploiement automatisé remplace le
+script sur fusion dans `main` ; le script reste pour déployer une image précise. En V1.1, une
+révision de préproduction s'ajoute comme environnement de test.
 
 Trois environnements : le poste local (docker compose, données synthétiques), la CI et Azure.
 Après une fusion sur `main`, le porteur lance le script de déploiement ; il construit l'image,
@@ -476,9 +495,9 @@ formateur.
 
 | ID   | Décision proposée                                                                                                                                                                                                                                                                      | Ce qu'elle remplace                                     |
 | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| D-36 | Périmètre V1 gelé à six jours (section 2), du 14 au 19 octobre, en sprints 2 à 5 ; réserve du 20 au 24 hors plan ; aucune ligne de code avant la validation du formateur et le feu vert du porteur                                                                                     | Découpage J0 à J9 de D-35 ; backlog de la phase 2, §5.2 |
+| D-36 | Périmètre V1.0 gelé à six jours (section 2), du 14 au 19 octobre, en sprints 2 à 5, puis incréments de la section 2.5 jusqu'au 3 novembre ; aucune ligne de code avant la validation du formateur et le feu vert du porteur                                                            | Découpage J0 à J9 de D-35 ; backlog de la phase 2, §5.2 |
 | D-37 | L'agent dispose de deux outils en lecture seule via l'API des référentiels et suit la politique de la section 3.1 ; le serveur rejoue les contrôles, applique la règle contre l'invention et seul lui fixe statuts et provenance ; outils et code inclus dans l'empreinte d'évaluation | Phase 2, document 05, §8.1 (extraction sans outil)      |
-| D-38 | Retraits du socle en V1 : Redis, arq, PyNaCl, Key Vault, Bicep, CD par OIDC, Trivy, export OpenTelemetry                                                                                                                                                                               | Phase 2, document 06, §12.1 et ADR-13, pour la V1       |
+| D-38 | Retraits du socle en V1 : Redis, arq, PyNaCl, Key Vault, Bicep, Trivy, collecteur OpenTelemetry séparé. Le CD par OIDC et l'export vers Application Insights ne sont pas retirés : ils arrivent les 20 et 21 octobre (D-40)                                                            | Phase 2, document 06, §12.1 et ADR-13, pour la V1       |
 | D-39 | Sirene lu à distance par HTTPS, sans lac de données, en V1 ; le lac reste la cible (« si temps » n° 5)                                                                                                                                                                                 | D-27, pour la V1                                        |
 
 **Question au formateur.** La consigne admet une dérogation au plus. La V1 en ajoute une
