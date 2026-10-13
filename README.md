@@ -6,6 +6,29 @@ Promesse : **« Il parle, Muninn se souvient. »**
 Ce dépôt contient la conception puis le développement du back-end et d'une interface de
 démonstration.
 
+## Lancer le projet en local
+
+Prérequis : Docker et docker compose.
+
+```bash
+cp .env.example .env          # puis remplir les valeurs locales ; .env n'est jamais versionné
+docker compose up --build -d  # API sur le port 8000, console sur le port 8001, PostgreSQL
+curl http://localhost:8000/health
+```
+
+La console s'ouvre sur <http://localhost:8001>.
+
+## Développer
+
+Prérequis : Python 3.12 et [uv](https://docs.astral.sh/uv/).
+
+```bash
+uv sync               # dépendances figées par uv.lock
+uv run pytest         # tests
+uv run ruff check .   # analyse statique
+uv run mypy           # typage strict
+```
+
 ## Documentation
 
 | Document                                               | Contenu                                                                   |

@@ -1,0 +1,52 @@
+[project]
+name = "muninn"
+version = "0.1.0"
+description = "Secrétariat automatique de l'artisan qui travaille seul : V1 de soutenance"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "pydantic-settings>=2.4",
+    "httpx>=0.27",
+    "jinja2>=3.1",
+    "psycopg[binary]>=3.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "ruff>=0.6",
+    "mypy>=1.11",
+]
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/muninn"]
+
+[tool.uv]
+# Reproductibilité et prudence : aucune version publiée depuis moins de deux semaines.
+exclude-newer = "2026-09-29T00:00:00Z"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+extend-exclude = [".outils"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]
+
+[tool.mypy]
+strict = true
+mypy_path = "src"
+packages = ["muninn"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

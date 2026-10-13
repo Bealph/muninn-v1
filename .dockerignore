@@ -1,0 +1,9 @@
+# Liste blanche : tout est exclu du contexte de construction, sauf ce dont l'image a besoin.
+# Aucun fichier local (secrets, environnements, outillage) ne peut ainsi entrer dans l'image.
+*
+!pyproject.toml
+!uv.lock
+!README.md
+!src/
+**/__pycache__
+**/*.pyc
