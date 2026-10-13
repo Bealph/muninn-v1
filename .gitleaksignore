@@ -2,4 +2,4 @@
 # Exemple fictif de jeton d'appareil dans le contrat d'API (phase 2) : la valeur décodée se lit
 # « ChangeMeInProduction_this_is_fake ». Vérifié le 13 octobre 2026.
 c2b4c2df03f44552433810a5adaad74a93d73eca:docs/conception/phase-2/04-contrat-api.md:generic-api-key:1797
-/repo/docs/conception/phase-2/04-contrat-api.md:generic-api-key:1797
+/repo/docs/conception/industrialisation/04-contrat-api.md:generic-api-key:1797

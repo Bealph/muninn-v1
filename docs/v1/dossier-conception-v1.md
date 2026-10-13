@@ -68,7 +68,7 @@ est dimensionné à partir de la base Sirene. Ce volet ne sert pas l'artisan : i
 - **Hors plan :** du 20 au 24 octobre, une réserve qui n'entre pas dans les six jours. Elle
   absorbe un glissement, puis sert aux éléments « si temps » (section 2.4), dans leur ordre. Du 25
   au 28 : script de démo, rédaction et répétitions.
-- **Échelle :** celle du backlog de la phase 2 (`phase-2/07-methode-agile.md`, §5.2), qui
+- **Échelle :** celle du backlog de la phase 2 (`industrialisation/07-methode-agile.md`, §5.2), qui
   totalisait 14,5 jours. La V1 ne revendique aucun gain de vitesse dû aux agents d'IA. Elle descend
   à 6 jours en retirant, élément par élément, des blocs entiers, nommés dans la colonne « retiré ».
 - **Hypothèse [H] :** ces estimations ne sont pas mesurées. Le premier jour sert d'étalon : si le
@@ -241,7 +241,7 @@ outils** sur les mêmes scénarios (V-08).
 
 ## 4. La stack arrêtée
 
-**Référence.** Le socle de la V1 est la préconisation de la phase 2 (`phase-2/06`, §12.1). Le
+**Référence.** Le socle de la V1 est la préconisation de la phase 2 (`industrialisation/06`, §12.1). Le
 mot « imposé » qu'on y lit désignait un socle fixé par le porteur pour la cohérence entre les
 documents, pas un référentiel de la formation. Celui-ci n'est pas joint au dépôt [H : socle par
 défaut supposé Python, FastAPI, PostgreSQL, GitHub Actions, Docker, hébergement cloud].
