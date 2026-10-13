@@ -40,7 +40,7 @@ cochée qu'avec sa preuve (fichier, capture ou exécution de la chaîne).
 
 - [x] Route API `GET /health` (état) et `GET /version` (version et SHA livrés). Preuve : `tests/test_socle.py` ; SHA passé à l'image par `GIT_SHA`.
 - [x] Route API `POST /llm/essai` qui appelle le LLM (modèle A ou B) et rend sa réponse, derrière une interface de fournisseur, avec un faux fournisseur pour les tests (R8, D-32). Preuve : `src/muninn/llm/fournisseur.py`, `tests/test_llm.py` ; appel réel des deux modèles depuis le conteneur le 13 octobre 2026.
-- [x] Interface minimale : la page de la console (<http://localhost:8001>) appelle l'API et affiche la réponse du LLM et la version livrée. Preuve : `tests/test_console.py` ; test visuel du porteur à faire.
+- [x] Interface minimale : la page de la console (<http://localhost:8001>) appelle l'API et affiche la réponse du LLM et la version livrée. Preuve : `tests/test_console.py` ; test visuel du porteur le 13 octobre 2026, captures dans `preuves/etape-2-console-*.png` (sur la question piège, le modèle B invente une date et une météo, différentes d'un essai à l'autre ; le modèle A le signale).
 - [x] Aucun secret ni donnée personnelle dans les journaux (R4) : seuls le modèle, la durée et le nombre de jetons sont tracés ; la question passe en POST, jamais dans l'URL. Preuve : `test_journaux_sans_contenu_echange` et lecture des journaux des conteneurs.
 
 ### Étape 3 : les tests
