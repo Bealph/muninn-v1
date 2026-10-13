@@ -1,60 +1,64 @@
 # Suivi des tâches
 
-**Mis à jour le :** 12 octobre 2026
+**Mis à jour le :** 13 octobre 2026
 
 Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 
 ## Fait
 
-| Date       | Tâche                                                                               | Résultat                                                    |
-| ---------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| 2026-10-12 | Lecture du dossier projet et du référentiel de compétences                          | Synthèse et points à clarifier                              |
-| 2026-10-12 | Feuille de route v1, validée par le porteur                                         | `docs/roadmap.md`                                           |
-| 2026-10-12 | Feuille de route v2 : calendrier des oraux, format Word, C12 et C13 en LLMOps       | `docs/roadmap.md`                                           |
-| 2026-10-12 | Suivi des compétences et des tâches initialisé                                      | `docs/suivi/`                                               |
-| 2026-10-12 | Ancien dépôt renommé en `live-transcribe` (par le porteur), clone local corrigé     | Nom `Muninn` libéré                                         |
-| 2026-10-12 | Dépôt GitHub privé `Bealph/Muninn` créé, premier commit poussé                      | Dépôt en ligne                                              |
-| 2026-10-12 | Phase 0a : 53 user stories en 10 épopées, critères d'acceptation, périmètre de démo | `docs/conception/phase-0/01-user-stories.md`                |
-| 2026-10-12 | Phase 0a : 12 flux de données, vue d'ensemble, traçabilité des 53 stories           | `docs/conception/phase-0/02-flux-de-donnees.md`             |
-| 2026-10-12 | Phase 0a : 14 sources vérifiées en ligne, 9 écartées                                | `docs/conception/phase-0/03-sources-de-donnees.md`          |
-| 2026-10-12 | Phase 0a : exigences d'accessibilité (WCAG 2.2 AA) et d'utilisabilité de terrain    | `docs/conception/phase-0/04-accessibilite-utilisabilite.md` |
-| 2026-10-12 | Contre-vérification de 10 affirmations clés, 4 reformulations appliquées            | Documents 03 et 04 corrigés                                 |
-| 2026-10-12 | Diagrammes en SVG et PNG : 13 flux, carte des stories, 10 épopées                   | `docs/conception/phase-0/diagrammes/`                       |
-
-| 2026-10-12 | Décisions du porteur sur la phase 0a, consignées | `docs/decisions.md` (D-04 à D-17) |
-| 2026-10-12 | Phase 1 : cartographie (14 sources, 75 données), modèle conceptuel et physique (serveur, référentiels, agrégats, appareil) | `docs/conception/phase-1/01` et `02` |
-| 2026-10-12 | Phase 1 : matrice d'accès (40 tests), menaces LLM, exposition API et position MCP | `docs/conception/phase-1/03` |
-| 2026-10-12 | Phase 1 : 58 cas de vérification d'exactitude, taille de jeu et seuils de blocage | `docs/conception/phase-1/04` |
-| 2026-10-12 | Phase 1 : registre RGPD (responsable et sous-traitant), 18 questions pour l'avocat | `docs/conception/phase-1/05` |
-| 2026-10-12 | Phase 1 : comparatif big data externalisé (Synapse recommandé) | `docs/conception/phase-1/06` |
-| 2026-10-12 | Relecture indépendante (55 points) appliquée ; flux F-02 et F-12 mis à jour (X-05) ; 22 diagrammes régénérés | Phases 0 et 1 |
-| 2026-10-12 | Analyse stratégique v2.1 (dimensionnement Urssaf, codes Sirene), v2 archivée | Dossier du concept |
-| 2026-10-12 | Phase 1 validée par le porteur ; décisions D-18 à D-26 consignées | `docs/decisions.md` |
-| 2026-10-12 | Droits Azure relus en lecture seule : Synapse non enregistré, alternatives à l'étude | D-19 |
-| 2026-10-12 | Décisions D-27 à D-33 (big data option A, recours par phrase, brouillon de secours, week-ends, GitHub Pro, modèle LLM à comparer, clés) | `docs/decisions.md` |
-| 2026-10-12 | Phase 2 : besoin de production et SLO, plan de tests (270 tests), observabilité (25 alertes), contrat d'API (68 points, DossierDraft 1.1), chaîne LLMOps, architecture (17 ADR), méthode agile | `docs/conception/phase-2/` |
-| 2026-10-12 | Consolidation : relecture indépendante appliquée, phases 0 et 1 mises à jour (modèle, accès, stories, flux), 44 diagrammes régénérés | Phases 0 à 2 |
-| 2026-10-12 | Phase 2 validée (D-34) ; développement avancé au mercredi 14 octobre (D-35), planning recalé | `docs/decisions.md`, `07-methode-agile.md` |
-| 2026-10-12 | Sprint 1 : dossier de conception V1 (v1.3), après deux évaluations par un pair et une relecture technique | `docs/v1/dossier-conception-v1.md` |
-| 2026-10-12 | Dossier V1, couverture des compétences et feuille de route V1 validés par le porteur (D-40) | `docs/v1/` |
-| 2026-10-13 | Dossier V1 validé en l'état par le formateur ; D-36 à D-39 consignées ; dossier gelé | `docs/decisions.md`, `docs/v1/` |
+| Date       | Tâche                                                                                                                                                                                          | Résultat                                                    |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| 2026-10-12 | Lecture du dossier projet et du référentiel de compétences                                                                                                                                     | Synthèse et points à clarifier                              |
+| 2026-10-12 | Feuille de route v1, validée par le porteur                                                                                                                                                    | `docs/roadmap.md`                                           |
+| 2026-10-12 | Feuille de route v2 : calendrier des oraux, format Word, C12 et C13 en LLMOps                                                                                                                  | `docs/roadmap.md`                                           |
+| 2026-10-12 | Suivi des compétences et des tâches initialisé                                                                                                                                                 | `docs/suivi/`                                               |
+| 2026-10-12 | Ancien dépôt renommé en `live-transcribe` (par le porteur), clone local corrigé                                                                                                                | Nom `Muninn` libéré                                         |
+| 2026-10-12 | Dépôt GitHub privé `Bealph/Muninn` créé, premier commit poussé                                                                                                                                 | Dépôt en ligne                                              |
+| 2026-10-12 | Phase 0a : 53 user stories en 10 épopées, critères d'acceptation, périmètre de démo                                                                                                            | `docs/conception/phase-0/01-user-stories.md`                |
+| 2026-10-12 | Phase 0a : 12 flux de données, vue d'ensemble, traçabilité des 53 stories                                                                                                                      | `docs/conception/phase-0/02-flux-de-donnees.md`             |
+| 2026-10-12 | Phase 0a : 14 sources vérifiées en ligne, 9 écartées                                                                                                                                           | `docs/conception/phase-0/03-sources-de-donnees.md`          |
+| 2026-10-12 | Phase 0a : exigences d'accessibilité (WCAG 2.2 AA) et d'utilisabilité de terrain                                                                                                               | `docs/conception/phase-0/04-accessibilite-utilisabilite.md` |
+| 2026-10-12 | Contre-vérification de 10 affirmations clés, 4 reformulations appliquées                                                                                                                       | Documents 03 et 04 corrigés                                 |
+| 2026-10-12 | Diagrammes en SVG et PNG : 13 flux, carte des stories, 10 épopées                                                                                                                              | `docs/conception/phase-0/diagrammes/`                       |
+| 2026-10-12 | Décisions du porteur sur la phase 0a, consignées                                                                                                                                               | `docs/decisions.md` (D-04 à D-17)                           |
+| 2026-10-12 | Phase 1 : cartographie (14 sources, 75 données), modèle conceptuel et physique (serveur, référentiels, agrégats, appareil)                                                                     | `docs/conception/phase-1/01` et `02`                        |
+| 2026-10-12 | Phase 1 : matrice d'accès (40 tests), menaces LLM, exposition API et position MCP                                                                                                              | `docs/conception/phase-1/03`                                |
+| 2026-10-12 | Phase 1 : 58 cas de vérification d'exactitude, taille de jeu et seuils de blocage                                                                                                              | `docs/conception/phase-1/04`                                |
+| 2026-10-12 | Phase 1 : registre RGPD (responsable et sous-traitant), 18 questions pour l'avocat                                                                                                             | `docs/conception/phase-1/05`                                |
+| 2026-10-12 | Phase 1 : comparatif big data externalisé (Synapse recommandé)                                                                                                                                 | `docs/conception/phase-1/06`                                |
+| 2026-10-12 | Relecture indépendante (55 points) appliquée ; flux F-02 et F-12 mis à jour (X-05) ; 22 diagrammes régénérés                                                                                   | Phases 0 et 1                                               |
+| 2026-10-12 | Analyse stratégique v2.1 (dimensionnement Urssaf, codes Sirene), v2 archivée                                                                                                                   | Dossier du concept                                          |
+| 2026-10-12 | Phase 1 validée par le porteur ; décisions D-18 à D-26 consignées                                                                                                                              | `docs/decisions.md`                                         |
+| 2026-10-12 | Droits Azure relus en lecture seule : Synapse non enregistré, alternatives à l'étude                                                                                                           | D-19                                                        |
+| 2026-10-12 | Décisions D-27 à D-33 (big data option A, recours par phrase, brouillon de secours, week-ends, GitHub Pro, modèle LLM à comparer, clés)                                                        | `docs/decisions.md`                                         |
+| 2026-10-12 | Phase 2 : besoin de production et SLO, plan de tests (270 tests), observabilité (25 alertes), contrat d'API (68 points, DossierDraft 1.1), chaîne LLMOps, architecture (17 ADR), méthode agile | `docs/conception/phase-2/`                                  |
+| 2026-10-12 | Consolidation : relecture indépendante appliquée, phases 0 et 1 mises à jour (modèle, accès, stories, flux), 44 diagrammes régénérés                                                           | Phases 0 à 2                                                |
+| 2026-10-12 | Phase 2 validée (D-34) ; développement avancé au mercredi 14 octobre (D-35), planning recalé                                                                                                   | `docs/decisions.md`, `07-methode-agile.md`                  |
+| 2026-10-12 | Sprint 1 : dossier de conception V1 (v1.3), après deux évaluations par un pair et une relecture technique                                                                                      | `docs/v1/dossier-conception-v1.md`                          |
+| 2026-10-12 | Dossier V1, couverture des compétences et feuille de route V1 validés par le porteur (D-40)                                                                                                    | `docs/v1/`                                                  |
+| 2026-10-13 | Dossier V1 validé en l'état par le formateur ; D-36 à D-39 consignées ; dossier gelé                                                                                                           | `docs/decisions.md`, `docs/v1/`                             |
+| 2026-10-13 | Infographie de présentation de Muninn et de la V1 (HTML, PNG, PDF)                                                                                                                             | `docs/v1/infographie/`                                      |
+| 2026-10-13 | Sprint 2, étape 0 : checklist du sprint, écarts de calendrier validés (D-43)                                                                                                                   | `docs/v1/sprints/sprint-2/checklist.md`                     |
+| 2026-10-13 | Sprint 2, étape 1 : socle reproductible (uv, Docker, docker compose, gitleaks)                                                                                                                 | Commit `38c6e94`                                            |
+| 2026-10-13 | Modèles LLM choisis et déployés en zone de données UE sur une ressource unique (D-44 à D-46)                                                                                                   | `docs/decisions.md`                                         |
+| 2026-10-13 | Sprint 2, étape 2 : `/version`, appel au LLM (A et B) derrière une interface de fournisseur, console d'essai ; 17 tests ; test visuel du porteur                                               | Commits `c1e596f`, `257e049`                                |
 
 ## À faire
 
 Plan de la feuille de route V1 (`docs/v1/roadmap-v1.md`), valable jusqu'au 13 novembre (D-42).
 
-| Étape           | Tâche                                                                                                                  | Échéance                                 | Statut  |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ------- |
-| Sprint 2        | Le socle et la chaîne : V-01 à V-03 (socle, ressources Azure, CI `verdict`, déploiement, retour arrière)               | mer. 14 octobre, sur feu vert du porteur | À faire |
-| T-06            | Comparaison des modèles LLM, puis choix du modèle et clés par le porteur (D-32, D-33)                                  | ven. 16 octobre                          | À faire |
-| Sprint 3        | Les données et l'ancrage : V-04 à V-06 (collecte, base, API des référentiels, Sirene)                                  | jeu. 15 et ven. 16 octobre               | À faire |
-| Sprint 4        | La composante agentique et les garde-fous : V-07, V-08                                                                 | ven. 16 au lun. 19 octobre               | À faire |
-| Sprint 5        | La vigie et la démo : V-09, V-10 ; CA-1 à CA-6 sur Azure                                                               | lun. 19 octobre                          | À faire |
-| V1.0 complète   | Déploiement automatisé (C13, C19), OpenTelemetry vers Application Insights et alerte (C11, C20)                        | mar. 20 et mer. 21 octobre               | À faire |
-| Réserve         | Rattrapage, puis « si temps » dans l'ordre du dossier V1                                                               | 22 au 24 octobre                         | À faire |
-| Premier oral    | Rédaction d'E1 et d'E3 en Word, script de démo, trois répétitions, gel le 28 à 18 h                                    | 25 au 28 octobre                         | À faire |
-| Second oral     | Veille (C6), puis benchmark complet des services d'IA (C7)                                                             | 31 octobre, 1er novembre                 | À faire |
-| V1.1            | Environnement de test, ouverture automatique d'incident, incident résolu et documenté, audit RGAA (C19, C20, C21, C10) | 2 et 3 novembre                          | À faire |
-| Second oral     | Rédaction d'E2, E4, E5 en Word ; mise à jour d'E1 et d'E3 avec les retours du jury                                     | 4 au 7 novembre                          | À faire |
-| Second oral     | Relecture des cinq livrables, répétitions des 90 minutes, gel le 11 à 18 h                                             | 9 au 11 novembre                         | À faire |
-| Au fil de l'eau | Une fiche par incident réel (C21) ; tableau GitHub Projects, PR revues, compte rendu de sprint (C16)                   | dès le 14 octobre                        | À faire |
+| Étape           | Tâche                                                                                                                  | Échéance                                 | Statut                                               |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------- |
+| Sprint 2        | Le socle et la chaîne : V-01 à V-03 (socle, ressources Azure, CI `verdict`, déploiement, retour arrière)               | mer. 14 octobre, sur feu vert du porteur | En cours : étapes 0 à 2 faites, étape 3 sur feu vert |
+| T-06            | Comparaison des modèles LLM (banc d'essai) ; modèles A et B déjà déployés et accessibles (D-44 à D-46)                 | ven. 16 octobre                          | À faire                                              |
+| Sprint 3        | Les données et l'ancrage : V-04 à V-06 (collecte, base, API des référentiels, Sirene)                                  | jeu. 15 et ven. 16 octobre               | À faire                                              |
+| Sprint 4        | La composante agentique et les garde-fous : V-07, V-08                                                                 | ven. 16 au lun. 19 octobre               | À faire                                              |
+| Sprint 5        | La vigie et la démo : V-09, V-10 ; CA-1 à CA-6 sur Azure                                                               | lun. 19 octobre                          | À faire                                              |
+| V1.0 complète   | Déploiement automatisé (C13, C19), OpenTelemetry vers Application Insights et alerte (C11, C20)                        | mar. 20 et mer. 21 octobre               | À faire                                              |
+| Réserve         | Rattrapage, puis « si temps » dans l'ordre du dossier V1                                                               | 22 au 24 octobre                         | À faire                                              |
+| Premier oral    | Rédaction d'E1 et d'E3 en Word, script de démo, trois répétitions, gel le 28 à 18 h                                    | 25 au 28 octobre                         | À faire                                              |
+| Second oral     | Veille (C6), puis benchmark complet des services d'IA (C7)                                                             | 31 octobre, 1er novembre                 | À faire                                              |
+| V1.1            | Environnement de test, ouverture automatique d'incident, incident résolu et documenté, audit RGAA (C19, C20, C21, C10) | 2 et 3 novembre                          | À faire                                              |
+| Second oral     | Rédaction d'E2, E4, E5 en Word ; mise à jour d'E1 et d'E3 avec les retours du jury                                     | 4 au 7 novembre                          | À faire                                              |
+| Second oral     | Relecture des cinq livrables, répétitions des 90 minutes, gel le 11 à 18 h                                             | 9 au 11 novembre                         | À faire                                              |
+| Au fil de l'eau | Une fiche par incident réel (C21) ; tableau GitHub Projects, PR revues, compte rendu de sprint (C16)                   | dès le 14 octobre                        | À faire                                              |
