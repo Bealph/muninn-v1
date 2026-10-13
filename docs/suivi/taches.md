@@ -37,15 +37,15 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-12 | Phase 2 validée (D-34) ; développement avancé au mercredi 14 octobre (D-35), planning recalé | `docs/decisions.md`, `07-methode-agile.md` |
 | 2026-10-12 | Sprint 1 : dossier de conception V1 (v1.3), après deux évaluations par un pair et une relecture technique | `docs/v1/dossier-conception-v1.md` |
 | 2026-10-12 | Dossier V1, couverture des compétences et feuille de route V1 validés par le porteur (D-40) | `docs/v1/` |
+| 2026-10-13 | Dossier V1 validé en l'état par le formateur ; D-36 à D-39 consignées ; dossier gelé | `docs/decisions.md`, `docs/v1/` |
 
 ## À faire
 
-| Phase    | Tâche                                                                    | Échéance visée                 | Statut                  |
-| -------- | ------------------------------------------------------------------------ | ------------------------------ | ----------------------- |
-| Sprint 1 | Validation du formateur, puis consignation de D-36 à D-39 par le porteur | 13 octobre                     | En attente du formateur |
-| 2        | Comparaison des modèles LLM (T-06, D-32), puis choix et clés (D-33)      | avant J2 (vendredi 16 octobre) | À faire                 |
-| 3 à 5    | Développement J0 à J9 (14 au 23 octobre), sur feu vert du porteur        | 14 au 23 octobre, tampon le 24 | À faire                 |
-| 7        | Rédaction d'E1 et d'E3 en Word, répétition de la démo                    | 25 au 28 octobre               | À faire                 |
-| 0b       | Dispositif de veille technique et réglementaire                          | après le 30 octobre            | À faire                 |
-| 0b       | Benchmark des services d'IA                                              | après le 30 octobre            | À faire                 |
-| 5 à 7    | E2, E4, E5 ; répétition des 90 minutes                                   | 31 octobre au 11 novembre      | À faire                 |
+| Phase | Tâche                                                               | Échéance visée                 | Statut  |
+| ----- | ------------------------------------------------------------------- | ------------------------------ | ------- |
+| 2     | Comparaison des modèles LLM (T-06, D-32), puis choix et clés (D-33) | avant J2 (vendredi 16 octobre) | À faire |
+| 3 à 5 | Développement J0 à J9 (14 au 23 octobre), sur feu vert du porteur   | 14 au 23 octobre, tampon le 24 | À faire |
+| 7     | Rédaction d'E1 et d'E3 en Word, répétition de la démo               | 25 au 28 octobre               | À faire |
+| 0b    | Dispositif de veille technique et réglementaire                     | après le 30 octobre            | À faire |
+| 0b    | Benchmark des services d'IA                                         | après le 30 octobre            | À faire |
+| 5 à 7 | E2, E4, E5 ; répétition des 90 minutes                              | 31 octobre au 11 novembre      | À faire |

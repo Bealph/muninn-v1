@@ -1,9 +1,10 @@
 # Muninn : dossier de conception V1
 
 **Sprint :** 1, « Cadrer, choisir, concevoir »
-**Version :** 1.4 (proposition, à valider par le formateur)
+**Version :** 1.4
 **Date :** 12 octobre 2026
-**Statut :** non gelé. Il sera gelé à la validation du formateur. Aucune ligne de code avant
+**Statut :** gelé le 13 octobre 2026, validé par le formateur en l'état. Toute modification passe
+par une décision écrite. Aucune ligne de code avant
 cette validation et le feu vert du porteur (D-35).
 **Historique :** la v1.4 organise la V1 en incréments pour couvrir les 21 compétences (D-41). Les v1.1 à v1.3 intègrent deux évaluations par un pair et une relecture technique
 indépendantes. La v1.2 coupe des blocs entiers pour tenir réellement six jours, fixe la politique
@@ -494,10 +495,9 @@ porteur choisit le modèle et fournit les clés au plus tard le vendredi 16 octo
 
 ---
 
-## 9. Décisions proposées et question au formateur
+## 9. Décisions et question au formateur
 
-**Décisions proposées.** Elles seront consignées dans `docs/decisions.md` à la validation du
-formateur.
+**Décisions.** Validées par le formateur le 13 octobre 2026 et consignées dans `docs/decisions.md`.
 
 | ID   | Décision proposée                                                                                                                                                                                                                                                                                                                        | Ce qu'elle remplace                                     |
 | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
@@ -509,6 +509,8 @@ formateur.
 **Question au formateur.** La consigne admet une dérogation au plus. La V1 en ajoute une
 (DuckDB) et retire plusieurs éléments par simplification (tableau des écarts, section 4). Les
 retraits comptent-ils comme des dérogations ? Si oui, lesquels faut-il rétablir ?
+
+**Réponse.** Le formateur a validé la conception en l'état, retraits compris.
 
 ---
 
