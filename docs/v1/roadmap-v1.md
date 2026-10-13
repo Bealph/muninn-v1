@@ -8,6 +8,10 @@ développement) et sur la couverture des 21 compétences (`couverture-competence
 À sa validation, elle remplace le calendrier de `docs/roadmap.md` (v2.2) pour la période du 12
 octobre au 13 novembre ; celui-ci reste comme historique (décision proposée D-36).
 
+**Après le 13 novembre**, cette feuille de route s'arrête : le projet reprend la feuille de route
+du produit (`docs/roadmap.md`) et la conception des phases 0 à 2, sans les découpes de la V1
+(D-42).
+
 ## 1. Jalons et portes
 
 Une porte est un contrôle qui conditionne la suite : tant qu'elle n'est pas franchie, l'étape

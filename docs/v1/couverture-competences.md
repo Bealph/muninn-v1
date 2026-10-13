@@ -6,6 +6,9 @@
 prouve, ce que la conception déjà produite prouve, et ce qui manque avant chaque oral. La
 comparaison se fait contre l'énoncé exact du référentiel (21 compétences, livrables E1 à E5).
 
+La V1 est une découpe temporaire pour la soutenance ; elle ne redéfinit pas le périmètre de
+Muninn (D-42).
+
 ## 1. Verdict
 
 **Couverture visée : 21 compétences sur 21, prouvées avant le 12 novembre (D-41).** La V1 est

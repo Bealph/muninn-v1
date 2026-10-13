@@ -9,7 +9,13 @@ cette validation et le feu vert du porteur (D-35).
 indépendantes. La v1.2 coupe des blocs entiers pour tenir réellement six jours, fixe la politique
 de l'agent et fige les oracles du contrat.
 
-« V1 » désigne la démo présentée en soutenance. Ce dossier consolide et tranche la conception
+« V1 » désigne la démo présentée en soutenance.
+
+**La V1 ne redéfinit pas le périmètre de Muninn (D-42).** C'est une découpe temporaire, faite
+pour la soutenance et valable jusqu'à l'oral du 13 novembre 2026. Ensuite, le projet reprend tel
+qu'il est pensé et décrit dans le dossier du concept et dans la conception des phases 0 à 2 ; tout
+ce que la V1 retire y reste décrit (section 2.3, colonne « Où il reste décrit »).
+ Ce dossier consolide et tranche la conception
 des phases 0 à 2 (`docs/conception/`) ; il se lit sans elle. Le glossaire est en section 10.
 Deux documents l'accompagnent : `couverture-competences.md` (ce que la V1 prouve, compétence par
 compétence) et `roadmap-v1.md` (le chemin jusqu'à l'oral du 12 novembre).
@@ -493,12 +499,12 @@ porteur choisit le modèle et fournit les clés au plus tard le vendredi 16 octo
 **Décisions proposées.** Elles seront consignées dans `docs/decisions.md` à la validation du
 formateur.
 
-| ID   | Décision proposée                                                                                                                                                                                                                                                                      | Ce qu'elle remplace                                     |
-| ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| D-36 | Périmètre V1.0 gelé à six jours (section 2), du 14 au 19 octobre, en sprints 2 à 5, puis incréments de la section 2.5 jusqu'au 3 novembre ; aucune ligne de code avant la validation du formateur et le feu vert du porteur                                                            | Découpage J0 à J9 de D-35 ; backlog de la phase 2, §5.2 |
-| D-37 | L'agent dispose de deux outils en lecture seule via l'API des référentiels et suit la politique de la section 3.1 ; le serveur rejoue les contrôles, applique la règle contre l'invention et seul lui fixe statuts et provenance ; outils et code inclus dans l'empreinte d'évaluation | Phase 2, document 05, §8.1 (extraction sans outil)      |
-| D-38 | Retraits du socle en V1 : Redis, arq, PyNaCl, Key Vault, Bicep, Trivy, collecteur OpenTelemetry séparé. Le CD par OIDC et l'export vers Application Insights ne sont pas retirés : ils arrivent les 20 et 21 octobre (D-40)                                                            | Phase 2, document 06, §12.1 et ADR-13, pour la V1       |
-| D-39 | Sirene lu à distance par HTTPS, sans lac de données, en V1 ; le lac reste la cible (« si temps » n° 5)                                                                                                                                                                                 | D-27, pour la V1                                        |
+| ID   | Décision proposée                                                                                                                                                                                                                                                                                                                        | Ce qu'elle remplace                                     |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| D-36 | Périmètre V1.0 gelé à six jours (section 2), du 14 au 19 octobre, en sprints 2 à 5, puis incréments de la section 2.5 jusqu'au 3 novembre ; aucune ligne de code avant la validation du formateur et le feu vert du porteur ; valable pour la V1, jusqu'au 13 novembre (D-42)                                                            | Découpage J0 à J9 de D-35 ; backlog de la phase 2, §5.2 |
+| D-37 | L'agent dispose de deux outils en lecture seule via l'API des référentiels et suit la politique de la section 3.1 ; le serveur rejoue les contrôles, applique la règle contre l'invention et seul lui fixe statuts et provenance ; outils et code inclus dans l'empreinte d'évaluation ; valable pour la V1, jusqu'au 13 novembre (D-42) | Phase 2, document 05, §8.1 (extraction sans outil)      |
+| D-38 | Retraits du socle en V1 : Redis, arq, PyNaCl, Key Vault, Bicep, Trivy, collecteur OpenTelemetry séparé. Le CD par OIDC et l'export vers Application Insights ne sont pas retirés : ils arrivent les 20 et 21 octobre (D-40)                                                                                                              | Phase 2, document 06, §12.1 et ADR-13, pour la V1       |
+| D-39 | Sirene lu à distance par HTTPS, sans lac de données, en V1 ; le lac reste la cible (« si temps » n° 5)                                                                                                                                                                                                                                   | D-27, pour la V1                                        |
 
 **Question au formateur.** La consigne admet une dérogation au plus. La V1 en ajoute une
 (DuckDB) et retire plusieurs éléments par simplification (tableau des écarts, section 4). Les
