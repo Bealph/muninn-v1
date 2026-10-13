@@ -41,11 +41,20 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 
 ## À faire
 
-| Phase | Tâche                                                               | Échéance visée                 | Statut  |
-| ----- | ------------------------------------------------------------------- | ------------------------------ | ------- |
-| 2     | Comparaison des modèles LLM (T-06, D-32), puis choix et clés (D-33) | avant J2 (vendredi 16 octobre) | À faire |
-| 3 à 5 | Développement J0 à J9 (14 au 23 octobre), sur feu vert du porteur   | 14 au 23 octobre, tampon le 24 | À faire |
-| 7     | Rédaction d'E1 et d'E3 en Word, répétition de la démo               | 25 au 28 octobre               | À faire |
-| 0b    | Dispositif de veille technique et réglementaire                     | après le 30 octobre            | À faire |
-| 0b    | Benchmark des services d'IA                                         | après le 30 octobre            | À faire |
-| 5 à 7 | E2, E4, E5 ; répétition des 90 minutes                              | 31 octobre au 11 novembre      | À faire |
+Plan de la feuille de route V1 (`docs/v1/roadmap-v1.md`), valable jusqu'au 13 novembre (D-42).
+
+| Étape           | Tâche                                                                                                                  | Échéance                                 | Statut  |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ------- |
+| Sprint 2        | Le socle et la chaîne : V-01 à V-03 (socle, ressources Azure, CI `verdict`, déploiement, retour arrière)               | mer. 14 octobre, sur feu vert du porteur | À faire |
+| T-06            | Comparaison des modèles LLM, puis choix du modèle et clés par le porteur (D-32, D-33)                                  | ven. 16 octobre                          | À faire |
+| Sprint 3        | Les données et l'ancrage : V-04 à V-06 (collecte, base, API des référentiels, Sirene)                                  | jeu. 15 et ven. 16 octobre               | À faire |
+| Sprint 4        | La composante agentique et les garde-fous : V-07, V-08                                                                 | ven. 16 au lun. 19 octobre               | À faire |
+| Sprint 5        | La vigie et la démo : V-09, V-10 ; CA-1 à CA-6 sur Azure                                                               | lun. 19 octobre                          | À faire |
+| V1.0 complète   | Déploiement automatisé (C13, C19), OpenTelemetry vers Application Insights et alerte (C11, C20)                        | mar. 20 et mer. 21 octobre               | À faire |
+| Réserve         | Rattrapage, puis « si temps » dans l'ordre du dossier V1                                                               | 22 au 24 octobre                         | À faire |
+| Premier oral    | Rédaction d'E1 et d'E3 en Word, script de démo, trois répétitions, gel le 28 à 18 h                                    | 25 au 28 octobre                         | À faire |
+| Second oral     | Veille (C6), puis benchmark complet des services d'IA (C7)                                                             | 31 octobre, 1er novembre                 | À faire |
+| V1.1            | Environnement de test, ouverture automatique d'incident, incident résolu et documenté, audit RGAA (C19, C20, C21, C10) | 2 et 3 novembre                          | À faire |
+| Second oral     | Rédaction d'E2, E4, E5 en Word ; mise à jour d'E1 et d'E3 avec les retours du jury                                     | 4 au 7 novembre                          | À faire |
+| Second oral     | Relecture des cinq livrables, répétitions des 90 minutes, gel le 11 à 18 h                                             | 9 au 11 novembre                         | À faire |
+| Au fil de l'eau | Une fiche par incident réel (C21) ; tableau GitHub Projects, PR revues, compte rendu de sprint (C16)                   | dès le 14 octobre                        | À faire |
