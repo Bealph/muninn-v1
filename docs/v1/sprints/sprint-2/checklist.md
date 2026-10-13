@@ -45,9 +45,9 @@ cochée qu'avec sa preuve (fichier, capture ou exécution de la chaîne).
 
 ### Étape 3 : les tests
 
-- [ ] Tests unitaires et d'intégration (API, console, faux fournisseur).
-- [ ] ruff et mypy sans erreur.
-- [ ] Contrôle d'accessibilité automatique de la page (axe-core) [H : à confirmer si le temps du sprint le permet, sinon sprint 5].
+- [x] Tests unitaires et d'intégration (API, console, faux fournisseur) : 20 tests, sans réseau, indépendants du `.env` du poste. Preuve : `tests/`.
+- [x] ruff et mypy (mode strict, code et tests) sans erreur. Preuve : `pyproject.toml`.
+- [x] Contrôle d'accessibilité automatique (axe-core 4.12.1, règles WCAG 2.2 A et AA et bonnes pratiques) sur les trois états de la page : accueil, réponse, erreur. Aucun manquement. Le contrôle détecte bien quatre défauts injectés volontairement (étiquette, contraste, langue, titre). Preuve : `tests/test_accessibilite.py`. Il sera exécuté par la CI à l'étape 4.
 
 ### Étape 4 : la chaîne d'intégration continue
 

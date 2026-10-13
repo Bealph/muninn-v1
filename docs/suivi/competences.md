@@ -1,6 +1,6 @@
 # Suivi des compétences
 
-**Mis à jour le :** 13 octobre 2026 (sprint 2, étape 2 ; preuves à cocher ajoutées)
+**Mis à jour le :** 13 octobre 2026 (sprint 2, étape 3)
 
 Statuts : « À faire », « En cours », « Preuve produite », « Validée » (validée par le porteur).
 
@@ -54,7 +54,7 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 ## Preuves, case par case
 
-**Cases cochées : 28 sur 61** (au 13 octobre 2026).
+**Cases cochées : 29 sur 61** (au 13 octobre 2026).
 
 Une case n'est cochée que si la preuve existe dans le dépôt. Source des preuves attendues :
 `docs/v1/couverture-competences.md`. Une compétence passe à « Preuve produite » quand toutes
@@ -118,11 +118,11 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 - [x] Route d'appel au LLM du squelette : `POST /llm/essai` (sprint 2)
 - [ ] API d'extraction et OpenAPI (V-07, sprint 4)
 
-**C10** (2 sur 4)
+**C10** (3 sur 4)
 
 - [x] Exigences d'accessibilité : `docs/conception/phase-0/04-accessibilite-utilisabilite.md`
 - [x] Console qui appelle l'API, testée par le porteur : `docs/v1/sprints/sprint-2/preuves/`
-- [ ] Contrôle axe-core en CI (sprint 2, étape 3, ou sprint 5)
+- [x] Contrôle axe-core automatisé, WCAG 2.2 AA, sans manquement : `tests/test_accessibilite.py` (sprint 2) ; exécution en CI à l'étape 4
 - [ ] Audit RGAA manuel (V1.1)
 
 **C11** (1 sur 3)
@@ -170,7 +170,7 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 **C18** (2 sur 3)
 
 - [x] Intégration continue conçue : `docs/conception/phase-2/02-plan-de-tests.md`
-- [x] Tests, ruff et mypy automatisés en local : `pyproject.toml`, `tests/` (sprint 2)
+- [x] Tests (dont accessibilité), ruff et mypy automatisés en local : `pyproject.toml`, `tests/` (sprint 2)
 - [ ] Contrôle requis `verdict` sur chaque PR (sprint 2, étape 4)
 
 **C19** (1 sur 4)

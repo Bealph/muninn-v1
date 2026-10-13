@@ -29,10 +29,11 @@ Hors conteneur, l'authentification passe par `az login` ; dans un conteneur loca
 Prérequis : Python 3.12 et [uv](https://docs.astral.sh/uv/).
 
 ```bash
-uv sync               # dépendances figées par uv.lock
-uv run pytest         # tests
-uv run ruff check .   # analyse statique
-uv run mypy           # typage strict
+uv sync                                # dépendances figées par uv.lock
+uv run playwright install chromium     # une fois : navigateur du contrôle d'accessibilité
+uv run pytest                          # tests, dont le contrôle d'accessibilité axe-core (WCAG 2.2 AA)
+uv run ruff check .                    # analyse statique
+uv run mypy                            # typage strict
 ```
 
 ## Documentation
