@@ -51,8 +51,8 @@ cochée qu'avec sa preuve (fichier, capture ou exécution de la chaîne).
 
 ### Étape 4 : la chaîne d'intégration continue
 
-- [ ] Workflow GitHub Actions sur chaque PR : lint, puis tests, puis build de l'image.
-- [ ] Contrôle unique et obligatoire `verdict` ; protection de `main` : fusion impossible si `verdict` est rouge.
+- [x] Workflow GitHub Actions sur chaque PR vers `main` et sur `main` : lint, puis tests (dont accessibilité), puis build de l'image avec test de fumée ; gitleaks sur tout l'historique en parallèle. Actions épinglées par SHA, droits en lecture seule. Preuve : `.github/workflows/ci.yml`, PR n° 1, exécution 38429605759 (verte, 20 tests, 20 commits analysés).
+- [x] Contrôle unique et obligatoire `verdict` ; protection de `main` appliquée le 13 octobre 2026 (`verdict` requis, branche à jour exigée, administrateurs inclus, ni force-push ni suppression). Preuve : push direct sur `main` refusé (« Required status check "verdict" is expected »). La preuve par une PR rouge relève de l'étape 7.
 
 ### Étape 5 : les environnements Azure
 
@@ -87,8 +87,8 @@ cochée qu'avec sa preuve (fichier, capture ou exécution de la chaîne).
 
 ## Écarts avec le dossier V1 gelé (décision D-43, validée le 13 octobre 2026)
 
-| Élément                            | Prévu par le dossier V1                         | Exigé par la consigne du sprint 2           | Effet sur le périmètre                          |
-| ---------------------------------- | ----------------------------------------------- | ------------------------------------------- | ----------------------------------------------- |
-| Déploiement automatique sur fusion | 20 octobre (V1.0 complète), script manuel avant | Sprint 2                                    | Aucun : avancé dans le temps                    |
-| Environnement de préproduction     | V1.1 (2 et 3 novembre)                          | Sprint 2 (« à travers les environnements ») | Aucun : avancé dans le temps                    |
-| Appel réel au LLM                  | Sprint 4, après le choix du modèle (D-32, D-33) | Sprint 2 (« un appel au LLM qui répond »)   | Aucun : modèle provisoire, gpt-5.4-mini (D-44)  |
+| Élément                            | Prévu par le dossier V1                         | Exigé par la consigne du sprint 2           | Effet sur le périmètre                         |
+| ---------------------------------- | ----------------------------------------------- | ------------------------------------------- | ---------------------------------------------- |
+| Déploiement automatique sur fusion | 20 octobre (V1.0 complète), script manuel avant | Sprint 2                                    | Aucun : avancé dans le temps                   |
+| Environnement de préproduction     | V1.1 (2 et 3 novembre)                          | Sprint 2 (« à travers les environnements ») | Aucun : avancé dans le temps                   |
+| Appel réel au LLM                  | Sprint 4, après le choix du modèle (D-32, D-33) | Sprint 2 (« un appel au LLM qui répond »)   | Aucun : modèle provisoire, gpt-5.4-mini (D-44) |

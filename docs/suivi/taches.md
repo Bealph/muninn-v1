@@ -43,6 +43,7 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-13 | Modèles LLM choisis et déployés en zone de données UE sur une ressource unique (D-44 à D-46)                                                                                                   | `docs/decisions.md`                                         |
 | 2026-10-13 | Sprint 2, étape 2 : `/version`, appel au LLM (A et B) derrière une interface de fournisseur, console d'essai ; 17 tests ; test visuel du porteur                                               | Commits `c1e596f`, `257e049`                                |
 | 2026-10-13 | Sprint 2, étape 3 : contrôle d'accessibilité axe-core (WCAG 2.2 AA) sur les trois états de la console ; 20 tests                                                                               | `tests/test_accessibilite.py`                               |
+| 2026-10-13 | Sprint 2, étape 4 : CI GitHub Actions (lint, tests, build, gitleaks), contrôle `verdict`, protection de `main`                                                                                 | `.github/workflows/ci.yml`, PR n° 1                         |
 
 ## À faire
 
@@ -50,7 +51,7 @@ Plan de la feuille de route V1 (`docs/v1/roadmap-v1.md`), valable jusqu'au 13 no
 
 | Étape           | Tâche                                                                                                                  | Échéance                                 | Statut                                               |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------- |
-| Sprint 2        | Le socle et la chaîne : V-01 à V-03 (socle, ressources Azure, CI `verdict`, déploiement, retour arrière)               | mer. 14 octobre, sur feu vert du porteur | En cours : étapes 0 à 3 faites, étape 4 sur feu vert |
+| Sprint 2        | Le socle et la chaîne : V-01 à V-03 (socle, ressources Azure, CI `verdict`, déploiement, retour arrière)               | mer. 14 octobre, sur feu vert du porteur | En cours : étapes 0 à 4 faites, étape 5 sur feu vert |
 | T-06            | Comparaison des modèles LLM (banc d'essai) ; modèles A et B déjà déployés et accessibles (D-44 à D-46)                 | ven. 16 octobre                          | À faire                                              |
 | Sprint 3        | Les données et l'ancrage : V-04 à V-06 (collecte, base, API des référentiels, Sirene)                                  | jeu. 15 et ven. 16 octobre               | À faire                                              |
 | Sprint 4        | La composante agentique et les garde-fous : V-07, V-08                                                                 | ven. 16 au lun. 19 octobre               | À faire                                              |
