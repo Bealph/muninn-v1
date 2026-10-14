@@ -15,7 +15,9 @@ AZ = shutil.which("az") or sys.exit("az introuvable dans le PATH.")
 
 texte = "\n".join(pathlib.Path(f).read_text(encoding="utf-8") for f in sys.argv[1:])
 texte = re.sub(r"\\\n\s*", " ", texte)  # lignes continuées
-texte = re.sub(r'"\$\([^)]*\)"', '"X"', texte)  # sous-commandes imbriquées
+# Sous-commandes imbriquées « $(az ...) » : contrôlées comme des lignes à part, puis masquées.
+imbriquees = re.findall(r"\$\((az [^)]*)\)", texte)
+texte = re.sub(r"\$\([^)]*\)", "X", texte) + "\n" + "\n".join(imbriquees)
 
 cmds: dict[str, set[str]] = {}
 for ligne in texte.splitlines():

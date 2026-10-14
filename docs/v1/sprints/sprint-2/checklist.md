@@ -56,8 +56,8 @@ cochée qu'avec sa preuve (fichier, capture ou exécution de la chaîne).
 
 ### Étape 5 : les environnements Azure
 
-- [ ] Commandes Azure préparées et relues ; ressources créées par le porteur (R10) : registre, environnement Container Apps, préproduction et production, PostgreSQL flexible, alerte de budget à 60 € par mois (D-34).
-- [ ] Identité de déploiement sans secret (OIDC) entre GitHub Actions et Azure.
+- [x] Commandes Azure préparées et relues ; ressources créées par le porteur (R10) le 14 octobre 2026 : registre, environnement Container Apps, préproduction et production (API et console), PostgreSQL flexible (deux bases), budget à 60 € par mois filtré sur l'étiquette `projet=muninn`, avec alertes (D-34). Vérifié en lecture seule ; l'API de chaque environnement appelle les modèles A et B par identité managée et se connecte à sa base en TLS. Preuve : `infra/azure/`, PR n° 3 et 4. Un incident pendant la création : `incidents/INC-01-creation-postgresql.md`.
+- [x] Identité de déploiement sans secret (OIDC) entre GitHub Actions et Azure : identité managée `id-muninn-deploiement`, confiance pour les environnements GitHub `preproduction` et `production`, droits limités au registre et aux applications de Muninn. Son premier usage réel sera la livraison de l'étape 6.
 
 ### Étape 6 : la livraison continue
 

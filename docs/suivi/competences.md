@@ -1,6 +1,6 @@
 # Suivi des compétences
 
-**Mis à jour le :** 13 octobre 2026 (sprint 2, étape 4)
+**Mis à jour le :** 14 octobre 2026 (sprint 2, étape 5)
 
 Statuts : « À faire », « En cours », « Preuve produite », « Validée » (validée par le porteur).
 
@@ -50,11 +50,11 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 | Code | Compétence (résumé)                                                | Phase | Preuve prévue                                                                                                                       | Statut   |
 | ---- | ------------------------------------------------------------------ | ----- | ----------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | C20  | Surveiller l'application (journalisation conforme RGPD, détection) | 2, 6  | Journalisation sans DP, alertes et ouverture d'incident conçues (phase 2) ; journaux du LLM sans contenu échangé, testés (sprint 2) | En cours |
-| C21  | Résoudre et documenter des incidents techniques                    | 6     | Fiches d'incident et correctifs                                                                                                     | À faire  |
+| C21  | Résoudre et documenter des incidents techniques                    | 6     | Fiches d'incident et correctifs                                                                                                     | En cours |
 
 ## Preuves, case par case
 
-**Cases cochées : 30 sur 61** (au 13 octobre 2026).
+**Cases cochées : 31 sur 61** (au 14 octobre 2026).
 
 Une case n'est cochée que si la preuve existe dans le dépôt. Source des preuves attendues :
 `docs/v1/couverture-competences.md`. Une compétence passe à « Preuve produite » quand toutes
@@ -171,7 +171,7 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 
 - [x] Intégration continue conçue : `docs/conception/industrialisation/02-plan-de-tests.md`
 - [x] Tests (dont accessibilité), ruff et mypy automatisés en local : `pyproject.toml`, `tests/` (sprint 2)
-- [x] Contrôle requis `verdict` sur chaque PR, protection de `main` : `.github/workflows/ci.yml` (sprint 2, étape 4)
+- [x] Contrôle requis `verdict` sur chaque PR, protection de `main` : `.github/workflows/ci.yml` (sprint 2, étape 5)
 
 **C19** (1 sur 4)
 
@@ -189,7 +189,7 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 - [ ] Alerte et boucle de rétroaction (V-10, sprint 5)
 - [ ] Détection automatique d'incident (V1.1)
 
-**C21** (0 sur 2)
+**C21** (1 sur 2)
 
-- [ ] Fiche par incident réel : cause, correctif, PR, test de non-régression (au fil des sprints)
+- [x] Fiche par incident réel : cause, correctif, PR, test de non-régression ; première fiche `docs/v1/sprints/sprint-2/incidents/INC-01-creation-postgresql.md` (à poursuivre au fil des sprints)
 - [ ] Incident provoqué, résolu et documenté (V1.1)
