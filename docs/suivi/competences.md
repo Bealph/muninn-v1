@@ -1,6 +1,6 @@
 # Suivi des compétences
 
-**Mis à jour le :** 14 octobre 2026 (sprint 2, étape 8)
+**Mis à jour le :** 14 octobre 2026 (fin du sprint 2)
 
 Statuts : « À faire », « En cours », « Preuve produite », « Validée » (validée par le porteur).
 
@@ -54,7 +54,7 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 ## Preuves, case par case
 
-**Cases cochées : 34 sur 61** (au 14 octobre 2026).
+**Cases cochées : 35 sur 61** (au 14 octobre 2026).
 
 Une case n'est cochée que si la preuve existe dans le dépôt. Source des preuves attendues :
 `docs/v1/couverture-competences.md`. Une compétence passe à « Preuve produite » quand toutes
@@ -141,7 +141,7 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 
 - [x] Chaîne LLMOps conçue : `docs/conception/industrialisation/05-chaine-llmops.md`
 - [ ] Validation, tests et évaluation automatisés en CI (sprint 2, étape 4, puis sprint 4)
-- [x] Déploiement automatisé par la CI, sur fusion dans `main`, contrôlé avant bascule : `.github/workflows/ci.yml`, `infra/azure/deployer.sh` (sprint 2, étape 8)
+- [x] Déploiement automatisé par la CI, sur fusion dans `main`, contrôlé avant bascule : `.github/workflows/ci.yml`, `infra/azure/deployer.sh` (fin du sprint 2)
 
 ### E4 : conception et réalisation (oral du 12 novembre)
 
@@ -155,12 +155,12 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 - [x] Architecture technique et 17 ADR : `docs/conception/industrialisation/06-architecture-technique.md`
 - [x] Dossier V1, sections 4 et 5 : `docs/v1/dossier-conception-v1.md`
 
-**C16** (2 sur 4)
+**C16** (3 sur 4)
 
 - [x] Méthode agile : `docs/conception/industrialisation/07-methode-agile.md`
 - [x] Journal des décisions et checklist du sprint 2 : `docs/decisions.md`, `docs/v1/sprints/sprint-2/checklist.md`
 - [ ] Tableau GitHub Projects, PR revues (au fil des sprints)
-- [ ] Comptes rendus de sprint (au fil des sprints)
+- [x] Comptes rendus de sprint : `docs/v1/sprints/sprint-2/compte-rendu.md` (à poursuivre à chaque sprint)
 
 **C17** (1 sur 2)
 
@@ -171,13 +171,13 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 
 - [x] Intégration continue conçue : `docs/conception/industrialisation/02-plan-de-tests.md`
 - [x] Tests (dont accessibilité), ruff et mypy automatisés en local : `pyproject.toml`, `tests/` (sprint 2)
-- [x] Contrôle requis `verdict` sur chaque PR, protection de `main` : `.github/workflows/ci.yml` (sprint 2, étape 8)
+- [x] Contrôle requis `verdict` sur chaque PR, protection de `main` : `.github/workflows/ci.yml` (fin du sprint 2)
 
 **C19** (3 sur 4)
 
 - [x] Livraison continue conçue : `docs/conception/industrialisation/05-chaine-llmops.md`
-- [x] Déploiement automatisé en préproduction puis en production : exécution 38535838557 (sprint 2, étape 8)
-- [x] Rollback en une opération, répété et mesuré : `docs/v1/sprints/sprint-2/preuves/etape-8-retour-arriere.md` (sprint 2, étape 8)
+- [x] Déploiement automatisé en préproduction puis en production : exécution 38535838557 (fin du sprint 2)
+- [x] Rollback en une opération, répété et mesuré : `docs/v1/sprints/sprint-2/preuves/etape-8-retour-arriere.md` (fin du sprint 2)
 - [ ] Environnement de test (V1.1)
 
 ### E5 : surveillance et incidents (oral du 12 novembre)
