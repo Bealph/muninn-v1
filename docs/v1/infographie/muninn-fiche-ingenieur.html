@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muninn V1, fiche d'ingénierie</title>
+<style>
+  :root {
+    --encre: #1b1f27;
+    --encre-douce: #4b5563;
+    --fond: #ffffff;
+    --bande: #f3f4f6;
+    --trait: #d1d5db;
+    --accent: #1f4e79;
+    --accent-pale: #e8eef5;
+    --ok: #1e6b3a;
+    --ok-pale: #e6f2ea;
+    --attention: #8a5a00;
+    --attention-pale: #fbf1dc;
+    --risque: #9b1c1c;
+    --risque-pale: #fbe9e9;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fond);
+    color: var(--encre);
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .page { width: 1200px; margin: 0 auto; padding: 40px 48px; }
+  header { border-bottom: 3px solid var(--accent); padding-bottom: 14px; margin-bottom: 8px; }
+  header h1 { margin: 0; font-size: 30px; }
+  header .meta { color: var(--encre-douce); margin-top: 6px; font-size: 14px; }
+  section { margin-top: 30px; }
+  h2 {
+    font-size: 21px; margin: 0 0 10px; padding: 6px 10px;
+    background: var(--accent-pale); border-left: 5px solid var(--accent);
+  }
+  h2 .n { color: var(--accent); font-weight: 700; margin-right: 8px; }
+  p { margin: 6px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 14px; }
+  th, td { border: 1px solid var(--trait); padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: var(--bande); font-weight: 600; }
+  code { font-family: Consolas, "Courier New", monospace; font-size: 13px; background: var(--bande); padding: 0 3px; }
+  .deux { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .note { color: var(--encre-douce); font-size: 13px; }
+  .h { color: var(--attention); font-weight: 600; }
+  .fait { background: var(--ok-pale); color: var(--ok); font-weight: 600; }
+  .afaire { background: var(--bande); }
+  .prop { background: var(--attention-pale); color: var(--attention); font-weight: 600; }
+  .risque { background: var(--risque-pale); }
+  img.schema { width: 100%; border: 1px solid var(--trait); }
+  footer { margin-top: 30px; border-top: 1px solid var(--trait); padding-top: 10px; color: var(--encre-douce); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>Muninn V1 : fiche d'ingénierie</h1>
+  <div class="meta">Revue de conception avant développement. Source : dossier de conception V1, v1.5 (14 octobre 2026),
+  et décisions D-01 à D-51. Les valeurs marquées <span class="h">[H]</span> sont des hypothèses non mesurées.</div>
+</header>
+
+<section id="s-probleme">
+  <h2><span class="n">1</span>Énoncé du problème</h2>
+  <p>Un artisan dépanneur qui travaille seul (plombier, chauffagiste, électricien, serrurier) ne peut pas
+  décrocher pendant ses interventions. Les demandes reçues par téléphone sont notées à la main puis ressaisies.
+  Le système doit transformer un appel manqué en une donnée structurée, contrôlée et exploitable, sans saisie
+  par l'artisan, ni stockage du contenu en clair côté serveur dans la cible.</p>
+  <table>
+    <tr><th>N°</th><th>Exigence fonctionnelle de la V1</th><th>Vérifiée par</th></tr>
+    <tr><td>EF-1</td><td>Une transcription d'appel produit un dossier : nom, téléphone, commune, code postal, objet, urgence</td><td>CA-1</td></tr>
+    <tr><td>EF-2</td><td>Une valeur absente ou ambiguë est complétée ou départagée par des outils de recherche, jamais inventée</td><td>CA-2</td></tr>
+    <tr><td>EF-3</td><td>Une odeur de gaz déclenche une urgence de sécurité et une orientation vers les secours</td><td>CA-3</td></tr>
+    <tr><td>EF-4</td><td>Une consigne glissée par l'appelant reste sans effet ; aucune donnée de santé n'est gardée</td><td>CA-4</td></tr>
+    <tr><td>EF-5</td><td>L'artisan corrige et valide ; le serveur rejoue les contrôles</td><td>CA-5</td></tr>
+    <tr><td>EF-6</td><td>Une version dégradée de l'agent est bloquée en CI ; la production revient en arrière en une opération</td><td>CA-6</td></tr>
+    <tr><td>EF-7</td><td>Un appel qui n'est pas une demande de service produit un message, pas un dossier</td><td>CA-7</td></tr>
+    <tr><td>EF-8</td><td>Un appel synthétique est joué, transcrit, puis traité</td><td>CA-8</td></tr>
+  </table>
+</section>
+
+<section id="s-contraintes">
+  <h2><span class="n">2</span>Contraintes</h2>
+  <div class="deux">
+    <table>
+      <tr><th>Règle</th><th>Contenu</th></tr>
+      <tr><td>R1</td><td>Aucun dossier client en clair côté serveur (cible ; écart P-03 assumé en V1)</td></tr>
+      <tr><td>R2, R3</td><td>Audio détruit après extraction ; transcription éphémère, jamais journalisée</td></tr>
+      <tr><td>R4</td><td>Aucune donnée personnelle dans les journaux</td></tr>
+      <tr><td>R5</td><td>Traitement dans l'UE ; déploiements LLM en zone de données UE</td></tr>
+      <tr><td>R6</td><td>L'agent vocal s'annonce ; l'IA est dite (AI Act, art. 50(1))</td></tr>
+      <tr><td>R7</td><td>Aucune donnée de santé</td></tr>
+      <tr><td>R8, R9</td><td>Aucun secret ni aucune donnée réelle dans le dépôt</td></tr>
+      <tr><td>R10</td><td>Aucune action payante ou irréversible sans accord ; téléphonie simulée</td></tr>
+    </table>
+    <table>
+      <tr><th>Contrainte</th><th>Valeur</th></tr>
+      <tr><td>Budget cloud</td><td>60 € par mois, filtré sur l'étiquette <code>projet=muninn</code> ; estimé à 21 €</td></tr>
+      <tr><td>Capacité de développement</td><td>7,75 jours <span class="h">[H]</span>, du 14 au 21 octobre (D-52)</td></tr>
+      <tr><td>Socle technique</td><td>Python, FastAPI, PostgreSQL, GitHub Actions, Docker, Azure ; dérogations listées section 5</td></tr>
+      <tr><td>Droits Azure</td><td>Propriétaire d'un seul groupe de ressources, lecteur sur l'abonnement</td></tr>
+      <tr><td>Échéances</td><td>Oraux blancs les 29 et 30 octobre (E1, E3), puis les 12 et 13 novembre (E1 à E5)</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="s-architecture">
+  <h2><span class="n">3</span>Architecture</h2>
+  <img class="schema" src="../diagrammes/dossier-conception-v1/png/5-1-architecture-complete-donnees-agent-et-garde-fous-interface-api.png"
+       alt="Schéma d'architecture : sources publiques, données, services (voix, qualification, agent d'extraction et garde-fous, contrôles, API), console, Langfuse.">
+  <table>
+    <tr><th>Composant</th><th>Rôle</th><th>Technologie</th></tr>
+    <tr><td>Collecte et référentiels</td><td>Communes, codes postaux, lexique métier, chargés et nettoyés</td><td>Python, PostgreSQL, API Géo, fichiers, Wiktionnaire, Wikidata</td></tr>
+    <tr><td>Marché</td><td>Agrégats Sirene lus à distance</td><td>Tâche Container Apps, DuckDB sur Parquet</td></tr>
+    <tr><td>Voix</td><td>Synthèse du dialogue à deux voix, transcription avec séparation des locuteurs</td><td>Azure AI Speech, Entra ID, West Europe</td></tr>
+    <tr><td>Qualification</td><td>Une catégorie fermée par appel ; dossier ou message</td><td>LLM, sortie structurée ; règles du serveur</td></tr>
+    <tr><td>Agent d'extraction</td><td>Boucle d'appels d'outils bornée, deux outils en lecture seule</td><td>gpt-5.4-mini, zone de données UE, sans framework d'agents</td></tr>
+    <tr><td>Contrôles du serveur</td><td>Commune et code postal rejoués ; règles gaz, santé, anti-invention ; statuts et provenance</td><td>Code déterministe</td></tr>
+    <tr><td>API et console</td><td>Contrat <code>DossierDraft</code> 1.1 ; console de démonstration accessible</td><td>FastAPI, Jinja2, HTMX ; WCAG 2.2 AA contrôlé par axe-core</td></tr>
+    <tr><td>Observabilité</td><td>Métriques sans donnée personnelle ; traces LLM masquées ; alerte</td><td>PostgreSQL, Langfuse (UE), Application Insights</td></tr>
+  </table>
+</section>
+
+<section id="s-decisions">
+  <h2><span class="n">4</span>Décisions et alternatives écartées</h2>
+  <table>
+    <tr><th>Décision</th><th>Alternative écartée</th><th>Raison</th></tr>
+    <tr><td>Agent outillé et ancré, une tâche d'extraction</td><td>Pipeline fixe ; multi-agents ; RAG</td><td>Les décisions (compléter, départager) dépendent de l'appel ; une seule tâche ; aucun corpus à indexer</td></tr>
+    <tr><td>Qualification par une étape de classification (D-48)</td><td>Un « agent routeur »</td><td>Décision fermée, sans outil ; erreurs asymétriques gérées par le serveur</td></tr>
+    <tr><td>gpt-5.4-mini, zone de données UE (D-44)</td><td>Mistral-Large-3 ; déploiement mondial</td><td>Quota épuisé ; traitement hors UE exclu (R5)</td></tr>
+    <tr><td>Azure AI Speech (D-50)</td><td>Modèles de transcription OpenAI</td><td>Aucun en zone de données UE ; Speech ne conserve pas les données en transcription rapide</td></tr>
+    <tr><td>Langfuse Cloud UE, traces masquées (D-49)</td><td>Langfuse auto-hébergé</td><td>Guide Azure sur AKS, hors budget ; R3 impose le masquage</td></tr>
+    <tr><td>DuckDB sur Parquet distant</td><td>Synapse ; chargement dans PostgreSQL</td><td>Synapse non disponible sur l'abonnement ; 74 millions de lignes</td></tr>
+    <tr><td>Identités managées et OIDC (D-47)</td><td>Application Entra avec secret</td><td>Droits limités au groupe de ressources ; aucun secret à gérer</td></tr>
+    <tr><td>Retour arrière par le trafic entre révisions</td><td>Redéploiement de l'image précédente</td><td>Une opération, sans reconstruction</td></tr>
+  </table>
+  <p class="note">Dérogations au socle : DuckDB ; Langfuse (v1.5, validé par le formateur le 14 octobre 2026). Azure AI Speech est un service
+  de la ressource Foundry déjà retenue.</p>
+</section>
+
+<section id="s-validation">
+  <h2><span class="n">5</span>Plan de validation</h2>
+  <table>
+    <tr><th>Critère</th><th>Oracle</th><th>Condition</th></tr>
+    <tr><td>CA-1 à CA-6</td><td>Valeurs attendues figées (annexe A du dossier), comparées après normalisation</td><td>Sur Azure, avec le LLM retenu, 3 exécutions sur 3</td></tr>
+    <tr><td>CA-7</td><td>Catégorie et nature de la sortie (message ou dossier) de SC-Q1 à SC-Q8</td><td>3 exécutions sur 3 ; SC-Q3, SC-Q4, SC-Q7 bloquants en CI</td></tr>
+    <tr><td>CA-8</td><td>Dossier de SC-01 en 45 s depuis le clic ; aucun octet audio côté serveur</td><td>Sur Azure</td></tr>
+    <tr><td>Évaluation en CI</td><td>20 scénarios, 5 cas de conformité à tolérance nulle, base sans outils</td><td>Contrôle <code>verdict</code> requis pour fusionner</td></tr>
+  </table>
+  <p class="note">Limite : 20 scénarios ne prouvent pas un taux de 90 % ; ils détectent les régressions et protègent les cas critiques.</p>
+</section>
+
+<section id="s-perimetre">
+  <h2><span class="n">6</span>Engagement de la V1 : ce qui est tenu, ce qui ne l'est pas</h2>
+  <table>
+    <tr><th>Élément</th><th>Contenu</th><th>Charge <span class="h">[H]</span></th><th>Sprint</th><th>État au 14 octobre</th></tr>
+    <tr><td>V-01 à V-03</td><td>Socle, Azure, CI <code>verdict</code>, livraison continue, retour arrière</td><td>1 j</td><td>2</td><td class="fait">Fait, prouvé</td></tr>
+    <tr><td>V-04 à V-06</td><td>Collecte, référentiels, API, Sirene</td><td>1,75 j</td><td>3</td><td class="afaire">À faire</td></tr>
+    <tr><td>V-07, V-08</td><td>Agent outillé, garde-fous, évaluation bloquante</td><td>2,5 j</td><td>4</td><td class="afaire">À faire</td></tr>
+    <tr><td>V-11, V-13</td><td>Qualification des appels ; Langfuse</td><td>1 j</td><td>4</td><td class="afaire">À faire</td></tr>
+    <tr><td>V-09, V-10, V-12</td><td>Console, vigie, voix simulée</td><td>1,5 j</td><td>5</td><td class="afaire">À faire</td></tr>
+  </table>
+  <div class="deux">
+    <table>
+      <tr><th>Hors V1</th><th>Raison</th></tr>
+      <tr><td>Téléphonie réelle, renvoi d'appel, agent vocal temps réel</td><td>R10 ; inconnues techniques (section 7)</td></tr>
+      <tr><td>Application mobile, chiffrement pour l'appareil</td><td>La console joue l'appareil (écart P-03)</td></tr>
+      <tr><td>Rendez-vous, SMS, débrief, dépenses, export</td><td>Une seule fonctionnalité métier en V1</td></tr>
+      <tr><td>Carnet de contacts, notification</td><td>Qualification réduite (D-48)</td></tr>
+    </table>
+    <table>
+      <tr><th>Comment on sait que ça marche</th><th>Mesure</th></tr>
+      <tr><td>Chaque fusion</td><td><code>verdict</code> : lint, 29 tests, build, secrets</td></tr>
+      <tr><td>Chaque livraison</td><td>Révision contrôlée avant bascule : santé, SHA, appel au modèle</td></tr>
+      <tr><td>Fin de V1</td><td>CA-1 à CA-8 sur Azure</td></tr>
+      <tr><td>En continu</td><td>Écran Qualité, alerte, traces Langfuse</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="s-risques">
+  <h2><span class="n">7</span>Risques et inconnues</h2>
+  <table>
+    <tr><th>Risque ou inconnue</th><th>Effet</th><th>Parade</th></tr>
+    <tr class="risque"><td>Capacité de 7,75 j non mesurée</td><td>La V1 déborde sur la réserve</td><td>Langfuse retiré en premier ; « si temps » abandonnés</td></tr>
+    <tr><td>L'agent ne tient pas les seuils sur 20 scénarios</td><td>Critères non atteints</td><td>Ajustements sur la partition de développement ; seuil revu par décision écrite</td></tr>
+    <tr><td>Un client classé « personnel »</td><td>Chantier perdu</td><td>Dans le doute, dossier « à vérifier » ; cas bloquants en CI</td></tr>
+    <tr><td>Numéro d'origine non transmis lors d'un renvoi d'appel</td><td>Pas de numéro de rappel fiable</td><td>Essai borné après la certification ; repli : numéro dédié</td></tr>
+    <tr><td>Reconnaissance sur audio téléphonique à 8 kHz</td><td>Qualité des dossiers inconnue en réel</td><td>Mesure sur appels réels après la certification ; la V1 n'utilise que de l'audio de synthèse</td></tr>
+    <tr><td>PostgreSQL ouvert aux services Azure</td><td>Exposition à d'autres clients Azure</td><td>Accepté en V1 (D-47) ; TLS exigé, mot de passe aléatoire</td></tr>
+    <tr><td>Route LLM publique et payante</td><td>Coût d'appels abusifs</td><td>Limite globale : 10 par minute, 200 par jour</td></tr>
+  </table>
+</section>
+
+<section id="s-etat">
+  <h2><span class="n">8</span>État mesuré au 14 octobre 2026</h2>
+  <table>
+    <tr><th>Mesure</th><th>Valeur</th><th>Source</th></tr>
+    <tr><td>Sprint 2</td><td>11 étapes sur 11 ; critères du pair P1 à P5 prouvés</td><td><code>sprints/sprint-2/compte-rendu.md</code></td></tr>
+    <tr><td>CI sur une PR</td><td>93 à 154 s, moyenne 108 s (15 exécutions)</td><td>GitHub Actions</td></tr>
+    <tr><td>Livraison, de la fusion à la production</td><td>8 à 10 min (6 livraisons)</td><td>GitHub Actions</td></tr>
+    <tr><td>Retour arrière, jusqu'au service vérifié</td><td>36 à 66 s (4 bascules)</td><td><code>preuves/etape-8-retour-arriere.md</code></td></tr>
+    <tr><td>Voix : synthèse et transcription</td><td>1,4 s et 2,1 s pour 22 s d'audio ; 2 locuteurs séparés sans erreur (un essai)</td><td>D-50</td></tr>
+    <tr><td>Incidents</td><td>2, résolus et documentés</td><td>INC-01, INC-02</td></tr>
+  </table>
+  <p class="note">Peu d'exécutions : ce sont des ordres de grandeur, pas des engagements de service.</p>
+</section>
+
+<footer>Dépôt <code>Bealph/Muninn</code>. Documents de référence : <code>docs/v1/dossier-conception-v1.md</code>,
+<code>docs/decisions.md</code>, <code>docs/conception/appels-et-voix/</code>. La fiche résume ; le dossier fait foi.</footer>
+</div>
+</body>
+</html>
