@@ -2,7 +2,7 @@
 version locale d'az. À lancer avant les scripts : une option retirée par une mise à jour d'az
 ferait échouer un script au milieu de la création des ressources.
 
-Usage : python infra/azure/verifier-options.py infra/azure/0*.sh
+Usage : python infra/azure/verifier-options.py infra/azure/*.sh
 """
 
 import pathlib

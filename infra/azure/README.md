@@ -28,7 +28,7 @@ Dans Git Bash, depuis la racine du dépôt, sur un commit de `main` sans modific
 
 ```bash
 az login
-python infra/azure/verifier-options.py infra/azure/0*.sh   # doit finir par « options absentes : 0 »
+python infra/azure/verifier-options.py infra/azure/*.sh   # doit finir par « options absentes : 0 »
 export POSTGRES_MOT_DE_PASSE="$(openssl rand -hex 24)"   # à conserver hors du dépôt
 export COURRIEL_ALERTE="adresse@exemple.fr"               # destinataire des alertes de budget
 bash infra/azure/01-socle.sh            # environ 10 min (PostgreSQL est le plus long)

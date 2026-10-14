@@ -23,6 +23,8 @@ POSTGRES_ADMIN="muninnadmin"
 IDENTITE_EXECUTION="id-muninn-execution"
 IDENTITE_DEPLOIEMENT="id-muninn-deploiement"
 DEPOT_GITHUB="Bealph/Muninn"
+# Sujet OIDC « immuable » du dépôt (identifiants du compte et du dépôt) : voir oidc-github.sh.
+SUJET_OIDC_PREFIXE="repo:Bealph@60009382/Muninn@1415464389"
 
 # Ressource Azure AI Foundry des modèles A et B (D-46).
 FOUNDRY="adialloext-muninn1-resource"

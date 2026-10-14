@@ -145,7 +145,7 @@ jobs:
       - name: Extension containerapp (version épinglée)
         run: az extension add --name containerapp --version "$CONTAINERAPP_VERSION" --allow-preview true --yes
       - name: Contrôle des options az des scripts
-        run: python3 infra/azure/verifier-options.py infra/azure/0*.sh infra/azure/deployer.sh
+        run: python3 infra/azure/verifier-options.py infra/azure/*.sh
       - name: Image étiquetée par le SHA, poussée dans le registre
         run: |
           image="crmuninn.azurecr.io/muninn:${GITHUB_SHA}"

@@ -71,15 +71,8 @@ for env in "${ENVIRONNEMENTS_APP[@]}"; do
     attribuer "$deploiement_principal" "$ROLE_CONTAINER_APPS_CONTRIBUTOR" \
       "$(az containerapp show -g "$GROUPE" -n "$app" --query id -o tsv)"
   done
-
-  echo "Confiance OIDC : GitHub Actions, environnement $env"
-  existe az identity federated-credential show -g "$GROUPE" --identity-name "$IDENTITE_DEPLOIEMENT" \
-    -n "github-$env" ||
-    az identity federated-credential create -g "$GROUPE" --identity-name "$IDENTITE_DEPLOIEMENT" \
-      -n "github-$env" --issuer "https://token.actions.githubusercontent.com" \
-      --subject "repo:$DEPOT_GITHUB:environment:$env" --audiences "api://AzureADTokenExchange" \
-      --only-show-errors -o none
 done
+bash "$(dirname "$0")/oidc-github.sh"
 # Le déploiement met à jour des applications rattachées à l'environnement : lecture et
 # rattachement nécessaires sur l'environnement lui-même.
 attribuer "$deploiement_principal" "$ROLE_CONTAINER_APPS_CONTRIBUTOR" "$environnement_id"
