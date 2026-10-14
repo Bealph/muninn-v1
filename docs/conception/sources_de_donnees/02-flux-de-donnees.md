@@ -1085,10 +1085,13 @@ d'année de fin.
 
 ## 13. F-08. Export vers la facturation
 
-**Objet.** Envoyer un dossier validé vers l'outil de devis et de facturation de l'artisan, sans
-passer par le serveur Muninn.
+**Objet.** Envoyer un dossier validé vers l'outil de facturation de l'artisan, sans passer par le
+serveur Muninn. La préparation de devis (US-55), elle, passe par le serveur, en mémoire et sans
+donnée nominative (`../architecture-agentique/01-architecture-agentique.md`, section 8.1).
 **Stories couvertes.** US-24, US-30 (relance de paiement). US-45 (hors périmètre) est la
-frontière : Muninn n'émet ni devis ni facture.
+frontière : Muninn n'émet aucune facture. Depuis D-53, Muninn prépare des devis (US-55, conception
+dans `../architecture-agentique/01-architecture-agentique.md`) ; les factures restent dans
+l'outil de l'artisan.
 **Déclencheur.** L'artisan touche « Exporter ».
 
 ```mermaid
@@ -1566,62 +1569,63 @@ section 8.4).
 Chaque story est rattachée à au moins un flux. Une story de frontière (hors MVP) est rattachée au
 flux dont elle trace la limite.
 
-| Story | Titre court                              | Flux                   | Remarque                                      |
-| ----- | ---------------------------------------- | ---------------------- | --------------------------------------------- |
-| US-01 | Compte et téléphone liés par code        | F-01                   | Messages 1 à 10                               |
-| US-02 | Réglage de la ligne Muninn               | F-01                   | Messages 11 à 17                              |
-| US-03 | Codes de renvoi par opérateur            | F-01                   | Messages 18 à 21                              |
-| US-04 | Appel de test du renvoi                  | F-01                   | Messages 22 à 30                              |
-| US-05 | Disponibilités partagées sans détail     | F-06                   | Messages 1 à 4                                |
-| US-06 | Annonce de l'assistant automatique       | F-02                   | Messages 11 à 13                              |
-| US-07 | Demande exposée et reformulée            | F-02                   | Boucle, messages 14 à 21                      |
-| US-08 | Créneau proposé ou rappel annoncé        | F-02, F-06             | F-02 message 22 ; F-06 messages 5 à 9         |
-| US-09 | Consigne de sécurité en cas de danger    | F-02                   | Arrêt anticipé de la boucle                   |
-| US-10 | Refus de l'assistant                     | F-02                   | Arrêt anticipé de la boucle                   |
-| US-11 | Brouillon de dossier extrait de l'appel  | F-02, F-12             | F-02 messages 24 à 30                         |
-| US-12 | Notification et dossier chiffré          | F-02                   | Messages 32 à 40                              |
-| US-13 | Débrief vocal                            | F-03                   | Messages 2 à 14                               |
-| US-14 | Invitation au débrief                    | F-03                   | Message 1                                     |
-| US-15 | Lexique métier                           | F-02, F-03, F-09, F-11 | Servi par F-09, évalué par F-11               |
-| US-16 | Lexique personnel                        | F-03                   | Messages 3, 7 ; T6                            |
-| US-17 | Validation en un geste                   | F-02, F-03, F-12       | F-02 messages 41 à 44                         |
-| US-18 | Recherche par clé humaine                | F-04                   | Messages 1 à 9                                |
-| US-19 | Désambiguïsation par une question        | F-04                   | Messages 10 et 11                             |
-| US-20 | Rattachement d'un client connu           | F-02                   | T9, sur l'appareil                            |
-| US-21 | Ticket photographié en dépense           | F-05                   | Messages 1 à 7                                |
-| US-22 | Dépense dictée                           | F-05                   | Messages 8 à 16                               |
-| US-23 | Marge par chantier                       | F-05                   | Messages 17 à 21                              |
-| US-24 | Export vers l'outil de facturation       | F-08                   | Messages 1 à 7                                |
-| US-25 | Import des factures électroniques        | F-05                   | V2, messages 22 à 24                          |
-| US-26 | Rendez-vous de l'assistant dans l'agenda | F-06                   | Messages 9 et 10                              |
-| US-27 | Rappels de rendez-vous par SMS           | F-06                   | Messages 11 à 17                              |
-| US-28 | Imprévu géré en un geste                 | F-06                   | Messages 18 à 28                              |
-| US-29 | SMS clair au client                      | F-06                   | Message 25 ; T7                               |
-| US-30 | Liste des actions à faire                | F-04, F-08             | F-04 messages 12 à 14 ; F-08 message 8        |
-| US-31 | Preuve de destruction                    | F-02, F-12             | F-02 T7 et message 41                         |
-| US-32 | Dossiers chiffrés sur le téléphone       | F-04, F-07             | Base locale chiffrée                          |
-| US-33 | Sauvegarde avec sa propre clé            | F-07                   | Messages 1 à 6 et 11 à 13                     |
-| US-34 | Archive légale de 10 ans                 | F-07                   | Messages 7 à 10 et 20 à 23                    |
-| US-35 | Suppression à la demande du client       | F-07                   | Messages 14 à 19                              |
-| US-36 | Simulateur d'appel de bout en bout       | F-11, F-12             | F-12 messages 1 à 4                           |
-| US-37 | Évaluation de l'extraction               | F-11, F-12             | F-11 messages 1 à 13                          |
-| US-38 | Tableau de bord et alertes de qualité    | F-11, F-12             | F-11 messages 14 à 16                         |
-| US-39 | Journaux sans donnée personnelle         | F-11, F-12             | F-11 message 15                               |
-| US-40 | Livraison contrôlée et retour arrière    | F-11, F-12             | F-11 messages 5 à 13 et 21 à 23               |
-| US-41 | Disponibilité et purges                  | F-11                   | Messages 17 à 20                              |
-| US-42 | Numéro professionnel complet             | F-02                   | Frontière V2 : enregistrement contraire à R2  |
-| US-43 | Lexiques d'autres métiers                | F-09, F-11             | V2, même chaîne que US-48                     |
-| US-44 | Écoute des appels natifs                 | F-03                   | Frontière : seule la fin d'appel est détectée |
-| US-45 | Devis et factures dans Muninn            | F-08                   | Frontière : export seulement                  |
-| US-46 | Référentiels géographiques               | F-09, F-12             | F-09 messages 1 à 8                           |
-| US-47 | Référentiel de numérotation              | F-09, F-12             | F-09 messages 9 et 10                         |
-| US-48 | Lexique métier constitué et versionné    | F-09                   | Messages 13 à 19                              |
-| US-49 | Jours fériés exclus des créneaux         | F-06, F-09             | F-09 messages 11 et 12 ; F-06 messages 7 à 9  |
-| US-50 | API REST des référentiels                | F-09, F-12             | F-09 messages 20 à 25                         |
-| US-51 | Contrôle des champs par les référentiels | F-02, F-03, F-12       | F-02 messages 27 et 28                        |
-| US-52 | Dimensionnement Sirene                   | F-10                   | Messages 1 à 11, 14 à 16                      |
-| US-53 | Croisement avec l'Urssaf                 | F-10                   | Messages 2, 3, 12 à 14 et 16                  |
-| US-54 | Révocation d'un appareil                 | F-01                   | Messages 31 à 34                              |
+| Story | Titre court                              | Flux                           | Remarque                                      |
+| ----- | ---------------------------------------- | ------------------------------ | --------------------------------------------- |
+| US-01 | Compte et téléphone liés par code        | F-01                           | Messages 1 à 10                               |
+| US-02 | Réglage de la ligne Muninn               | F-01                           | Messages 11 à 17                              |
+| US-03 | Codes de renvoi par opérateur            | F-01                           | Messages 18 à 21                              |
+| US-04 | Appel de test du renvoi                  | F-01                           | Messages 22 à 30                              |
+| US-05 | Disponibilités partagées sans détail     | F-06                           | Messages 1 à 4                                |
+| US-06 | Annonce de l'assistant automatique       | F-02                           | Messages 11 à 13                              |
+| US-07 | Demande exposée et reformulée            | F-02                           | Boucle, messages 14 à 21                      |
+| US-08 | Créneau proposé ou rappel annoncé        | F-02, F-06                     | F-02 message 22 ; F-06 messages 5 à 9         |
+| US-09 | Consigne de sécurité en cas de danger    | F-02                           | Arrêt anticipé de la boucle                   |
+| US-10 | Refus de l'assistant                     | F-02                           | Arrêt anticipé de la boucle                   |
+| US-11 | Brouillon de dossier extrait de l'appel  | F-02, F-12                     | F-02 messages 24 à 30                         |
+| US-12 | Notification et dossier chiffré          | F-02                           | Messages 32 à 40                              |
+| US-13 | Débrief vocal                            | F-03                           | Messages 2 à 14                               |
+| US-14 | Invitation au débrief                    | F-03                           | Message 1                                     |
+| US-15 | Lexique métier                           | F-02, F-03, F-09, F-11         | Servi par F-09, évalué par F-11               |
+| US-16 | Lexique personnel                        | F-03                           | Messages 3, 7 ; T6                            |
+| US-17 | Validation en un geste                   | F-02, F-03, F-12               | F-02 messages 41 à 44                         |
+| US-18 | Recherche par clé humaine                | F-04                           | Messages 1 à 9                                |
+| US-19 | Désambiguïsation par une question        | F-04                           | Messages 10 et 11                             |
+| US-20 | Rattachement d'un client connu           | F-02                           | T9, sur l'appareil                            |
+| US-21 | Ticket photographié en dépense           | F-05                           | Messages 1 à 7                                |
+| US-22 | Dépense dictée                           | F-05                           | Messages 8 à 16                               |
+| US-23 | Marge par chantier                       | F-05                           | Messages 17 à 21                              |
+| US-24 | Export vers l'outil de facturation       | F-08                           | Messages 1 à 7                                |
+| US-25 | Import des factures électroniques        | F-05                           | V2, messages 22 à 24                          |
+| US-26 | Rendez-vous de l'assistant dans l'agenda | F-06                           | Messages 9 et 10                              |
+| US-27 | Rappels de rendez-vous par SMS           | F-06                           | Messages 11 à 17                              |
+| US-28 | Imprévu géré en un geste                 | F-06                           | Messages 18 à 28                              |
+| US-29 | SMS clair au client                      | F-06                           | Message 25 ; T7                               |
+| US-30 | Liste des actions à faire                | F-04, F-08                     | F-04 messages 12 à 14 ; F-08 message 8        |
+| US-31 | Preuve de destruction                    | F-02, F-12                     | F-02 T7 et message 41                         |
+| US-32 | Dossiers chiffrés sur le téléphone       | F-04, F-07                     | Base locale chiffrée                          |
+| US-33 | Sauvegarde avec sa propre clé            | F-07                           | Messages 1 à 6 et 11 à 13                     |
+| US-34 | Archive légale de 10 ans                 | F-07                           | Messages 7 à 10 et 20 à 23                    |
+| US-35 | Suppression à la demande du client       | F-07                           | Messages 14 à 19                              |
+| US-36 | Simulateur d'appel de bout en bout       | F-11, F-12                     | F-12 messages 1 à 4                           |
+| US-37 | Évaluation de l'extraction               | F-11, F-12                     | F-11 messages 1 à 13                          |
+| US-38 | Tableau de bord et alertes de qualité    | F-11, F-12                     | F-11 messages 14 à 16                         |
+| US-39 | Journaux sans donnée personnelle         | F-11, F-12                     | F-11 message 15                               |
+| US-40 | Livraison contrôlée et retour arrière    | F-11, F-12                     | F-11 messages 5 à 13 et 21 à 23               |
+| US-41 | Disponibilité et purges                  | F-11                           | Messages 17 à 20                              |
+| US-42 | Numéro professionnel complet             | F-02                           | Frontière V2 : enregistrement contraire à R2  |
+| US-43 | Lexiques d'autres métiers                | F-09, F-11                     | V2, même chaîne que US-48                     |
+| US-44 | Écoute des appels natifs                 | F-03                           | Frontière : seule la fin d'appel est détectée |
+| US-45 | Factures dans Muninn                     | F-08                           | Frontière : export seulement                  |
+| US-55 | Préparation d'un devis (D-53)            | non disponible (flux à écrire) | `architecture-agentique/01`, section 8        |
+| US-46 | Référentiels géographiques               | F-09, F-12                     | F-09 messages 1 à 8                           |
+| US-47 | Référentiel de numérotation              | F-09, F-12                     | F-09 messages 9 et 10                         |
+| US-48 | Lexique métier constitué et versionné    | F-09                           | Messages 13 à 19                              |
+| US-49 | Jours fériés exclus des créneaux         | F-06, F-09                     | F-09 messages 11 et 12 ; F-06 messages 7 à 9  |
+| US-50 | API REST des référentiels                | F-09, F-12                     | F-09 messages 20 à 25                         |
+| US-51 | Contrôle des champs par les référentiels | F-02, F-03, F-12               | F-02 messages 27 et 28                        |
+| US-52 | Dimensionnement Sirene                   | F-10                           | Messages 1 à 11, 14 à 16                      |
+| US-53 | Croisement avec l'Urssaf                 | F-10                           | Messages 2, 3, 12 à 14 et 16                  |
+| US-54 | Révocation d'un appareil                 | F-01                           | Messages 31 à 34                              |
 
 Contrôle : 54 stories, 54 lignes, aucune sans flux.
 
