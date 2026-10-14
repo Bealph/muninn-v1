@@ -12,6 +12,9 @@ cd "$(git rev-parse --show-toplevel)"
 
 existe() { "$@" --only-show-errors >/dev/null 2>&1; }
 
+az postgres flexible-server show -g "$GROUPE" -n "$POSTGRES" --only-show-errors -o none ||
+  { echo "Serveur $POSTGRES absent : relancer 01-socle.sh jusqu'au bout." >&2; exit 1; }
+
 sha=$(git rev-parse HEAD)
 image="$REGISTRE.azurecr.io/muninn:$sha"
 az acr manifest show-metadata "$image" --only-show-errors -o none ||
@@ -42,16 +45,20 @@ for env in "${ENVIRONNEMENTS_APP[@]}"; do
   api=$(app_api "$env"); console=$(app_console "$env"); base=$(base_de_donnees "$env")
 
   echo "Application $api"
+  url_base="postgresql://$POSTGRES_ADMIN:$POSTGRES_MOT_DE_PASSE@$hote_postgres:5432/$base?sslmode=require"
   if ! existe az containerapp show -g "$GROUPE" -n "$api"; then
-    url_base="postgresql://$POSTGRES_ADMIN:$POSTGRES_MOT_DE_PASSE@$hote_postgres:5432/$base?sslmode=require"
     az containerapp create -g "$GROUPE" -n "$api" "${commun[@]}" \
       --secrets "database-url=$url_base" \
       --env-vars ENVIRONMENT="$env" GIT_SHA="$sha" DATABASE_URL=secretref:database-url \
         LLM_FOURNISSEUR=azure AZURE_AI_ENDPOINT="$FOUNDRY_ENDPOINT" \
         AZURE_AI_MODEL_A="$MODELE_A" AZURE_AI_MODEL_B="$MODELE_B" \
         AZURE_CLIENT_ID="$execution_client"
-    unset url_base
+  else
+    # Application existante : le secret suit toujours le mot de passe courant du serveur.
+    az containerapp secret set -g "$GROUPE" -n "$api" --secrets "database-url=$url_base" \
+      --only-show-errors -o none
   fi
+  unset url_base
 
   echo "Application $console"
   if ! existe az containerapp show -g "$GROUPE" -n "$console"; then

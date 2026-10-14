@@ -28,6 +28,7 @@ Dans Git Bash, depuis la racine du dépôt, sur un commit de `main` sans modific
 
 ```bash
 az login
+python infra/azure/verifier-options.py infra/azure/0*.sh   # doit finir par « options absentes : 0 »
 export POSTGRES_MOT_DE_PASSE="$(openssl rand -hex 24)"   # à conserver hors du dépôt
 export COURRIEL_ALERTE="adresse@exemple.fr"               # destinataire des alertes de budget
 bash infra/azure/01-socle.sh            # environ 10 min (PostgreSQL est le plus long)
@@ -39,7 +40,13 @@ bash infra/azure/04-budget.sh
 Le mot de passe PostgreSQL n'est stocké que dans les secrets des applications de l'API. Le
 conserver dans un gestionnaire de mots de passe : il sera demandé si l'on relance le script 03.
 
-Les scripts sont relançables : une ressource déjà présente est laissée telle quelle.
+Les scripts sont relançables : une ressource déjà présente est laissée telle quelle. Seul le
+secret `database-url` des applications d'API est réécrit à chaque passage du script 03. Pour
+changer le mot de passe : `az postgres flexible-server update -g adialloRG -n psql-muninn
+--admin-password ...`, puis relancer le script 03 avec la nouvelle valeur.
+
+Si un script s'arrête sur une erreur, ne pas lancer le suivant : le script 03 refuse de
+s'exécuter si le serveur PostgreSQL manque.
 
 ## Coût estimé
 

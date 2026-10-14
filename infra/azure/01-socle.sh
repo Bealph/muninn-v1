@@ -70,15 +70,15 @@ if ! existe az postgres flexible-server show -g "$GROUPE" -n "$POSTGRES"; then
   az postgres flexible-server create -g "$GROUPE" -n "$POSTGRES" -l "$REGION" \
     --version 16 --tier Burstable --sku-name Standard_B1ms --storage-size 32 \
     --admin-user "$POSTGRES_ADMIN" --admin-password "$POSTGRES_MOT_DE_PASSE" \
-    --public-access 0.0.0.0 --high-availability Disabled --backup-retention 7 \
+    --public-access 0.0.0.0 --zonal-resiliency Disabled --backup-retention 7 \
     --tags "$ETIQUETTE" --yes --only-show-errors -o none
 fi
 
 echo "7/7 Bases de données par environnement"
 for env in "${ENVIRONNEMENTS_APP[@]}"; do
   base=$(base_de_donnees "$env")
-  existe az postgres flexible-server db show -g "$GROUPE" -s "$POSTGRES" -d "$base" ||
-    az postgres flexible-server db create -g "$GROUPE" -s "$POSTGRES" -d "$base" \
+  existe az postgres flexible-server db show -g "$GROUPE" -s "$POSTGRES" --name "$base" ||
+    az postgres flexible-server db create -g "$GROUPE" -s "$POSTGRES" --name "$base" \
       --only-show-errors -o none
 done
 
