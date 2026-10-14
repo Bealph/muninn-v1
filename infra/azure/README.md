@@ -122,3 +122,19 @@ manuelle (`.github/workflows/ci.yml`, jobs `preproduction` puis `production`) :
 Si un contrôle échoue, le trafic reste sur la révision précédente et la livraison s'arrête ;
 la production n'est jamais touchée si la préproduction échoue. Les environnements GitHub
 `preproduction` et `production` n'acceptent que les branches protégées.
+
+## Retour arrière
+
+Chaque livraison garde la révision précédente active, à 0 % du trafic. Le retour arrière ramène
+100 % du trafic de l'API et de la console sur une révision antérieure, en une opération, sans
+reconstruire d'image :
+
+```bash
+gh workflow run retour-arriere -f environnement=production          # version précédente
+gh workflow run retour-arriere -f environnement=production -f sha=<sha>   # commit précis
+```
+
+Le workflow (`.github/workflows/retour-arriere.yml`) lance `retour-arriere.sh`, vérifie que
+l'adresse publique sert bien le commit visé et affiche la durée mesurée. Il partage un verrou avec
+la livraison du même environnement : les deux ne tournent jamais en même temps. La livraison
+suivante repart de la révision servie après le retour arrière.

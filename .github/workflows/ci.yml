@@ -127,6 +127,10 @@ jobs:
     needs: verdict
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    # Même verrou que le retour arrière du même environnement.
+    concurrency:
+      group: livraison-preproduction
+      cancel-in-progress: false
     environment:
       name: preproduction
       url: ${{ steps.livraison.outputs.url }}
@@ -160,6 +164,10 @@ jobs:
     needs: preproduction
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    # Même verrou que le retour arrière du même environnement.
+    concurrency:
+      group: livraison-production
+      cancel-in-progress: false
     environment:
       name: production
       url: ${{ steps.livraison.outputs.url }}
