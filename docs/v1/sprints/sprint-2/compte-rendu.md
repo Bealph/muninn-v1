@@ -77,16 +77,16 @@ choisi par variable). Détail dans `docs/decisions.md`.
 
 ## 7. Dettes et risques ouverts
 
-| Sujet                                                             | Risque                                       | Traitement proposé                                        |
-| ----------------------------------------------------------------- | -------------------------------------------- | --------------------------------------------------------- |
-| Route `/llm/essai` publique, sans limite de débit                 | Coût d'appels abusifs                        | Traité le 14 octobre : 10 appels par minute, 200 par jour |
-| Révisions accumulées, toutes actives                              | Encombrement ; aucune facturation au repos   | Désactiver les révisions anciennes, en gardant N-1        |
-| Mise à niveau automatique du modèle B                             | Banc d'essai T-06 non reproductible          | Décidé le 14 octobre : `NoAutoUpgrade` (00-foundry.sh)    |
-| Foundry User pour l'identité d'exécution                          | Le rôle permet aussi de lire les clés        | Réévaluer quand un rôle plus étroit sera documenté        |
-| PostgreSQL ouvert aux services Azure (0.0.0.0)                    | Exposition à d'autres clients Azure          | Accepté en V1 (D-47) ; TLS et mot de passe aléatoire      |
-| Démarrage à froid (zéro réplique)                                 | Premier appel lent pendant une démonstration | Une réplique minimum avant chaque démonstration           |
-| Avertissement Starlette sur `httpx2`                              | Rupture future du client de test             | Suivre la version de Starlette                            |
-| Ressource Foundry `adialloext-muninn` (France Central) inutilisée | Confusion                                    | Décision du porteur : supprimer ou garder                 |
+| Sujet                                                             | Risque                                       | Traitement proposé                                                               |
+| ----------------------------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------- |
+| Route `/llm/essai` publique, sans limite de débit                 | Coût d'appels abusifs                        | Traité le 14 octobre : 10 appels par minute, 200 par jour                        |
+| Révisions accumulées, toutes actives                              | Encombrement ; aucune facturation au repos   | Désactiver les révisions anciennes, en gardant N-1                               |
+| Mise à niveau automatique du modèle B                             | Banc d'essai T-06 non reproductible          | Décidé le 14 octobre : `NoAutoUpgrade` (00-foundry.sh)                           |
+| Foundry User pour l'identité d'exécution                          | Le rôle permet aussi de lire les clés        | Réévaluer quand un rôle plus étroit sera documenté                               |
+| PostgreSQL ouvert aux services Azure (0.0.0.0)                    | Exposition à d'autres clients Azure          | Accepté en V1 (D-47) ; TLS et mot de passe aléatoire                             |
+| Démarrage à froid (zéro réplique)                                 | Premier appel lent pendant une démonstration | Une réplique minimum avant chaque démonstration                                  |
+| Avertissement Starlette sur `httpx2`                              | Rupture future du client de test             | Suivre la version de Starlette                                                   |
+| Ressource Foundry `adialloext-muninn` (France Central) inutilisée | Confusion                                    | Supprimée le 14 octobre, avec `adialloext-muninn-resource` ; constaté dans Azure |
 
 ## 8. Pour le sprint 3
 

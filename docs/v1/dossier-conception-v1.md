@@ -4,15 +4,15 @@
 **Version :** 1.5
 **Date :** 14 octobre 2026
 **Statut :** v1.4 gelée le 13 octobre 2026, validée par le formateur en l'état. v1.5 : D-48 à
-D-52 validées par le porteur le 14 octobre 2026 ; Langfuse (D-49) validé par le formateur le même
-jour ; D-48, D-50 et D-51 **à présenter au formateur**.
+D-52 validées par le porteur le 14 octobre 2026 ; D-48 à D-51, CA-7 et CA-8 validés par le
+formateur le même jour.
 Toute modification passe par une décision écrite. Le sprint 3 ne dépend pas de la v1.5. V-11 à
 V-13 démarrent au sprint 4 sur le feu vert du porteur ; si le formateur refuse un élément, il est
 retiré par décision écrite, sans toucher V-07 : Langfuse est détachable, la qualification et la
 voix sont des étapes séparées de l'extraction. Aucune ligne de code avant
 cette validation et le feu vert du porteur (D-35).
 **Historique :** la v1.5 ajoute la qualification des appels, la voix simulée et Langfuse
-(D-48 à D-51, validées par le porteur le 14 octobre 2026 ; Langfuse validé par le formateur) ; elle
+(D-48 à D-51, validées par le porteur et par le formateur le 14 octobre 2026) ; elle
 porte la V1 de six à 7,75 jours, pris sur la réserve. La v1.4 organise la V1 en incréments pour
 couvrir les 21 compétences (D-41). Les v1.1 à v1.3 intègrent deux évaluations par un pair et une
 relecture technique
@@ -567,9 +567,8 @@ modèle est choisi depuis le 13 octobre (D-44 à D-46) ; T-06 compare les modèl
 D-38 annonçait le déploiement automatisé et l'export vers Application Insights pour les 20 et
 21 octobre : le premier est livré au sprint 2 (D-43), le second est prévu le 22 (D-52).
 
-**Décisions de la v1.5.** Validées par le porteur le 14 octobre 2026, **à présenter au
-formateur**, sauf D-49 (Langfuse), validée par le formateur le 14 octobre 2026 ; D-52 validée par le
-porteur le même jour.
+**Décisions de la v1.5.** D-48 à D-52 validées par le porteur le 14 octobre 2026 ; D-48 à D-51
+validées par le formateur le même jour, sans exception, critères CA-7 et CA-8 compris.
 
 | ID   | Décision                                                                                        | Ce qu'elle remplace                                                   |
 | ---- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
@@ -589,7 +588,8 @@ retraits comptent-ils comme des dérogations ? Si oui, lesquels faut-il rétabli
 seconde dérogation ? Si oui, il est retiré (élément détachable, D-49). Azure AI Speech est un
 service de la ressource Foundry déjà retenue : nous ne le comptons pas comme une dérogation.
 
-**Réponse.** Le formateur a validé l'emploi de Langfuse le 14 octobre 2026.
+**Réponse.** Le formateur a validé l'emploi de Langfuse le 14 octobre 2026, puis l'ensemble de la
+v1.5 (D-48 à D-51, CA-7 et CA-8).
 
 ---
 

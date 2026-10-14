@@ -43,6 +43,8 @@ uv run mypy                            # typage strict
 | [docs/roadmap.md](docs/roadmap.md)                                         | Feuille de route par phase                                                |
 | [docs/v1/](docs/v1/)                                                       | Dossier de conception V1, couverture des compétences, feuille de route V1 |
 | [docs/decisions.md](docs/decisions.md)                                     | Journal des décisions du porteur                                          |
+| [docs/decisions-detaillees.md](docs/decisions-detaillees.md)               | Décisions détaillées : problème, décision, raisons, limites               |
+| [docs/sujets-detailles.md](docs/sujets-detailles.md)                       | Raccordement téléphonique, critères CA-1 à CA-8, règles R1 à R10          |
 | [docs/reconstruction.md](docs/reconstruction.md)                           | Reconstruire le projet, l'infrastructure et la chaîne depuis le dépôt     |
 | [docs/conception/sources_de_donnees/](docs/conception/sources_de_donnees/) | Phase 0a : stories, flux, sources, accessibilité, diagrammes              |
 | [docs/suivi/competences.md](docs/suivi/competences.md)                     | Suivi des compétences du référentiel                                      |

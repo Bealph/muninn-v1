@@ -56,23 +56,23 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-14 | Limite de débit des appels au LLM ; modèle B sans mise à niveau automatique                                                                                                                    | PR n° 16                                                               |
 | 2026-10-14 | Conception « appels et voix » : qualification des appels, trame de l'agent vocal, raccordement téléphonique ; deux relectures indépendantes                                                    | `docs/conception/appels-et-voix/`                                      |
 | 2026-10-14 | Dossier V1 en v1.5 (D-48 à D-52), feuille de route v1.2, fiche d'ingénierie                                                                                                                    | `docs/v1/`                                                             |
+| 2026-10-14 | v1.5 du dossier V1 validée par le formateur : D-48 à D-51, CA-7 et CA-8 ; D-52 validée par le porteur                                                                                          | `docs/decisions.md`                                                    |
 
 ## À faire
 
 Plan de la feuille de route V1 (`docs/v1/roadmap-v1.md`), valable jusqu'au 13 novembre (D-42).
 
-| Étape           | Tâche                                                                                                                  | Échéance                            | Statut  |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ------- |
-| Formateur       | Présenter la v1.5 du dossier V1 : D-48, D-50 et D-51 (Langfuse validé le 14 octobre)                                   | avant le sprint 4 (ven. 16 octobre) | À faire |
-| T-06            | Comparaison des modèles LLM (banc d'essai) ; modèles A et B déjà déployés et accessibles (D-44 à D-46)                 | ven. 16 octobre                     | À faire |
-| Sprint 3        | Les données et l'ancrage : V-04 à V-06 (collecte, base, API des référentiels, Sirene)                                  | jeu. 15 et ven. 16 octobre          | À faire |
-| Sprint 4        | La composante agentique et les garde-fous : V-07, V-08                                                                 | ven. 16 au lun. 19 octobre          | À faire |
-| Sprint 5        | La vigie et la démo : V-09, V-10 ; CA-1 à CA-6 sur Azure                                                               | lun. 19 octobre                     | À faire |
-| V1.0 complète   | Déploiement automatisé (C13, C19), OpenTelemetry vers Application Insights et alerte (C11, C20)                        | mar. 20 et mer. 21 octobre          | À faire |
-| Réserve         | Rattrapage, puis « si temps » dans l'ordre du dossier V1                                                               | 22 au 24 octobre                    | À faire |
-| Premier oral    | Rédaction d'E1 et d'E3 en Word, script de démo, trois répétitions, gel le 28 à 18 h                                    | 25 au 28 octobre                    | À faire |
-| Second oral     | Veille (C6), puis benchmark complet des services d'IA (C7)                                                             | 31 octobre, 1er novembre            | À faire |
-| V1.1            | Environnement de test, ouverture automatique d'incident, incident résolu et documenté, audit RGAA (C19, C20, C21, C10) | 2 et 3 novembre                     | À faire |
-| Second oral     | Rédaction d'E2, E4, E5 en Word ; mise à jour d'E1 et d'E3 avec les retours du jury                                     | 4 au 7 novembre                     | À faire |
-| Second oral     | Relecture des cinq livrables, répétitions des 90 minutes, gel le 11 à 18 h                                             | 9 au 11 novembre                    | À faire |
-| Au fil de l'eau | Une fiche par incident réel (C21) ; tableau GitHub Projects, PR revues, compte rendu de sprint (C16)                   | dès le 14 octobre                   | À faire |
+| Étape           | Tâche                                                                                                                  | Échéance                   | Statut  |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------- |
+| T-06            | Comparaison des modèles LLM (banc d'essai) ; modèles A et B déjà déployés et accessibles (D-44 à D-46)                 | ven. 16 octobre            | À faire |
+| Sprint 3        | Les données et l'ancrage : V-04 à V-06 (collecte, base, API des référentiels, Sirene)                                  | jeu. 15 et ven. 16 octobre | À faire |
+| Sprint 4        | La composante agentique et les garde-fous : V-07, V-08                                                                 | ven. 16 au lun. 19 octobre | À faire |
+| Sprint 5        | La vigie et la démo : V-09, V-10 ; CA-1 à CA-6 sur Azure                                                               | lun. 19 octobre            | À faire |
+| V1.0 complète   | Déploiement automatisé (C13, C19), OpenTelemetry vers Application Insights et alerte (C11, C20)                        | mar. 20 et mer. 21 octobre | À faire |
+| Réserve         | Rattrapage, puis « si temps » dans l'ordre du dossier V1                                                               | 22 au 24 octobre           | À faire |
+| Premier oral    | Rédaction d'E1 et d'E3 en Word, script de démo, trois répétitions, gel le 28 à 18 h                                    | 25 au 28 octobre           | À faire |
+| Second oral     | Veille (C6), puis benchmark complet des services d'IA (C7)                                                             | 31 octobre, 1er novembre   | À faire |
+| V1.1            | Environnement de test, ouverture automatique d'incident, incident résolu et documenté, audit RGAA (C19, C20, C21, C10) | 2 et 3 novembre            | À faire |
+| Second oral     | Rédaction d'E2, E4, E5 en Word ; mise à jour d'E1 et d'E3 avec les retours du jury                                     | 4 au 7 novembre            | À faire |
+| Second oral     | Relecture des cinq livrables, répétitions des 90 minutes, gel le 11 à 18 h                                             | 9 au 11 novembre           | À faire |
+| Au fil de l'eau | Une fiche par incident réel (C21) ; tableau GitHub Projects, PR revues, compte rendu de sprint (C16)                   | dès le 14 octobre          | À faire |

@@ -2,7 +2,7 @@
 
 **Version :** 1.1
 **Date :** 14 octobre 2026
-**Statut :** validé par le porteur (D-48), à présenter au formateur ; vaut pour la conception
+**Statut :** validé par le porteur et par le formateur le 14 octobre 2026 (D-48) ; vaut pour la conception
 globale de Muninn et, en version réduite, pour la V1 (`docs/v1/dossier-conception-v1.md`, V-11)
 **Historique :** la v1.1 intègre une relecture indépendante : un doute mène à un dossier « à
 vérifier » plutôt qu'à un message, règle d'asymétrie rendue exécutable, appels sans contenu,

@@ -103,7 +103,6 @@ sont pas mesurées ; la première rédaction (E1 et E3) servira d'étalon pour l
 
 | Risque                                                        | Effet                                      | Parade                                                                                     |
 | ------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| Le formateur refuse D-48, D-50 ou D-51 (Langfuse est validé)  | Périmètre de la v1.5 réduit                | Éléments retirés par décision écrite ; V-11 à V-13 sont séparés de l'extraction (V-07)     |
 | Glissement de la V1 au-delà du 21 octobre                     | Les compléments obligatoires sont menacés  | Réserve des 23 et 24 ; Langfuse est retiré en premier, puis les « si temps »               |
 | OpenTelemetry non livré avant le 29 octobre                   | C11 sans outillage standard devant le jury | Montrer les métriques de la base et les traces Langfuse ; dire ce qui manque               |
 | Retours du jury qui demandent des changements de fond         | La rédaction du second oral déborde        | Marge du 8 novembre ; les compléments du 2 et du 3 novembre peuvent être réduits           |
