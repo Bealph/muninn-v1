@@ -6,8 +6,9 @@ import httpx
 import pytest
 from fastapi.testclient import TestClient
 
+from muninn.api.limites import LimiteurDebit
 from muninn.api.main import app as api
-from muninn.api.main import get_fournisseur
+from muninn.api.main import get_fournisseur, get_limiteur
 from muninn.console.main import app as console
 from muninn.console.main import get_client_api
 from muninn.core.config import Settings, get_settings
@@ -31,13 +32,18 @@ def configuration_isolee(monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
     for nom in VARIABLES_MUNINN:
         monkeypatch.delenv(nom, raising=False)
     get_settings.cache_clear()
+    get_limiteur.cache_clear()
     yield
     get_settings.cache_clear()
+    get_limiteur.cache_clear()
 
 
 @pytest.fixture(autouse=True)
 def faux_fournisseur() -> Iterator[None]:
+    """Faux fournisseur et limite neuve à chaque test : aucun test ne dépend d'un autre."""
     api.dependency_overrides[get_fournisseur] = FauxFournisseur
+    limiteur = LimiteurDebit([(60, 1000)])
+    api.dependency_overrides[get_limiteur] = lambda: limiteur
     yield
     api.dependency_overrides.clear()
 

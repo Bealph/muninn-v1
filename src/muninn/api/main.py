@@ -8,10 +8,12 @@ from fastapi import Depends, FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from muninn import __version__
+from muninn.api.limites import LimiteurDebit
 from muninn.core.config import get_settings
 from muninn.llm.fournisseur import ErreurFournisseur, FournisseurLLM, construire_fournisseur
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
+journal = logging.getLogger(__name__)
 
 app = FastAPI(title="Muninn API", version=__version__)
 
@@ -20,6 +22,13 @@ app = FastAPI(title="Muninn API", version=__version__)
 def get_fournisseur() -> FournisseurLLM:
     """Fournisseur LLM unique par processus ; remplacé par le faux dans les tests."""
     return construire_fournisseur(get_settings())
+
+
+@lru_cache
+def get_limiteur() -> LimiteurDebit:
+    """Limite globale des appels au LLM, unique par processus."""
+    settings = get_settings()
+    return LimiteurDebit([(60, settings.llm_limite_minute), (86_400, settings.llm_limite_jour)])
 
 
 class QuestionLLM(BaseModel):
@@ -60,12 +69,21 @@ def version() -> dict[str, str]:
 def essai_llm(
     corps: QuestionLLM,
     fournisseur: Annotated[FournisseurLLM, Depends(get_fournisseur)],
+    limiteur: Annotated[LimiteurDebit, Depends(get_limiteur)],
 ) -> ReponseAPI:
     """Envoie une question au modèle A ou B et rend sa réponse (squelette du sprint 2)."""
     settings = get_settings()
     modele = settings.azure_ai_model_a if corps.modele == "A" else settings.azure_ai_model_b
     if not modele:
         raise HTTPException(status_code=422, detail="Le modèle B n'est pas configuré.")
+    attente = limiteur.reserver()
+    if attente is not None:
+        journal.warning("llm.limite_atteinte attente_s=%s", attente)
+        raise HTTPException(
+            status_code=429,
+            detail=f"Trop de demandes au modèle : réessayer dans {attente} s.",
+            headers={"Retry-After": str(attente)},
+        )
     try:
         r = fournisseur.repondre(corps.question, modele)
     except ErreurFournisseur as exc:

@@ -3,7 +3,7 @@
 from functools import lru_cache
 from typing import Literal
 
-from pydantic import SecretStr
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -25,6 +25,9 @@ class Settings(BaseSettings):
     azure_ai_model_b: str | None = None
     # Facultative : sans clé, l'authentification passe par Entra ID (identité managée ou az login).
     azure_ai_api_key: SecretStr | None = None
+    # Limite globale des appels au LLM (route publique, chaque appel est payant).
+    llm_limite_minute: int = Field(default=10, ge=0)
+    llm_limite_jour: int = Field(default=200, ge=0)
 
 
 @lru_cache

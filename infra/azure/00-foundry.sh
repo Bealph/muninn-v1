@@ -22,24 +22,41 @@ fi
 # Déploiement par l'API REST : la CLI ne règle ni la mise à niveau automatique ni la politique
 # de filtrage du contenu. Arguments : nom, format, version, capacité (milliers de jetons par
 # minute), option de mise à niveau.
-deployer_modele() {
-  local url="https://management.azure.com/subscriptions/$abonnement/resourceGroups/$GROUPE/providers/Microsoft.CognitiveServices/accounts/$FOUNDRY/deployments/$1?api-version=$API"
-  if az rest --method get --url "$url" --only-show-errors -o none 2>/dev/null; then
-    echo "Déploiement $1 : déjà présent, laissé tel quel"
-    return
-  fi
-  echo "Déploiement $1 : création"
-  az rest --method put --url "$url" --only-show-errors -o none --body "{
+corps_deploiement() { # format, nom, version, capacité, option de mise à niveau, politique
+  echo "{
     \"sku\": {\"name\": \"DataZoneStandard\", \"capacity\": $4},
     \"properties\": {
-      \"model\": {\"format\": \"$2\", \"name\": \"$1\", \"version\": \"$3\"},
+      \"model\": {\"format\": \"$1\", \"name\": \"$2\", \"version\": \"$3\"},
       \"versionUpgradeOption\": \"$5\",
-      \"raiPolicyName\": \"Microsoft.DefaultV2\"
+      \"raiPolicyName\": \"$6\"
     }
   }"
 }
 
+deployer_modele() {
+  local url="https://management.azure.com/subscriptions/$abonnement/resourceGroups/$GROUPE/providers/Microsoft.CognitiveServices/accounts/$FOUNDRY/deployments/$1?api-version=$API"
+  local actuel version capacite politique
+  actuel=$(az rest --method get --url "$url" --query properties.versionUpgradeOption -o tsv \
+    --only-show-errors 2>/dev/null || true)
+  if [ -z "$actuel" ]; then
+    echo "Déploiement $1 : création"
+    az rest --method put --url "$url" --only-show-errors -o none \
+      --body "$(corps_deploiement "$2" "$1" "$3" "$4" "$5" "Microsoft.DefaultV2")"
+  elif [ "$actuel" != "$5" ]; then
+    # Seule l'option de mise à niveau change : version, capacité et politique sont reprises de
+    # l'existant.
+    echo "Déploiement $1 : mise à niveau automatique $actuel -> $5"
+    version=$(az rest --method get --url "$url" --query properties.model.version -o tsv)
+    capacite=$(az rest --method get --url "$url" --query sku.capacity -o tsv)
+    politique=$(az rest --method get --url "$url" --query properties.raiPolicyName -o tsv)
+    az rest --method put --url "$url" --only-show-errors -o none \
+      --body "$(corps_deploiement "$2" "$1" "$version" "$capacite" "$5" "$politique")"
+  else
+    echo "Déploiement $1 : déjà conforme"
+  fi
+}
+
+# Mise à niveau automatique désactivée pour les deux modèles : les résultats du banc d'essai T-06
+# restent reproductibles (décision du porteur du 14 octobre 2026).
 deployer_modele "$MODELE_A" "OpenAI" "2026-03-17" 50 "NoAutoUpgrade"
-# Réglage actuel du déploiement B, relevé le 14 octobre 2026. NoAutoUpgrade serait préférable
-# pour la reproductibilité du banc d'essai (voir le README) ; à décider par le porteur.
-deployer_modele "$MODELE_B" "Mistral AI" "1" 20 "OnceNewDefaultVersionAvailable"
+deployer_modele "$MODELE_B" "Mistral AI" "1" 20 "NoAutoUpgrade"
