@@ -67,12 +67,12 @@ cochée qu'avec sa preuve (fichier, capture ou exécution de la chaîne).
 ### Étape 7 : la preuve du blocage
 
 - [x] Une PR volontairement cassée (test en échec) est arrêtée : `verdict` rouge, fusion refusée, y compris avec les droits d'administrateur. Régression réaliste : `/version` ne rend plus le SHA livré. Preuve : PR n° 10 (laissée ouverte), exécution 38538872846.
-- [ ] Preuve versionnée : lien de l'exécution et extrait du journal dans `docs/v1/sprints/sprint-2/preuves/etape-7-blocage.md` ; reste la capture de la page de la PR (à verser par le porteur).
+- [x] Preuve versionnée : lien de l'exécution, trois captures et extrait du journal dans `docs/v1/sprints/sprint-2/preuves/etape-7-blocage.md`.
 
 ### Étape 8 : le rollback
 
-- [ ] Retour à la version précédente en une opération (workflow manuel ou commande unique).
-- [ ] Rollback répété au moins deux fois ; durée mesurée ; preuve versionnée.
+- [x] Retour à la version précédente en une opération : workflow manuel `retour-arriere` (ou commit précis par son SHA), bascule du trafic sans reconstruire d'image, commit servi vérifié. Preuve : `.github/workflows/retour-arriere.yml`, `infra/azure/retour-arriere.sh`, PR n° 12.
+- [x] Rollback répété : quatre bascules en production (deux retours arrière, deux rétablissements), toutes réussies ; service vérifié en 36 à 66 s. Preuve : `preuves/etape-8-retour-arriere.md`.
 
 ### Étape 9 : la reconstruction depuis le dépôt
 

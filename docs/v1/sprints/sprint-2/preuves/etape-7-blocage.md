@@ -61,6 +61,23 @@ $ gh pr view 10 --json state,mergeStateStatus
 OPEN BLOCKED
 ```
 
+## Captures
+
+Captures d'écran prises par le porteur le 14 octobre 2026.
+
+- Page de la PR n° 10 : `verdict` rouge marqué « Required », fusion bloquée (« Branch protection
+  policy must be fulfilled before merging »).
+
+  ![PR n° 10 bloquée](etape-7-pr-bloquee.png)
+
+- Job `verdict` de l'exécution : `lint=success tests=failure`, sortie en erreur.
+
+  ![verdict rouge](etape-7-verdict-rouge.png)
+
+- Journal du job `tests` : `test_api_version` en échec, 1 échec sur 22 tests.
+
+  ![test en échec](etape-7-test-en-echec.png)
+
 ## Pour la démonstration en direct
 
 Ouvrir la PR n° 10 : le contrôle `verdict` est rouge et le bouton de fusion est désactivé. Pour
