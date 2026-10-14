@@ -31,6 +31,7 @@ az login
 python infra/azure/verifier-options.py infra/azure/*.sh   # doit finir par « options absentes : 0 »
 export POSTGRES_MOT_DE_PASSE="$(openssl rand -hex 24)"   # à conserver hors du dépôt
 export COURRIEL_ALERTE="adresse@exemple.fr"               # destinataire des alertes de budget
+bash infra/azure/00-foundry.sh          # ressource Foundry et modèles (reconstruction seulement)
 bash infra/azure/01-socle.sh            # environ 10 min (PostgreSQL est le plus long)
 bash infra/azure/02-image-initiale.sh   # Docker doit tourner
 bash infra/azure/03-applications.sh     # affiche les adresses et les identifiants pour GitHub

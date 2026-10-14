@@ -38,11 +38,12 @@ uv run mypy                            # typage strict
 
 ## Documentation
 
-| Document                                               | Contenu                                                                   |
-| ------------------------------------------------------ | ------------------------------------------------------------------------- |
-| [docs/roadmap.md](docs/roadmap.md)                     | Feuille de route par phase                                                |
-| [docs/v1/](docs/v1/)                                   | Dossier de conception V1, couverture des compétences, feuille de route V1 |
-| [docs/decisions.md](docs/decisions.md)                 | Journal des décisions du porteur                                          |
-| [docs/conception/sources_de_donnees/](docs/conception/sources_de_donnees/)   | Phase 0a : stories, flux, sources, accessibilité, diagrammes              |
-| [docs/suivi/competences.md](docs/suivi/competences.md) | Suivi des compétences du référentiel                                      |
-| [docs/suivi/taches.md](docs/suivi/taches.md)           | Tâches faites et restant à faire                                          |
+| Document                                                                   | Contenu                                                                   |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [docs/roadmap.md](docs/roadmap.md)                                         | Feuille de route par phase                                                |
+| [docs/v1/](docs/v1/)                                                       | Dossier de conception V1, couverture des compétences, feuille de route V1 |
+| [docs/decisions.md](docs/decisions.md)                                     | Journal des décisions du porteur                                          |
+| [docs/reconstruction.md](docs/reconstruction.md)                           | Reconstruire le projet, l'infrastructure et la chaîne depuis le dépôt     |
+| [docs/conception/sources_de_donnees/](docs/conception/sources_de_donnees/) | Phase 0a : stories, flux, sources, accessibilité, diagrammes              |
+| [docs/suivi/competences.md](docs/suivi/competences.md)                     | Suivi des compétences du référentiel                                      |
+| [docs/suivi/taches.md](docs/suivi/taches.md)                               | Tâches faites et restant à faire                                          |

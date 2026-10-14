@@ -76,8 +76,8 @@ cochée qu'avec sa preuve (fichier, capture ou exécution de la chaîne).
 
 ### Étape 9 : la reconstruction depuis le dépôt
 
-- [ ] Depuis un clone neuf : le projet se lance en local et la chaîne redéploie, sans fichier extérieur au dépôt hormis les secrets.
-- [ ] Procédure écrite et testée.
+- [x] Depuis un clone neuf : le projet se lance en local (image construite sans cache, tests) et la chaîne redéploie, sans fichier extérieur au dépôt hormis les secrets. Les réglages GitHub et la ressource Foundry, jusque-là manuels, sont scriptés. Preuve : `preuves/etape-9-reconstruction.md`, PR de la procédure poussée depuis le clone.
+- [x] Procédure écrite et testée : `docs/reconstruction.md`.
 
 ### Étape 10 : la clôture du sprint
 
