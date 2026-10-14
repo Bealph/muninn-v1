@@ -210,6 +210,33 @@
   <p class="note">Peu d'exécutions : ce sont des ordres de grandeur, pas des engagements de service.</p>
 </section>
 
+<section id="s-sprint-2">
+  <h2><span class="n">9</span>Sprint 2 : travail attendu et évaluation par le pair</h2>
+  <p><b>Consigne du sprint.</b> Déployer un squelette de bout en bout (API, interface minimale, un appel au LLM qui
+  répond), livré par une chaîne CI/CD bloquante jusqu'à la production, à travers les environnements ; un retour
+  arrière en une opération ; des secrets hors du dépôt ; un environnement reconstructible depuis le dépôt.</p>
+  <table>
+    <tr><th>Étapes</th><th>Travail attendu</th><th>État</th></tr>
+    <tr><td>0, 1</td><td>Cadrage et checklist ; dépôt reproductible (uv, Docker, docker compose, secrets hors du dépôt)</td><td class="fait">Fait</td></tr>
+    <tr><td>2, 3</td><td>Squelette : <code>/health</code>, <code>/version</code>, appel au LLM, console ; tests, ruff, mypy, axe-core</td><td class="fait">Fait</td></tr>
+    <tr><td>4</td><td>CI GitHub Actions : lint, tests, build, recherche de secrets ; contrôle requis <code>verdict</code> ; <code>main</code> protégée</td><td class="fait">Fait</td></tr>
+    <tr><td>5, 6</td><td>Préproduction et production sur Azure ; livraison continue sur fusion, contrôlée avant bascule</td><td class="fait">Fait</td></tr>
+    <tr><td>7, 8, 9</td><td>Preuve du blocage ; retour arrière en une opération ; reconstruction depuis un clone neuf</td><td class="fait">Fait</td></tr>
+    <tr><td>10</td><td>Compte rendu, fiches d'incident, suivi</td><td class="fait">Fait</td></tr>
+  </table>
+  <table>
+    <tr><th>Critère du pair</th><th>Preuve attendue</th><th>Preuve produite</th><th>Statut</th></tr>
+    <tr><td>P1. Le squelette tourne ailleurs que sur ma machine, sur l'URL de production</td><td>URL ouverte par l'évaluateur</td><td>Console de production sur Azure Container Apps ; <code>/version</code> rend le SHA livré</td><td class="fait">Prouvé</td></tr>
+    <tr><td>P2. Une fusion déclenche la livraison sans action manuelle</td><td>Démonstration ou journal de la chaîne</td><td>6 livraisons automatiques ; de la fusion à la production en 8 à 10 min</td><td class="fait">Prouvé</td></tr>
+    <tr><td>P3. Un commit cassé est bloqué</td><td>Démonstration, PR rouge conservée</td><td>PR n° 10 laissée ouverte : <code>verdict</code> rouge, fusion refusée, administrateurs compris</td><td class="fait">Prouvé</td></tr>
+    <tr><td>P4. Le rollback est montré</td><td>Démonstration et journal</td><td>4 bascules en production ; service vérifié en 36 à 66 s</td><td class="fait">Prouvé</td></tr>
+    <tr><td>P5. Secrets hors du dépôt ; environnement reconstructible</td><td>Recherche de secrets en CI ; clone neuf</td><td>gitleaks sur tout l'historique à chaque PR ; commit poussé depuis un clone neuf et livré en production</td><td class="fait">Prouvé</td></tr>
+    <tr><td>P6. Retours de l'atelier n° 1 traités, reportés ou écartés</td><td>Fiche des retours</td><td>Présentés à l'oral, par décision du porteur du 13 octobre</td><td class="prop">À l'oral</td></tr>
+  </table>
+  <p class="note">Preuves : <code>docs/v1/sprints/sprint-2/</code> (checklist, compte rendu, preuves, fiches d'incident INC-01 et INC-02).
+  Mesures sur peu d'exécutions : ordres de grandeur.</p>
+</section>
+
 <footer>Dépôt <code>Bealph/Muninn</code>. Documents de référence : <code>docs/v1/dossier-conception-v1.md</code>,
 <code>docs/decisions.md</code>, <code>docs/conception/appels-et-voix/</code>. La fiche résume ; le dossier fait foi.</footer>
 </div>

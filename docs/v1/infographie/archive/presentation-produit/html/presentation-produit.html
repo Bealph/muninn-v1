@@ -582,6 +582,20 @@
   <div class="frise-note">Chaque critère se vérifie sur Azure, avec le LLM retenu, 3 fois sur 3. Les scénarios et les valeurs attendues sont figés dans l'annexe A du dossier.</div>
   </section>
 
+  <section id="s-sprint-2">
+  <h2><span class="num">8</span>Sprint 2 : le travail attendu et l'évaluation par le pair</h2>
+  <div class="frise-note"><b>La consigne.</b> Déployer un squelette de bout en bout (API, interface minimale, un appel au LLM qui répond), livré par une chaîne CI/CD bloquante jusqu'à la production, à travers les environnements ; un retour arrière en une opération ; des secrets hors du dépôt ; un environnement reconstructible depuis le dépôt.</div>
+  <div class="criteres">
+    <div class="critere"><span class="ca">P1</span><b>Le squelette tourne en production</b>Console de production sur Azure ; <code>/version</code> rend le SHA livré. Prouvé.</div>
+    <div class="critere"><span class="ca">P2</span><b>Une fusion livre seule</b>6 livraisons automatiques, de la fusion à la production en 8 à 10 min. Prouvé.</div>
+    <div class="critere"><span class="ca">P3</span><b>Un commit cassé est bloqué</b>PR n° 10 conservée : verdict rouge, fusion refusée, même en administrateur. Prouvé.</div>
+    <div class="critere"><span class="ca">P4</span><b>Le rollback est montré</b>4 bascules en production, service vérifié en 36 à 66 s. Prouvé.</div>
+    <div class="critere"><span class="ca">P5</span><b>Secrets et reconstruction</b>Recherche de secrets en CI ; un clone neuf relance le projet et la chaîne. Prouvé.</div>
+    <div class="critere"><span class="ca">P6</span><b>Retours de l'atelier n° 1</b>Présentés à l'oral, par décision du porteur du 13 octobre.</div>
+  </div>
+  <div class="frise-note">Les onze étapes de la checklist sont faites : socle, squelette, tests, CI <code>verdict</code>, Azure, livraison continue, blocage, rollback, reconstruction, clôture. Preuves dans <code>docs/v1/sprints/sprint-2/</code>.</div>
+  </section>
+
 
   <footer>
     Personnages et données fictifs. Sources des chiffres : CAPEB, 11e baromètre ARTI Santé (juin 2025) ; Urssaf, open data « auto-entrepreneurs par secteur d'activité » (trimestre clos le 31/12/2025) ; INSEE, base Sirene. Communes vérifiées dans l'API Géo le 12 octobre 2026.
