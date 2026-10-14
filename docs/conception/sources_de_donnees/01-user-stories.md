@@ -48,7 +48,8 @@ Contraintes du projet de certification, rappelées par la feuille de route :
   - Should : forte valeur, mais un contournement existe ;
   - Could : utile, reportable sans perte de la promesse ;
   - Won't : exclu de l'horizon, gardé pour tracer la frontière du périmètre.
-- **Horizon :** MVP, V2 ou hors périmètre, selon la section 4.4 de l'analyse.
+- **Horizon :** MVP, V2, V3, V4 ou hors périmètre, selon la section 4.4 de l'analyse et les
+  décisions ultérieures (D-53, D-55).
 - **Démo :** « oui » si la story entre dans le périmètre de la démo du 29 octobre (section 8).
 - **Règles :** R1 à R10 de la passation back-end. « Aucune » si la story n'en touche aucune.
 - **Compétences :** codes C1 à C21 du référentiel servis par la réalisation de la story. Toutes
@@ -676,7 +677,7 @@ En tant qu'artisan, je veux que Muninn prépare un devis à partir d'un dossier,
 afin de l'envoyer vite au client après l'avoir vérifié.
 
 - Priorité : Should
-- Horizon : V2 [H : à confirmer par le porteur]
+- Horizon : V2 (confirmé par le porteur, D-55)
 - Démo : non
 - Règles : R1, R4, R5, R7
 - Compétences : C8, C9, C12, C17
@@ -1168,26 +1169,32 @@ Critères d'acceptation :
 Raison de l'exclusion : impossibilité technique pour une application tierce et risque pénal
 (analyse, section 1.4).
 
-#### US-45. Faire ses factures dans Muninn
+#### US-45. Facturer et déclarer ses ventes depuis Muninn
 
-En tant qu'artisan, je veux éditer mes factures dans Muninn afin de n'avoir qu'un outil.
+En tant qu'artisan, je veux facturer depuis un dossier de Muninn et que les données de mes ventes
+soient transmises à l'administration (e-reporting), afin de respecter la réforme sans changer
+d'outil.
 
-Depuis D-53 (14 octobre 2026), la story ne porte plus que sur les factures : la préparation des
-devis fait l'objet de US-55.
+Pour un artisan qui travaille surtout pour des particuliers, l'enjeu principal est l'e-reporting :
+les factures à des particuliers ne relèvent pas de la facture électronique.
 
-- Priorité : Won't
-- Horizon : hors périmètre
+Historique : « Won't » jusqu'au 14 octobre 2026 (marché saturé, levier 4) ; D-53 a ouvert les
+devis, D-55 ouvre la facturation électronique à l'horizon V3 ou V4.
+
+- Priorité : Could
+- Horizon : V3 [H : V3 ou V4, à fixer]
 - Démo : non
-- Règles : Aucune
-- Compétences : sans objet
+- Règles : R1, R5
+- Compétences : C17
 
 Critères d'acceptation :
 
-1. Étant donné l'application, quand on parcourt ses fonctions, alors elle n'émet aucune facture.
-2. Étant donné un dossier prêt à facturer, quand l'artisan veut une facture, alors Muninn lui
-   propose l'export vers son outil (US-24).
-
-Raison de l'exclusion : marché saturé ; Muninn se branche sur les outils existants (levier 4).
+1. Étant donné un dossier terminé, quand l'artisan émet une facture, alors elle part par la
+   plateforme agréée partenaire ; Muninn n'est pas lui-même plateforme agréée.
+2. Étant donné une vente à un particulier, quand elle est facturée, alors les données
+   d'e-reporting sont transmises par la même plateforme [H : obligations à vérifier à la date du lot].
+3. Étant donné un artisan qui garde son outil de facturation, quand il veut facturer, alors
+   l'export (US-24) reste disponible.
 
 Éléments de la section 4.4 non déclinés en stories :
 
@@ -1431,30 +1438,30 @@ Critères d'acceptation :
 
 ### 6.1 Propositions de valeur et configuration
 
-| Élément du concept                               | Stories                                  |
-| ------------------------------------------------ | ---------------------------------------- |
-| PV1. Messagerie intelligente                     | US-06 à US-12, US-51                     |
-| PV2. Débrief vocal                               | US-13, US-14                             |
-| PV3. Clé humaine de dossier                      | US-17 à US-20                            |
-| PV4. Rentabilité et export                       | US-21 à US-24 (MVP), US-25 et US-55 (V2) |
-| PV5. Imprévus et rendez-vous                     | US-26 à US-30                            |
-| PV6. Confiance par conception                    | US-31 à US-35, US-54                     |
-| Configuration de la ligne et du renvoi           | US-01 à US-04                            |
-| Disponibilités                                   | US-05, US-08, US-26, US-49               |
-| Lexique métier et personnel (levier 3)           | US-15, US-16, US-43, US-48               |
-| Supervision                                      | US-36 à US-41                            |
-| Référentiels et normalisation des champs         | US-46, US-47, US-50, US-51               |
-| Dimensionnement du marché (analyse, section 1.1) | US-52, US-53                             |
+| Élément du concept                               | Stories                                                    |
+| ------------------------------------------------ | ---------------------------------------------------------- |
+| PV1. Messagerie intelligente                     | US-06 à US-12, US-51                                       |
+| PV2. Débrief vocal                               | US-13, US-14                                               |
+| PV3. Clé humaine de dossier                      | US-17 à US-20                                              |
+| PV4. Rentabilité et export                       | US-21 à US-24 (MVP), US-25 et US-55 (V2), US-45 (V3 ou V4) |
+| PV5. Imprévus et rendez-vous                     | US-26 à US-30                                              |
+| PV6. Confiance par conception                    | US-31 à US-35, US-54                                       |
+| Configuration de la ligne et du renvoi           | US-01 à US-04                                              |
+| Disponibilités                                   | US-05, US-08, US-26, US-49                                 |
+| Lexique métier et personnel (levier 3)           | US-15, US-16, US-43, US-48                                 |
+| Supervision                                      | US-36 à US-41                                              |
+| Référentiels et normalisation des champs         | US-46, US-47, US-50, US-51                                 |
+| Dimensionnement du marché (analyse, section 1.1) | US-52, US-53                                               |
 
 ### 6.2 Règles R1 à R10
 
 | Règle | Objet                                             | Stories                                                                                                                                     |
 | ----- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| R1    | Aucun dossier en clair côté serveur               | US-01, US-05, US-08, US-12, US-16 à US-21, US-23 à US-28, US-30, US-32 à US-35, US-38, US-41, US-51, US-54, US-55                           |
+| R1    | Aucun dossier en clair côté serveur               | US-01, US-05, US-08, US-12, US-16 à US-21, US-23 à US-28, US-30, US-32 à US-35, US-38, US-41, US-45, US-51, US-54, US-55                    |
 | R2    | Audio détruit après extraction                    | US-04, US-10, US-11, US-13, US-14, US-22, US-31, US-42, US-44                                                                               |
 | R3    | Transcriptions éphémères                          | US-11, US-13, US-16, US-18, US-22, US-31, US-36, US-39, US-51                                                                               |
 | R4    | Journaux sans donnée personnelle                  | US-01, US-05, US-11, US-12, US-16, US-17, US-20, US-21, US-26 à US-29, US-31, US-35, US-38, US-39, US-41, US-50, US-51, US-52, US-54, US-55 |
-| R5    | Hébergement et traitement dans l'UE               | US-11, US-13, US-15, US-21, US-22, US-25, US-37, US-40, US-43, US-50, US-55                                                                 |
+| R5    | Hébergement et traitement dans l'UE               | US-11, US-13, US-15, US-21, US-22, US-25, US-37, US-40, US-43, US-45, US-50, US-55                                                          |
 | R6    | L'agent s'annonce toujours                        | US-02, US-04, US-06, US-07, US-09, US-10, US-42                                                                                             |
 | R7    | Aucune donnée de santé                            | US-09, US-11, US-13, US-55                                                                                                                  |
 | R8    | Pas de secret dans le dépôt                       | US-40                                                                                                                                       |
@@ -1470,26 +1477,26 @@ citent R5 appellent un fournisseur d'IA et sont couvertes par ce contrôle.
 
 ### 6.3 Compétences du référentiel
 
-| Compétences | Stories                                                                                             | Remarque                                                                                    |
-| ----------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| C1          | US-25, US-46 à US-49, US-52, US-53                                                                  | Extraction automatisée des sources SRC-01 à SRC-14 (phase 3)                                |
-| C2          | US-50, US-52                                                                                        | Requêtes SQL sur la base des référentiels et sur Sirene                                     |
-| C3          | US-11, US-46 à US-49, US-51 à US-53                                                                 | Normalisation des champs extraits (E.164, code postal), nettoyage et agrégation des sources |
-| C4          | US-01, US-05, US-12, US-32 à US-35, US-41, US-46, US-47, US-54                                      | Base conforme au RGPD, durées de conservation, base des référentiels                        |
-| C5          | US-50, US-51                                                                                        | API REST des référentiels, consommée par l'extraction                                       |
-| C6, C7      | sans objet                                                                                          | Portées par la phase 0b (veille, benchmark)                                                 |
-| C8          | US-02, US-06 à US-11, US-13, US-15, US-16, US-21, US-22, US-25, US-28, US-43, US-48, US-55          | Paramétrage des services de transcription et de LLM                                         |
-| C9          | US-07, US-11, US-12, US-13, US-21, US-22, US-36, US-51, US-55                                       | API exposant l'extraction                                                                   |
-| C10         | US-13, US-17, US-36                                                                                 | Intégration de l'API dans une interface accessible                                          |
-| C11         | US-17, US-37, US-38                                                                                 | Métriques de qualité et tableau de bord                                                     |
-| C12         | US-06, US-09, US-11, US-15, US-31, US-36, US-37, US-40, US-43, US-51, US-55                         | Évaluation des réponses, validation des formats, conformité                                 |
-| C13         | US-37, US-40                                                                                        | Livraison contrôlée, versionnage, retour arrière                                            |
-| C14         | toutes                                                                                              | Ce document et le document 04                                                               |
-| C15, C16    | sans objet                                                                                          | Portées par la phase 2 (architecture, méthode agile)                                        |
-| C17         | US-01 à US-05, US-12, US-14, US-16 à US-20, US-23, US-24, US-26 à US-30, US-32, US-33, US-54, US-55 | Composants et interfaces                                                                    |
-| C18, C19    | US-40                                                                                               | Intégration et livraison continues                                                          |
-| C20         | US-31, US-38, US-39, US-41                                                                          | Surveillance et journalisation conforme                                                     |
-| C21         | US-39                                                                                               | Fiches d'incident                                                                           |
+| Compétences | Stories                                                                                                    | Remarque                                                                                    |
+| ----------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| C1          | US-25, US-46 à US-49, US-52, US-53                                                                         | Extraction automatisée des sources SRC-01 à SRC-14 (phase 3)                                |
+| C2          | US-50, US-52                                                                                               | Requêtes SQL sur la base des référentiels et sur Sirene                                     |
+| C3          | US-11, US-46 à US-49, US-51 à US-53                                                                        | Normalisation des champs extraits (E.164, code postal), nettoyage et agrégation des sources |
+| C4          | US-01, US-05, US-12, US-32 à US-35, US-41, US-46, US-47, US-54                                             | Base conforme au RGPD, durées de conservation, base des référentiels                        |
+| C5          | US-50, US-51                                                                                               | API REST des référentiels, consommée par l'extraction                                       |
+| C6, C7      | sans objet                                                                                                 | Portées par la phase 0b (veille, benchmark)                                                 |
+| C8          | US-02, US-06 à US-11, US-13, US-15, US-16, US-21, US-22, US-25, US-28, US-43, US-48, US-55                 | Paramétrage des services de transcription et de LLM                                         |
+| C9          | US-07, US-11, US-12, US-13, US-21, US-22, US-36, US-51, US-55                                              | API exposant l'extraction                                                                   |
+| C10         | US-13, US-17, US-36                                                                                        | Intégration de l'API dans une interface accessible                                          |
+| C11         | US-17, US-37, US-38                                                                                        | Métriques de qualité et tableau de bord                                                     |
+| C12         | US-06, US-09, US-11, US-15, US-31, US-36, US-37, US-40, US-43, US-51, US-55                                | Évaluation des réponses, validation des formats, conformité                                 |
+| C13         | US-37, US-40                                                                                               | Livraison contrôlée, versionnage, retour arrière                                            |
+| C14         | toutes                                                                                                     | Ce document et le document 04                                                               |
+| C15, C16    | sans objet                                                                                                 | Portées par la phase 2 (architecture, méthode agile)                                        |
+| C17         | US-01 à US-05, US-12, US-14, US-16 à US-20, US-23, US-24, US-26 à US-30, US-32, US-33, US-45, US-54, US-55 | Composants et interfaces                                                                    |
+| C18, C19    | US-40                                                                                                      | Intégration et livraison continues                                                          |
+| C20         | US-31, US-38, US-39, US-41                                                                                 | Surveillance et journalisation conforme                                                     |
+| C21         | US-39                                                                                                      | Fiches d'incident                                                                           |
 
 ## 7. Synthèse
 
@@ -1539,7 +1546,7 @@ citent R5 appellent un fournisseur d'IA et sont couvertes par ce contrôle.
 | US-42 | Numéro professionnel complet             | Could    | V2             | non  |
 | US-43 | Lexiques d'autres métiers                | Could    | V2             | non  |
 | US-44 | Écoute des appels natifs                 | Won't    | hors périmètre | non  |
-| US-45 | Factures dans Muninn                     | Won't    | hors périmètre | non  |
+| US-45 | Facturer et déclarer ses ventes          | Could    | V3             | non  |
 | US-46 | Référentiels géographiques               | Must     | MVP            | oui  |
 | US-47 | Référentiel de numérotation              | Must     | MVP            | oui  |
 | US-48 | Lexique métier constitué et versionné    | Must     | MVP            | non  |
@@ -1551,8 +1558,8 @@ citent R5 appellent un fournisseur d'IA et sont couvertes par ce contrôle.
 | US-54 | Révocation d'un appareil                 | Must     | MVP            | non  |
 | US-55 | Préparation d'un devis (D-53)            | Should   | V2             | non  |
 
-Décompte : 55 stories ; 49 au MVP (37 Must, 12 Should), 4 en V2 (US-25, US-42, US-43, US-55), 2 hors
-périmètre (US-44, US-45) ; 12 dans la démo. US-52 et US-53 sont classées au MVP comme études
+Décompte : 55 stories ; 49 au MVP (37 Must, 12 Should), 4 en V2 (US-25, US-42, US-43, US-55), 1 en
+V3 ou V4 (US-45), 1 hors périmètre (US-44) ; 12 dans la démo. US-52 et US-53 sont classées au MVP comme études
 préalables au lancement ; elles n'ajoutent aucune fonction à l'application.
 
 ## 8. Périmètre minimal de la démo du 29 octobre

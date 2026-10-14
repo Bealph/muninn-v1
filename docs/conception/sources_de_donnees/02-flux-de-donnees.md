@@ -1088,8 +1088,8 @@ d'année de fin.
 **Objet.** Envoyer un dossier validé vers l'outil de facturation de l'artisan, sans passer par le
 serveur Muninn. La préparation de devis (US-55), elle, passe par le serveur, en mémoire et sans
 donnée nominative (`../architecture-agentique/01-architecture-agentique.md`, section 8.1).
-**Stories couvertes.** US-24, US-30 (relance de paiement). US-45 (hors périmètre) est la
-frontière : Muninn n'émet aucune facture. Depuis D-53, Muninn prépare des devis (US-55, conception
+**Stories couvertes.** US-24, US-30 (relance de paiement). US-45 (facturation électronique,
+horizon V3 ou V4, D-55) en est la suite : d'ici là, Muninn n'émet aucune facture. Depuis D-53, Muninn prépare des devis (US-55, conception
 dans `../architecture-agentique/01-architecture-agentique.md`) ; les factures restent dans
 l'outil de l'artisan.
 **Déclencheur.** L'artisan touche « Exporter ».
@@ -1615,7 +1615,7 @@ flux dont elle trace la limite.
 | US-42 | Numéro professionnel complet             | F-02                           | Frontière V2 : enregistrement contraire à R2  |
 | US-43 | Lexiques d'autres métiers                | F-09, F-11                     | V2, même chaîne que US-48                     |
 | US-44 | Écoute des appels natifs                 | F-03                           | Frontière : seule la fin d'appel est détectée |
-| US-45 | Factures dans Muninn                     | F-08                           | Frontière : export seulement                  |
+| US-45 | Factures électroniques (D-55)            | F-08                           | Suite de l'export, horizon V3 ou V4           |
 | US-55 | Préparation d'un devis (D-53)            | non disponible (flux à écrire) | `architecture-agentique/01`, section 8        |
 | US-46 | Référentiels géographiques               | F-09, F-12                     | F-09 messages 1 à 8                           |
 | US-47 | Référentiel de numérotation              | F-09, F-12                     | F-09 messages 9 et 10                         |
