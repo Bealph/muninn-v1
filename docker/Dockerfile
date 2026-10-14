@@ -25,4 +25,5 @@ ENV PATH="/app/.venv/bin:$PATH" \
     GIT_SHA=$GIT_SHA
 USER muninn
 EXPOSE 8000
-CMD ["uvicorn", "muninn.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# MUNINN_PROCESSUS=api (défaut) ou console : voir src/muninn/serveur.py.
+CMD ["python", "-m", "muninn.serveur"]
