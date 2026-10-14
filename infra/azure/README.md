@@ -106,3 +106,19 @@ quand il ne sert pas : son calcul n'est alors plus facturé.
 - Pare-feu PostgreSQL :
   <https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-firewall-rules>
 - Facturation de Container Apps : <https://learn.microsoft.com/en-us/azure/container-apps/billing>
+
+## Livraison continue
+
+Sur chaque fusion dans `main`, après un `verdict` vert, le workflow `ci` livre sans action
+manuelle (`.github/workflows/ci.yml`, jobs `preproduction` puis `production`) :
+
+1. connexion à Azure par OIDC avec l'identité `id-muninn-deploiement` (aucun secret) ;
+2. image construite et étiquetée par le SHA du commit, poussée dans `crmuninn` ;
+3. `deployer.sh preproduction <sha>` : pour l'API puis la console, nouvelle révision créée sans
+   trafic, contrôlée à sa propre adresse (santé, SHA livré, appel réel au modèle A pour l'API),
+   puis bascule de 100 % du trafic ; la révision précédente reste active ;
+4. `deployer.sh production <sha>` : même image, mêmes contrôles.
+
+Si un contrôle échoue, le trafic reste sur la révision précédente et la livraison s'arrête ;
+la production n'est jamais touchée si la préproduction échoue. Les environnements GitHub
+`preproduction` et `production` n'acceptent que les branches protégées.
