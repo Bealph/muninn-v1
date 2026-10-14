@@ -47,6 +47,8 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-13 | Dossiers de conception renommés par thème, liens mis à jour                                                                                                                                    | PR n° 2                                                                |
 | 2026-10-14 | Sprint 2, étape 5 : ressources Azure créées par le porteur et vérifiées (préproduction, production, PostgreSQL, budget, OIDC)                                                                  | `infra/azure/`, PR n° 3 et 4                                           |
 | 2026-10-14 | Incident INC-01 (PostgreSQL non créé) résolu et documenté                                                                                                                                      | `docs/v1/sprints/sprint-2/incidents/`                                  |
+| 2026-10-14 | Sprint 2, étape 6 : livraison continue sur fusion dans `main`, préproduction puis production, contrôlée avant bascule                                                                          | `.github/workflows/ci.yml`, PR n° 7 et 8                               |
+| 2026-10-14 | Incident INC-02 (connexion OIDC refusée) résolu et documenté                                                                                                                                   | `docs/v1/sprints/sprint-2/incidents/`                                  |
 
 ## À faire
 
@@ -54,7 +56,7 @@ Plan de la feuille de route V1 (`docs/v1/roadmap-v1.md`), valable jusqu'au 13 no
 
 | Étape           | Tâche                                                                                                                  | Échéance                                 | Statut                                               |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------- |
-| Sprint 2        | Le socle et la chaîne : V-01 à V-03 (socle, ressources Azure, CI `verdict`, déploiement, retour arrière)               | mer. 14 octobre, sur feu vert du porteur | En cours : étapes 0 à 5 faites, étape 6 sur feu vert |
+| Sprint 2        | Le socle et la chaîne : V-01 à V-03 (socle, ressources Azure, CI `verdict`, déploiement, retour arrière)               | mer. 14 octobre, sur feu vert du porteur | En cours : étapes 0 à 6 faites, étape 7 sur feu vert |
 | T-06            | Comparaison des modèles LLM (banc d'essai) ; modèles A et B déjà déployés et accessibles (D-44 à D-46)                 | ven. 16 octobre                          | À faire                                              |
 | Sprint 3        | Les données et l'ancrage : V-04 à V-06 (collecte, base, API des référentiels, Sirene)                                  | jeu. 15 et ven. 16 octobre               | À faire                                              |
 | Sprint 4        | La composante agentique et les garde-fous : V-07, V-08                                                                 | ven. 16 au lun. 19 octobre               | À faire                                              |

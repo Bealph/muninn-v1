@@ -1,6 +1,6 @@
 # Suivi des compétences
 
-**Mis à jour le :** 14 octobre 2026 (sprint 2, étape 5)
+**Mis à jour le :** 14 octobre 2026 (sprint 2, étape 6)
 
 Statuts : « À faire », « En cours », « Preuve produite », « Validée » (validée par le porteur).
 
@@ -54,7 +54,7 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 ## Preuves, case par case
 
-**Cases cochées : 31 sur 61** (au 14 octobre 2026).
+**Cases cochées : 33 sur 61** (au 14 octobre 2026).
 
 Une case n'est cochée que si la preuve existe dans le dépôt. Source des preuves attendues :
 `docs/v1/couverture-competences.md`. Une compétence passe à « Preuve produite » quand toutes
@@ -137,11 +137,11 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 - [ ] 20 scénarios et 5 cas de conformité (V-08, sprint 4)
 - [ ] Évaluation bloquante en CI (V-08, sprint 4)
 
-**C13** (1 sur 3)
+**C13** (2 sur 3)
 
 - [x] Chaîne LLMOps conçue : `docs/conception/industrialisation/05-chaine-llmops.md`
 - [ ] Validation, tests et évaluation automatisés en CI (sprint 2, étape 4, puis sprint 4)
-- [ ] Déploiement automatisé par la CI (sprint 2, étape 6)
+- [x] Déploiement automatisé par la CI, sur fusion dans `main`, contrôlé avant bascule : `.github/workflows/ci.yml`, `infra/azure/deployer.sh` (sprint 2, étape 6)
 
 ### E4 : conception et réalisation (oral du 12 novembre)
 
@@ -171,12 +171,12 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 
 - [x] Intégration continue conçue : `docs/conception/industrialisation/02-plan-de-tests.md`
 - [x] Tests (dont accessibilité), ruff et mypy automatisés en local : `pyproject.toml`, `tests/` (sprint 2)
-- [x] Contrôle requis `verdict` sur chaque PR, protection de `main` : `.github/workflows/ci.yml` (sprint 2, étape 5)
+- [x] Contrôle requis `verdict` sur chaque PR, protection de `main` : `.github/workflows/ci.yml` (sprint 2, étape 6)
 
-**C19** (1 sur 4)
+**C19** (2 sur 4)
 
 - [x] Livraison continue conçue : `docs/conception/industrialisation/05-chaine-llmops.md`
-- [ ] Déploiement automatisé en préproduction puis en production (sprint 2, étapes 5 et 6)
+- [x] Déploiement automatisé en préproduction puis en production : exécution 38535838557 (sprint 2, étape 6)
 - [ ] Rollback en une opération (sprint 2, étape 8)
 - [ ] Environnement de test (V1.1)
 
@@ -191,5 +191,5 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 
 **C21** (1 sur 2)
 
-- [x] Fiche par incident réel : cause, correctif, PR, test de non-régression ; première fiche `docs/v1/sprints/sprint-2/incidents/INC-01-creation-postgresql.md` (à poursuivre au fil des sprints)
+- [x] Fiche par incident réel : cause, correctif, PR, test de non-régression ; fiches `docs/v1/sprints/sprint-2/incidents/INC-01-creation-postgresql.md` et `INC-02-connexion-oidc.md` (à poursuivre au fil des sprints)
 - [ ] Incident provoqué, résolu et documenté (V1.1)

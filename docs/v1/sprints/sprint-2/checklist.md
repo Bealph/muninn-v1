@@ -61,8 +61,8 @@ cochée qu'avec sa preuve (fichier, capture ou exécution de la chaîne).
 
 ### Étape 6 : la livraison continue
 
-- [ ] Sur fusion dans `main`, sans action manuelle : image étiquetée par le SHA, poussée dans le registre, déployée en préproduction, contrôlée, puis déployée en production.
-- [ ] URL de production qui affiche la console, la réponse du LLM et le SHA livré.
+- [x] Sur fusion dans `main`, sans action manuelle : image étiquetée par le SHA, poussée dans le registre, déployée en préproduction, contrôlée, puis déployée en production. Chaque nouvelle révision est contrôlée à sa propre adresse (santé, SHA livré, appel réel au modèle) avant de recevoir le trafic ; la précédente reste active. Preuve : exécution 38535838557 (fusion de la PR n° 8 → production en 8 min), `infra/azure/deployer.sh`. Premier essai bloqué à la connexion Azure : `incidents/INC-02-connexion-oidc.md`.
+- [x] URL de production qui affiche la console, la réponse du LLM et le SHA livré : <https://ca-muninn-console-prod.graybeach-70019748.francecentral.azurecontainerapps.io>. Vérifié le 14 octobre 2026 (SHA `bdd30f66`).
 
 ### Étape 7 : la preuve du blocage
 
