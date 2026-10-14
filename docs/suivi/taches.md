@@ -57,6 +57,10 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-14 | Conception « appels et voix » : qualification des appels, trame de l'agent vocal, raccordement téléphonique ; deux relectures indépendantes                                                    | `docs/conception/appels-et-voix/`                                      |
 | 2026-10-14 | Dossier V1 en v1.5 (D-48 à D-52), feuille de route v1.2, fiche d'ingénierie                                                                                                                    | `docs/v1/`                                                             |
 | 2026-10-14 | v1.5 du dossier V1 validée par le formateur : D-48 à D-51, CA-7 et CA-8 ; D-52 validée par le porteur                                                                                          | `docs/decisions.md`                                                    |
+| 2026-10-14 | Décisions D-36 à D-55, raccordement téléphonique, critères CA-1 à CA-8 et règles R1 à R10 détaillés, à la première personne                                                                    | `docs/decisions-detaillees.md`, `docs/sujets-detailles.md`, PR n° 18   |
+| 2026-10-14 | Infographies de la V1 rangées par thème puis par format                                                                                                                                        | `docs/v1/infographie/`, PR n° 19                                       |
+| 2026-10-14 | Architecture agentique et préparation de devis (D-53), orientation validée (D-54), horizons du devis et de la facture électronique (D-55) ; quatre agents outillés                             | `docs/conception/architecture-agentique/`, PR n° 20 à 22               |
+| 2026-10-14 | Infographies enrichies du sprint 2 (travail attendu, évaluation par le pair) ; rituel de fin de sprint instauré                                                                                | `docs/v1/sprints/README.md`, PR n° 23                                  |
 
 ## À faire
 
