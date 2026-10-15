@@ -71,9 +71,9 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 5 : la base de données (C1, C2)
 
-- [ ] Requête SPARQL sur Wikidata (SRC-11), versionnée dans le dépôt ; licence CC0.
-- [ ] Fusion du lexique (Wiktionnaire, Wikidata, saisie) : un terme, sa catégorie, ses sources, sa licence ; termes `accepted` seulement publiés.
-- [ ] Repli prévu (risque du dossier, §7.1) : lexique de secours versionné si une source est indisponible ; l'indisponibilité est consignée.
+- [x] Requête SPARQL sur Wikidata (SRC-11), versionnée dans `src/muninn/ingestion/requetes/wikidata_marques_plomberie.rq` : fabricants d'équipements de plomberie (P1056) ou du secteur (P452), établis en Europe ; licence CC0 ; empreinte de la requête au rapport. Le 15 octobre 2026 : 21 entités. Pertinence faible, assumée comme en phase 0 (entreprises de service mêlées aux marques, aucun tri à la main en V1).
+- [x] Fusion du lexique : Wiktionnaire et Wikidata, un terme par forme normalisée, source, référence et licence par terme, termes `accepted` par règles écrites. Aucune saisie à la main en V1 (relecture humaine retirée, dossier V1, V-04). Version `2026.10.2` : 142 termes (121 du Wiktionnaire, 21 marques), statut `candidate` jusqu'à l'évaluation de l'étape 7.
+- [x] Repli : instantané versionné des deux sources (`src/muninn/ingestion/donnees/lexique-secours-plomberie.json`, réécrit par `muninn-ingestion lexique-secours`) ; une source qui ne répond pas passe par lui, et le rapport de la version dit « secours », avec la raison. Testé avec un refus 429 de Wikidata.
 
 ### Étape 6 : le système big data et la commande unique (C1, C2, C4)
 

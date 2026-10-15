@@ -1,9 +1,12 @@
 """Lexique métier : collecte des termes et construction d'une version (sprint 3, étapes 4 et 5).
 
-Sources : une catégorie du Wiktionnaire (SRC-12, page web) ; Wikidata s'y ajoute à l'étape 5.
-Chaque terme garde sa source, sa référence (titre de page) et sa licence. Seul le titre est
-repris, jamais la définition : l'attribution se fait par le lien vers la page (registre des
-sources du sprint 3, § 2).
+Sources : une catégorie du Wiktionnaire (SRC-12, page web) et une requête SPARQL versionnée sur
+Wikidata (SRC-11, base de données). Chaque terme garde sa source, sa référence (titre de page ou
+identifiant Wikidata) et sa licence. Seul le titre ou le libellé est repris, jamais la
+définition : l'attribution se fait par le lien vers la page (registre des sources du sprint 3).
+
+Repli (dossier V1, § 7.1) : si une source ne répond pas, ses termes sont repris de l'instantané
+versionné `donnees/lexique-secours-plomberie.json`, et le rapport de la version le dit.
 
 La V1 retire la relecture humaine du lexique (dossier V1, V-04) : un terme est accepté ou écarté
 par des règles écrites ci-dessous. La version construite reste `candidate` ; elle n'est publiée
@@ -12,11 +15,12 @@ qu'avec un rapport d'évaluation (US-48, critère 4), à l'étape 7.
 
 import hashlib
 import json
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from html.parser import HTMLParser
+from pathlib import Path
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 
 from muninn.ingestion.normalisation import normaliser_nom
 from muninn.ingestion.telechargement import FichierRecu
@@ -26,6 +30,14 @@ METIER = "plomberie"
 CATEGORIE = "Catégorie:Lexique_en_français_de_la_plomberie"
 URL_WIKTIONNAIRE = "https://fr.wiktionary.org/wiki/" + quote(CATEGORIE)
 LONGUEUR_MAX = 80  # contrainte de `ref.lexicon_terms.term`
+DOSSIER = Path(__file__).parent
+FICHIER_REQUETE = DOSSIER / "requetes" / "wikidata_marques_plomberie.rq"
+REQUETE_WIKIDATA = FICHIER_REQUETE.read_text(encoding="utf-8")
+URL_WIKIDATA = "https://query.wikidata.org/sparql?" + urlencode(
+    {"query": REQUETE_WIKIDATA, "format": "json"}
+)
+FICHIER_SECOURS = DOSSIER / "donnees" / "lexique-secours-plomberie.json"
+LICENCES = {"SRC-12": "CC-BY-SA-4.0", "SRC-11": "CC0-1.0"}
 
 
 @dataclass(frozen=True)
@@ -75,6 +87,19 @@ def lire_wiktionnaire(contenu: bytes) -> list[Terme]:
         for titre in analyseur.titres
         if ":" not in titre  # pages d'un autre espace de noms (Catégorie:, Annexe:)
     ]
+
+
+def lire_wikidata(contenu: bytes) -> list[Terme]:
+    """Libellés des marques rendues par la requête ; une entité, un terme."""
+    donnees = json.loads(contenu.decode("utf-8"))
+    termes: dict[str, Terme] = {}
+    for ligne in donnees["results"]["bindings"]:
+        identifiant = ligne["marque"]["value"].rsplit("/", 1)[-1]
+        if identifiant not in termes:
+            termes[identifiant] = Terme(
+                ligne["nom"]["value"], "SRC-11", identifiant, "CC0-1.0", "brand"
+            )
+    return list(termes.values())
 
 
 def url_de(terme: Terme) -> str | None:
@@ -174,13 +199,55 @@ def construire(conn: Connexion, termes: list[Terme], sources: list[dict[str, Any
     )
 
 
-def source_rapport(fichier: FichierRecu, nombre: int) -> dict[str, Any]:
-    return {
-        "source_id": "SRC-12",
-        "url": fichier.url,
+def source_rapport(source_id: str, fichier: FichierRecu, nombre: int) -> dict[str, Any]:
+    rapport: dict[str, Any] = {
+        "source_id": source_id,
+        "mode": "collecte",
+        "url": fichier.url if source_id == "SRC-12" else "https://query.wikidata.org/sparql",
         "date_source": fichier.date_source.isoformat() if fichier.date_source else None,
         "recupere_le": fichier.recupere_le.isoformat(),
         "sha256": fichier.sha256.hex(),
         "termes": nombre,
-        "licence": "CC BY-SA 4.0 (ou GFDL)",
+        "licence": LICENCES[source_id],
     }
+    if source_id == "SRC-11":
+        rapport["requete"] = "src/muninn/ingestion/requetes/wikidata_marques_plomberie.rq"
+        rapport["requete_sha256"] = hashlib.sha256(REQUETE_WIKIDATA.encode()).hexdigest()
+    return rapport
+
+
+def lire_secours(source_id: str, raison: str) -> tuple[list[Terme], dict[str, Any]]:
+    """Termes d'une source, repris de l'instantané versionné, et la ligne de rapport associée."""
+    instantane = json.loads(FICHIER_SECOURS.read_text(encoding="utf-8"))
+    source = instantane["sources"][source_id]
+    termes = [Terme(**t) for t in source["termes"]]
+    rapport = {
+        "source_id": source_id,
+        "mode": "secours",
+        "raison": raison,
+        "instantane_du": source["recupere_le"],
+        "termes": len(termes),
+        "licence": LICENCES[source_id],
+    }
+    return termes, rapport
+
+
+def ecrire_secours(collectes: dict[str, tuple[list[Terme], FichierRecu]]) -> None:
+    """Écrit l'instantané de secours à partir de collectes réussies (une par source)."""
+    instantane = {
+        "description": "Instantané de secours du lexique de plomberie (dossier V1, § 7.1)",
+        "attribution": "Wiktionnaire : titres de pages, CC BY-SA 4.0 ; Wikidata : CC0",
+        "sources": {
+            source_id: {
+                "recupere_le": fichier.recupere_le.isoformat(),
+                "sha256": fichier.sha256.hex(),
+                "termes": [asdict(t) for t in termes],
+            }
+            for source_id, (termes, fichier) in collectes.items()
+        },
+    }
+    FICHIER_SECOURS.write_text(
+        json.dumps(instantane, ensure_ascii=False, indent=1) + "\n",
+        encoding="utf-8",
+        newline="\n",  # fins de ligne identiques sur tous les postes
+    )

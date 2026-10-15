@@ -1,0 +1,1026 @@
+{
+ "description": "Instantané de secours du lexique de plomberie (dossier V1, § 7.1)",
+ "attribution": "Wiktionnaire : titres de pages, CC BY-SA 4.0 ; Wikidata : CC0",
+ "sources": {
+  "SRC-12": {
+   "recupere_le": "2026-10-15T12:06:05.503379+00:00",
+   "sha256": "df08887c75831f832ad10354e59744b50624da93c0dbd4d313cdddb261b5a581",
+   "termes": [
+    {
+     "terme": "aérateur",
+     "source_id": "SRC-12",
+     "source_ref": "aérateur",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "anti-vide",
+     "source_id": "SRC-12",
+     "source_ref": "anti-vide",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "antibélier",
+     "source_id": "SRC-12",
+     "source_ref": "antibélier",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "artelle",
+     "source_id": "SRC-12",
+     "source_ref": "artelle",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "baïonnette",
+     "source_id": "SRC-12",
+     "source_ref": "baïonnette",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "ballon d’eau chaude",
+     "source_id": "SRC-12",
+     "source_ref": "ballon d’eau chaude",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "batte-plate",
+     "source_id": "SRC-12",
+     "source_ref": "batte-plate",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "bec",
+     "source_id": "SRC-12",
+     "source_ref": "bec",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "bidet",
+     "source_id": "SRC-12",
+     "source_ref": "bidet",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "blanchir",
+     "source_id": "SRC-12",
+     "source_ref": "blanchir",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "bonde",
+     "source_id": "SRC-12",
+     "source_ref": "bonde",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "bouchon",
+     "source_id": "SRC-12",
+     "source_ref": "bouchon",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "bourrer",
+     "source_id": "SRC-12",
+     "source_ref": "bourrer",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "brise-jet",
+     "source_id": "SRC-12",
+     "source_ref": "brise-jet",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "buser",
+     "source_id": "SRC-12",
+     "source_ref": "buser",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "calorifugeage",
+     "source_id": "SRC-12",
+     "source_ref": "calorifugeage",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "calorifuger",
+     "source_id": "SRC-12",
+     "source_ref": "calorifuger",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "calorifugeur",
+     "source_id": "SRC-12",
+     "source_ref": "calorifugeur",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "calorifugeuse",
+     "source_id": "SRC-12",
+     "source_ref": "calorifugeuse",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "canivelle",
+     "source_id": "SRC-12",
+     "source_ref": "canivelle",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "chalumeau",
+     "source_id": "SRC-12",
+     "source_ref": "chalumeau",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "chapeau de gendarme",
+     "source_id": "SRC-12",
+     "source_ref": "chapeau de gendarme",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "chaudière",
+     "source_id": "SRC-12",
+     "source_ref": "chaudière",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "chauffe-bain",
+     "source_id": "SRC-12",
+     "source_ref": "chauffe-bain",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "chauffe-eau",
+     "source_id": "SRC-12",
+     "source_ref": "chauffe-eau",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "ciel de pluie",
+     "source_id": "SRC-12",
+     "source_ref": "ciel de pluie",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "clarinette",
+     "source_id": "SRC-12",
+     "source_ref": "clarinette",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "clé à béquille",
+     "source_id": "SRC-12",
+     "source_ref": "clé à béquille",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "clé lavabo",
+     "source_id": "SRC-12",
+     "source_ref": "clé lavabo",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "collet battu",
+     "source_id": "SRC-12",
+     "source_ref": "collet battu",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "combiné de douche",
+     "source_id": "SRC-12",
+     "source_ref": "combiné de douche",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "contre-pente",
+     "source_id": "SRC-12",
+     "source_ref": "contre-pente",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "corrélateur acoustique",
+     "source_id": "SRC-12",
+     "source_ref": "corrélateur acoustique",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "coup de bélier",
+     "source_id": "SRC-12",
+     "source_ref": "coup de bélier",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "coupe-air",
+     "source_id": "SRC-12",
+     "source_ref": "coupe-air",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "coupe-tube",
+     "source_id": "SRC-12",
+     "source_ref": "coupe-tube",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "coupe-tubes",
+     "source_id": "SRC-12",
+     "source_ref": "coupe-tubes",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "culotte",
+     "source_id": "SRC-12",
+     "source_ref": "culotte",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "cumulus",
+     "source_id": "SRC-12",
+     "source_ref": "cumulus",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "curage",
+     "source_id": "SRC-12",
+     "source_ref": "curage",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "damet",
+     "source_id": "SRC-12",
+     "source_ref": "damet",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "déboucher",
+     "source_id": "SRC-12",
+     "source_ref": "déboucher",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "déboucheur",
+     "source_id": "SRC-12",
+     "source_ref": "déboucheur",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "dégraveler",
+     "source_id": "SRC-12",
+     "source_ref": "dégraveler",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "dégraver",
+     "source_id": "SRC-12",
+     "source_ref": "dégraver",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "dessautage",
+     "source_id": "SRC-12",
+     "source_ref": "dessautage",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "douchette",
+     "source_id": "SRC-12",
+     "source_ref": "douchette",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "dresse-tube",
+     "source_id": "SRC-12",
+     "source_ref": "dresse-tube",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "eau chaude sanitaire",
+     "source_id": "SRC-12",
+     "source_ref": "eau chaude sanitaire",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "eau du robinet",
+     "source_id": "SRC-12",
+     "source_ref": "eau du robinet",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "eaux vannes",
+     "source_id": "SRC-12",
+     "source_ref": "eaux vannes",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "eaux-vannes",
+     "source_id": "SRC-12",
+     "source_ref": "eaux-vannes",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "éclate-tuyau",
+     "source_id": "SRC-12",
+     "source_ref": "éclate-tuyau",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "écroui",
+     "source_id": "SRC-12",
+     "source_ref": "écroui",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "ECS",
+     "source_id": "SRC-12",
+     "source_ref": "ECS",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "ennusure",
+     "source_id": "SRC-12",
+     "source_ref": "ennusure",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "flexible",
+     "source_id": "SRC-12",
+     "source_ref": "flexible",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "fonte",
+     "source_id": "SRC-12",
+     "source_ref": "fonte",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "fosse septique",
+     "source_id": "SRC-12",
+     "source_ref": "fosse septique",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "fouloir",
+     "source_id": "SRC-12",
+     "source_ref": "fouloir",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "fuite",
+     "source_id": "SRC-12",
+     "source_ref": "fuite",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "furet",
+     "source_id": "SRC-12",
+     "source_ref": "furet",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "fuyard",
+     "source_id": "SRC-12",
+     "source_ref": "fuyard",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "gâche",
+     "source_id": "SRC-12",
+     "source_ref": "gâche",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "hydrocureur",
+     "source_id": "SRC-12",
+     "source_ref": "hydrocureur",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "hydrocureuse",
+     "source_id": "SRC-12",
+     "source_ref": "hydrocureuse",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "jambonneau",
+     "source_id": "SRC-12",
+     "source_ref": "jambonneau",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "joint",
+     "source_id": "SRC-12",
+     "source_ref": "joint",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "mamelon",
+     "source_id": "SRC-12",
+     "source_ref": "mamelon",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "manchon",
+     "source_id": "SRC-12",
+     "source_ref": "manchon",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "mandrinage",
+     "source_id": "SRC-12",
+     "source_ref": "mandrinage",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "mascaron",
+     "source_id": "SRC-12",
+     "source_ref": "mascaron",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "matoir",
+     "source_id": "SRC-12",
+     "source_ref": "matoir",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "mélangeur",
+     "source_id": "SRC-12",
+     "source_ref": "mélangeur",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "mousseur",
+     "source_id": "SRC-12",
+     "source_ref": "mousseur",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "nez",
+     "source_id": "SRC-12",
+     "source_ref": "nez",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "nipple",
+     "source_id": "SRC-12",
+     "source_ref": "nipple",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "nourrice",
+     "source_id": "SRC-12",
+     "source_ref": "nourrice",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "orillon",
+     "source_id": "SRC-12",
+     "source_ref": "orillon",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "piquage",
+     "source_id": "SRC-12",
+     "source_ref": "piquage",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "pisserotte",
+     "source_id": "SRC-12",
+     "source_ref": "pisserotte",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "plombière",
+     "source_id": "SRC-12",
+     "source_ref": "plombière",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "plongée",
+     "source_id": "SRC-12",
+     "source_ref": "plongée",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "polastre",
+     "source_id": "SRC-12",
+     "source_ref": "polastre",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "pomme de douche",
+     "source_id": "SRC-12",
+     "source_ref": "pomme de douche",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "pommeau de douche",
+     "source_id": "SRC-12",
+     "source_ref": "pommeau de douche",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "pompage",
+     "source_id": "SRC-12",
+     "source_ref": "pompage",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "pompe de cyclage",
+     "source_id": "SRC-12",
+     "source_ref": "pompe de cyclage",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "pot à boue",
+     "source_id": "SRC-12",
+     "source_ref": "pot à boue",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "presse-étoupe",
+     "source_id": "SRC-12",
+     "source_ref": "presse-étoupe",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "prise d’eau",
+     "source_id": "SRC-12",
+     "source_ref": "prise d’eau",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "puisard",
+     "source_id": "SRC-12",
+     "source_ref": "puisard",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "purgeur",
+     "source_id": "SRC-12",
+     "source_ref": "purgeur",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "queue-de-carpe",
+     "source_id": "SRC-12",
+     "source_ref": "queue-de-carpe",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "queue-de-cochon",
+     "source_id": "SRC-12",
+     "source_ref": "queue-de-cochon",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "raccord",
+     "source_id": "SRC-12",
+     "source_ref": "raccord",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "receveur",
+     "source_id": "SRC-12",
+     "source_ref": "receveur",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "recuit",
+     "source_id": "SRC-12",
+     "source_ref": "recuit",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "réduction",
+     "source_id": "SRC-12",
+     "source_ref": "réduction",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "robinet",
+     "source_id": "SRC-12",
+     "source_ref": "robinet",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "robinet flotteur",
+     "source_id": "SRC-12",
+     "source_ref": "robinet flotteur",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "robinet rince-bouche",
+     "source_id": "SRC-12",
+     "source_ref": "robinet rince-bouche",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "robinetier",
+     "source_id": "SRC-12",
+     "source_ref": "robinetier",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "rosace",
+     "source_id": "SRC-12",
+     "source_ref": "rosace",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "serre-tube",
+     "source_id": "SRC-12",
+     "source_ref": "serre-tube",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "siphon",
+     "source_id": "SRC-12",
+     "source_ref": "siphon",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "soupape de sûreté",
+     "source_id": "SRC-12",
+     "source_ref": "soupape de sûreté",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "soupape d’échappement",
+     "source_id": "SRC-12",
+     "source_ref": "soupape d’échappement",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "tampon",
+     "source_id": "SRC-12",
+     "source_ref": "tampon",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "tamponnement",
+     "source_id": "SRC-12",
+     "source_ref": "tamponnement",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "téflon",
+     "source_id": "SRC-12",
+     "source_ref": "téflon",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "toilettes à la turque",
+     "source_id": "SRC-12",
+     "source_ref": "toilettes à la turque",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "toupie",
+     "source_id": "SRC-12",
+     "source_ref": "toupie",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "tout-à-l’égout",
+     "source_id": "SRC-12",
+     "source_ref": "tout-à-l’égout",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "tout-à-l’égoût",
+     "source_id": "SRC-12",
+     "source_ref": "tout-à-l’égoût",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "vanne",
+     "source_id": "SRC-12",
+     "source_ref": "vanne",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "vanne à boisseau",
+     "source_id": "SRC-12",
+     "source_ref": "vanne à boisseau",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "vanne à boule",
+     "source_id": "SRC-12",
+     "source_ref": "vanne à boule",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "vanne à trois voies",
+     "source_id": "SRC-12",
+     "source_ref": "vanne à trois voies",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "vanne mélangeuse",
+     "source_id": "SRC-12",
+     "source_ref": "vanne mélangeuse",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "vanne suédoise",
+     "source_id": "SRC-12",
+     "source_ref": "vanne suédoise",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "ventouse",
+     "source_id": "SRC-12",
+     "source_ref": "ventouse",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    },
+    {
+     "terme": "vidangeuse",
+     "source_id": "SRC-12",
+     "source_ref": "vidangeuse",
+     "licence": "CC-BY-SA-4.0",
+     "categorie": "other"
+    }
+   ]
+  },
+  "SRC-11": {
+   "recupere_le": "2026-10-15T12:06:05.866414+00:00",
+   "sha256": "fa407516dee14b1e9f2a138b3d21df3ff251b78be588cf9f10770dd5e294d595",
+   "termes": [
+    {
+     "terme": "Bristan",
+     "source_id": "SRC-11",
+     "source_ref": "Q19871557",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Fondital",
+     "source_id": "SRC-11",
+     "source_ref": "Q18590100",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Princes LHS Ltd",
+     "source_id": "SRC-11",
+     "source_ref": "Q141645734",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Spylevakta",
+     "source_id": "SRC-11",
+     "source_ref": "Q134580109",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Studio Ore",
+     "source_id": "SRC-11",
+     "source_ref": "Q139591282",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Armatury Group",
+     "source_id": "SRC-11",
+     "source_ref": "Q36877340",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Baxi",
+     "source_id": "SRC-11",
+     "source_ref": "Q4873807",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Brano Group",
+     "source_id": "SRC-11",
+     "source_ref": "Q67811791",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Espace Aubade",
+     "source_id": "SRC-11",
+     "source_ref": "Q126620187",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Flow Energy",
+     "source_id": "SRC-11",
+     "source_ref": "Q21015709",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Geberit",
+     "source_id": "SRC-11",
+     "source_ref": "Q464905",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Grohe",
+     "source_id": "SRC-11",
+     "source_ref": "Q316477",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Ideal Standard International",
+     "source_id": "SRC-11",
+     "source_ref": "Q1656670",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Kohler Mira Ltd",
+     "source_id": "SRC-11",
+     "source_ref": "Q6426043",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Nestalia",
+     "source_id": "SRC-11",
+     "source_ref": "Q122189809",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Oras",
+     "source_id": "SRC-11",
+     "source_ref": "Q7099906",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "PCR Plombier Chauffagiste",
+     "source_id": "SRC-11",
+     "source_ref": "Q139586609",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Ptáček - velkoobchod",
+     "source_id": "SRC-11",
+     "source_ref": "Q58195153",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "SL2A",
+     "source_id": "SRC-11",
+     "source_ref": "Q135476786",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Telefuga",
+     "source_id": "SRC-11",
+     "source_ref": "Q140036802",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    },
+    {
+     "terme": "Viessmann",
+     "source_id": "SRC-11",
+     "source_ref": "Q700651",
+     "licence": "CC0-1.0",
+     "categorie": "brand"
+    }
+   ]
+  }
+ }
+}

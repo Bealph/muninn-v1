@@ -8,6 +8,7 @@ from collections.abc import Iterator
 from datetime import UTC, date, datetime
 from typing import Any, cast
 
+import httpx
 import pytest
 
 from muninn.core.config import get_settings
@@ -49,11 +50,16 @@ PAGE = (
     b'<div id="mw-pages"><ul><li><a href="/wiki/cumulus" title="cumulus">c</a></li>'
     b'<li><a href="/wiki/siphon" title="siphon">s</a></li></ul></div>'
 )
+SPARQL = (
+    b'{"results": {"bindings": [{"marque": {"value": "http://www.wikidata.org/entity/Q316477"},'
+    b' "nom": {"value": "Grohe"}}]}}'
+)
 TOUT = {
     cog.URL: COG_V1,
     codes_postaux.URL: CP,
     api_geo.URL: GEO,
     lexique.URL_WIKTIONNAIRE: PAGE,
+    lexique.URL_WIKIDATA: SPARQL,
 }
 
 
@@ -71,6 +77,11 @@ def servir(monkeypatch: pytest.MonkeyPatch, fichiers: dict[str, bytes]) -> None:
     """Remplace le téléchargement : chaque adresse rend le contenu donné."""
 
     def faux(url: str, client: Any = None) -> FichierRecu:
+        if url not in fichiers:
+            requete = httpx.Request("GET", url)
+            raise httpx.HTTPStatusError(
+                "429", request=requete, response=httpx.Response(429, request=requete)
+            )
         return FichierRecu(
             url=url,
             url_finale=url,
@@ -189,6 +200,25 @@ def test_lexique_candidat_rejouable(base: str, monkeypatch: pytest.MonkeyPatch) 
         assert conn.execute(
             "SELECT term, source_id, license, review_status FROM ref.lexicon_terms ORDER BY 1"
         ).fetchall() == [
+            ("Grohe", "SRC-11", "CC0-1.0", "accepted"),
             ("cumulus", "SRC-12", "CC-BY-SA-4.0", "accepted"),
             ("siphon", "SRC-12", "CC-BY-SA-4.0", "accepted"),
         ]
+
+
+def test_lexique_source_indisponible_passe_par_le_secours(
+    base: str, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    servir(monkeypatch, {lexique.URL_WIKTIONNAIRE: PAGE})  # Wikidata répond 429
+    assert commande.main(["lexique"]) == 0
+    with connecter(base) as conn:
+        rapport = conn.execute("SELECT report FROM ref.trade_lexicons").fetchone()
+        marques = conn.execute(
+            "SELECT count(*) FROM ref.lexicon_terms WHERE source_id = 'SRC-11'"
+        ).fetchone()
+    assert rapport is not None and marques is not None
+    sources = {s["source_id"]: s for s in cast(dict[str, Any], rapport[0])["sources"]}
+    assert sources["SRC-12"]["mode"] == "collecte"
+    assert sources["SRC-11"]["mode"] == "secours"
+    assert "429" in sources["SRC-11"]["raison"]
+    assert cast(int, marques[0]) > 0  # termes repris de l'instantané versionné

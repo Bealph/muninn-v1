@@ -1,0 +1,19 @@
+# Marques d'équipements de plomberie (Wikidata, SRC-11 ; sprint 3, étape 5).
+# Entités qui fabriquent un équipement de plomberie (P1056) ou dont le secteur est la plomberie
+# (P452), établies dans un pays d'Europe (P17, P30) ; libellé français, sinon anglais.
+# Concepts vérifiés le 15 octobre 2026 : robinet Q656656, chauffe-eau Q14931, toilettes Q7857,
+# baignoire Q152095, lavabo Q140565, évier Q2425869, chaudière Q3195517, plomberie Q182612 et
+# Q3241671. Pertinence faible, assumée (phase 0, document 03, SRC-11).
+SELECT DISTINCT ?marque ?nom WHERE {
+  VALUES ?concept { wd:Q656656 wd:Q14931 wd:Q7857 wd:Q152095 wd:Q140565 wd:Q2425869
+                    wd:Q3195517 wd:Q182612 wd:Q3241671 }
+  { ?marque wdt:P1056 ?concept . } UNION { ?marque wdt:P452 ?concept . }
+  ?marque wdt:P17 ?pays .
+  ?pays wdt:P30 wd:Q46 .
+  OPTIONAL { ?marque rdfs:label ?fr FILTER(lang(?fr) = "fr") }
+  OPTIONAL { ?marque rdfs:label ?en FILTER(lang(?en) = "en") }
+  BIND(COALESCE(?fr, ?en) AS ?nom)
+  FILTER(BOUND(?nom))
+}
+ORDER BY ?nom
+LIMIT 500

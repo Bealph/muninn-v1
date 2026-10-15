@@ -154,3 +154,31 @@ def test_lexique_une_forme_un_terme_et_attribution() -> None:
     assert ecartes == [{"terme": "eaux-vannes", "motif": "même forme que « eaux vannes »"}]
     assert lexique.url_de(gardes[1]) == "https://fr.wiktionary.org/wiki/eaux_vannes"
     assert lexique.empreinte(gardes) == lexique.empreinte(list(reversed(gardes)))
+
+
+def test_wikidata_une_entite_un_terme() -> None:
+    contenu = (
+        b'{"results": {"bindings": ['
+        b'{"marque": {"value": "http://www.wikidata.org/entity/Q316477"},'
+        b' "nom": {"value": "Grohe"}},'
+        b'{"marque": {"value": "http://www.wikidata.org/entity/Q316477"},'
+        b' "nom": {"value": "Grohe"}},'
+        b'{"marque": {"value": "http://www.wikidata.org/entity/Q700651"},'
+        b' "nom": {"value": "Viessmann"}}]}}'
+    )
+    termes = lexique.lire_wikidata(contenu)
+    assert [(t.terme, t.source_ref, t.licence, t.categorie) for t in termes] == [
+        ("Grohe", "Q316477", "CC0-1.0", "brand"),
+        ("Viessmann", "Q700651", "CC0-1.0", "brand"),
+    ]
+    assert lexique.url_de(termes[0]) == "https://www.wikidata.org/wiki/Q316477"
+
+
+def test_instantane_de_secours_versionne() -> None:
+    """L'instantané couvre les deux sources, avec licence et référence par terme."""
+    for source_id in ("SRC-12", "SRC-11"):
+        termes, rapport = lexique.lire_secours(source_id, "essai")
+        assert termes
+        assert rapport["mode"] == "secours"
+        assert {t.licence for t in termes} == {lexique.LICENCES[source_id]}
+        assert all(t.source_ref for t in termes)
