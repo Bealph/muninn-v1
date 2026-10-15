@@ -102,7 +102,7 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 9 : la minimisation RGPD, documentée
 
-- [ ] Note du sprint : données personnelles par source, minimisation appliquée (Sirene) ou non-applicabilité argumentée (référentiels), absence de valeurs recherchées dans les journaux ; renvoi au registre de la phase 1 (document 05).
+- [x] Note du sprint (`rgpd.md`) : données personnelles par source ; minimisation appliquée à Sirene (colonnes lues, aucun fichier sur disque, SIREN en mémoire seulement, agrégats sous secret statistique) ; non-applicabilité argumentée pour les cinq autres sources ; valeurs recherchées ni journalisées ni stockées, prouvé par un test ; écarts avec la fiche RT-07 de la phase 1, tous plus protecteurs ou neutres.
 
 ### Étape 10 : le jeu de démonstration et la production
 

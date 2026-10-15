@@ -5,6 +5,7 @@ test à la place des téléchargements (voir `test_ingestion_base.py`).
 """
 
 import json
+import logging
 from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
@@ -269,3 +270,22 @@ def test_ecran_console_de_bout_en_bout(client: TestClient) -> None:
         assert "https://fr.wiktionary.org/wiki/cumulus" in html
     finally:
         console.dependency_overrides.clear()
+
+
+def test_valeurs_recherchees_absentes_des_journaux(
+    client: TestClient, caplog: pytest.LogCaptureFixture
+) -> None:
+    """TA-23 : une valeur cherchée n'apparaît dans aucun journal, à aucun niveau."""
+    temoin = "Témoin-Dupont-4271"
+    console.dependency_overrides[get_client_api] = lambda: client
+    try:
+        with caplog.at_level(logging.DEBUG):
+            client.post(COMMUNES, json={"nom": temoin, "code_postal": "75001"})
+            client.post(TERMES, json={"mot": temoin, "metier": "plomberie"})
+            ecran = TestClient(console)
+            ecran.post("/referentiels/commune", data={"nom": temoin})
+            ecran.post("/referentiels/terme", data={"mot": temoin, "metier": "plomberie"})
+    finally:
+        console.dependency_overrides.clear()
+    assert caplog.records  # les journaux sont bien capturés
+    assert temoin not in caplog.text
