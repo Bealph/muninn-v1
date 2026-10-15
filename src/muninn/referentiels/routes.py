@@ -167,6 +167,29 @@ def url_terme(source_id: str, reference: str) -> str | None:
     return None
 
 
+def citer_source_du_lexique(
+    metier: str, lexique: depot.LexiquePublie, source: dict[str, Any]
+) -> dict[str, Any]:
+    """Cite une source réelle du lexique (Wiktionnaire ou Wikidata), telle que collectée.
+
+    En mode secours, la date est celle de l'instantané versionné, et le mode est dit.
+    """
+    source_id = str(source["source_id"])
+    date_collecte = source.get("recupere_le") or source.get("instantane_du") or ""
+    return {
+        "jeu": f"lexique {metier}",
+        "source_id": source_id,
+        **depot.SOURCES[source_id],
+        "url": source.get("url"),
+        "date_source": source.get("date_source") or date_collecte[:10] or None,
+        "charge_le": lexique.publie_le.isoformat(),
+        "version": lexique.version,
+        "table": "ref.lexicon_terms",
+        "mode": source.get("mode", "collecte"),
+        "attribution": "titres de pages et libellés repris, définitions non reprises",
+    }
+
+
 @routeur.post("/termes", dependencies=[Depends(limiter)])
 def termes(question: QuestionTerme) -> ReponseTerme:
     """Terme du lexique le plus proche d'un mot, pour un métier (outil `chercher_terme_metier`)."""
@@ -190,14 +213,8 @@ def termes(question: QuestionTerme) -> ReponseTerme:
             )
         meilleur = depot.terme_le_plus_proche(conn, lexique.id, question.mot)
     sources = [
-        {
-            "jeu": f"lexique {question.metier}",
-            "version": lexique.version,
-            "publie_le": lexique.publie_le.isoformat(),
-            "table": "ref.lexicon_terms",
-            "sources": lexique.rapport.get("sources", []),
-            "attribution": "titres de pages et libellés repris, définitions non reprises",
-        }
+        citer_source_du_lexique(question.metier, lexique, s)
+        for s in lexique.rapport.get("sources", [])
     ]
     similarite = round(float(meilleur["similarite"]), 3) if meilleur else 0.0
     if meilleur is None or similarite < SEUIL_LEXIQUE:

@@ -96,9 +96,9 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 8 : la vue pour l'évaluateur (D-57)
 
-- [ ] Écran « Référentiels » de la console, en production : une question, la réponse et ses sources, ou le refus et son motif ; Swagger en plus.
-- [ ] Limite de débit sur les points de lecture exposés.
-- [ ] Contrôle d'accessibilité axe-core sur l'écran.
+- [x] Écran « Référentiels » de la console (`/referentiels`) : trois questions (commune, terme de métier, marché), la question rappelée, la réponse et ses sources (titre, éditeur, licence, dates lisibles, version, table, lien vers la source), ou le refus et son motif ; Swagger de l'API en plus (`/docs`). Captures sur les vraies données locales : `preuves/etape-8-*.png`.
+- [x] Limite de débit sur les points de lecture exposés : 120 par minute et 5 000 par jour, globale (étape 7, testée).
+- [x] Contrôle d'accessibilité axe-core (WCAG 2.2 AA) sur les 9 états de l'écran, en CI ; une violation trouvée et corrigée (zone de résultat étiquetée par un titre absent, à l'état vide).
 
 ### Étape 9 : la minimisation RGPD, documentée
 

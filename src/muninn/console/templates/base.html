@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titre %}Muninn, console de démonstration{% endblock %}</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 52rem; margin: 2rem auto; padding: 0 1rem;
+           color: #1a1a1a; background: #fff; line-height: 1.5; }
+    nav ul { list-style: none; display: flex; gap: 1.5rem; padding: 0; margin: 0 0 1rem; }
+    nav a { color: #1f4f9f; }
+    nav a[aria-current="page"] { font-weight: 700; color: #1a1a1a; }
+    label { display: block; font-weight: 600; margin-top: 1rem; }
+    input, textarea, select { width: 100%; font: inherit; padding: .5rem; box-sizing: border-box; }
+    button { margin-top: 1rem; font: inherit; padding: .5rem 1.25rem; cursor: pointer; }
+    :focus-visible { outline: 3px solid #1f5fbf; outline-offset: 2px; }
+    .reponse { border-left: 4px solid #1f6f3f; padding: .5rem 1rem; background: #f2f8f4; }
+    .refus { border-left: 4px solid #8a5a00; padding: .5rem 1rem; background: #fdf6e9; }
+    .erreur { border-left: 4px solid #a31515; padding: .5rem 1rem; background: #fbf0f0; }
+    .aide { color: #4a4a4a; margin: .25rem 0 0; }
+    dl { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem; }
+    dt { font-weight: 600; }
+    dd { margin: 0; font-family: ui-monospace, monospace; }
+    table { border-collapse: collapse; width: 100%; margin: .5rem 0 1rem; font-size: .95rem; }
+    th, td { border: 1px solid #c8c8c8; padding: .35rem .5rem; text-align: left; vertical-align: top; }
+    th { background: #f0f0f0; }
+    code { font-family: ui-monospace, monospace; }
+    fieldset { border: 1px solid #c8c8c8; padding: .5rem 1rem 1rem; margin: 1.5rem 0 0; }
+    legend { font-weight: 700; padding: 0 .25rem; }
+  </style>
+</head>
+<body>
+<header>
+  <nav aria-label="Pages de la console">
+    <ul>
+      <li><a href="/" {% if page == "accueil" %}aria-current="page"{% endif %}>Accueil</a></li>
+      <li><a href="/referentiels" {% if page == "referentiels" %}aria-current="page"{% endif %}>Référentiels</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+{% block contenu %}{% endblock %}
+</main>
+</body>
+</html>

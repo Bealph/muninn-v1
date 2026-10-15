@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block titre %}Muninn, référentiels{% endblock %}
+{% block contenu %}
+  <h1>Référentiels</h1>
+  <p>Questions posées aux données de Muninn, en production. Chaque réponse cite ses sources ; ce qui
+  sort des données ou du périmètre est refusé, sans valeur inventée.</p>
+
+  <section aria-live="polite"{% if resultat or erreur %} aria-labelledby="titre-resultat"{% endif %}>
+  {% if rappel %}<p><strong>Question :</strong> {{ rappel }}</p>{% endif %}
+  {% if erreur %}
+    <h2 id="titre-resultat">Erreur</h2>
+    <div class="erreur" role="alert"><p>{{ erreur }}</p></div>
+  {% elif resultat %}
+    <h2 id="titre-resultat">{{ libelles[resultat.statut] }}</h2>
+    <div class="{{ 'reponse' if resultat.statut == 'trouve' else 'refus' }}"><p>{{ resultat.motif }}</p></div>
+
+    {% if resultat.candidates %}
+    <table>
+      <caption>Communes candidates</caption>
+      <thead><tr><th scope="col">Commune</th><th scope="col">Code INSEE</th><th scope="col">Département</th><th scope="col">Codes postaux</th><th scope="col">Trouvée par</th><th scope="col">Références en base</th></tr></thead>
+      <tbody>
+      {% for c in resultat.candidates %}
+        <tr><td>{{ c.nom }}</td><td><code>{{ c.code_insee }}</code></td><td>{{ c.departement }}</td>
+          <td>{{ c.codes_postaux | join(", ") }}</td><td>{{ c.via }}</td>
+          <td>{% for r in c.references[:3] %}<code>{{ r.table }}</code> {{ r.cle }}{% if not loop.last %} ; {% endif %}{% endfor %}{% if c.references | length > 3 %} ; et {{ c.references | length - 3 }} autres{% endif %}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
+    {% if resultat.terme %}
+    <dl>
+      <dt>Terme</dt><dd>{{ resultat.terme.terme }}</dd>
+      <dt>Similarité</dt><dd>{{ resultat.terme.similarite }} (seuil {{ resultat.seuil }})</dd>
+      <dt>Catégorie</dt><dd>{{ resultat.terme.categorie }}</dd>
+      <dt>Page source</dt><dd>{% if resultat.terme.url %}<a href="{{ resultat.terme.url }}">{{ resultat.terme.reference }}</a>{% else %}{{ resultat.terme.reference }}{% endif %}</dd>
+      <dt>Licence</dt><dd>{{ resultat.terme.licence }}</dd>
+      <dt>Références en base</dt><dd>{% for r in resultat.terme.references %}{{ r.table }} {{ r.cle }}{% if not loop.last %} ; {% endif %}{% endfor %}</dd>
+    </dl>
+    {% endif %}
+
+    {% if nationaux %}
+    <table>
+      <caption>Totaux nationaux, {{ resultat.metier }} ({{ resultat.comptages | length }} cellules en tout)</caption>
+      <thead><tr><th scope="col">Code NAF</th><th scope="col">Tranche d'effectif</th><th scope="col">Forme juridique</th><th scope="col">Établissements</th><th scope="col">Entreprises</th></tr></thead>
+      <tbody>
+      {% for l in nationaux %}
+        <tr><td>{{ l.naf_code }}</td><td>{{ tranches[l.headcount_band] }}</td><td>{{ formes[l.legal_category_group] }}</td>
+          {% if l.is_masked %}<td colspan="2">masqué (secret statistique)</td>{% else %}<td>{{ l.establishments_count }}</td><td>{{ l.legal_units_count }}</td>{% endif %}</tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
+    {% if resultat.sources %}
+    <table>
+      <caption>Sources citées</caption>
+      <thead><tr><th scope="col">Source</th><th scope="col">Éditeur et licence</th><th scope="col">Date de la source</th><th scope="col">Chargée le</th><th scope="col">Version et table</th></tr></thead>
+      <tbody>
+      {% for s in resultat.sources %}
+        <tr>
+          <td>{% if s.url %}<a href="{{ s.url }}">{{ s.titre }}</a>{% else %}{{ s.titre }}{% endif %} <code>{{ s.source_id }}</code></td>
+          <td>{{ s.editeur }}, {{ s.licence }}</td>
+          <td>{{ (s.date_source | date_lisible) if s.date_source else "non publiée par la source" }}{% if s.mode == "secours" %} (instantané de secours){% endif %}</td>
+          <td>{{ s.charge_le | date_lisible }}</td>
+          <td>{{ s.version }}, <code>{{ s.table }}</code></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+  {% endif %}
+  </section>
+
+  <form method="post" action="/referentiels/commune">
+    <fieldset>
+      <legend>Commune</legend>
+      <p class="aide">Un nom, un code postal, ou les deux. Le nom est comparé exactement, accents,
+      casse et tirets mis à part.</p>
+      <label for="nom">Nom de la commune</label>
+      <input id="nom" name="nom" maxlength="120" value="{{ nom }}" autocomplete="off">
+      <label for="code_postal">Code postal (5 chiffres)</label>
+      <input id="code_postal" name="code_postal" maxlength="5" inputmode="numeric" value="{{ code_postal }}" autocomplete="off">
+      <button type="submit">Chercher la commune</button>
+    </fieldset>
+  </form>
+
+  <form method="post" action="/referentiels/terme">
+    <fieldset>
+      <legend>Terme de métier</legend>
+      <p class="aide">Un mot entendu et un métier : le terme du lexique le plus proche, au-dessus du
+      seuil de similarité, ou un refus.</p>
+      <label for="mot">Mot entendu</label>
+      <input id="mot" name="mot" maxlength="80" required value="{{ mot }}" autocomplete="off">
+      <label for="metier">Métier</label>
+      <select id="metier" name="metier">
+        {% for m in metiers %}<option value="{{ m }}" {% if m == metier %}selected{% endif %}>{{ m }}</option>{% endfor %}
+      </select>
+      <button type="submit">Chercher le terme</button>
+    </fieldset>
+  </form>
+
+  <form method="get" action="/referentiels/marche">
+    <fieldset>
+      <legend>Marché (Sirene)</legend>
+      <p class="aide">Établissements actifs d'un métier, après secret statistique.</p>
+      <label for="metier_marche">Métier</label>
+      <select id="metier_marche" name="metier">
+        {% for m in metiers %}<option value="{{ m }}" {% if m == metier_marche %}selected{% endif %}>{{ m }}</option>{% endfor %}
+      </select>
+      <button type="submit">Voir le marché</button>
+    </fieldset>
+  </form>
+
+{% endblock %}

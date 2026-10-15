@@ -15,6 +15,8 @@ from fastapi.testclient import TestClient
 
 from muninn.api.limites import LimiteurDebit
 from muninn.api.main import app
+from muninn.console.main import app as console
+from muninn.console.main import get_client_api
 from muninn.core.config import get_settings
 from muninn.ingestion import commande, lexique, sirene
 from muninn.referentiels import depot
@@ -160,7 +162,10 @@ def test_terme_trouve_avec_attribution(client: TestClient) -> None:
     )
     assert terme["url"] == "https://fr.wiktionary.org/wiki/cumulus"
     assert terme["references"][0]["table"] == "ref.lexicon_terms"
-    assert r["sources"][0]["sources"]  # sources de la version du lexique
+    wiktionnaire, wikidata = r["sources"]  # chaque source réelle du lexique est citée
+    assert (wiktionnaire["source_id"], wiktionnaire["licence"]) == ("SRC-12", "CC BY-SA 4.0")
+    assert wiktionnaire["url"].startswith("https://fr.wiktionary.org/")
+    assert (wikidata["source_id"], wikidata["licence"]) == ("SRC-11", "CC0 1.0")
 
 
 @pytest.mark.parametrize("mot", ["ordinateur", "robot", "Quelle est la capitale de la France ?"])
@@ -246,3 +251,21 @@ def test_schemas_absents_rendent_un_503(monkeypatch: pytest.MonkeyPatch) -> None
         get_settings.cache_clear()
         with connecter("postgres") as admin:
             admin.execute("DROP DATABASE muninn_test_vide WITH (FORCE)")
+
+
+def test_ecran_console_de_bout_en_bout(client: TestClient) -> None:
+    """Console, API, PostgreSQL : la question de l'évaluateur rend la réponse et sa source."""
+    console.dependency_overrides[get_client_api] = lambda: client
+    try:
+        ecran = TestClient(console)
+        html = ecran.post("/referentiels/commune", data={"nom": "Paris"}).text
+        assert "Réponse tirée des données" in html and "75056" in html
+        assert "Code officiel géographique 2026" in html and "ref.postal_codes" in html
+        html = ecran.post("/referentiels/commune", data={"nom": "Gotham City"}).text
+        assert "Refus : hors des données" in html
+        html = ecran.post(
+            "/referentiels/terme", data={"mot": "cumulus", "metier": "plomberie"}
+        ).text
+        assert "https://fr.wiktionary.org/wiki/cumulus" in html
+    finally:
+        console.dependency_overrides.clear()
