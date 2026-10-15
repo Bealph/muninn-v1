@@ -56,9 +56,22 @@ la livraison du dernier commit se poursuit normalement.
 - La requête qui lit l'image de la révision en service a été essayée en lecture seule sur la
   production : elle rend `crmuninn.azurecr.io/muninn:a54301e…`.
 - Contrôle des options `az` des scripts (`verifier-options.py`) : aucune option absente.
-- Après fusion, relancer les jobs de livraison de l'exécution du correctif : le commit est alors
-  déjà en service, le job doit réussir avec le message « déjà en service ». Résultat consigné
-  ci-dessous.
+- Livraison normale de la fusion du correctif (PR n° 26, commit `43d969d`, exécution
+  38702093700, tentative 1) : tous les jobs verts ; nouvelle révision créée, contrôlée et mise en
+  service en préproduction et en production. Le chemin habituel n'a pas changé.
+- Relance des jobs de livraison de la même exécution (tentative 2, le 15 octobre 2026 à
+  08:04 UTC), le commit étant déjà en service :
+
+  ```text
+  preproduction | crmuninn.azurecr.io/muninn:43d969dc… déjà en service : rien à livrer
+  preproduction | Livré en preproduction : 43d969dc106413f545396e8a7385cf1aa3cc4c3d
+  production    | crmuninn.azurecr.io/muninn:43d969dc… déjà en service : rien à livrer
+  production    | Livré en production : 43d969dc106413f545396e8a7385cf1aa3cc4c3d
+  ```
+
+  Les deux jobs réussissent (1 min 18 s et 45 s). Avant et après la relance, chacune des quatre
+  applications compte 19 révisions et sert la même (`--0000018`) : aucune révision créée, aucun
+  trafic déplacé. `/version` en production rend `43d969d`.
 
 ## Non-régression
 
