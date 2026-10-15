@@ -16,7 +16,7 @@ cochée qu'avec sa preuve (fichier, capture ou exécution de la chaîne).
 | P3  | Un commit cassé est bloqué                                                             | 7      | Démonstration en direct, PR rouge conservée                      |
 | P4  | Le rollback est montré                                                                 | 8      | Démonstration en direct et journal                               |
 | P5  | Les secrets ne sont pas dans le dépôt ; l'environnement se reconstruit depuis le dépôt | 1, 9   | Recherche de secrets en CI ; reconstruction depuis un clone neuf |
-| P6  | Les retours de l'atelier n° 1 sont traités, reportés ou écartés                        | 0, 10  | `eval/ateliers/sprint-1-retours.md`                              |
+| P6  | Les retours de l'atelier n° 1 sont traités, reportés ou écartés                        | 0, 10  | `retours.md` (D-59)                                              |
 
 ## Étapes
 

@@ -108,7 +108,7 @@ retour arrière pendant une livraison.
   (commit, PR, décision D-xx ou section du dossier).
 - **Je fais :** j'ouvre le journal des retours et je parcours les décisions, une par une.
 - **Secours :** aucun ; le journal est la preuve.
-- **État :** journal à verser dans `eval/ateliers/sprint-1-retours.md` à partir des retours de
+- **État :** journal à verser dans `docs/v1/sprints/sprint-2/retours.md` (D-59) à partir des retours de
   l'atelier n° 1 fournis par le porteur.
 
 ## 4. Après la démonstration

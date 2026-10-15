@@ -63,23 +63,24 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-14 | Infographies enrichies du sprint 2 (travail attendu, évaluation par le pair) ; rituel de fin de sprint instauré                                                                                | `docs/v1/sprints/README.md`, PR n° 23                                  |
 | 2026-10-15 | Déroulé de la démonstration du sprint 2 (P1 à P6) ; infographies refondues ; rituel porté à sept étapes                                                                                        | `docs/v1/sprints/sprint-2/demonstration.md`, PR n° 25                  |
 | 2026-10-15 | Incident INC-03 (livraison en échec sur un commit déjà livré) résolu et documenté                                                                                                              | `docs/v1/sprints/sprint-2/incidents/`, `infra/azure/deployer.sh`       |
+| 2026-10-15 | Sprint 3, étape 0 : checklist, décisions D-56 à D-59, registre des sources revérifié                                                                                                           | `docs/v1/sprints/sprint-3/`                                            |
 
 ## À faire
 
 Plan de la feuille de route V1 (`docs/v1/roadmap-v1.md`), valable jusqu'au 13 novembre (D-42).
 
-| Étape                | Tâche                                                                                                                                 | Échéance                   | Statut  |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------- |
-| T-06                 | Comparaison des modèles LLM (banc d'essai) ; modèles A et B déjà déployés et accessibles (D-44 à D-46)                                | ven. 16 octobre            | À faire |
-| Sprint 3             | Les données et l'ancrage : V-04 à V-06 (collecte, base, API des référentiels, Sirene)                                                 | jeu. 15 et ven. 16 octobre | À faire |
-| Sprint 4             | La composante agentique et les garde-fous : V-07, V-08                                                                                | ven. 16 au lun. 19 octobre | À faire |
-| Sprint 5             | La vigie et la démo : V-09, V-10 ; CA-1 à CA-6 sur Azure                                                                              | lun. 19 octobre            | À faire |
-| V1.0 complète        | Déploiement automatisé (C13, C19), OpenTelemetry vers Application Insights et alerte (C11, C20)                                       | mar. 20 et mer. 21 octobre | À faire |
-| Réserve              | Rattrapage, puis « si temps » dans l'ordre du dossier V1                                                                              | 22 au 24 octobre           | À faire |
-| Premier oral         | Rédaction d'E1 et d'E3 en Word, script de démo, trois répétitions, gel le 28 à 18 h                                                   | 25 au 28 octobre           | À faire |
-| Second oral          | Veille (C6), puis benchmark complet des services d'IA (C7)                                                                            | 31 octobre, 1er novembre   | À faire |
-| V1.1                 | Environnement de test, ouverture automatique d'incident, incident résolu et documenté, audit RGAA (C19, C20, C21, C10)                | 2 et 3 novembre            | À faire |
-| Second oral          | Rédaction d'E2, E4, E5 en Word ; mise à jour d'E1 et d'E3 avec les retours du jury                                                    | 4 au 7 novembre            | À faire |
-| Second oral          | Relecture des cinq livrables, répétitions des 90 minutes, gel le 11 à 18 h                                                            | 9 au 11 novembre           | À faire |
-| Au fil de l'eau      | Une fiche par incident réel (C21) ; tableau GitHub Projects, PR revues, compte rendu de sprint (C16)                                  | dès le 14 octobre          | À faire |
-| Fin de chaque sprint | Rituel de fin de sprint : checklist, compte rendu, infographies enrichies (attendu et évaluation par le pair), rendus, suivi, journal | à chaque sprint            | À faire |
+| Étape                | Tâche                                                                                                                                 | Échéance                   | Statut                          |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------------------------------- |
+| T-06                 | Comparaison des modèles LLM (banc d'essai) ; modèles A et B déjà déployés et accessibles (D-44 à D-46)                                | ven. 16 octobre            | À faire                         |
+| Sprint 3             | Les données et l'ancrage : V-04 à V-06 (collecte, base, API des référentiels, Sirene)                                                 | jeu. 15 et ven. 16 octobre | En cours (depuis le 15 octobre) |
+| Sprint 4             | La composante agentique et les garde-fous : V-07, V-08                                                                                | ven. 16 au lun. 19 octobre | À faire                         |
+| Sprint 5             | La vigie et la démo : V-09, V-10 ; CA-1 à CA-6 sur Azure                                                                              | lun. 19 octobre            | À faire                         |
+| V1.0 complète        | Déploiement automatisé (C13, C19), OpenTelemetry vers Application Insights et alerte (C11, C20)                                       | mar. 20 et mer. 21 octobre | À faire                         |
+| Réserve              | Rattrapage, puis « si temps » dans l'ordre du dossier V1                                                                              | 22 au 24 octobre           | À faire                         |
+| Premier oral         | Rédaction d'E1 et d'E3 en Word, script de démo, trois répétitions, gel le 28 à 18 h                                                   | 25 au 28 octobre           | À faire                         |
+| Second oral          | Veille (C6), puis benchmark complet des services d'IA (C7)                                                                            | 31 octobre, 1er novembre   | À faire                         |
+| V1.1                 | Environnement de test, ouverture automatique d'incident, incident résolu et documenté, audit RGAA (C19, C20, C21, C10)                | 2 et 3 novembre            | À faire                         |
+| Second oral          | Rédaction d'E2, E4, E5 en Word ; mise à jour d'E1 et d'E3 avec les retours du jury                                                    | 4 au 7 novembre            | À faire                         |
+| Second oral          | Relecture des cinq livrables, répétitions des 90 minutes, gel le 11 à 18 h                                                            | 9 au 11 novembre           | À faire                         |
+| Au fil de l'eau      | Une fiche par incident réel (C21) ; tableau GitHub Projects, PR revues, compte rendu de sprint (C16)                                  | dès le 14 octobre          | À faire                         |
+| Fin de chaque sprint | Rituel de fin de sprint : checklist, compte rendu, infographies enrichies (attendu et évaluation par le pair), rendus, suivi, journal | à chaque sprint            | À faire                         |
