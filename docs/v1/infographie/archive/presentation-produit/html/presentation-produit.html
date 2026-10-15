@@ -584,16 +584,16 @@
 
   <section id="s-sprint-2">
   <h2><span class="num">8</span>Sprint 2 : le travail attendu et l'évaluation par le pair</h2>
-  <div class="frise-note"><b>La consigne.</b> Déployer un squelette de bout en bout (API, interface minimale, un appel au LLM qui répond), livré par une chaîne CI/CD bloquante jusqu'à la production, à travers les environnements ; un retour arrière en une opération ; des secrets hors du dépôt ; un environnement reconstructible depuis le dépôt.</div>
+  <div class="frise-note"><b>La consigne.</b> « Déployer un squelette de bout en bout qui marche : API + interface minimale + un appel LLM qui répond, livré par une chaîne CI/CD bloquante jusqu'à la production. » Travail attendu : un repo propre (Docker, secrets hors du dépôt), le squelette, la chaîne jusqu'à la production, des tests bloquants prouvés par un commit cassé, un rollback en une opération. Tout est fait.</div>
   <div class="criteres">
-    <div class="critere"><span class="ca">P1</span><b>Le squelette tourne en production</b>Console de production sur Azure ; <code>/version</code> rend le SHA livré. Prouvé.</div>
-    <div class="critere"><span class="ca">P2</span><b>Une fusion livre seule</b>6 livraisons automatiques, de la fusion à la production en 8 à 10 min. Prouvé.</div>
-    <div class="critere"><span class="ca">P3</span><b>Un commit cassé est bloqué</b>PR n° 10 conservée : verdict rouge, fusion refusée, même en administrateur. Prouvé.</div>
-    <div class="critere"><span class="ca">P4</span><b>Le rollback est montré</b>4 bascules en production, service vérifié en 36 à 66 s. Prouvé.</div>
-    <div class="critere"><span class="ca">P5</span><b>Secrets et reconstruction</b>Recherche de secrets en CI ; un clone neuf relance le projet et la chaîne. Prouvé.</div>
-    <div class="critere"><span class="ca">P6</span><b>Retours de l'atelier n° 1</b>Présentés à l'oral, par décision du porteur du 13 octobre.</div>
+    <div class="critere"><span class="ca">P1</span><b>Ça tourne ailleurs que sur ma machine</b>L'évaluateur ouvre lui-même l'URL de production : la console s'affiche, <code>/version</code> rend le SHA du dernier commit.</div>
+    <div class="critere"><span class="ca">P2</span><b>Une fusion livre seule</b>Je clique sur « Merge » en ouverture ; 8 à 10 min plus tard, la production sert ce commit, sans autre geste.</div>
+    <div class="critere"><span class="ca">P3</span><b>Un commit cassé est bloqué</b>En direct, je pousse un commit cassé : 1 min 30 plus tard, <code>verdict</code> est rouge et la fusion impossible.</div>
+    <div class="critere"><span class="ca">P4</span><b>Le rollback est montré</b>Une commande : la console revient au SHA précédent, puis au dernier. Mesuré : service vérifié en 36 à 66 s.</div>
+    <div class="critere"><span class="ca">P5</span><b>Aucun secret dans le dépôt</b>Recherche de secrets verte sur tout l'historique, aucun secret GitHub (OIDC), <code>.env</code> jamais commité ; un clone neuf reconstruit tout.</div>
+    <div class="critere"><span class="ca">P6</span><b>Retours de l'atelier n° 1</b>Le journal des retours donne, pour chacun, la décision : traité, reporté ou écarté. Journal à verser.</div>
   </div>
-  <div class="frise-note">Les onze étapes de la checklist sont faites : socle, squelette, tests, CI <code>verdict</code>, Azure, livraison continue, blocage, rollback, reconstruction, clôture. Preuves dans <code>docs/v1/sprints/sprint-2/</code>.</div>
+  <div class="frise-note">Déroulé de la démonstration et preuves de secours : <code>docs/v1/sprints/sprint-2/demonstration.md</code>.</div>
   </section>
 
 

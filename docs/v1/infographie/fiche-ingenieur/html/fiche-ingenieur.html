@@ -212,29 +212,30 @@
 
 <section id="s-sprint-2">
   <h2><span class="n">9</span>Sprint 2 : travail attendu et évaluation par le pair</h2>
-  <p><b>Consigne du sprint.</b> Déployer un squelette de bout en bout (API, interface minimale, un appel au LLM qui
-  répond), livré par une chaîne CI/CD bloquante jusqu'à la production, à travers les environnements ; un retour
-  arrière en une opération ; des secrets hors du dépôt ; un environnement reconstructible depuis le dépôt.</p>
+  <p><b>Consigne, telle que donnée.</b> « Déployer un squelette de bout en bout qui marche : API + interface minimale
+  + un appel LLM qui répond, livré par une chaîne CI/CD bloquante jusqu'à la production. » Livrables : le squelette
+  en production, livré par la chaîne ; la preuve du blocage sur échec et du rollback (captures ou journal de chaîne
+  versionnés).</p>
   <table>
-    <tr><th>Étapes</th><th>Travail attendu</th><th>État</th></tr>
-    <tr><td>0, 1</td><td>Cadrage et checklist ; dépôt reproductible (uv, Docker, docker compose, secrets hors du dépôt)</td><td class="fait">Fait</td></tr>
-    <tr><td>2, 3</td><td>Squelette : <code>/health</code>, <code>/version</code>, appel au LLM, console ; tests, ruff, mypy, axe-core</td><td class="fait">Fait</td></tr>
-    <tr><td>4</td><td>CI GitHub Actions : lint, tests, build, recherche de secrets ; contrôle requis <code>verdict</code> ; <code>main</code> protégée</td><td class="fait">Fait</td></tr>
-    <tr><td>5, 6</td><td>Préproduction et production sur Azure ; livraison continue sur fusion, contrôlée avant bascule</td><td class="fait">Fait</td></tr>
-    <tr><td>7, 8, 9</td><td>Preuve du blocage ; retour arrière en une opération ; reconstruction depuis un clone neuf</td><td class="fait">Fait</td></tr>
-    <tr><td>10</td><td>Compte rendu, fiches d'incident, suivi</td><td class="fait">Fait</td></tr>
+    <tr><th>Travail attendu</th><th>Ce qui est livré</th><th>État</th></tr>
+    <tr><td>Monter le repo propre : structure, environnements reproductibles (Docker), secrets hors du dépôt</td><td>uv, image Docker, <code>docker compose</code> ; <code>.env</code> ignoré, gitleaks</td><td class="fait">Fait</td></tr>
+    <tr><td>Développer le squelette : une route API, une interface minimale, un appel au LLM qui répond</td><td><code>/health</code>, <code>/version</code>, console, modèles A et B</td><td class="fait">Fait</td></tr>
+    <tr><td>Construire la chaîne : lint, tests, build, déploiement automatique sur fusion, à travers les environnements</td><td>GitHub Actions ; préproduction puis production sur Azure, par OIDC</td><td class="fait">Fait</td></tr>
+    <tr><td>Rendre les tests bloquants et le prouver par un commit volontairement cassé</td><td>Contrôle requis <code>verdict</code>, administrateurs compris ; PR n° 10</td><td class="fait">Fait</td></tr>
+    <tr><td>Mettre en place et répéter le rollback en une opération</td><td>Workflow <code>retour-arriere</code>, 4 bascules mesurées</td><td class="fait">Fait</td></tr>
   </table>
   <table>
-    <tr><th>Critère du pair</th><th>Preuve attendue</th><th>Preuve produite</th><th>Statut</th></tr>
-    <tr><td>P1. Le squelette tourne ailleurs que sur ma machine, sur l'URL de production</td><td>URL ouverte par l'évaluateur</td><td>Console de production sur Azure Container Apps ; <code>/version</code> rend le SHA livré</td><td class="fait">Prouvé</td></tr>
-    <tr><td>P2. Une fusion déclenche la livraison sans action manuelle</td><td>Démonstration ou journal de la chaîne</td><td>6 livraisons automatiques ; de la fusion à la production en 8 à 10 min</td><td class="fait">Prouvé</td></tr>
-    <tr><td>P3. Un commit cassé est bloqué</td><td>Démonstration, PR rouge conservée</td><td>PR n° 10 laissée ouverte : <code>verdict</code> rouge, fusion refusée, administrateurs compris</td><td class="fait">Prouvé</td></tr>
-    <tr><td>P4. Le rollback est montré</td><td>Démonstration et journal</td><td>4 bascules en production ; service vérifié en 36 à 66 s</td><td class="fait">Prouvé</td></tr>
-    <tr><td>P5. Secrets hors du dépôt ; environnement reconstructible</td><td>Recherche de secrets en CI ; clone neuf</td><td>gitleaks sur tout l'historique à chaque PR ; commit poussé depuis un clone neuf et livré en production</td><td class="fait">Prouvé</td></tr>
-    <tr><td>P6. Retours de l'atelier n° 1 traités, reportés ou écartés</td><td>Fiche des retours</td><td>Présentés à l'oral, par décision du porteur du 13 octobre</td><td class="prop">À l'oral</td></tr>
+    <tr><th>Critère du pair</th><th>L'évaluateur constate</th><th>Démonstration en direct</th><th>Preuve de secours</th><th>Statut</th></tr>
+    <tr><td>P1. Le squelette tourne ailleurs que sur ma machine</td><td>Sur son appareil, l'URL de production affiche la console ; <code>/version</code> rend le SHA du dernier commit de <code>main</code></td><td>Je donne l'adresse ; il l'ouvre lui-même (2 min)</td><td>Compte rendu, captures de l'étape 2</td><td class="fait">Prêt</td></tr>
+    <tr><td>P2. Une fusion livre sans action manuelle</td><td>Après un clic sur « Merge », la chaîne part seule : <code>verdict</code>, préproduction, production ; puis <code>/version</code> rend le SHA de la fusion</td><td>Fusion en ouverture, constat 8 à 10 min plus tard</td><td>Journal de la chaîne : 6 livraisons automatiques</td><td class="fait">Prêt</td></tr>
+    <tr><td>P3. Un commit cassé est bloqué</td><td><code>tests</code> échoue, <code>verdict</code> rouge « Required », bouton de fusion désactivé</td><td>Je pousse une branche cassée et j'ouvre sa PR (1 min 30)</td><td>PR n° 10 ouverte, preuve de l'étape 7</td><td class="fait">Prêt</td></tr>
+    <tr><td>P4. Le rollback est montré</td><td>La console passe au SHA précédent, puis revient au dernier</td><td>Une commande <code>retour-arriere</code>, puis le rétablissement (4 min)</td><td>Preuve de l'étape 8 : service vérifié en 36 à 66 s</td><td class="fait">Prêt</td></tr>
+    <tr><td>P5. Secrets hors du dépôt ; reconstruction</td><td>Job gitleaks vert sur tout l'historique ; aucun secret GitHub (OIDC) ; <code>.env</code> jamais commité</td><td><code>gh secret list</code> vide, historique de <code>.env</code> vide (3 min)</td><td>Preuve de l'étape 9 : clone neuf livré en production</td><td class="fait">Prêt</td></tr>
+    <tr><td>P6. Retours de l'atelier n° 1</td><td>Chaque retour a une décision (traité, reporté, écarté), une justification et un lien</td><td>Je parcours le journal des retours (3 min)</td><td>Le journal est la preuve</td><td class="prop">Journal à verser</td></tr>
   </table>
-  <p class="note">Preuves : <code>docs/v1/sprints/sprint-2/</code> (checklist, compte rendu, preuves, fiches d'incident INC-01 et INC-02).
-  Mesures sur peu d'exécutions : ordres de grandeur.</p>
+  <p class="note">Déroulé complet, ordre de passage et préparation : <code>docs/v1/sprints/sprint-2/demonstration.md</code>.
+  La livraison (P2) se lance en premier ; le rollback (P4) vient en dernier, jamais pendant une livraison.
+  Hors trafic, l'application s'endort : l'ouvrir 5 minutes avant.</p>
 </section>
 
 <footer>Dépôt <code>Bealph/Muninn</code>. Documents de référence : <code>docs/v1/dossier-conception-v1.md</code>,
