@@ -1,6 +1,6 @@
 # Suivi des tâches
 
-**Mis à jour le :** 14 octobre 2026
+**Mis à jour le :** 15 octobre 2026
 
 Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 
@@ -64,6 +64,12 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-15 | Déroulé de la démonstration du sprint 2 (P1 à P6) ; infographies refondues ; rituel porté à sept étapes                                                                                        | `docs/v1/sprints/sprint-2/demonstration.md`, PR n° 25                  |
 | 2026-10-15 | Incident INC-03 (livraison en échec sur un commit déjà livré) résolu et documenté                                                                                                              | `docs/v1/sprints/sprint-2/incidents/`, `infra/azure/deployer.sh`       |
 | 2026-10-15 | Sprint 3, étape 0 : checklist, décisions D-56 à D-59, registre des sources revérifié                                                                                                           | `docs/v1/sprints/sprint-3/`                                            |
+| 2026-10-15 | Sprint 3, étape 1 : schémas `ref` et `market`, rôles de lecture et d'écriture, migrations Alembic                                                                                              | PR n° 29                                                               |
+| 2026-10-15 | Sprint 3, étapes 2 et 3 : COG, codes postaux et API Géo chargés et recoupés ; contrôles VD                                                                                                     | PR n° 30 et 31                                                         |
+| 2026-10-15 | Sprint 3, étapes 4 et 5 : lexique de plomberie (Wiktionnaire, Wikidata), instantané de secours                                                                                                 | PR n° 32 et 33                                                         |
+| 2026-10-15 | Sprint 3, étape 6 : agrégats Sirene par DuckDB, secret statistique ; `muninn-ingestion tout` en 255 s sur base neuve                                                                           | PR n° 34                                                               |
+| 2026-10-15 | Sprint 3, étape 7 : API des référentiels, sources citées, refus motivés ; seuil du lexique calibré (0,55)                                                                                      | PR n° 35                                                               |
+| 2026-10-15 | Sprint 3, étapes 8 et 9 : écran « Référentiels » de la console ; note de minimisation RGPD                                                                                                     | PR n° 36 et 37                                                         |
 
 ## À faire
 

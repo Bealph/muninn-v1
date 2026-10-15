@@ -1,6 +1,6 @@
 # Suivi des compétences
 
-**Mis à jour le :** 14 octobre 2026 (fin du sprint 2)
+**Mis à jour le :** 15 octobre 2026 (sprint 3, étapes 0 à 9)
 
 Statuts : « À faire », « En cours », « Preuve produite », « Validée » (validée par le porteur).
 
@@ -8,13 +8,13 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 ## E1 : collecte, stockage et mise à disposition des données (2 à 5 pages, 15 min)
 
-| Code | Compétence (résumé)                                              | Phase | Preuve prévue                                                               | Statut   |
-| ---- | ---------------------------------------------------------------- | ----- | --------------------------------------------------------------------------- | -------- |
-| C1   | Automatiser l'extraction (API, scraping, fichier, BDD, big data) | 0, 3  | Sources identifiées et vérifiées (phase 0a) ; scripts en phase 3            | En cours |
-| C2   | Requêtes SQL d'extraction (SGBD et big data)                     | 1, 3  | Règles d'extraction SQL et big data conçues (phase 1) ; requêtes en phase 3 | En cours |
-| C3   | Agrégation, nettoyage et homogénéisation des données             | 1, 3  | Défauts des sources et cas VD-01 à VD-28 (phase 1) ; script en phase 3      | En cours |
-| C4   | Base de données conforme au RGPD (MCD, MPD, import)              | 1, 3  | Modèles conceptuel et physique, registre RGPD (phase 1) ; base en phase 3   | En cours |
-| C5   | API REST de mise à disposition du jeu de données                 | 1, 3  | API des référentiels spécifiée (phase 1) ; contrat OpenAPI en phase 2       | En cours |
+| Code | Compétence (résumé)                                              | Phase | Preuve prévue                                                               | Statut          |
+| ---- | ---------------------------------------------------------------- | ----- | --------------------------------------------------------------------------- | --------------- |
+| C1   | Automatiser l'extraction (API, scraping, fichier, BDD, big data) | 0, 3  | Sources identifiées et vérifiées (phase 0a) ; scripts en phase 3            | En cours        |
+| C2   | Requêtes SQL d'extraction (SGBD et big data)                     | 1, 3  | Règles d'extraction SQL et big data conçues (phase 1) ; requêtes en phase 3 | Preuve produite |
+| C3   | Agrégation, nettoyage et homogénéisation des données             | 1, 3  | Défauts des sources et cas VD-01 à VD-28 (phase 1) ; script en phase 3      | Preuve produite |
+| C4   | Base de données conforme au RGPD (MCD, MPD, import)              | 1, 3  | Modèles conceptuel et physique, registre RGPD (phase 1) ; base en phase 3   | En cours        |
+| C5   | API REST de mise à disposition du jeu de données                 | 1, 3  | API des référentiels spécifiée (phase 1) ; contrat OpenAPI en phase 2       | En cours        |
 
 ## E2 : veille, benchmark et paramétrage de services d'IA (15 à 20 pages, 15 min)
 
@@ -54,7 +54,7 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 ## Preuves, case par case
 
-**Cases cochées : 35 sur 61** (au 14 octobre 2026).
+**Cases cochées : 39 sur 61** (au 15 octobre 2026).
 
 Une case n'est cochée que si la preuve existe dans le dépôt. Source des preuves attendues :
 `docs/v1/couverture-competences.md`. Une compétence passe à « Preuve produite » quand toutes
@@ -62,33 +62,33 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 
 ### E1 : données (premier oral, 29 octobre)
 
-**C1** (1 sur 3)
+**C1** (2 sur 3)
 
 - [x] Sources inventoriées et vérifiées : `docs/conception/sources_de_donnees/03-sources-de-donnees.md`
-- [ ] Scripts d'extraction : service web, page web, fichiers, base de données (V-04, sprint 3)
-- [ ] Extraction big data Sirene par DuckDB, tâche planifiée (V-06, sprint 3)
+- [x] Scripts d'extraction : service web (API Géo), page web (Wiktionnaire), fichiers (COG, codes postaux), base de données (Wikidata, SPARQL) : `src/muninn/ingestion/`, `muninn-ingestion tout` (sprint 3, PR n° 30 à 33)
+- [ ] Extraction big data Sirene par DuckDB, tâche planifiée (V-06, sprint 3) : DuckDB fait (`src/muninn/ingestion/sirene.py`, PR n° 34) ; reste la tâche Container Apps (étape 10)
 
-**C2** (1 sur 3)
+**C2** (3 sur 3)
 
 - [x] Règles d'extraction SQL et big data conçues : `docs/conception/architecture_de_donnees/02-modele-de-donnees.md`
-- [ ] Requêtes SQL sur PostgreSQL (V-04, sprint 3)
-- [ ] Requêtes SQL DuckDB sur Parquet (V-06, sprint 3)
+- [x] Requêtes SQL sur PostgreSQL : contrôles des chargements et lectures paramétrées de l'API (`src/muninn/ingestion/`, `src/muninn/referentiels/depot.py`, PR n° 30 à 35)
+- [x] Requêtes SQL DuckDB sur Parquet : `src/muninn/ingestion/requetes/sirene_etablissements.sql` (PR n° 34)
 
-**C3** (1 sur 2)
+**C3** (2 sur 2)
 
 - [x] Défauts des sources et cas VD : `docs/conception/architecture_de_donnees/04-verification-exactitude.md`
-- [ ] Script de nettoyage et d'homogénéisation, rejets motivés (V-04, sprint 3)
+- [x] Script de nettoyage et d'homogénéisation, rejets motivés : COG, codes postaux, API Géo, lexique ; contrôles VD (PR n° 30 à 33)
 
 **C4** (2 sur 3)
 
 - [x] Modèles conceptuel et physique : `docs/conception/architecture_de_donnees/02-modele-de-donnees.md`
 - [x] Registre RGPD : `docs/conception/architecture_de_donnees/05-registre-rgpd.md`
-- [ ] Base PostgreSQL et import programmé (V-04, V-06, sprint 3)
+- [ ] Base PostgreSQL et import programmé (V-04, V-06, sprint 3) : schémas, rôles et import en une commande faits et prouvés en local (PR n° 29 à 34) ; reste la production (étape 10)
 
 **C5** (1 sur 2)
 
 - [x] Contrat de l'API : `docs/conception/industrialisation/04-contrat-api.md`
-- [ ] API des référentiels déployée (V-05, sprint 3)
+- [ ] API des référentiels déployée (V-05, sprint 3) : livrée en production le 15 octobre 2026 (PR n° 35), répond 503 tant que les données n'y sont pas chargées (étape 10)
 
 ### E2 : veille, benchmark, paramétrage (oral du 12 novembre)
 
