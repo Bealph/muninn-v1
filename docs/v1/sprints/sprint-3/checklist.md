@@ -55,9 +55,9 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 2 : les fichiers (C1, C3)
 
-- [ ] Codes postaux de La Poste (SRC-06, ISO-8859-1) et COG de l'INSEE (SRC-07) : téléchargement, empreinte, conversion en UTF-8, codes en texte (zéros en tête, Corse 2A et 2B).
-- [ ] Nettoyage selon les cas VD de la phase 1 : doublons, lignes corrompues, formats hétérogènes ; chaque rejet est compté et motivé.
-- [ ] Chargement dans `ref`, avec la ligne de traçabilité.
+- [x] Codes postaux de La Poste (SRC-06, ISO-8859-1 imposé : le serveur l'annonce à tort en UTF-8) et COG de l'INSEE (SRC-07) : téléchargement tracé (adresse, date, empreinte SHA-256, taille), conversion en UTF-8, codes en texte (zéros en tête, Corse 2A et 2B). Preuve : `src/muninn/ingestion/`, PR n° 30.
+- [x] Nettoyage selon les cas VD de la phase 1 : rejets motivés (format, champ manquant, doublon, commune inconnue), collectivités d'outre-mer et Monaco filtrées par une liste figée, contrôles VD-01, VD-02, VD-04, VD-08, VD-11. Sur les vrais fichiers du 15 octobre 2026 : COG 37 496 lignes gardées ; codes postaux 39 192 lues, 38 925 gardées, 267 filtrées, 0 rejet.
+- [x] Chargement dans `ref`, avec la ligne de traçabilité. En CI sur des fichiers de test : publication, rejeu sans doublon, nouvelle version, échec de contrôle et panne sans effet sur la version servie. Sur les vrais fichiers, dans un PostgreSQL 16 local, le 15 octobre 2026 : 9 s pour les deux sources, tous les contrôles réussis (VD-08 : aucune commune sans code postal), rejeu sans version créée ; Vincennes 94300, trois « Montreuil » (28, 85, 93), Bagnolet 93170.
 
 ### Étape 3 : le service web (C1, C3)
 

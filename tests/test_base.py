@@ -5,24 +5,17 @@ bases et des rôles. Chaque exécution crée une base neuve, puis la supprime. S
 tests sont ignorés, sauf si `MUNINN_TESTS_BASE=obligatoire` (en CI) : ils échouent alors.
 """
 
-import os
-import uuid
 from collections.abc import Iterator
 
 import psycopg
 import pytest
 from alembic import command
 from psycopg import errors, sql
-from psycopg.conninfo import make_conninfo
 
 from muninn.db.migrer import configuration
+from outils_base import base_migree, connecter, exiger_base, url_postgres
 
-URL_ADMIN = os.environ.get("TEST_DATABASE_URL")
-
-if URL_ADMIN is None:
-    if os.environ.get("MUNINN_TESTS_BASE") == "obligatoire":
-        raise RuntimeError("TEST_DATABASE_URL manque alors que les tests de base sont obligatoires")
-    pytest.skip("TEST_DATABASE_URL absente : tests de base ignorés", allow_module_level=True)
+exiger_base()
 
 TABLES_REF = {
     "dataset_versions",
@@ -38,37 +31,10 @@ TABLES_MARKET = {"sirene_runs", "sirene_counts"}
 MOT_DE_PASSE = "test-seulement"  # noqa: S105 : rôle éphémère d'une base de test
 
 
-def connecter(base: str, **options: str) -> psycopg.Connection[tuple[object, ...]]:
-    assert URL_ADMIN is not None
-    return psycopg.connect(make_conninfo(URL_ADMIN, dbname=base, **options), autocommit=True)
-
-
 @pytest.fixture(scope="module")
 def base() -> Iterator[str]:
-    """Base neuve, migrée jusqu'à la dernière révision ; supprimée avec ses rôles à la fin."""
-    nom = f"muninn_test_{uuid.uuid4().hex[:8]}"
-    with connecter("postgres") as admin:
-        admin.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(nom)))
-    url = make_conninfo(URL_ADMIN or "", dbname=nom)
-    command.upgrade(configuration(url_postgres(url)), "head")
-    try:
+    with base_migree() as nom:
         yield nom
-    finally:
-        with connecter("postgres") as admin:
-            admin.execute(sql.SQL("DROP DATABASE {} WITH (FORCE)").format(sql.Identifier(nom)))
-            for suffixe in ("lecture", "ecriture", "api", "ingestion"):
-                admin.execute(
-                    sql.SQL("DROP ROLE IF EXISTS {}").format(sql.Identifier(f"{nom}_{suffixe}"))
-                )
-
-
-def url_postgres(conninfo: str) -> str:
-    """Convertit une chaîne de connexion libpq en URL `postgresql://` pour Alembic."""
-    p = psycopg.conninfo.conninfo_to_dict(conninfo)
-    return (
-        f"postgresql://{p.get('user', '')}:{p.get('password', '')}"
-        f"@{p.get('host', 'localhost')}:{p.get('port', 5432)}/{p['dbname']}"
-    )
 
 
 def connexion_role(base: str, groupe: str, suffixe: str) -> psycopg.Connection[tuple[object, ...]]:
@@ -220,7 +186,7 @@ def test_secret_statistique_impose_par_le_schema(base: str) -> None:
 
 
 def test_annulation_puis_reapplication(base: str) -> None:
-    url = url_postgres(make_conninfo(URL_ADMIN or "", dbname=base))
+    url = url_postgres(base)
     command.downgrade(configuration(url), "base")
     with connecter(base) as conn:
         schemas = conn.execute(

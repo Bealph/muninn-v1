@@ -1,0 +1,97 @@
+"""Lecture et nettoyage des fichiers sources (sprint 3, étape 2 ; cas VD de la phase 1)."""
+
+import pytest
+
+from muninn.ingestion import codes_postaux, cog
+
+ENTETE_COG = (
+    '"TYPECOM","COM","REG","DEP","CTCD","ARR","TNCC","NCC","NCCENR","LIBELLE","CAN","COMPARENT"'
+)
+
+
+def ligne_cog(type_: str, code: str, dep: str, libelle: str, parent: str = "") -> str:
+    return f'"{type_}","{code}","84","{dep}","","","0","","","{libelle}","","{parent}"'
+
+
+def fichier_cog(*lignes: str) -> bytes:
+    return "\n".join([ENTETE_COG, *lignes]).encode("utf-8")
+
+
+ENTETE_CP = "#Code_commune_INSEE;Nom_de_la_commune;Code_postal;Libellé_d_acheminement;Ligne_5"
+
+
+def fichier_cp(*lignes: str, encodage: str = "iso-8859-1") -> bytes:
+    return "\r\n".join([ENTETE_CP, *lignes]).encode(encodage)
+
+
+def test_cog_garde_rejette_et_compte() -> None:
+    lecture = cog.lire(
+        fichier_cog(
+            ligne_cog("COM", "01001", "01", "L'Abergement-Clémenciat"),
+            ligne_cog("COM", "2A004", "2A", "Ajaccio"),
+            ligne_cog("COMD", "01015", "", "Arbignieu", "01015"),
+            ligne_cog("COMD", "01016", "", "Sans parent"),  # parent manquant
+            ligne_cog("COM", "01001", "01", "Doublon"),  # (type, code) déjà vu
+            ligne_cog("XXX", "01002", "01", "Type inconnu"),
+            ligne_cog("COM", "1002", "01", "Code sur 4 chiffres"),
+            ligne_cog("COM", "01003", "", "Commune sans département"),
+        )
+    )
+    assert [c.code for c in lecture.lignes] == ["01001", "2A004", "01015"]
+    assert [(r.ligne, r.motif) for r in lecture.rejets] == [
+        (5, "missing_field"),
+        (6, "duplicate"),
+        (7, "bad_format"),
+        (8, "bad_format"),
+        (9, "missing_field"),
+    ]
+    assert lecture.lues == len(lecture.lignes) + len(lecture.rejets) + lecture.filtrees
+    assert lecture.lignes[0].nom == "L'Abergement-Clémenciat"  # VD-10 : nom officiel accentué
+
+
+def test_cog_entete_inattendu() -> None:
+    with pytest.raises(ValueError, match="en-tête"):
+        cog.lire(b'"COM","LIBELLE"\n"01001","X"')
+
+
+def test_codes_postaux_zeros_filtre_et_rejets() -> None:
+    lecture = codes_postaux.lire(
+        fichier_cp(
+            "01001;L ABERGEMENT CLEMENCIAT;01400;L ABERGEMENT CLEMENCIAT;",
+            "98714;BORA BORA;98730;ANAU;BORA BORA",  # collectivité d'outre-mer : filtrée
+            "99138;MONACO;98000;MONACO;",  # Monaco : filtré
+            "99999;INCONNUE;99999;INCONNUE;",  # absente du COG : rejetée
+            "01001;L ABERGEMENT CLEMENCIAT;01400;L ABERGEMENT CLEMENCIAT;",  # doublon
+            "01002;L ABERGEMENT DE VAREY;1640;L ABERGEMENT DE VAREY;",  # code sur 4 chiffres
+            "01004;AMBERIEU EN BUGEY;01500;;",  # libellé vide
+            "01004;AMBERIEU EN BUGEY;01500",  # colonne manquante
+        ),
+        communes_cog={"01001", "01002", "01004"},
+    )
+    assert [(c.code_postal, c.code_commune) for c in lecture.lignes] == [("01400", "01001")]
+    assert lecture.filtrees == 2
+    assert [r.motif for r in lecture.rejets] == [
+        "unknown_commune",
+        "duplicate",
+        "bad_format",
+        "missing_field",
+        "bad_format",
+    ]
+    assert lecture.lues == 8 == len(lecture.lignes) + len(lecture.rejets) + lecture.filtrees
+    assert lecture.lignes[0].code_postal.startswith("0")  # VD-01 : zéro initial gardé
+
+
+def test_codes_postaux_libelles_d_acheminement_distincts_gardes() -> None:
+    """Une commune avec plusieurs libellés d'acheminement n'est pas un doublon (VD-05)."""
+    lecture = codes_postaux.lire(
+        fichier_cp("01001;X;01400;LIBELLE A;", "01001;X;01400;LIBELLE B;"),
+        communes_cog={"01001"},
+    )
+    assert len(lecture.lignes) == 2
+    assert lecture.rejets == []
+
+
+def test_codes_postaux_fichier_en_utf8_refuse() -> None:
+    """VD-02 : un fichier en UTF-8 lu en ISO-8859-1 donne un en-tête faux, donc un arrêt."""
+    with pytest.raises(ValueError, match="en-tête"):
+        codes_postaux.lire(fichier_cp("01001;X;01400;X;", encodage="utf-8"), {"01001"})

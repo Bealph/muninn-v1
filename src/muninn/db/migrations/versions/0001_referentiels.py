@@ -102,7 +102,8 @@ CREATE TABLE ref.postal_codes (
     laposte_name  text NOT NULL,
     routing_label text NOT NULL,
     line_5        text,
-    UNIQUE NULLS NOT DISTINCT (version_id, postal_code, insee_code, line_5)
+    -- Clé du cas VD-05 : une commune peut avoir plusieurs libellés d'acheminement.
+    UNIQUE NULLS NOT DISTINCT (version_id, postal_code, insee_code, routing_label, line_5)
 );
 CREATE INDEX postal_codes_code ON ref.postal_codes (version_id, postal_code);
 CREATE INDEX postal_codes_commune ON ref.postal_codes (version_id, insee_code);
