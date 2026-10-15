@@ -13,6 +13,7 @@ Prérequis : Docker et docker compose.
 ```bash
 cp .env.example .env          # puis remplir les valeurs locales ; .env n'est jamais versionné
 docker compose up --build -d  # API sur le port 8000, console sur le port 8001, PostgreSQL
+docker compose run --rm api muninn-db upgrade  # schémas des référentiels (ref, market)
 curl http://localhost:8000/health
 ```
 

@@ -13,7 +13,12 @@ dependencies = [
     "psycopg[binary]>=3.2",
     "azure-identity>=1.17",
     "python-multipart>=0.0.9",
+    "sqlalchemy>=2.0",
+    "alembic>=1.13",
 ]
+
+[project.scripts]
+muninn-db = "muninn.db.migrer:main"
 
 [dependency-groups]
 dev = [

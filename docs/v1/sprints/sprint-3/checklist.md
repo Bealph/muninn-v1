@@ -47,11 +47,11 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 1 : le schéma et le stockage
 
-- [ ] Modèle physique des schémas `ref` et `market`, sous-ensemble de la phase 1 (document 02) utile à la V1 ; écarts motivés.
-- [ ] Table de traçabilité des chargements : source, adresse, date de la source, empreinte SHA-256 du fichier reçu, date de chargement, lignes lues, chargées, rejetées.
-- [ ] Migrations Alembic, appliquées par la chaîne avant la livraison ; en local par `docker compose`.
-- [ ] Rôle de base en lecture seule pour l'API (SELECT sur `ref` et `market` seulement) ; rôle d'écriture réservé à l'ingestion.
-- [ ] Tests : migrations montantes et descendantes ; le rôle de lecture ne peut pas écrire.
+- [x] Modèle physique des schémas `ref` et `market`, sous-ensemble de la phase 1 (document 02) utile à la V1 ; écarts motivés. Preuve : `schema.md`.
+- [x] Table de traçabilité des chargements (`ref.dataset_versions`) : source, adresse, date de la source, empreinte SHA-256, date de chargement, lignes lues, chargées, filtrées, rejetées ; leur somme est imposée par une contrainte. Preuve : migration `0001`.
+- [ ] Migrations Alembic : commande `muninn-db upgrade`, embarquée dans l'image (contrôlé dans le job `build`) ; en local par `docker compose run --rm api muninn-db upgrade`. Reste : application en production par la tâche de D-58, avec l'extension `pg_trgm` autorisée sur le serveur.
+- [x] Rôles de groupe `<base>_lecture` (API, lecture seule) et `<base>_ecriture` (ingestion, lignes seulement, sans `ref.naf_trades` ni droit sur le schéma). Preuve : migration `0001`, `schema.md` § 4.
+- [x] Tests sur une base neuve, en CI (service PostgreSQL 16, tests de base obligatoires) : tables, correspondance NAF, droits des deux rôles, contraintes, une version publiée par jeu, secret statistique, annulation puis réapplication. 8 tests, 37 au total, tous réussis. Preuve : `tests/test_base.py`, PR n° 29.
 
 ### Étape 2 : les fichiers (C1, C3)
 
