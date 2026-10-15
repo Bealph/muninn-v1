@@ -37,6 +37,7 @@ URL_WIKIDATA = "https://query.wikidata.org/sparql?" + urlencode(
     {"query": REQUETE_WIKIDATA, "format": "json"}
 )
 FICHIER_SECOURS = DOSSIER / "donnees" / "lexique-secours-plomberie.json"
+FICHIER_EVALUATIONS = DOSSIER / "donnees" / "evaluations-lexique.json"
 LICENCES = {"SRC-12": "CC-BY-SA-4.0", "SRC-11": "CC0-1.0"}
 
 
@@ -138,17 +139,51 @@ def empreinte(termes: list[Terme]) -> str:
     return hashlib.sha256("\n".join(lignes).encode("utf-8")).hexdigest()
 
 
+def evaluation(signature: str) -> dict[str, Any] | None:
+    """Évaluation versionnée d'un lexique de cette empreinte, s'il en existe une."""
+    evaluations = json.loads(FICHIER_EVALUATIONS.read_text(encoding="utf-8"))["evaluations"]
+    trouvee = evaluations.get(signature)
+    return trouvee if isinstance(trouvee, dict) else None
+
+
+def publier_si_evalue(conn: Connexion, lexique: int, signature: str) -> bool:
+    """Publie une version évaluée et retire la précédente, dans une transaction.
+
+    Sans évaluation de cette empreinte, la version reste `candidate` : l'API continue de servir
+    la version publiée (US-48, critère 4).
+    """
+    trouvee = evaluation(signature)
+    if trouvee is None:
+        return False
+    with conn.transaction():
+        conn.execute(
+            "UPDATE ref.trade_lexicons SET status = 'retired'"
+            " WHERE trade = %s AND status = 'published' AND id <> %s",
+            [METIER, lexique],
+        )
+        conn.execute(
+            "UPDATE ref.trade_lexicons SET status = 'published', published_at = now(),"
+            " evaluation_report_ref = %s WHERE id = %s AND status <> 'published'",
+            [f"{trouvee['rapport']} ({trouvee['date']}, seuil {trouvee['seuil']})", lexique],
+        )
+    return True
+
+
 def construire(conn: Connexion, termes: list[Terme], sources: list[dict[str, Any]]) -> Resultat:
-    """Construit une version `candidate` du lexique, sauf si son contenu n'a pas changé."""
+    """Construit une version du lexique, sauf si son contenu n'a pas changé ; la publie si son
+    empreinte a été évaluée."""
     gardes, ecartes = selectionner(termes)
     signature = empreinte(gardes)
     derniere = conn.execute(
-        "SELECT id, report->>'empreinte' FROM ref.trade_lexicons WHERE trade = %s"
+        "SELECT id, report->>'empreinte', status FROM ref.trade_lexicons WHERE trade = %s"
         " ORDER BY id DESC LIMIT 1",
         [METIER],
     ).fetchone()
     if derniere is not None and derniere[1] == signature:
-        return Resultat(jeu=f"lexique {METIER}", statut="inchange", version_id=int(derniere[0]))
+        identifiant = int(derniere[0])
+        if derniere[2] == "candidate" and publier_si_evalue(conn, identifiant, signature):
+            return Resultat(jeu=f"lexique {METIER}", statut="published", version_id=identifiant)
+        return Resultat(jeu=f"lexique {METIER}", statut="inchange", version_id=identifiant)
 
     maintenant = datetime.now(UTC)
     rang = valeur(
@@ -189,9 +224,10 @@ def construire(conn: Connexion, termes: list[Terme], sources: list[dict[str, Any
                         "accepted",
                     ]
                 )
+    publie = publier_si_evalue(conn, lexique, signature)
     return Resultat(
         jeu=f"lexique {METIER}",
-        statut="candidate",
+        statut="published" if publie else "candidate",
         version_id=lexique,
         lues=len(termes),
         chargees=len(gardes),

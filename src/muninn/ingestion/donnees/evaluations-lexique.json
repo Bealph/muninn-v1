@@ -1,0 +1,12 @@
+{
+ "description": "Lexiques évalués : seule une version dont l'empreinte figure ici est publiée (US-48, critère 4).",
+ "evaluations": {
+  "9c661ed612a827aaf0c4227c6cb1ae052bc0ab8b6073727302019cda22621770": {
+   "metier": "plomberie",
+   "rapport": "docs/v1/sprints/sprint-3/calibration-seuil.md",
+   "date": "2026-10-15",
+   "seuil": 0.55,
+   "resultat": "rappel 24/25, 0 fausse acceptation sur 20 négatifs"
+  }
+ }
+}

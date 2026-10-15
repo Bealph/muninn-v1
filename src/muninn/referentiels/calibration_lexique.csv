@@ -1,0 +1,46 @@
+mot,metier,attendu,nature
+cumulus,plomberie,cumulus,identique
+chauffe eau,plomberie,chauffe-eau,séparateur
+chauffe-eaux,plomberie,chauffe-eau,pluriel
+robinets,plomberie,robinet,pluriel
+robinnet,plomberie,robinet,faute
+siphons,plomberie,siphon,pluriel
+syphon,plomberie,siphon,faute
+ballon d'eau chaude,plomberie,ballon d’eau chaude,apostrophe
+pommeau douche,plomberie,pommeau de douche,mot omis
+fosse sceptique,plomberie,fosse septique,faute
+tout à l'égout,plomberie,tout-à-l’égout,séparateur
+chaudiere,plomberie,chaudière,accent
+grohe,plomberie,Grohe,marque
+geberit,plomberie,Geberit,marque
+viesmann,plomberie,Viessmann,marque et faute
+vane,plomberie,vanne,faute
+purgeurs,plomberie,purgeur,pluriel
+joints,plomberie,joint,pluriel
+raccords,plomberie,raccord,pluriel
+flexibles,plomberie,flexible,pluriel
+coup de belier,plomberie,coup de bélier,accent
+teflon,plomberie,téflon,accent
+eau chaude sanitaire,plomberie,eau chaude sanitaire,identique
+douchettes,plomberie,douchette,pluriel
+mélangeurs,plomberie,mélangeur,pluriel
+ordinateur,plomberie,,hors sujet
+banane,plomberie,,hors sujet
+voiture,plomberie,,hors sujet
+facture,plomberie,,hors sujet
+rendez-vous,plomberie,,hors sujet
+bonjour,plomberie,,hors sujet
+téléphone,plomberie,,hors sujet
+Paris,plomberie,,hors sujet
+disjoncteur,plomberie,,métier voisin
+prise électrique,plomberie,,métier voisin
+interrupteur,plomberie,,métier voisin
+carrelage,plomberie,,métier voisin
+peinture,plomberie,,métier voisin
+serrure,plomberie,,métier voisin
+clapet,plomberie,,absent du lexique
+mitigeur,plomberie,,absent du lexique
+robot,plomberie,,quasi-homographe
+jointure,plomberie,,quasi-homographe
+chauffeur,plomberie,,quasi-homographe
+vannerie,plomberie,,quasi-homographe

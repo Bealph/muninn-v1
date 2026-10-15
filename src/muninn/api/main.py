@@ -11,11 +11,13 @@ from muninn import __version__
 from muninn.api.limites import LimiteurDebit
 from muninn.core.config import get_settings
 from muninn.llm.fournisseur import ErreurFournisseur, FournisseurLLM, construire_fournisseur
+from muninn.referentiels.routes import routeur as routeur_referentiels
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
 journal = logging.getLogger(__name__)
 
 app = FastAPI(title="Muninn API", version=__version__)
+app.include_router(routeur_referentiels)
 
 
 @lru_cache

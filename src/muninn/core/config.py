@@ -28,6 +28,9 @@ class Settings(BaseSettings):
     # Limite globale des appels au LLM (route publique, chaque appel est payant).
     llm_limite_minute: int = Field(default=10, ge=0)
     llm_limite_jour: int = Field(default=200, ge=0)
+    # Limite globale des lectures des référentiels (points publics en démonstration, D-57).
+    referentiels_limite_minute: int = Field(default=120, ge=0)
+    referentiels_limite_jour: int = Field(default=5000, ge=0)
 
 
 @lru_cache

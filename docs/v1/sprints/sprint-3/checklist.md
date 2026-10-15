@@ -85,14 +85,14 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 7 : l'ancrage, l'API des référentiels (C2, C5)
 
-- [ ] Communes candidates pour un nom, un code postal, ou les deux : égalité exacte après normalisation (dossier V1, §3.1) ; « Vincennes » rend 94300, « Montreuil » trois candidates.
-- [ ] Terme du lexique le plus proche d'un mot, pour un métier : similarité trigramme ; sous le seuil, refus « hors corpus ».
-- [ ] Agrégats Sirene lus par l'API.
-- [ ] Sources citées dans chaque réponse (jeu, source, licence, adresse, dates, table, identifiant de ligne).
-- [ ] Refus motivés : hors corpus, hors périmètre (métier non couvert, entrée mal formée ou trop longue) ; jamais de valeur inventée.
-- [ ] SQL sécurisé : requêtes paramétrées seulement, rôle en lecture seule, délai maximal par requête ; valeurs reçues ni journalisées ni stockées (TA-23).
-- [ ] Seuil de similarité calibré sur un petit jeu étiqueté (positifs et négatifs), protocole écrit avant la mesure ; résultat et incertitude consignés.
-- [ ] Tests : contrat des réponses, sources présentes, refus, injection SQL sans effet.
+- [x] Communes candidates pour un nom, un code postal, ou les deux : égalité exacte après normalisation ; commune déléguée et arrondissement renvoyés à leur commune ; nom et code incohérents signalés sans correction. Sur les vraies données : « Vincennes » rend 94300, « Montreuil » trois candidates (28, 85, 93), « Bagnolet » avec 93100 est incohérent (93170).
+- [x] Terme du lexique le plus proche d'un mot, pour un métier : similarité trigramme ; sous le seuil de 0,55, refus « hors corpus » ; métier sans lexique publié, « hors périmètre ».
+- [x] Agrégats Sirene lus par l'API (`GET /v1/referentiels/marche/{metier}`), avec la date du stock et la règle du secret statistique.
+- [x] Sources citées dans chaque réponse (jeu, source, titre, éditeur, licence, adresse, dates, version, table) et, pour chaque valeur, la table et la clé de la ligne ; un test remonte de la référence à la ligne de la base. Note : `api-referentiels.md`.
+- [x] Refus motivés, sans valeur inventée : `hors_corpus`, `hors_perimetre`, `incoherent` ; 422 pour une entrée mal formée ou un champ non prévu.
+- [x] SQL sécurisé : requêtes paramétrées seulement, connexion en lecture seule quel que soit le rôle, délai de 3 s par requête, versions publiées seules ; valeurs reçues ni journalisées ni stockées. Une tentative d'injection est un simple « hors corpus », tables intactes (test).
+- [x] Seuil calibré par un protocole commité avant la mesure (commit `f6d19db`) : 0,55, le plus bas sans fausse acceptation ; rappel 24/25 (IC 95 % [0,80 ; 0,99]), 0 fausse acceptation sur 20 (borne haute 0,16) ; marge étroite, dite. Le lexique n'est publié que si son empreinte est évaluée. Preuve : `calibration-seuil.md`.
+- [x] Tests : 25 tests de l'API sur une base chargée par la vraie commande (sources, références, refus, entrées mal formées, injection, lecture seule, base indisponible, limite de débit, cohérence du seuil, lexique non évalué) ; 111 tests au total.
 
 ### Étape 8 : la vue pour l'évaluateur (D-57)
 
