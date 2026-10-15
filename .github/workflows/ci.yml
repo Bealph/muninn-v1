@@ -39,9 +39,8 @@ jobs:
           version: ${{ env.UV_VERSION }}
           enable-cache: true
       - run: uv sync --frozen
-      - run: uv run ruff check .
-      - run: uv run ruff format --check .
-      - run: uv run mypy
+      # Mêmes cibles que sur le poste (Makefile) : la CI garantit qu'elles restent justes.
+      - run: make lint types
 
   tests:
     needs: lint
@@ -76,7 +75,8 @@ jobs:
       - run: uv sync --frozen
       - name: Navigateur du contrôle d'accessibilité
         run: uv run playwright install --with-deps chromium
-      - run: uv run pytest -ra
+      # TEST_DATABASE_URL et MUNINN_TESTS_BASE viennent du job : aucun test de base n'est ignoré.
+      - run: make tests
 
   build:
     needs: tests

@@ -29,13 +29,19 @@ Hors conteneur, l'authentification passe par `az login` ; dans un conteneur loca
 
 Prérequis : Python 3.12 et [uv](https://docs.astral.sh/uv/).
 
+Les commandes courantes passent par le `Makefile` ; la CI appelle les mêmes cibles. Sous
+Windows, lancer `make` depuis Git Bash (il faut un shell POSIX). `make` seul liste les cibles.
+
 ```bash
-uv sync                                # dépendances figées par uv.lock
-uv run playwright install chromium     # une fois : navigateur du contrôle d'accessibilité
-uv run pytest                          # tests, dont le contrôle d'accessibilité axe-core (WCAG 2.2 AA)
-uv run ruff check .                    # analyse statique
-uv run mypy                            # typage strict
+make installer    # dépendances figées par uv.lock, navigateur du contrôle d'accessibilité
+make format       # formate le code et applique les corrections sûres de ruff
+make verifier     # lint, typage strict et tests, base comprise : ce que vérifie la CI
+make ingerer      # PostgreSQL local, migrations, puis chargement des cinq sources (réseau requis)
+make api          # API sur la base locale, port 8000 ; `make console` dans un second terminal
 ```
+
+Le PostgreSQL local est un conteneur jetable (`muninn-pg-essai`, port 15432), créé au premier
+appel ; `make base-arreter` l'arrête en gardant ses données.
 
 ## Documentation
 
