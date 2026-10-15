@@ -77,11 +77,11 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 6 : le système big data et la commande unique (C1, C2, C4)
 
-- [ ] Sirene (SRC-01) : lecture des Parquet de data.gouv.fr par HTTPS avec DuckDB ; requête SQL versionnée ; projection de colonnes sans identité ni adresse (minimisation) ; agrégats seulement dans `market`.
-- [ ] Durée et volume lus mesurés ; repli si trop lent : agrégats calculés une fois et versionnés (risque du dossier, §7.1).
-- [ ] Une commande lance tout le pipeline, ou une source : `muninn-ingestion` [nom à confirmer].
-- [ ] Rejouable : un second passage sur la même source ne crée aucun doublon ; une source modifiée crée une nouvelle version ; une erreur laisse la version publiée intacte.
-- [ ] Journal de chaque passage, sans aucune valeur recherchée ni donnée personnelle.
+- [x] Sirene (SRC-01) : lecture à distance des Parquet de data.gouv.fr avec DuckDB 1.5.6, requête versionnée (`src/muninn/ingestion/requetes/sirene_etablissements.sql`), jointure des unités légales pour la catégorie juridique, minimisation et secret statistique avant écriture dans `market` ; contrôles VD-21, VD-23 et seuil, bloquants. Stock du 1er octobre 2026 : 260 926 établissements actifs, 2 614 lignes servies (dont 11 masquées), 1 529 établissements sans commune écartés et comptés.
+- [x] Durée et volume mesurés le 15 octobre 2026 : 290,6 Mo transférés en 2 640 requêtes HTTP partielles, sur 2,9 Go de fichiers ; calcul de 94 à 188 s selon le réseau. Le repli (agrégats versionnés) n'est pas nécessaire.
+- [x] Une commande lance tout le pipeline, ou une étape : `muninn-ingestion tout` (`cog`, `codes-postaux`, `api-geo`, `lexique`, `sirene`). Sur une base neuve : 255 s, cinq sources chargées, tous les contrôles réussis.
+- [x] Rejouable : second passage en 22 s, aucune version créée (empreinte de fichier, de lexique, ou date de stock et version de requête) ; une source modifiée crée une nouvelle version ; un échec de contrôle ou une panne laisse la version servie intacte (tests en base).
+- [x] Journal de chaque passage : une ligne par source (statut, comptes, contrôles) à la sortie, rapport détaillé en base (`report`) ; aucune valeur recherchée ni donnée personnelle.
 
 ### Étape 7 : l'ancrage, l'API des référentiels (C2, C5)
 

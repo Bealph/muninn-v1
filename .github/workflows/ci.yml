@@ -104,7 +104,7 @@ jobs:
           # Migrations embarquées dans l'image : la commande et les fichiers sont présents.
           docker run --rm muninn:ci muninn-db --help > /dev/null
           # Données de l'ingestion embarquées : requête SPARQL et instantané de secours du lexique.
-          docker run --rm muninn:ci python -c "from muninn.ingestion import lexique; assert lexique.REQUETE_WIKIDATA and lexique.FICHIER_SECOURS.is_file()"
+          docker run --rm muninn:ci python -c "from muninn.ingestion import lexique, sirene; assert lexique.REQUETE_WIKIDATA and lexique.FICHIER_SECOURS.is_file() and sirene.FICHIER_REQUETE.is_file()"
           docker run --rm muninn:ci python -c "from muninn.db.migrer import DOSSIER_MIGRATIONS as d; assert (d / 'env.py').is_file() and (d / 'script.py.mako').is_file() and any((d / 'versions').glob('0001_*.py'))"
       - name: Journaux du conteneur
         if: always()

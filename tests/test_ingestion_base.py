@@ -6,15 +6,17 @@ test : aucun appel réseau.
 
 from collections.abc import Iterator
 from datetime import UTC, date, datetime
+from pathlib import Path
 from typing import Any, cast
 
 import httpx
 import pytest
 
 from muninn.core.config import get_settings
-from muninn.ingestion import api_geo, codes_postaux, cog, commande, lexique
+from muninn.ingestion import api_geo, codes_postaux, cog, commande, lexique, sirene
 from muninn.ingestion.telechargement import FichierRecu
 from outils_base import base_migree, connecter, exiger_base, url_postgres
+from test_sirene import ecrire_stock
 
 exiger_base()
 
@@ -64,7 +66,9 @@ TOUT = {
 
 
 @pytest.fixture
-def base(monkeypatch: pytest.MonkeyPatch) -> Iterator[str]:
+def base(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Iterator[str]:
+    stock = ecrire_stock(tmp_path)  # Sirene : petit stock local, aucun appel réseau
+    monkeypatch.setattr(sirene, "localiser", lambda client: stock)
     with base_migree() as nom:
         monkeypatch.setenv("DATABASE_URL", url_postgres(nom))
         monkeypatch.setenv("GIT_SHA", "test")
@@ -222,3 +226,20 @@ def test_lexique_source_indisponible_passe_par_le_secours(
     assert sources["SRC-11"]["mode"] == "secours"
     assert "429" in sources["SRC-11"]["raison"]
     assert cast(int, marques[0]) > 0  # termes repris de l'instantané versionné
+
+
+def test_sirene_publie_des_agregats_et_se_rejoue(base: str) -> None:
+    assert commande.main(["sirene"]) == 0
+    assert commande.main(["sirene"]) == 0  # même stock, même requête : aucune exécution
+    with connecter(base) as conn:
+        executions = conn.execute(
+            "SELECT status, stock_date, rows_after_filter, report->>'sans_departement'"
+            " FROM market.sirene_runs"
+        ).fetchall()
+        lignes = conn.execute(
+            "SELECT department_code, establishments_count, legal_units_count, is_masked"
+            " FROM market.sirene_counts WHERE legal_category_group = 'ei' ORDER BY 1"
+        ).fetchall()
+    assert executions == [("published", date(2026, 10, 1), 10, "1")]
+    # 75 servi (6, 6) ; 93 regroupé dans ZZ, masquée ; total national arrondi : 7 et 6 -> 10.
+    assert lignes == [("75", 6, 6, False), ("FR", 10, 10, False), ("ZZ", None, None, True)]

@@ -1,6 +1,7 @@
 """Commande `muninn-ingestion` : rejoue le pipeline, en entier ou pour une source.
 
-Usage : `muninn-ingestion tout`, ou une étape : `cog`, `codes-postaux`, `api-geo`, `lexique`.
+Usage : `muninn-ingestion tout`, ou une étape : `cog`, `codes-postaux`, `api-geo`, `lexique`,
+`sirene`.
 `muninn-ingestion lexique-secours` réécrit l'instantané de secours du lexique, sans base.
 Une source inchangée (même empreinte que la version servie) ne crée aucune version. Code de
 sortie 1 si une version échoue à ses contrôles bloquants.
@@ -12,7 +13,7 @@ from collections.abc import Callable
 
 import httpx
 
-from muninn.ingestion import api_geo, codes_postaux, cog, lexique
+from muninn.ingestion import api_geo, codes_postaux, cog, lexique, sirene
 from muninn.ingestion.telechargement import FichierRecu, client_http, telecharger
 from muninn.ingestion.versions import Connexion, Resultat, charger, connecter, version_publiee
 
@@ -121,6 +122,7 @@ ETAPES: dict[str, Callable[[Connexion, httpx.Client], Resultat]] = {
     "codes-postaux": ingerer_codes_postaux,
     "api-geo": ingerer_api_geo,
     "lexique": ingerer_lexique,
+    "sirene": sirene.ingerer,
 }
 
 
