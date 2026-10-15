@@ -11,7 +11,8 @@ from muninn import __version__
 
 # Politique des fournisseurs (registre des sources du sprint 3) : agent identifié,
 # requêtes en série.
-USER_AGENT = f"Muninn/{__version__} (projet de certification ; referentiels publics)"
+# Format exigé par Wikimedia : <client>/<version> (<contact>) ; contact choisi par le porteur.
+USER_AGENT = f"Muninn/{__version__} (https://github.com/Bealph) httpx"
 
 
 @dataclass(frozen=True)

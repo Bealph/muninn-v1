@@ -52,7 +52,7 @@ class Controle:
 @dataclass(frozen=True)
 class Resultat:
     jeu: str
-    statut: Literal["inchange", "published", "failed"]
+    statut: Literal["inchange", "candidate", "published", "failed"]
     version_id: int | None
     lues: int = 0
     chargees: int = 0

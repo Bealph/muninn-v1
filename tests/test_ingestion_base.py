@@ -11,7 +11,7 @@ from typing import Any, cast
 import pytest
 
 from muninn.core.config import get_settings
-from muninn.ingestion import api_geo, codes_postaux, cog, commande
+from muninn.ingestion import api_geo, codes_postaux, cog, commande, lexique
 from muninn.ingestion.telechargement import FichierRecu
 from outils_base import base_migree, connecter, exiger_base, url_postgres
 
@@ -45,7 +45,16 @@ GEO = (
     ' {"code": "75056", "nom": "Paris", "codesPostaux": ["75001"]},'
     ' {"code": "98714", "nom": "Bora-Bora", "codesPostaux": ["98730"]}]'
 ).encode()
-TOUT = {cog.URL: COG_V1, codes_postaux.URL: CP, api_geo.URL: GEO}
+PAGE = (
+    b'<div id="mw-pages"><ul><li><a href="/wiki/cumulus" title="cumulus">c</a></li>'
+    b'<li><a href="/wiki/siphon" title="siphon">s</a></li></ul></div>'
+)
+TOUT = {
+    cog.URL: COG_V1,
+    codes_postaux.URL: CP,
+    api_geo.URL: GEO,
+    lexique.URL_WIKTIONNAIRE: PAGE,
+}
 
 
 @pytest.fixture
@@ -167,3 +176,19 @@ def test_api_geo_enregistre_les_ecarts(base: str, monkeypatch: pytest.MonkeyPatc
         assert conn.execute(
             "SELECT insee_code, gap_type, geo_api_name FROM ref.commune_source_gaps"
         ).fetchall() == [("98714", "absent_from_cog", "Bora-Bora")]
+
+
+def test_lexique_candidat_rejouable(base: str, monkeypatch: pytest.MonkeyPatch) -> None:
+    servir(monkeypatch, TOUT)
+    assert commande.main(["lexique"]) == 0
+    assert commande.main(["lexique"]) == 0  # même contenu : aucune version créée
+    with connecter(base) as conn:
+        assert conn.execute("SELECT trade, status FROM ref.trade_lexicons").fetchall() == [
+            ("plomberie", "candidate")
+        ]
+        assert conn.execute(
+            "SELECT term, source_id, license, review_status FROM ref.lexicon_terms ORDER BY 1"
+        ).fetchall() == [
+            ("cumulus", "SRC-12", "CC-BY-SA-4.0", "accepted"),
+            ("siphon", "SRC-12", "CC-BY-SA-4.0", "accepted"),
+        ]

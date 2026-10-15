@@ -1,6 +1,6 @@
 """Commande `muninn-ingestion` : rejoue le pipeline, en entier ou pour une source.
 
-Usage : `muninn-ingestion tout`, ou une source : `cog`, `codes-postaux`, `api-geo`.
+Usage : `muninn-ingestion tout`, ou une étape : `cog`, `codes-postaux`, `api-geo`, `lexique`.
 Une source inchangée (même empreinte que la version servie) ne crée aucune version. Code de
 sortie 1 si une version échoue à ses contrôles bloquants.
 """
@@ -11,7 +11,7 @@ from collections.abc import Callable
 
 import httpx
 
-from muninn.ingestion import api_geo, codes_postaux, cog
+from muninn.ingestion import api_geo, codes_postaux, cog, lexique
 from muninn.ingestion.telechargement import client_http, telecharger
 from muninn.ingestion.versions import Connexion, Resultat, charger, connecter, version_publiee
 
@@ -81,17 +81,24 @@ def ingerer_api_geo(conn: Connexion, client: httpx.Client) -> Resultat:
     )
 
 
+def ingerer_lexique(conn: Connexion, client: httpx.Client) -> Resultat:
+    fichier = telecharger(lexique.URL_WIKTIONNAIRE, client)
+    termes = lexique.lire_wiktionnaire(fichier.contenu)
+    return lexique.construire(conn, termes, [lexique.source_rapport(fichier, len(termes))])
+
+
 ETAPES: dict[str, Callable[[Connexion, httpx.Client], Resultat]] = {
     "cog": ingerer_cog,
     "codes-postaux": ingerer_codes_postaux,
     "api-geo": ingerer_api_geo,
+    "lexique": ingerer_lexique,
 }
 
 
 def afficher(resultat: Resultat) -> None:
     if resultat.statut == "inchange":
         print(
-            f"{resultat.jeu} : inchangée, même empreinte que la version servie"
+            f"{resultat.jeu} : inchangée, même empreinte que la dernière version"
             f" ({resultat.version_id}) ; aucune version créée"
         )
         return

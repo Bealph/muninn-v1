@@ -66,8 +66,8 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 4 : la page web (C1)
 
-- [ ] Une catégorie du Wiktionnaire (SRC-12) pour le métier de la démo : collecte respectueuse (agent identifié, débit limité, robots respectés).
-- [ ] Attribution CC BY-SA 4.0 conservée par terme (US-48, critère 4).
+- [x] Catégorie « Lexique en français de la plomberie » du Wiktionnaire (SRC-12) : une seule requête sur `/wiki/` (autorisé par `robots.txt`), agent identifié avec le contact choisi par le porteur (profil GitHub public), titres lus dans le seul bloc `mw-pages`. Le 15 octobre 2026 : 123 termes lus, 121 gardés, 2 écartés (même forme normalisée), version `2026.10.1` au statut `candidate` ; rejeu sans version créée. Preuve : `src/muninn/ingestion/lexique.py`.
+- [x] Attribution CC BY-SA 4.0 conservée par terme : source, titre de page et licence en base, lien vers la page reconstruit pour chaque terme ; seuls les titres sont repris, jamais les définitions (US-48, critère 4).
 
 ### Étape 5 : la base de données (C1, C2)
 

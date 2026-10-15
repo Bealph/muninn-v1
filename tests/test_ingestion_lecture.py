@@ -2,7 +2,7 @@
 
 import pytest
 
-from muninn.ingestion import api_geo, codes_postaux, cog
+from muninn.ingestion import api_geo, codes_postaux, cog, lexique
 
 ENTETE_COG = (
     '"TYPECOM","COM","REG","DEP","CTCD","ARR","TNCC","NCC","NCCENR","LIBELLE","CAN","COMPARENT"'
@@ -123,3 +123,34 @@ def test_api_geo_lecture_et_ecarts() -> None:
         ("01004", "absent_from_geo_api", None),
         ("01002", "name_differs", "Autre nom"),
     ]
+
+
+PAGE_CATEGORIE = """<html><body>
+<div id="mw-subcategories"><a href="/wiki/Cat%C3%A9gorie:Autre" title="Catégorie:Autre">x</a></div>
+<div id="mw-pages"><h2>Pages</h2><div class="mw-content-ltr"><div class="mw-category">
+<ul><li><a href="/wiki/cumulus" title="cumulus">cumulus</a></li>
+<li><a href="/wiki/eaux_vannes" title="eaux vannes">eaux vannes</a></li>
+<li><a href="/wiki/eaux-vannes" title="eaux-vannes">eaux-vannes</a></li>
+<li><a href="/wiki/Annexe:X" title="Annexe:X">annexe</a></li></ul></div></div></div>
+<div id="catlinks"><a href="/wiki/Cat%C3%A9gorie:Plomberie" title="Catégorie:Plomberie">p</a></div>
+</body></html>"""
+
+
+def test_wiktionnaire_lit_seulement_le_bloc_des_pages() -> None:
+    termes = lexique.lire_wiktionnaire(PAGE_CATEGORIE.encode("utf-8"))
+    assert [t.terme for t in termes] == ["cumulus", "eaux vannes", "eaux-vannes"]
+    assert {(t.source_id, t.licence) for t in termes} == {("SRC-12", "CC-BY-SA-4.0")}
+
+
+def test_wiktionnaire_page_sans_bloc_refusee() -> None:
+    with pytest.raises(ValueError, match="mw-pages"):
+        lexique.lire_wiktionnaire(b"<html><body><p>vide</p></body></html>")
+
+
+def test_lexique_une_forme_un_terme_et_attribution() -> None:
+    termes = lexique.lire_wiktionnaire(PAGE_CATEGORIE.encode("utf-8"))
+    gardes, ecartes = lexique.selectionner(termes)
+    assert [t.terme for t in gardes] == ["cumulus", "eaux vannes"]
+    assert ecartes == [{"terme": "eaux-vannes", "motif": "même forme que « eaux vannes »"}]
+    assert lexique.url_de(gardes[1]) == "https://fr.wiktionary.org/wiki/eaux_vannes"
+    assert lexique.empreinte(gardes) == lexique.empreinte(list(reversed(gardes)))
