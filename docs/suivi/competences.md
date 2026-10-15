@@ -191,5 +191,5 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 
 **C21** (1 sur 2)
 
-- [x] Fiche par incident réel : cause, correctif, PR, test de non-régression ; fiches `docs/v1/sprints/sprint-2/incidents/INC-01-creation-postgresql.md` et `INC-02-connexion-oidc.md` (à poursuivre au fil des sprints)
+- [x] Fiche par incident réel : cause, correctif, PR, test de non-régression ; fiches `docs/v1/sprints/sprint-2/incidents/INC-01-creation-postgresql.md`, `INC-02-connexion-oidc.md` et `INC-03-livraison-en-double.md` (à poursuivre au fil des sprints)
 - [ ] Incident provoqué, résolu et documenté (V1.1)

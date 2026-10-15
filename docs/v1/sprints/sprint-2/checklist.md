@@ -82,7 +82,7 @@ cochée qu'avec sa preuve (fichier, capture ou exécution de la chaîne).
 ### Étape 10 : la clôture du sprint
 
 - [x] Retours de l'atelier n° 1 : décision du porteur du 13 octobre 2026, ils ne sont pas consignés dans le dépôt et sont présentés à l'oral (critère P6).
-- [x] Compte rendu de sprint (C16) : `compte-rendu.md` ; fiches d'incident (C21) : `incidents/INC-01-creation-postgresql.md`, `incidents/INC-02-connexion-oidc.md`.
+- [x] Compte rendu de sprint (C16) : `compte-rendu.md` ; fiches d'incident (C21) : `incidents/INC-01-creation-postgresql.md`, `incidents/INC-02-connexion-oidc.md` ; `incidents/INC-03-livraison-en-double.md`, ajoutée le 15 octobre 2026.
 - [x] Suivi des tâches et des compétences à jour ; commit et push (PR de clôture).
 
 ## Écarts avec le dossier V1 gelé (décision D-43, validée le 13 octobre 2026)

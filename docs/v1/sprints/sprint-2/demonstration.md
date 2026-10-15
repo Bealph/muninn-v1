@@ -60,8 +60,9 @@ retour arrière pendant une livraison.
   automatiques consignées dans `compte-rendu.md`, section 4.
 - **À dire si l'évaluateur la remarque :** l'exécution rouge du 14 octobre 2026 à 16 h 16
   (38596692823) est un second déclenchement pour le même commit `e184fd0`, déjà livré 8 secondes
-  plus tôt par l'exécution 38596675377. Le script de livraison refuse alors de redéployer une
-  version identique ; la production n'a pas été touchée.
+  plus tôt par l'exécution 38596675377. Le script de livraison refusait alors de redéployer une
+  version identique ; la production n'a pas été touchée. Défaut corrigé et documenté :
+  `incidents/INC-03-livraison-en-double.md`.
 
 ### P3. Un commit cassé est bloqué
 

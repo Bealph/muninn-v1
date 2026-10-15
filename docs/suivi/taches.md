@@ -61,6 +61,8 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-14 | Infographies de la V1 rangées par thème puis par format                                                                                                                                        | `docs/v1/infographie/`, PR n° 19                                       |
 | 2026-10-14 | Architecture agentique et préparation de devis (D-53), orientation validée (D-54), horizons du devis et de la facture électronique (D-55) ; quatre agents outillés                             | `docs/conception/architecture-agentique/`, PR n° 20 à 22               |
 | 2026-10-14 | Infographies enrichies du sprint 2 (travail attendu, évaluation par le pair) ; rituel de fin de sprint instauré                                                                                | `docs/v1/sprints/README.md`, PR n° 23                                  |
+| 2026-10-15 | Déroulé de la démonstration du sprint 2 (P1 à P6) ; infographies refondues ; rituel porté à sept étapes                                                                                        | `docs/v1/sprints/sprint-2/demonstration.md`, PR n° 25                  |
+| 2026-10-15 | Incident INC-03 (livraison en échec sur un commit déjà livré) résolu et documenté                                                                                                              | `docs/v1/sprints/sprint-2/incidents/`, `infra/azure/deployer.sh`       |
 
 ## À faire
 

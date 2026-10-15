@@ -37,10 +37,21 @@ revision_en_service() {
     --query "[?properties.trafficWeight==\`100\`].name | [0]" -o tsv
 }
 
+image_de() { # application, révision
+  az containerapp revision show -g "$GROUPE" -n "$1" --revision "$2" \
+    --query "properties.template.containers[0].image" -o tsv
+}
+
 livrer() { # application, fonction de contrôle
   local app="$1" controler="$2" precedente nouvelle fqdn
   precedente=$(revision_en_service "$app")
   echo "== $app : révision en service $precedente"
+  # 0. Image déjà en service (même commit livré deux fois, INC-03) : rien à livrer, ce n'est pas
+  #    une erreur. Les contrôles finaux par l'adresse publique s'exécutent quand même.
+  if [ "$(image_de "$app" "$precedente")" = "$image" ]; then
+    echo "   $image déjà en service : rien à livrer"
+    return 0
+  fi
   # 1. Trafic figé sur la révision nommée : la nouvelle ne reçoit rien avant d'être contrôlée.
   az containerapp ingress traffic set -g "$GROUPE" -n "$app" \
     --revision-weight "$precedente=100" --only-show-errors -o none

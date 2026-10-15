@@ -56,10 +56,11 @@ Ces mesures portent sur peu d'exécutions : ce sont des ordres de grandeur.
 
 ## 5. Incidents
 
-| Fiche  | Incident                                               | Cause racine                                                                                   | Non-régression                                          |
-| ------ | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| INC-01 | Serveur PostgreSQL non créé par le script du socle     | Options retirées d'`az` 2.89 ; scripts relus contre la documentation, pas contre l'aide locale | `verifier-options.py` ; le script 03 vérifie le serveur |
-| INC-02 | Première livraison bloquée à la connexion Azure (OIDC) | Sujet OIDC « immuable » du dépôt, non lu avant de créer la confiance                           | Confiance créée ou corrigée par `oidc-github.sh`        |
+| Fiche  | Incident                                                                              | Cause racine                                                                                   | Non-régression                                                 |
+| ------ | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| INC-01 | Serveur PostgreSQL non créé par le script du socle                                    | Options retirées d'`az` 2.89 ; scripts relus contre la documentation, pas contre l'aide locale | `verifier-options.py` ; le script 03 vérifie le serveur        |
+| INC-02 | Première livraison bloquée à la connexion Azure (OIDC)                                | Sujet OIDC « immuable » du dépôt, non lu avant de créer la confiance                           | Confiance créée ou corrigée par `oidc-github.sh`               |
+| INC-03 | Livraison en échec sur un commit déjà livré (détecté le 15 octobre, après la clôture) | Script de livraison non idempotent, révélé par un double événement `push` de GitHub            | Image déjà en service : la livraison réussit sans rien changer |
 
 Deux erreurs de méthode, sans effet sur ce qui est servi, ont aussi été corrigées :
 
