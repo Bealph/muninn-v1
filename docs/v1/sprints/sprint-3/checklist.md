@@ -61,8 +61,8 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 3 : le service web (C1, C3)
 
-- [ ] Communes de l'API Géo (SRC-03) : collecte, respect du quota publié, reprise sur erreur.
-- [ ] Agrégation avec le COG et les codes postaux ; écarts entre sources comptés et expliqués.
+- [x] Communes de l'API Géo (SRC-03) : un seul appel, champs utiles seulement (ni population ni géométrie), agent identifié ; rejets motivés (champ manquant, format, doublon). Preuve : `src/muninn/ingestion/api_geo.py`.
+- [x] Recoupement avec le COG et les codes postaux, écarts enregistrés dans `ref.commune_source_gaps` (VD-09). Sur les vraies données du 15 octobre 2026, dans un PostgreSQL 16 local : 34 969 communes comparées en 2 s ; aucune commune du COG absente de l'API, aucun nom différent ; 94 codes en plus, tous dans la liste figée de l'outre-mer (975 à 989) ; codes postaux identiques à ceux de La Poste pour chaque commune présente dans les deux sources ; rejeu sans version créée.
 
 ### Étape 4 : la page web (C1)
 

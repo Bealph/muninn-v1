@@ -2,7 +2,7 @@
 
 import pytest
 
-from muninn.ingestion import codes_postaux, cog
+from muninn.ingestion import api_geo, codes_postaux, cog
 
 ENTETE_COG = (
     '"TYPECOM","COM","REG","DEP","CTCD","ARR","TNCC","NCC","NCCENR","LIBELLE","CAN","COMPARENT"'
@@ -95,3 +95,31 @@ def test_codes_postaux_fichier_en_utf8_refuse() -> None:
     """VD-02 : un fichier en UTF-8 lu en ISO-8859-1 donne un en-tête faux, donc un arrêt."""
     with pytest.raises(ValueError, match="en-tête"):
         codes_postaux.lire(fichier_cp("01001;X;01400;X;", encodage="utf-8"), {"01001"})
+
+
+def test_api_geo_lecture_et_ecarts() -> None:
+    contenu = (
+        '[{"code": "01001", "nom": "L\'Abergement-Clémenciat", "codesPostaux": ["01400"]},'
+        ' {"code": "98714", "nom": "Bora-Bora", "codesPostaux": ["98730"]},'
+        ' {"code": "01002", "nom": "Autre nom", "codesPostaux": []},'
+        ' {"code": "01001", "nom": "Doublon"},'
+        ' {"nom": "Sans code"},'
+        ' {"code": "1003", "nom": "Code sur 4 chiffres"}]'
+    ).encode()
+    lecture = api_geo.lire(contenu)
+    assert [c.code for c in lecture.lignes] == ["01001", "98714", "01002"]
+    assert [(r.ligne, r.motif) for r in lecture.rejets] == [
+        (4, "duplicate"),
+        (5, "missing_field"),
+        (6, "bad_format"),
+    ]
+    cog_servi = {
+        "01001": "L'Abergement-Clémenciat",
+        "01002": "L'Abergement-de-Varey",
+        "01004": "Ambérieu-en-Bugey",
+    }
+    assert api_geo.ecarts(lecture.lignes, cog_servi) == [
+        ("98714", "absent_from_cog", "Bora-Bora"),
+        ("01004", "absent_from_geo_api", None),
+        ("01002", "name_differs", "Autre nom"),
+    ]

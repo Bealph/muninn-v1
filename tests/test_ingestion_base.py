@@ -11,7 +11,7 @@ from typing import Any, cast
 import pytest
 
 from muninn.core.config import get_settings
-from muninn.ingestion import codes_postaux, cog, commande
+from muninn.ingestion import api_geo, codes_postaux, cog, commande
 from muninn.ingestion.telechargement import FichierRecu
 from outils_base import base_migree, connecter, exiger_base, url_postgres
 
@@ -40,6 +40,12 @@ CP = "\r\n".join(
         "99999;INCONNUE;99999;INCONNUE;",
     ]
 ).encode("iso-8859-1")
+GEO = (
+    '[{"code": "01001", "nom": "L\'Abergement-Clémenciat", "codesPostaux": ["01400"]},'
+    ' {"code": "75056", "nom": "Paris", "codesPostaux": ["75001"]},'
+    ' {"code": "98714", "nom": "Bora-Bora", "codesPostaux": ["98730"]}]'
+).encode()
+TOUT = {cog.URL: COG_V1, codes_postaux.URL: CP, api_geo.URL: GEO}
 
 
 @pytest.fixture
@@ -60,7 +66,7 @@ def servir(monkeypatch: pytest.MonkeyPatch, fichiers: dict[str, bytes]) -> None:
             url=url,
             url_finale=url,
             contenu=fichiers[url],
-            date_source=None if url == cog.URL else date(2026, 10, 8),
+            date_source=date(2026, 10, 8) if url == codes_postaux.URL else None,
             recupere_le=datetime.now(UTC),
         )
 
@@ -76,11 +82,12 @@ def versions(base: str) -> list[tuple[Any, ...]]:
 
 
 def test_chargement_complet(base: str, monkeypatch: pytest.MonkeyPatch) -> None:
-    servir(monkeypatch, {cog.URL: COG_V1, codes_postaux.URL: CP})
+    servir(monkeypatch, TOUT)
     assert commande.main(["tout"]) == 0
     assert versions(base) == [
         ("communes", "published", 4, 4, 0, 0, date(2026, 1, 1)),
         ("postal_codes", "published", 4, 2, 1, 1, date(2026, 10, 8)),
+        ("geo_api_communes", "published", 3, 3, 0, 0, datetime.now(UTC).date()),
     ]
     with connecter(base) as conn:
         assert conn.execute(
@@ -104,10 +111,10 @@ def test_chargement_complet(base: str, monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_rejeu_sans_doublon(base: str, monkeypatch: pytest.MonkeyPatch) -> None:
-    servir(monkeypatch, {cog.URL: COG_V1, codes_postaux.URL: CP})
+    servir(monkeypatch, TOUT)
     assert commande.main(["tout"]) == 0
     assert commande.main(["tout"]) == 0
-    assert len(versions(base)) == 2  # second passage : sources inchangées, aucune version
+    assert len(versions(base)) == 3  # second passage : sources inchangées, aucune version
 
 
 def test_nouvelle_version_remplace_la_servie(base: str, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -151,3 +158,12 @@ def test_codes_postaux_exigent_un_cog_publie(base: str, monkeypatch: pytest.Monk
     servir(monkeypatch, {codes_postaux.URL: CP})
     with pytest.raises(RuntimeError, match="COG"):
         commande.main(["codes-postaux"])
+
+
+def test_api_geo_enregistre_les_ecarts(base: str, monkeypatch: pytest.MonkeyPatch) -> None:
+    servir(monkeypatch, TOUT)
+    assert commande.main(["tout"]) == 0
+    with connecter(base) as conn:
+        assert conn.execute(
+            "SELECT insee_code, gap_type, geo_api_name FROM ref.commune_source_gaps"
+        ).fetchall() == [("98714", "absent_from_cog", "Bora-Bora")]
