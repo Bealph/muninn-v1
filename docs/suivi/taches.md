@@ -2,6 +2,8 @@
 
 **Mis à jour le :** 16 octobre 2026
 
+Tableau Kanban de la V1 : <https://github.com/users/Bealph/projects/4> (même périmètre, vue par carte).
+
 Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 
 ## Fait

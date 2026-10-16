@@ -43,6 +43,15 @@ make api          # API sur la base locale, port 8000 ; `make console` dans un s
 Le PostgreSQL local est un conteneur jetable (`muninn-pg-essai`, port 15432), créé au premier
 appel ; `make base-arreter` l'arrête en gardant ses données.
 
+## Suivi du projet
+
+- **Tableau Kanban** « Muninn V1 » : <https://github.com/users/Bealph/projects/4>. Une carte par
+  élément V1, par story de la V1 (sous-tâche de son élément), et pour les tâches, livrables,
+  dettes et incidents. Champs : statut, nature, sprint, élément, compétences, charge.
+- **Une PR cite sa carte** (`.github/pull_request_template.md`) : « Closes #n » la ferme à la
+  fusion, « Refs #n » la relie sans la fermer.
+- **Suivi détaillé** dans `docs/suivi/` (tâches et compétences), tenu à côté du tableau.
+
 ## Documentation
 
 | Document                                                                   | Contenu                                                                   |
