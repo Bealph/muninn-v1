@@ -1,0 +1,333 @@
+{
+  "name": "dossier_draft_contenu",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "client",
+      "demande",
+      "cle_humaine",
+      "actions",
+      "champs_manquants"
+    ],
+    "properties": {
+      "client": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "nom",
+          "prenom",
+          "telephone",
+          "adresse"
+        ],
+        "properties": {
+          "nom": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value",
+              "confidence"
+            ],
+            "properties": {
+              "value": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          },
+          "prenom": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value",
+              "confidence"
+            ],
+            "properties": {
+              "value": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          },
+          "telephone": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value",
+              "confidence",
+              "origin"
+            ],
+            "properties": {
+              "value": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^\\+[1-9][0-9]{7,14}$"
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "origin": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "caller_id",
+                  "spoken",
+                  null
+                ]
+              }
+            }
+          },
+          "adresse": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "rue",
+              "code_postal",
+              "commune"
+            ],
+            "properties": {
+              "rue": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "confidence"
+                ],
+                "properties": {
+                  "value": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                }
+              },
+              "code_postal": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "confidence"
+                ],
+                "properties": {
+                  "value": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "pattern": "^[0-9]{4,5}$"
+                  },
+                  "confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                }
+              },
+              "commune": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "confidence"
+                ],
+                "properties": {
+                  "value": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "demande": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "objet_court",
+          "description",
+          "metier",
+          "urgence",
+          "disponibilites_client"
+        ],
+        "properties": {
+          "objet_court": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value",
+              "confidence"
+            ],
+            "properties": {
+              "value": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          },
+          "description": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value",
+              "confidence"
+            ],
+            "properties": {
+              "value": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          },
+          "metier": {
+            "type": "string",
+            "enum": [
+              "plomberie",
+              "chauffage",
+              "electricite",
+              "serrurerie",
+              "autre"
+            ]
+          },
+          "urgence": {
+            "type": "string",
+            "enum": [
+              "securite",
+              "urgent",
+              "normal",
+              "non_precise"
+            ]
+          },
+          "disponibilites_client": {
+            "type": "array",
+            "maxItems": 5,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "value",
+                "confidence"
+              ],
+              "properties": {
+                "value": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      "cle_humaine": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "actions": {
+        "type": "array",
+        "maxItems": 10,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "libelle"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "rappeler",
+                "envoyer_devis",
+                "commander",
+                "autre"
+              ]
+            },
+            "libelle": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "champs_manquants": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "client.nom",
+            "client.prenom",
+            "client.telephone",
+            "client.adresse.rue",
+            "client.adresse.code_postal",
+            "client.adresse.commune",
+            "demande.objet_court",
+            "demande.description",
+            "demande.metier",
+            "demande.urgence",
+            "demande.disponibilites_client",
+            "demande.rdv_propose",
+            "cle_humaine",
+            "actions"
+          ]
+        }
+      }
+    }
+  }
+}

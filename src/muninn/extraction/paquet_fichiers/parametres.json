@@ -1,0 +1,11 @@
+{
+  "prompt_version": "extraction-2026.10.1",
+  "modele": "gpt-5.4-mini",
+  "modele_version": "2026-03-17",
+  "max_jetons_sortie": 4000,
+  "max_appels_outils": 6,
+  "delai_outil_s": 5,
+  "delai_llm_s": 30,
+  "relances_validation": 1,
+  "parallel_tool_calls": false
+}

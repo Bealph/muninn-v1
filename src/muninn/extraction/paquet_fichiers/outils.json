@@ -1,0 +1,65 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "chercher_communes",
+      "description": "Communes candidates pour un nom de commune, un code postal, ou les deux : code INSEE, nom officiel, département et codes postaux de chacune.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "nom",
+          "code_postal"
+        ],
+        "properties": {
+          "nom": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Nom de la commune, tel qu'il est dit"
+          },
+          "code_postal": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Code postal à 5 chiffres"
+          }
+        }
+      },
+      "strict": true
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "chercher_terme_metier",
+      "description": "Terme du lexique d'un métier le plus proche d'un mot entendu, ou un refus s'il n'y en a pas.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mot",
+          "metier"
+        ],
+        "properties": {
+          "mot": {
+            "type": "string",
+            "description": "Le mot ou l'expression entendus"
+          },
+          "metier": {
+            "type": "string",
+            "enum": [
+              "plomberie",
+              "chauffage",
+              "electricite",
+              "serrurerie"
+            ]
+          }
+        }
+      },
+      "strict": true
+    }
+  }
+]

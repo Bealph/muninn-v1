@@ -40,20 +40,20 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 0 : cadrage du sprint
 
-- [ ] Checklist rédigée et versionnée (ce fichier).
-- [ ] Décision D-62 : écran minimal « Agent » dans la console dès ce sprint (scénario ou texte libre, dossier, garde-fous déclenchés, appels d'outils, liste « Messages ») ; le sprint 5 l'enrichit (provenance, correction, validation). Preuve : `docs/decisions.md`.
-- [ ] Décision D-63 : garde-fous d'entrée en trois couches, sans appel au LLM en plus (règles, modération par le filtre d'Azure, hors-périmètre par la qualification). Preuve : `docs/decisions.md`.
-- [ ] Décision D-64 : évaluation en CI plafonnée à 1 € par campagne et 10 € pour le sprint ; dépassement : verdict « non mesuré », bloquant ; accès au modèle par OIDC dans un environnement GitHub protégé, sans clé stockée. Preuve : `docs/decisions.md`.
-- [ ] Décision D-65 : filtre de contenu personnalisé, détection des détournements en annotation seule, catégories de nocivité bloquantes ; possible sans approbation de Microsoft (vérifié le 16 octobre 2026 dans Microsoft Learn par l'agent `verificateur-sources`). Créé par le porteur à l'étape 5 (R10) ; CA-4 reste tel qu'écrit. Preuve : `docs/decisions.md`.
-- [ ] Journal des retours du sprint (D-59) : `retours.md`.
-- [ ] Écarts entre la conception de la phase 2 et les décisions postérieures, relevés et tranchés par la décision la plus récente : extraction sans outil (remplacée par D-37), Langfuse « non retenu » dans le document d'observabilité (remplacé par D-49), modèle Mistral et graine dans la chaîne LLMOps (remplacés par D-44 et D-61). Preuve : `ecarts-conception.md`.
+- [x] Checklist rédigée et versionnée (ce fichier).
+- [x] Décision D-62 : écran minimal « Agent » dans la console dès ce sprint (scénario ou texte libre, dossier, garde-fous déclenchés, appels d'outils, liste « Messages ») ; le sprint 5 l'enrichit (provenance, correction, validation). Preuve : `docs/decisions.md`.
+- [x] Décision D-63 : garde-fous d'entrée en trois couches, sans appel au LLM en plus (règles, modération par le filtre d'Azure, hors-périmètre par la qualification). Preuve : `docs/decisions.md`.
+- [x] Décision D-64 : évaluation en CI plafonnée à 1 € par campagne et 10 € pour le sprint ; dépassement : verdict « non mesuré », bloquant ; accès au modèle par OIDC dans un environnement GitHub protégé, sans clé stockée. Preuve : `docs/decisions.md`.
+- [x] Décision D-65 : filtre de contenu personnalisé, détection des détournements en annotation seule, catégories de nocivité bloquantes ; possible sans approbation de Microsoft (vérifié le 16 octobre 2026 dans Microsoft Learn par l'agent `verificateur-sources`). Créé par le porteur à l'étape 5 (R10) ; CA-4 reste tel qu'écrit. Preuve : `docs/decisions.md`.
+- [x] Journal des retours du sprint (D-59) : `retours.md`.
+- [x] Écarts entre la conception de la phase 2 et les décisions postérieures, relevés et tranchés par la décision la plus récente : extraction sans outil (remplacée par D-37), Langfuse « non retenu » dans le document d'observabilité (remplacé par D-49), modèle Mistral et graine dans la chaîne LLMOps (remplacés par D-44 et D-61). Preuve : `ecarts-conception.md`.
 
 ### Étape 1 : le contrat et le paquet d'extraction (V-07, C9)
 
-- [ ] Modèles Pydantic du `DossierDraft` 1.1, sous-ensemble utile à la V1, `extra="forbid"` partout ; frontière modèle / serveur respectée : le schéma demandé au LLM ne contient aucun champ du serveur. Écarts au contrat de la phase 2 motivés.
-- [ ] Validateur applicatif des règles que le schéma n'exprime pas (champs manquants et valeurs nulles, plafond de confiance, `needs_review`).
-- [ ] Paquet d'extraction versionné : consigne système (politique D-37), gabarit du bloc de données, schéma, définitions des deux outils, paramètres ; empreinte SHA-256 sur une liste fermée de chemins (code des outils compris, D-37).
-- [ ] Tests : schéma, validateur, stabilité de l'empreinte.
+- [x] Modèles Pydantic du `DossierDraft` 1.1, sous-ensemble utile à la V1, `extra="forbid"` partout ; frontière modèle / serveur respectée : le schéma demandé au LLM ne contient aucun champ du serveur. Écarts au contrat de la phase 2 motivés ; provenance par champ, candidates et « à vérifier » prévus dans une enveloppe du serveur, à côté du brouillon. Preuve : `src/muninn/extraction/contrat.py`, `contrat-dossier.md`.
+- [x] Validateur applicatif des règles que le schéma n'exprime pas (règles 1, 2, 4 et 5 ; `needs_review` lié au statut par le modèle) ; `champs_manquants` recalculé par le serveur. Preuve : `src/muninn/extraction/regles.py`.
+- [x] Paquet d'extraction versionné (`extraction-2026.10.1`) : consigne système (politique D-37, jeton témoin), gabarit du bloc de données (balises imitées retirées), schéma strict, définitions des deux outils, paramètres ; empreinte SHA-256 sur une liste fermée de chemins (paquet, extraction, fournisseur, `uv.lock`), fins de ligne normalisées. Preuve : `src/muninn/extraction/paquet_fichiers/`, `paquet.py`.
+- [x] Tests : 30 tests (champs du serveur refusés dans la sortie du modèle, règles croisées, schéma du modèle aligné sur le contrat et compatible avec le mode strict, outils en liste fermée, bloc de données, empreinte stable, sensible au paquet, graphe des imports couvert) ; 123 tests au total. Preuve : `tests/test_extraction_contrat.py`.
 
 ### Étape 2 : le fournisseur LLM (C8)
 

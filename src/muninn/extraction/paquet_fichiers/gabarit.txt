@@ -1,0 +1,6 @@
+Appel manqué du {date_reference}, pour un artisan du métier : {metier}.
+Numéro présenté par le réseau : {numero_presente}.
+
+<transcription>
+{transcription}
+</transcription>
