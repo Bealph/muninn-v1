@@ -80,6 +80,7 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-16 | Tableau Kanban « Muninn V1 » : 62 cartes, PR reliées par « Closes #n », 7 automatismes ; passage seul en « Fait » vérifié                                                                      | PR n° 109                                                              |
 | 2026-10-16 | Sprint 4, étape 0 : checklist, décisions D-62 à D-65 (écran « Agent », garde-fous d'entrée, plafond de l'évaluation, filtre de contenu)                                                        | PR n° 112                                                              |
 | 2026-10-16 | Sprint 4, étape 1 : contrat `DossierDraft` 1.1 (sous-ensemble V1) et paquet d'extraction versionné, empreinte ; 123 tests                                                                      | PR n° 114                                                              |
+| 2026-10-16 | Idée du porteur ajoutée au projet global, hors V1 : mémoire de travail de l'artisan (D-66), épopée EP11, US-56 à US-60 au backlog                                                              | PR n° 116                                                              |
 
 ## À faire
 
@@ -101,3 +102,4 @@ Plan de la feuille de route V1 (`docs/v1/roadmap-v1.md`), valable jusqu'au 13 no
 | Second oral          | Relecture des cinq livrables, répétitions des 90 minutes, gel le 11 à 18 h                                                                                                                  | 9 au 11 novembre           | À faire                        |
 | Au fil de l'eau      | Une fiche par incident réel (C21) ; tableau GitHub Projects, PR revues, compte rendu de sprint (C16)                                                                                        | dès le 14 octobre          | À faire                        |
 | Fin de chaque sprint | Rituel de fin de sprint : checklist, compte rendu, infographies enrichies (attendu et évaluation par le pair), rendus, suivi, journal                                                       | à chaque sprint            | À faire                        |
+| Après la V1          | Mémoire de travail (EP11, D-66) : horizon à confirmer, avis RGPD sur les rappels privés, note de conception complète, amendement de US-13, US-20, US-30                                     | après le 13 novembre       | À faire                        |
