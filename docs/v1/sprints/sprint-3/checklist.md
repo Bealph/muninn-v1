@@ -49,7 +49,7 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 - [x] Modèle physique des schémas `ref` et `market`, sous-ensemble de la phase 1 (document 02) utile à la V1 ; écarts motivés. Preuve : `schema.md`.
 - [x] Table de traçabilité des chargements (`ref.dataset_versions`) : source, adresse, date de la source, empreinte SHA-256, date de chargement, lignes lues, chargées, filtrées, rejetées ; leur somme est imposée par une contrainte. Preuve : migration `0001`.
-- [ ] Migrations Alembic : commande `muninn-db upgrade`, embarquée dans l'image (contrôlé dans le job `build`) ; en local par `docker compose run --rm api muninn-db upgrade`. Reste : application en production par la tâche de D-58, avec l'extension `pg_trgm` autorisée sur le serveur.
+- [x] Migrations Alembic : `muninn-db upgrade`, embarquée dans l'image ; en local par `make migrer` ; en production par la tâche des données (`muninn-donnees`), avec `pg_trgm` autorisée sur le serveur, le 16 octobre 2026. Preuve : `preuves/etape-10-production.md`.
 - [x] Rôles de groupe `<base>_lecture` (API, lecture seule) et `<base>_ecriture` (ingestion, lignes seulement, sans `ref.naf_trades` ni droit sur le schéma). Preuve : migration `0001`, `schema.md` § 4.
 - [x] Tests sur une base neuve, en CI (service PostgreSQL 16, tests de base obligatoires) : tables, correspondance NAF, droits des deux rôles, contraintes, une version publiée par jeu, secret statistique, annulation puis réapplication. 8 tests, 37 au total, tous réussis. Preuve : `tests/test_base.py`, PR n° 29.
 
@@ -107,9 +107,9 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 ### Étape 10 : le jeu de démonstration et la production
 
 - [x] Jeu de 10 questions versionné (`src/muninn/referentiels/questions_demonstration.json`) : 7 couvertes (dont une ambiguë, une incohérente, une par code postal), 2 hors corpus, 1 hors périmètre, chacune avec sa réponse attendue et la source qui doit être citée ; rejoué par `muninn-questions <adresse>` ou `make questions`. 10 sur 10 contre l'API locale sur les vraies données.
-- [ ] Ce jeu tourne en CI (structure et logique de comparaison, `tests/test_demonstration.py`) et contre la production après chaque chargement (workflow `donnees`). Reste : la première exécution en production.
-- [ ] Ingestion lancée en production par la commande unique ; tables chargées, traçabilité lisible.
-- [ ] Tout livré par la chaîne du sprint 2 ; les questions du jeu passent en production.
+- [x] Ce jeu tourne en CI (structure et logique de comparaison) et contre la production après chaque chargement : 10 sur 10 en préproduction et en production, le 16 octobre 2026.
+- [x] Ingestion lancée en production par la tâche des données ; rejouée en une commande, `gh workflow run donnees -f environnement=production` (83 s, aucune version créée). L'API lit avec le rôle `muninn_prod_api`, en lecture seule. Preuve : `preuves/etape-10-production.md`.
+- [x] Tout livré par la chaîne du sprint 2 (dont l'image de la tâche) ; les 10 questions du jeu passent en production ; écran de production capturé (`preuves/etape-10-production-*.png`).
 
 ### Étape 11 : clôture (rituel de fin de sprint)
 

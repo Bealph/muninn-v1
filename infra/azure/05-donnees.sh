@@ -112,7 +112,9 @@ for env in "${environnements[@]}"; do
   echo "6/6 Jeu de questions de démonstration"
   fqdn=$(az containerapp show -g "$GROUPE" -n "$api" \
     --query properties.configuration.ingress.fqdn -o tsv --only-show-errors)
-  for _ in $(seq 1 24); do curl -fsS -m 20 -o /dev/null "https://$fqdn/health" && break; sleep 5; done
+  # Redirection du shell plutôt que « -o /dev/null » : le curl de Windows, appelé depuis Git Bash,
+  # ne sait pas écrire dans /dev/null (erreur 23 constatée le 16 octobre 2026).
+  for _ in $(seq 1 24); do curl -fsS -m 20 "https://$fqdn/health" > /dev/null && break; sleep 5; done
   uv run muninn-questions "https://$fqdn"
 done
 echo "Données en place. Rejouer ensuite : gh workflow run donnees -f environnement=<env>"
