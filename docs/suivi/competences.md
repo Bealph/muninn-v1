@@ -54,7 +54,7 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 ## Preuves, case par case
 
-**Cases cochées : 43 sur 61** (au 16 octobre 2026).
+**Cases cochées : 44 sur 61** (au 16 octobre 2026).
 
 Une case n'est cochée que si la preuve existe dans le dépôt. Source des preuves attendues :
 `docs/v1/couverture-competences.md`. Une compétence passe à « Preuve produite » quand toutes
@@ -155,11 +155,11 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 - [x] Architecture technique et 17 ADR : `docs/conception/industrialisation/06-architecture-technique.md`
 - [x] Dossier V1, sections 4 et 5 : `docs/v1/dossier-conception-v1.md`
 
-**C16** (3 sur 4)
+**C16** (4 sur 4)
 
 - [x] Méthode agile : `docs/conception/industrialisation/07-methode-agile.md`
 - [x] Journal des décisions et checklist du sprint 2 : `docs/decisions.md`, `docs/v1/sprints/sprint-2/checklist.md`
-- [ ] Tableau GitHub Projects, PR revues (au fil des sprints)
+- [x] Tableau GitHub Projects « Muninn V1 » relié aux PR, 62 cartes, automatismes vérifiés de bout en bout : <https://github.com/users/Bealph/projects/4> (PR n° 109 ; à tenir à chaque sprint)
 - [x] Comptes rendus de sprint : `docs/v1/sprints/sprint-2/compte-rendu.md` (à poursuivre à chaque sprint)
 
 **C17** (1 sur 2)

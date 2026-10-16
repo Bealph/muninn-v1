@@ -77,6 +77,7 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-16 | Tâche des données planifiée chaque mois (D-60)                                                                                                                                                 | PR n° 43                                                               |
 | 2026-10-16 | Sprint 3 clos : compte rendu, déroulé de démonstration, infographies ; retours du pair attendus                                                                                                | `docs/v1/sprints/sprint-3/`                                            |
 | 2026-10-16 | Banc d'essai T-06 : protocole avant mesure, 48 extractions ; modèle A retenu pour l'agent (D-61)                                                                                               | PR n° 45                                                               |
+| 2026-10-16 | Tableau Kanban « Muninn V1 » : 62 cartes, PR reliées par « Closes #n », 7 automatismes ; passage seul en « Fait » vérifié                                                                      | PR n° 109                                                              |
 
 ## À faire
 
