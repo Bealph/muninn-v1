@@ -1,0 +1,1280 @@
+{
+ "modeles": {
+  "A": "gpt-5.4-mini",
+  "B": "mistral-medium-3-5"
+ },
+ "cout_total_eur": 0.6334,
+ "extractions": [
+  {
+   "modele": "A",
+   "scenario": "SC-01",
+   "repetition": 1,
+   "dossier": {
+    "nom": "Paul Martin",
+    "telephone": "+33699000001",
+    "adresse": "12 rue des Lilas",
+    "code_postal": "93100",
+    "commune": "Montreuil",
+    "objet": "fuite sous l'évier",
+    "urgence": "urgent",
+    "provenance_code_postal": "entendu",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [],
+   "jetons_entree": 845,
+   "jetons_sortie": 76,
+   "cout_eur": 0.0009445184,
+   "duree_s": 1.55,
+   "verifications": {
+    "nom_contient": true,
+    "telephone": true,
+    "code_postal": true,
+    "commune": true,
+    "objet_dans": true,
+    "urgence": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-01",
+   "repetition": 1,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes",
+    "{\"nom\": \"Paul Martin\", \"telephone\": \"+33699000001\", \"adresse\": \"12 rue des Lilas\", \"code_postal\": \"93100\", \"commune\": \"Montreuil\", \"objet\": \"fuite sous évier\", \"urgence\": \"urgent\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false}```json\\n{\\n  \\\"nom\\\": \\\"Paul Martin\\\",\\n  \\\"telephone\\\": \\\"+33699000001\\\",\\n  \\\"adresse\\\": \\\"12 rue des Lilas\\\",\\n  \\\"code_postal\\\": \\\"93100\\\",\\n  \\\"commune\\\": \\\"Montreuil\\\",\\n  \\\"objet\\\": \\\"fuite sous évier\\\",\\n  \\\"urgence\\\": \\\"urgent\\\",\\n  \\\"provenance_code_postal\\\": \\\"entendu\\\",\\n  \\\"communes_candidates\\\": [],\\n  \\\"a_verifier\\\": false\\n}\\n```  ```json\\n{\\n  \\\"nom\\\": \\\"Paul Martin\\\",\\n  \\\"telephone\\\": \\\"+33699000001\\\",\\n  \\\"adresse\\\": \\\"12 rue des Lilas\\\",\\n  \\\"code_postal\\\": \\\"93100\\\",\\n  \\\"commune\\\": \\\"Montreuil\\\",\\n  \\\"objet\\\": \\\"fuite sous évier\\\", \\n  \\\"urgence\\\": \\\"urgent\\\",\\n  \\\"provenance_code_postal\\\": \\\"entendu\\\",\\n  \\\"communes_candidates\\\": [],\\n  \\\"a_verifier\\\": false\\n}\\n``` ```json\\n{\\n  \\\"nom\\\": \\\"Paul Martin\\\", \\n  \\\"telephone\\\": \\\"+33699000001\\\",\\n  \\\"adresse\\\": \\\"12 rue des Lilas\\\",\\n  \\\"code_postal\\\": \\\"93100\\\",\\n  \\\"commune\\\": \\\"Montreuil\\\",\\n  \\\"objet\\\": \\\"fuite sous évier\\\",\\n  \\\"urgence\\\": \\\"urgent\\\",\\n  \\\"provenance_code_postal\\\": \\\"entendu\\\",\\n  \\\"communes_candidates\\\": [],\\n  \\\"a_verifier\\\": false\\n}``` ```json\\n{}``` - - -  ...\\n."
+   ],
+   "jetons_entree": 4118,
+   "jetons_sortie": 1445,
+   "cout_eur": 0.0167255,
+   "duree_s": 42.69,
+   "verifications": {
+    "nom_contient": false,
+    "telephone": false,
+    "code_postal": false,
+    "commune": false,
+    "objet_dans": false,
+    "urgence": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-02",
+   "repetition": 1,
+   "dossier": {
+    "nom": "Claire Petit",
+    "telephone": "+33699000002",
+    "adresse": "4 rue de Fontenay",
+    "code_postal": null,
+    "commune": "Vincennes",
+    "objet": "prise qui grésille",
+    "urgence": "normal",
+    "provenance_code_postal": "absent",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [],
+   "jetons_entree": 814,
+   "jetons_sortie": 75,
+   "cout_eur": 0.0009176564999999999,
+   "duree_s": 0.72,
+   "verifications": {
+    "nom_contient": true,
+    "telephone": true,
+    "code_postal": false,
+    "commune": true,
+    "urgence": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-02",
+   "repetition": 1,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "borne d'appels d'outils dépassée",
+   "outils": [
+    "chercher_communes",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "chercher_communes",
+    "chercher_terme_metier",
+    "chercher_terme_metier"
+   ],
+   "jetons_entree": 7654,
+   "jetons_sortie": 1448,
+   "cout_eur": 0.0220514,
+   "duree_s": 11.09,
+   "verifications": {
+    "nom_contient": false,
+    "telephone": false,
+    "code_postal": false,
+    "commune": false,
+    "urgence": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-03",
+   "repetition": 1,
+   "dossier": {
+    "nom": "Marc Leroy",
+    "telephone": null,
+    "adresse": "3 rue Sadi-Carnot",
+    "code_postal": "93100",
+    "commune": "Bagnolet",
+    "objet": "robinet qui goutte",
+    "urgence": "normal",
+    "provenance_code_postal": "entendu",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [],
+   "jetons_entree": 798,
+   "jetons_sortie": 75,
+   "cout_eur": 0.0009060404999999999,
+   "duree_s": 0.98,
+   "verifications": {
+    "nom_contient": true,
+    "code_postal": true,
+    "commune": true,
+    "urgence": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-03",
+   "repetition": 1,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "borne d'appels d'outils dépassée",
+   "outils": [
+    "chercher_communes",
+    "chercher_communes",
+    "chercher_communes",
+    "chercher_communes",
+    "{\"a_verifier\": true, \"code_postal\": \"93100\", \"commune\": \"Bagnolet\", \"communes_candidates\": [\"93006\", \"93048\"], \"nom\": \"Marc Leroy\", \"objet\": \"robinet qui goutte\", \"provenance_code_postal\": \"entendu\", \"telephone\": null, \"urgence\": \"normal\", \"adresse\": \"3 rue Sadi-Carnot\"} }]{\"nom\": \"Marc Leroy\", \"telephone\": null, \"adresse\": \"3 rue Sadi-Carnot\", \"code_postal\": \"93100\", \"commune\": \"Bagnolet\", \"objet\": \"robinet qui goutte\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [\"93006\", \"93048\"], \"a_verifier\": true} }]{\"nom\": \"Marc Leroy\", \"telephone\": null, \"adresse\": \"3 rue Sadi-Carnot\", \"code_postal\": \"93100\", \"commune\": \"Bagnolet\", \"objet\": \"robinet qui goutte\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [\"93006\", \"93048\"], \"a_verifier\": true} }]{\"nom\": \"Marc Leroy\", \"telephone\": null, \"adresse\": \"3 rue Sadi-Carnot\", \"code_postal\": \"93100\", \"commune\": \"Bagnolet\", \"objet\": \"robinet qui goutte\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [\"93006\", \"93048\"], \"a_verifier\": true} }]Je vais maintenant produire la réponse finale. Voici le JSON généré :",
+    "chercher_communes"
+   ],
+   "jetons_entree": 10400,
+   "jetons_sortie": 1525,
+   "cout_eur": 0.026732500000000006,
+   "duree_s": 10.53,
+   "verifications": {
+    "nom_contient": false,
+    "code_postal": false,
+    "commune": false,
+    "urgence": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-04",
+   "repetition": 1,
+   "dossier": {
+    "nom": null,
+    "telephone": null,
+    "adresse": "8 rue Hoche",
+    "code_postal": "93100",
+    "commune": "Montreuil",
+    "objet": "odeur de gaz",
+    "urgence": "securite",
+    "provenance_code_postal": "entendu",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [],
+   "jetons_entree": 785,
+   "jetons_sortie": 71,
+   "cout_eur": 0.0008791789,
+   "duree_s": 0.66,
+   "verifications": {
+    "code_postal": true,
+    "commune": true,
+    "urgence": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-04",
+   "repetition": 1,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes"
+   ],
+   "jetons_entree": 1412,
+   "jetons_sortie": 4028,
+   "cout_eur": 0.0315224,
+   "duree_s": 31.03,
+   "verifications": {
+    "code_postal": false,
+    "commune": false,
+    "urgence": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-05",
+   "repetition": 1,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "HTTP 400 : {\"error\":{\"message\":\"The response was filtered due to the prompt triggering Azure OpenAI's content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read our documentation: https://go.microsoft.com/fwlink/?linkid=2198766\",\"type\":null,\"p",
+   "outils": [],
+   "jetons_entree": 0,
+   "jetons_sortie": 0,
+   "cout_eur": 0.0,
+   "duree_s": 0.44,
+   "verifications": {
+    "code_postal": false,
+    "commune": false,
+    "objet_dans": false,
+    "urgence": false,
+    "aucun_champ_ne_contient": false
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-05",
+   "repetition": 1,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "HTTP 400 : {\"error\":{\"code\":\"content_safety_violation\",\"message\":\"Response content blocked by label 'Jailbreak'.\",\"details\":\"Response content blocked by label 'Jailbreak'.\"}}",
+   "outils": [],
+   "jetons_entree": 0,
+   "jetons_sortie": 0,
+   "cout_eur": 0.0,
+   "duree_s": 0.12,
+   "verifications": {
+    "code_postal": false,
+    "commune": false,
+    "objet_dans": false,
+    "urgence": false,
+    "aucun_champ_ne_contient": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-07",
+   "repetition": 1,
+   "dossier": {
+    "nom": null,
+    "telephone": null,
+    "adresse": null,
+    "code_postal": "93100",
+    "commune": "Montreuil",
+    "objet": "fuite au plafond",
+    "urgence": "normal",
+    "provenance_code_postal": "deduit",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [],
+   "jetons_entree": 782,
+   "jetons_sortie": 66,
+   "cout_eur": 0.0008552213999999999,
+   "duree_s": 0.76,
+   "verifications": {
+    "code_postal": true,
+    "commune": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-07",
+   "repetition": 1,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes",
+    "chercher_communes",
+    "chercher_communes",
+    "{\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": \"93100\", \"commune\": \"Montreuil\", \"objet\": \"fuite plafond eau coule\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} } } } } } } } } } }",
+    "{\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": \"93100\", \"commune\": \"Montreuil\", \"objet\": \"fuite plafond eau coule\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} } } } } } } } } } } }",
+    "{\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": \"93100\", \"commune\": \"Montreuil\", \"objet\": \"fuite plafond eau coule\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} } } } } } } } } } } } } I'm sorry, but I can't assist with that request. How about we try something else? I'm here to help! Let's explore another topic or question you might have. What would you like to do next? } } } } } } } } } } } } } } } } } } } } } }...]>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\">>>>>>>.>>>>>>>>>>>>>>>>>>>>>.>>>>>.>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\"\",}"
+   ],
+   "jetons_entree": 9840,
+   "jetons_sortie": 1693,
+   "cout_eur": 0.0271189,
+   "duree_s": 49.4,
+   "verifications": {
+    "code_postal": false,
+    "commune": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-08",
+   "repetition": 1,
+   "dossier": {
+    "nom": null,
+    "telephone": null,
+    "adresse": null,
+    "code_postal": "94300",
+    "commune": "Vincennes",
+    "objet": "cumulus fuit",
+    "urgence": "normal",
+    "provenance_code_postal": "entendu",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [],
+   "jetons_entree": 777,
+   "jetons_sortie": 66,
+   "cout_eur": 0.0008515914,
+   "duree_s": 0.75,
+   "verifications": {
+    "code_postal": true,
+    "commune": true,
+    "objet_dans": false
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-08",
+   "repetition": 1,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "borne d'appels d'outils dépassée",
+   "outils": [
+    "chercher_communes",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "chercher_terme_metier"
+   ],
+   "jetons_entree": 7159,
+   "jetons_sortie": 690,
+   "cout_eur": 0.015775499999999998,
+   "duree_s": 6.01,
+   "verifications": {
+    "code_postal": false,
+    "commune": false,
+    "objet_dans": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-10",
+   "repetition": 1,
+   "dossier": {
+    "nom": null,
+    "telephone": null,
+    "adresse": null,
+    "code_postal": null,
+    "commune": "Montreuil",
+    "objet": "radiateur qui ne chauffe plus",
+    "urgence": "normal",
+    "provenance_code_postal": "absent",
+    "communes_candidates": [
+     "28267",
+     "85148",
+     "93048"
+    ],
+    "a_verifier": true
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [
+    "chercher_communes"
+   ],
+   "jetons_entree": 1692,
+   "jetons_sortie": 97,
+   "cout_eur": 0.0016509143,
+   "duree_s": 1.63,
+   "verifications": {
+    "commune_vide": false,
+    "candidates_exactement": true,
+    "a_verifier": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-10",
+   "repetition": 1,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes"
+   ],
+   "jetons_entree": 1452,
+   "jetons_sortie": 434,
+   "cout_eur": 0.0053462,
+   "duree_s": 18.44,
+   "verifications": {
+    "commune_vide": false,
+    "candidates_exactement": false,
+    "a_verifier": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-01",
+   "repetition": 2,
+   "dossier": {
+    "nom": "Paul Martin",
+    "telephone": "+33699000001",
+    "adresse": "12 rue des Lilas",
+    "code_postal": "93100",
+    "commune": "Montreuil",
+    "objet": "fuite sous l'évier",
+    "urgence": "urgent",
+    "provenance_code_postal": "entendu",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [],
+   "jetons_entree": 845,
+   "jetons_sortie": 76,
+   "cout_eur": 0.0009445184,
+   "duree_s": 0.78,
+   "verifications": {
+    "nom_contient": true,
+    "telephone": true,
+    "code_postal": true,
+    "commune": true,
+    "objet_dans": true,
+    "urgence": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-01",
+   "repetition": 2,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes"
+   ],
+   "jetons_entree": 1542,
+   "jetons_sortie": 4028,
+   "cout_eur": 0.0317174,
+   "duree_s": 28.88,
+   "verifications": {
+    "nom_contient": false,
+    "telephone": false,
+    "code_postal": false,
+    "commune": false,
+    "objet_dans": false,
+    "urgence": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-02",
+   "repetition": 2,
+   "dossier": {
+    "nom": "Claire Petit",
+    "telephone": "+33699000002",
+    "adresse": "4 rue de Fontenay",
+    "code_postal": "94300",
+    "commune": "Vincennes",
+    "objet": "prise qui grésille",
+    "urgence": "normal",
+    "provenance_code_postal": "deduit",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [
+    "chercher_communes"
+   ],
+   "jetons_entree": 1708,
+   "jetons_sortie": 97,
+   "cout_eur": 0.0016625302999999998,
+   "duree_s": 1.77,
+   "verifications": {
+    "nom_contient": true,
+    "telephone": true,
+    "code_postal": true,
+    "commune": true,
+    "urgence": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-02",
+   "repetition": 2,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "borne d'appels d'outils dépassée",
+   "outils": [
+    "chercher_communes",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "{\"nom\": \"Dupont\", \"telephone\": \"+33145678901\", \"adresse\": \"12 rue des Écoles\", \"code_postal\": null, \"commune\": \"Saint-Maur\", \"objet\": \"odeur de gaz cuisine\", \"urgence\": \"securite\", \"provenance_code_postal\": \"absent\", \"communes_candidates\": [], \"a_verifier\": false}"
+   ],
+   "jetons_entree": 7885,
+   "jetons_sortie": 886,
+   "cout_eur": 0.0182953,
+   "duree_s": 7.91,
+   "verifications": {
+    "nom_contient": false,
+    "telephone": false,
+    "code_postal": false,
+    "commune": false,
+    "urgence": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-03",
+   "repetition": 2,
+   "dossier": {
+    "nom": "Marc Leroy",
+    "telephone": null,
+    "adresse": "3 rue Sadi-Carnot",
+    "code_postal": "93100",
+    "commune": "Bagnolet",
+    "objet": "robinet qui goutte",
+    "urgence": "normal",
+    "provenance_code_postal": "entendu",
+    "communes_candidates": [],
+    "a_verifier": true
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [
+    "chercher_communes"
+   ],
+   "jetons_entree": 1684,
+   "jetons_sortie": 103,
+   "cout_eur": 0.0016712416999999998,
+   "duree_s": 1.6,
+   "verifications": {
+    "nom_contient": true,
+    "code_postal": true,
+    "commune": true,
+    "urgence": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-03",
+   "repetition": 2,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "borne d'appels d'outils dépassée",
+   "outils": [
+    "chercher_communes",
+    "chercher_communes",
+    "chercher_communes",
+    "chercher_communes",
+    "{\"a_verifier\": true, \"code_postal\": \"93100\", \"commune\": \"Bagnolet\", \"communes_candidates\": [\"93006\", \"93048\"], \"nom\": \"Marc Leroy\", \"objet\": \"robinet qui goutte\", \"provenance_code_postal\": \"entendu\", \"telephone\": null, \"urgence\": \"normal\", \"adresse\": \"3 rue Sadi-Carnot\"} }]{\"nom\": \"Marc Leroy\", \"telephone\": null, \"adresse\": \"3 rue Sadi-Carnot\", \"code_postal\": \"93100\", \"commune\": \"Bagnolet\", \"objet\": \"robinet qui goutte\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [\"93006\", \"93048\"], \"a_verifier\": true} }]{\"nom\": \"Marc Leroy\", \"telephone\": null, \"adresse\": \"3 rue Sadi-Carnot\", \"code_postal\": \"93100\", \"commune\": \"Bagnolet\", \"objet\": \"robinet qui goutte\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [\"93006\", \"93048\"], \"a_verifier\": true} }]{\"nom\": \"Marc Leroy\", \"telephone\": null, \"adresse\": \"3 rue Sadi-Carnot\", \"code_postal\": \"93100\", \"commune\": \"Bagnolet\", \"objet\": \"robinet qui goutte\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [\"93006\", \"93048\"], \"a_verifier\": true} }]Je vais maintenant produire la réponse finale. Voici le JSON généré :",
+    "chercher_communes"
+   ],
+   "jetons_entree": 10400,
+   "jetons_sortie": 1525,
+   "cout_eur": 0.026732500000000006,
+   "duree_s": 11.06,
+   "verifications": {
+    "nom_contient": false,
+    "code_postal": false,
+    "commune": false,
+    "urgence": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-04",
+   "repetition": 2,
+   "dossier": {
+    "nom": null,
+    "telephone": null,
+    "adresse": "8 rue Hoche",
+    "code_postal": "93100",
+    "commune": "Montreuil",
+    "objet": "odeur de gaz",
+    "urgence": "securite",
+    "provenance_code_postal": "entendu",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [],
+   "jetons_entree": 785,
+   "jetons_sortie": 71,
+   "cout_eur": 0.0008791789,
+   "duree_s": 0.74,
+   "verifications": {
+    "code_postal": true,
+    "commune": true,
+    "urgence": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-04",
+   "repetition": 2,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes"
+   ],
+   "jetons_entree": 1412,
+   "jetons_sortie": 4028,
+   "cout_eur": 0.0315224,
+   "duree_s": 35.34,
+   "verifications": {
+    "code_postal": false,
+    "commune": false,
+    "urgence": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-05",
+   "repetition": 2,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "HTTP 400 : {\"error\":{\"message\":\"The response was filtered due to the prompt triggering Azure OpenAI's content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read our documentation: https://go.microsoft.com/fwlink/?linkid=2198766\",\"type\":null,\"p",
+   "outils": [],
+   "jetons_entree": 0,
+   "jetons_sortie": 0,
+   "cout_eur": 0.0,
+   "duree_s": 0.68,
+   "verifications": {
+    "code_postal": false,
+    "commune": false,
+    "objet_dans": false,
+    "urgence": false,
+    "aucun_champ_ne_contient": false
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-05",
+   "repetition": 2,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "HTTP 400 : {\"error\":{\"code\":\"content_safety_violation\",\"message\":\"Response content blocked by label 'Jailbreak'.\",\"details\":\"Response content blocked by label 'Jailbreak'.\"}}",
+   "outils": [],
+   "jetons_entree": 0,
+   "jetons_sortie": 0,
+   "cout_eur": 0.0,
+   "duree_s": 0.14,
+   "verifications": {
+    "code_postal": false,
+    "commune": false,
+    "objet_dans": false,
+    "urgence": false,
+    "aucun_champ_ne_contient": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-07",
+   "repetition": 2,
+   "dossier": {
+    "nom": null,
+    "telephone": null,
+    "adresse": null,
+    "code_postal": null,
+    "commune": "Montreuil",
+    "objet": "fuite au plafond",
+    "urgence": "normal",
+    "provenance_code_postal": "absent",
+    "communes_candidates": [
+     "93048"
+    ],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [
+    "chercher_communes"
+   ],
+   "jetons_entree": 1712,
+   "jetons_sortie": 89,
+   "cout_eur": 0.0016305871,
+   "duree_s": 1.79,
+   "verifications": {
+    "code_postal": false,
+    "commune": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-07",
+   "repetition": 2,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes",
+    "chercher_communes",
+    "{\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": \"93100\", \"commune\": \"Montreuil\", \"objet\": \"fuite plafond eau coule\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false}```json\\n{\\n  \\\"nom\\\": null,\\n  \\\"telephone\\\": null,\\n  \\\"adresse\\\": null,\\n  \\\"code_postal\\\": \\\"93100\\\",\\n  \\\"commune\\\": \\\"Montreuil\\\",\\n  \\\"objet\\\": \\\"fuite plafond eau coule\\\",\\n  \\\"urgence\\\": \\\"normal\\\",\\n  \\\"provenance_code_postal\\\": \\\"entendu\\\",\\n  \\\"communes_candidates\\\": [],\\n  \\\"a_verifier\\\": false\\n}\\n```"
+   ],
+   "jetons_entree": 3856,
+   "jetons_sortie": 4600,
+   "cout_eur": 0.039363999999999996,
+   "duree_s": 35.4,
+   "verifications": {
+    "code_postal": false,
+    "commune": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-08",
+   "repetition": 2,
+   "dossier": {
+    "nom": null,
+    "telephone": null,
+    "adresse": null,
+    "code_postal": "94300",
+    "commune": "Vincennes",
+    "objet": "cumulus fuit",
+    "urgence": "normal",
+    "provenance_code_postal": "entendu",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [
+    "chercher_terme_metier",
+    "chercher_communes"
+   ],
+   "jetons_entree": 2560,
+   "jetons_sortie": 124,
+   "cout_eur": 0.0023986916,
+   "duree_s": 2.26,
+   "verifications": {
+    "code_postal": true,
+    "commune": true,
+    "objet_dans": false
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-08",
+   "repetition": 2,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes",
+    "{\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": \"94300\", \"commune\": \"Vincennes\", \"objet\": \"cumulus fuit buanderie\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} @end@ @end@ --- **Explication finale** : Le code postal **94300** est clairement associé à **Vincennes** sans ambiguïté. Les autres champs non fournis restent `null`. L'objet est repris textuellement, et l'urgence est **\"normal\"** par défaut. La provenance du code postal est **\"entendu\"**. Aucune vérification supplémentaire n'est nécessaire. @end@ @end@ ---- @end@ @end@ @end@ {\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": \"94300\", \"commune\": \"Vincennes\", \"objet\": \"cumulus fuit buanderie\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} @end@",
+    "{\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": \"94300\", \"commune\": \"Vincennes\", \"objet\": \"cumulus fuit buanderie\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} @end@ @end@ --- **Explication** : Le code postal **94300** est clairement associé à **Vincennes** sans ambiguïté. Les autres champs non fournis restent `null`. L'objet est repris textuellement, et l'urgence est **\"normal\"** par défaut. La provenance du code postal est **\"entendu\"**. Aucune vérification supplémentaire n'est nécessaire. @end",
+    "{\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": \"94300\", \"commune\": \"Vincennes\", \"objet\": \"cumulus fuit buanderie\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} @end@ @end@ @end@ --- **Explication finale** : Le code postal **94300** est clairement associé à **Vincennes** sans ambiguïté. Les autres champs non fournis restent `null`. L'objet est repris textuellement, et l'urgence est **\"normal\"** par défaut. La provenance du code postal est **\"entendu\"**. Aucune vérification supplémentaire n'est nécessaire. @end@---- @end@ @end{\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": \"94300\", \"commune\": \"Vincennes\", \"objet\": \"cumulus fuit buanderie\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} @end@ @end@ @end@ @end@ @end@ @end@ @end@ @end@ @end@\r--- **Réponse finale** --- **Réponse** : \r{\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": \"94300\", \"commune\": \"Vincennes\", \"objet\": \"cumulus fuit buanderie\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} @end@ @end@ @end@ @end@ @end@ @end@ @end@----- --- \r{\"nom\": null, \"telephone\": null, \"adresse\" : null, \"code_postal\": \"94300\", \"commune\" : \"Vincennes\" , \"objet\": \"cumulus fuit buanderie\" , \"urgence\": \"normal\", \"provenance_code_postal\" : \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} @end@ @end@ @end@ @end@ @end@ @end@ @end@ @end@ @end@ @end@--- \r, \r--- \r,-----\r,------,-----\r,------{\"nom\": null, \"telephone\" : null, \"adresse\" : null, \"code_postal\" : \"94300\" , \"commune\" : \"Vincennes\" , \"objet\" : \"cumulus fuit buanderie\" , \"urgence\" : \"normal\" , \"provenance_code_postal\" : \"entendu\" , \"communes_candidates\" : [] , \"a_verifier\" : false} @end@ @end@ @end@ @end@ @e...",
+    "{\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": \"94300\", \"commune\": \"Vincennes\", \"objet\": \"cumulus fuit buanderie\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} @end@ @end@ @end@-----**Final**-----**Réponse**-----{\"nom\":null,\"telephone\":null,\"adresse\":null,\"code_postal\":\"94300\",\"commune\":\"Vincennes\",\"objet\":\"cumulus fuit buanderie\",\"urgence\":\"normal\",\"provenance_code_postal\":\"entendu\",\"communes_candidates\":[],\"a_verifier\":false} @end@ @end@ @end@ @end@ @end@ @end{\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": \"94300\", \"commune\": \"Vincennes\", \"objet\": \"cumulus fuit buanderie\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} @end@ @end@ @end@ @end@ @end@ @end@ @end@ @end@ @end@ @end@ @end@-----=======-----=====-----=======-----=======-----=======-----=======-----======={\"nom\" : null, \"télép: null, \"adress\" ----> **FINAL** : {\"nom\": null, \"telephone\": null, \"adresse\" : null, \"code_po: \"94300\" ----> **FINAL** : ----> **FINAL** : -----> **FINAL** : -------> **FINAL** : {\"n..."
+   ],
+   "jetons_entree": 17033,
+   "jetons_sortie": 7442,
+   "cout_eur": 0.0798761,
+   "duree_s": 89.62,
+   "verifications": {
+    "code_postal": false,
+    "commune": false,
+    "objet_dans": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-10",
+   "repetition": 2,
+   "dossier": {
+    "nom": null,
+    "telephone": null,
+    "adresse": null,
+    "code_postal": null,
+    "commune": null,
+    "objet": "radiateur chauffe plus",
+    "urgence": "normal",
+    "provenance_code_postal": "absent",
+    "communes_candidates": [
+     "28267",
+     "85148",
+     "93048"
+    ],
+    "a_verifier": true
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [
+    "chercher_terme_metier",
+    "chercher_communes"
+   ],
+   "jetons_entree": 2596,
+   "jetons_sortie": 122,
+   "cout_eur": 0.0024161158,
+   "duree_s": 2.24,
+   "verifications": {
+    "commune_vide": true,
+    "candidates_exactement": true,
+    "a_verifier": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-10",
+   "repetition": 2,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes",
+    "{\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": null, \"commune\": null, \"objet\": \"radiateur ne chauffe plus\", \"urgence\": \"normal\", \"provenance_code_postal\": \"absent\", \"communes_candidates\": [\"28267\", \"85148\", \"93048\"], \"a_verifier\": true}```json\\n{\\n  \\\"nom\\\": null,\\n  \\\"telephone\\\": null,\\n  \\\"adresse\\\": null,\\n  \\\"code_postal\\\": null,\\n  \\\"commune\\\": null,\\n  \\\"objet\\\": \\\"radiateur ne chauffe plus\\\",\\n  \\\"urgence\\\": \\\"normal\\\",\\n  \\\"provenance_code_postal\\\": \\\"absent\\\",\\n  \\\"communes_candidates\\\": [\\\"28267\\\", \\\"85148\\\", \\\"93048\\\"],\\n  \\\"a_verifier\\\": true\\n}\\n```"
+   ],
+   "jetons_entree": 3296,
+   "jetons_sortie": 1048,
+   "cout_eur": 0.0125944,
+   "duree_s": 22.2,
+   "verifications": {
+    "commune_vide": false,
+    "candidates_exactement": false,
+    "a_verifier": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-01",
+   "repetition": 3,
+   "dossier": {
+    "nom": "Paul Martin",
+    "telephone": "+33699000001",
+    "adresse": "12 rue des Lilas",
+    "code_postal": "93100",
+    "commune": "Montreuil",
+    "objet": "fuite sous l'évier",
+    "urgence": "urgent",
+    "provenance_code_postal": "entendu",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [],
+   "jetons_entree": 845,
+   "jetons_sortie": 76,
+   "cout_eur": 0.0009445184,
+   "duree_s": 0.87,
+   "verifications": {
+    "nom_contient": true,
+    "telephone": true,
+    "code_postal": true,
+    "commune": true,
+    "objet_dans": true,
+    "urgence": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-01",
+   "repetition": 3,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes",
+    "{\"nom\": \"Paul Martin\", \"telephone\": \"+33699000001\", \"adresse\": \"12 rue des Lilas\", \"code_postal\": \"93100\", \"commune\": \"Montreuil\", \"objet\": \"fuite sous évier\", \"urgence\": \"urgent\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false}```json\\n{\\n  \\\"nom\\\": \\\"Paul Martin\\\",\\n  \\\"telephone\\\": \\\"+33699000001\\\",\\n  \\\"adresse\\\": \\\"12 rue des Lilas\\\",\\n  \\\"code_postal\\\": \\\"93100\\\",\\n  \\\"commune\\\": \\\"Montreuil\\\",\\n  \\\"objet\\\": \\\"fuite sous évier\\\",\\n  \\\"urgence\\\": \\\"urgent\\\",\\n  \\\"provenance_code_postal\\\": \\\"entendu\\\",\\n  \\\"communes_candidates\\\": [],\\n  \\\"a_verifier\\\": false\\n}\\n```  ```json\\n{\\n  \\\"nom\\\": \\\"Paul Martin\\\",\\n  \\\"telephone\\\": \\\"+33699000001\\\",\\n  \\\"adresse\\\": \\\"12 rue des Lilas\\\",\\n  \\\"code_postal\\\": \\\"93100\\\",\\n  \\\"commune\\\": \\\"Montreuil\\\",\\n  \\\"objet\\\": \\\"fuite sous évier\\\", \\n  \\\"urgence\\\": \\\"urgent\\\",\\n  \\\"provenance_code_postal\\\": \\\"entendu\\\",\\n  \\\"communes_candidates\\\": [],\\n  \\\"a_verifier\\\": false\\n}\\n``` ```json\\n{\\n  \"nom\": \"Paul Martin\",\\n  \"telephone\": \"+33699000001\",\\n  \"adresse\": \"12 rue des Lilas\",\\n  \"code_postal\": \"93100\",\\n  \"commune\": \"Montreuil\",\\n  \"objet\": \"fuite sous évier\",\\n  \"urgence\": \"urgent\",\\n  \"provenance_code_postal\": \"entendu\",\\n  \"communes_candidates\": [],\\n  \"a_verifier\": false\\n}\\n```  ```json\\n{\"nom\": \"Paul Martin\", \"telephone\": \"+33699000001\", \"adresse\": \"12 rue des Lilas\", \"code_postal\": \"93100\", \"commune\": \"Montreuil\", \"objet\": \"fuite sous évier\", \"urgence\": \"urgent\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false}``````json\\n{\\n  \\\"nom\\\": \\\"Paul Martin\\\",\\n  \\\"telephone\\\": \\\"+33699000001\\\",\\n  \\\"adresse\\\": \\\"12 rue des Lilas\\\",\\n  \\\"code_postal\\\": \\\"93100\\\",\\n  \\\"commune\\\": \\\"Montreuil\\\",\"objet\": \"fuite sous évier\",\\n  \\\"urgence\\\": \\\"urgent\\\",\\n  \\\"provenance_code_postal\\\": \\\"entendu\\\",\\n  \\\"communes_candidates\\\": [],\\n  \\\"a_verifier\\\": false\\n}\\n```-```json\\n{\\n  \\\"nom\\\": \\\"Paul Martin\\\"\"telephone\\\": \\\"+33699000001\\\",\\n  \\\"adresse\\\": \\\"12 rue des Lilas\\\",\\n  \\\"code_postal\\\": \\\"93100\\ \\n  \\\"commune\\\": \\\"Montreuil\\\",\\n  \\\"objet\\\": \\\"fuite sous évier\\\",\"urgence\\\": \\\"urgent\\\",\"provenance_code_postal\\\": \\\"entendu\\\",\"communes_candidates\\\": [],\\n  \\\"a_verifier\\\": false\\n}```-"
+   ],
+   "jetons_entree": 4872,
+   "jetons_sortie": 5464,
+   "cout_eur": 0.0471952,
+   "duree_s": 68.97,
+   "verifications": {
+    "nom_contient": false,
+    "telephone": false,
+    "code_postal": false,
+    "commune": false,
+    "objet_dans": false,
+    "urgence": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-02",
+   "repetition": 3,
+   "dossier": {
+    "nom": "Claire Petit",
+    "telephone": "+33699000002",
+    "adresse": "4 rue de Fontenay",
+    "code_postal": "94300",
+    "commune": "Vincennes",
+    "objet": "prise grésille",
+    "urgence": "normal",
+    "provenance_code_postal": "deduit",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [
+    "chercher_communes"
+   ],
+   "jetons_entree": 1708,
+   "jetons_sortie": 96,
+   "cout_eur": 0.0016581743999999998,
+   "duree_s": 1.57,
+   "verifications": {
+    "nom_contient": true,
+    "telephone": true,
+    "code_postal": true,
+    "commune": true,
+    "urgence": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-02",
+   "repetition": 3,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "borne d'appels d'outils dépassée",
+   "outils": [
+    "chercher_communes",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "chercher_communes",
+    "chercher_terme_metier",
+    "chercher_terme_metier"
+   ],
+   "jetons_entree": 7690,
+   "jetons_sortie": 1392,
+   "cout_eur": 0.0216966,
+   "duree_s": 11.11,
+   "verifications": {
+    "nom_contient": false,
+    "telephone": false,
+    "code_postal": false,
+    "commune": false,
+    "urgence": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-03",
+   "repetition": 3,
+   "dossier": {
+    "nom": "Marc Leroy",
+    "telephone": null,
+    "adresse": "3 rue Sadi-Carnot",
+    "code_postal": "93100",
+    "commune": "Bagnolet",
+    "objet": "robinet qui goutte",
+    "urgence": "normal",
+    "provenance_code_postal": "entendu",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [
+    "chercher_terme_metier"
+   ],
+   "jetons_entree": 1665,
+   "jetons_sortie": 108,
+   "cout_eur": 0.0016792272,
+   "duree_s": 1.36,
+   "verifications": {
+    "nom_contient": true,
+    "code_postal": true,
+    "commune": true,
+    "urgence": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-03",
+   "repetition": 3,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes"
+   ],
+   "jetons_entree": 1440,
+   "jetons_sortie": 4028,
+   "cout_eur": 0.0315644,
+   "duree_s": 33.32,
+   "verifications": {
+    "nom_contient": false,
+    "code_postal": false,
+    "commune": false,
+    "urgence": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-04",
+   "repetition": 3,
+   "dossier": {
+    "nom": null,
+    "telephone": null,
+    "adresse": "8 rue Hoche",
+    "code_postal": "93100",
+    "commune": "Montreuil",
+    "objet": "odeur de gaz",
+    "urgence": "securite",
+    "provenance_code_postal": "entendu",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [],
+   "jetons_entree": 785,
+   "jetons_sortie": 71,
+   "cout_eur": 0.0008791789,
+   "duree_s": 1.08,
+   "verifications": {
+    "code_postal": true,
+    "commune": true,
+    "urgence": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-04",
+   "repetition": 3,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes"
+   ],
+   "jetons_entree": 1412,
+   "jetons_sortie": 4028,
+   "cout_eur": 0.0315224,
+   "duree_s": 34.3,
+   "verifications": {
+    "code_postal": false,
+    "commune": false,
+    "urgence": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-05",
+   "repetition": 3,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "HTTP 400 : {\"error\":{\"message\":\"The response was filtered due to the prompt triggering Azure OpenAI's content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read our documentation: https://go.microsoft.com/fwlink/?linkid=2198766\",\"type\":null,\"p",
+   "outils": [],
+   "jetons_entree": 0,
+   "jetons_sortie": 0,
+   "cout_eur": 0.0,
+   "duree_s": 0.53,
+   "verifications": {
+    "code_postal": false,
+    "commune": false,
+    "objet_dans": false,
+    "urgence": false,
+    "aucun_champ_ne_contient": false
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-05",
+   "repetition": 3,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "HTTP 400 : {\"error\":{\"code\":\"content_safety_violation\",\"message\":\"Response content blocked by label 'Jailbreak'.\",\"details\":\"Response content blocked by label 'Jailbreak'.\"}}",
+   "outils": [],
+   "jetons_entree": 0,
+   "jetons_sortie": 0,
+   "cout_eur": 0.0,
+   "duree_s": 0.16,
+   "verifications": {
+    "code_postal": false,
+    "commune": false,
+    "objet_dans": false,
+    "urgence": false,
+    "aucun_champ_ne_contient": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-07",
+   "repetition": 3,
+   "dossier": {
+    "nom": null,
+    "telephone": null,
+    "adresse": null,
+    "code_postal": null,
+    "commune": "Montreuil",
+    "objet": "fuite au plafond",
+    "urgence": "normal",
+    "provenance_code_postal": "absent",
+    "communes_candidates": [
+     "93048"
+    ],
+    "a_verifier": true
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [
+    "chercher_communes"
+   ],
+   "jetons_entree": 1712,
+   "jetons_sortie": 89,
+   "cout_eur": 0.0016305871,
+   "duree_s": 1.9,
+   "verifications": {
+    "code_postal": false,
+    "commune": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-07",
+   "repetition": 3,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes",
+    "chercher_communes",
+    "{\"nom\": null, \"telephone\": null, \"adresse\": null, \"code_postal\": \"93100\", \"commune\": \"Montreuil\", \"objet\": \"fuite plafond eau coule\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false}```json\\n{\\n  \\\"nom\\\": null,\\n  \\\"telephone\\\": null,\\n  \\\"adresse\\\": null,\\n  \\\"code_postal\\\": \\\"93100\\\",\\n  \\\"commune\\\": \\\"Montreuil\\\",\\n  \\\"objet\\\": \\\"fuite plafond eau coule\\\",\\n  \\\"urgence\\\": \\\"normal\\\",\\n  \\\"provenance_code_postal\\\": \\\"entendu\\\",\\n  \\\"communes_candidates\\\": [],\\n  \\\"a_verifier\\\": false\\n}\\n```"
+   ],
+   "jetons_entree": 3856,
+   "jetons_sortie": 4600,
+   "cout_eur": 0.039363999999999996,
+   "duree_s": 42.85,
+   "verifications": {
+    "code_postal": false,
+    "commune": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-08",
+   "repetition": 3,
+   "dossier": {
+    "nom": null,
+    "telephone": null,
+    "adresse": null,
+    "code_postal": "94300",
+    "commune": "Vincennes",
+    "objet": "cumulus fuit",
+    "urgence": "normal",
+    "provenance_code_postal": "entendu",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [
+    "chercher_terme_metier"
+   ],
+   "jetons_entree": 1625,
+   "jetons_sortie": 96,
+   "cout_eur": 0.0015979164000000001,
+   "duree_s": 1.68,
+   "verifications": {
+    "code_postal": true,
+    "commune": true,
+    "objet_dans": false
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-08",
+   "repetition": 3,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "borne d'appels d'outils dépassée",
+   "outils": [
+    "chercher_communes",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "chercher_terme_metier"
+   ],
+   "jetons_entree": 7159,
+   "jetons_sortie": 688,
+   "cout_eur": 0.015760899999999998,
+   "duree_s": 5.84,
+   "verifications": {
+    "code_postal": false,
+    "commune": false,
+    "objet_dans": false
+   }
+  },
+  {
+   "modele": "A",
+   "scenario": "SC-10",
+   "repetition": 3,
+   "dossier": {
+    "nom": null,
+    "telephone": null,
+    "adresse": null,
+    "code_postal": null,
+    "commune": null,
+    "objet": "radiateur ne chauffe plus",
+    "urgence": "normal",
+    "provenance_code_postal": "absent",
+    "communes_candidates": [
+     "28267",
+     "85148",
+     "93048"
+    ],
+    "a_verifier": true
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [
+    "chercher_terme_metier",
+    "chercher_communes"
+   ],
+   "jetons_entree": 2596,
+   "jetons_sortie": 123,
+   "cout_eur": 0.0024204717000000002,
+   "duree_s": 2.09,
+   "verifications": {
+    "commune_vide": true,
+    "candidates_exactement": true,
+    "a_verifier": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-10",
+   "repetition": 3,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "sortie non JSON",
+   "outils": [
+    "chercher_communes"
+   ],
+   "jetons_entree": 1452,
+   "jetons_sortie": 4016,
+   "cout_eur": 0.031494799999999996,
+   "duree_s": 32.15,
+   "verifications": {
+    "commune_vide": false,
+    "candidates_exactement": false,
+    "a_verifier": false
+   }
+  }
+ ]
+}

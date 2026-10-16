@@ -1,0 +1,67 @@
+{
+ "modeles": {
+  "A": "gpt-5.4-mini",
+  "B": "mistral-medium-3-5"
+ },
+ "cout_total_eur": 0.0233,
+ "extractions": [
+  {
+   "modele": "A",
+   "scenario": "SC-02",
+   "repetition": 1,
+   "dossier": {
+    "nom": "Claire Petit",
+    "telephone": "+33699000002",
+    "adresse": "4 rue de Fontenay",
+    "code_postal": null,
+    "commune": "Vincennes",
+    "objet": "prise qui grésille",
+    "urgence": "normal",
+    "provenance_code_postal": "absent",
+    "communes_candidates": [],
+    "a_verifier": false
+   },
+   "conforme": true,
+   "erreur": null,
+   "outils": [],
+   "jetons_entree": 814,
+   "jetons_sortie": 75,
+   "cout_eur": 0.0009176564999999999,
+   "duree_s": 4.11,
+   "verifications": {
+    "nom_contient": true,
+    "telephone": true,
+    "code_postal": false,
+    "commune": true,
+    "urgence": true
+   }
+  },
+  {
+   "modele": "B",
+   "scenario": "SC-02",
+   "repetition": 1,
+   "dossier": null,
+   "conforme": false,
+   "erreur": "borne d'appels d'outils dépassée",
+   "outils": [
+    "chercher_communes",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "chercher_terme_metier",
+    "{\"nom\": \"Claire Petit\", \"telephone\": \"+33699000002\", \"adresse\": \"4 rue de Fontenay\", \"code_postal\": \"94300\", \"commune\": \"Vincennes\", \"objet\": \"prise qui grésille\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} } } } { \"nom\": \"Claire Petit\", \"telephone\": \"+33699000002\", \"adresse\": \"4 rue de Fontenay\", \"code_postal\": \"94300\", \"commune\": \"Vincennes\", \"objet\": \"prise qui grésille\", \"urgence\": \"normal\", \"provenance_code_postal\": \"entendu\", \"communes_candidates\": [], \"a_verifier\": false} }"
+   ],
+   "jetons_entree": 8181,
+   "jetons_sortie": 1388,
+   "cout_eur": 0.0224039,
+   "duree_s": 10.45,
+   "verifications": {
+    "nom_contient": false,
+    "telephone": false,
+    "code_postal": false,
+    "commune": false,
+    "urgence": false
+   }
+  }
+ ]
+}
