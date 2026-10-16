@@ -1,6 +1,6 @@
 # Suivi des compétences
 
-**Mis à jour le :** 15 octobre 2026 (sprint 3, étapes 0 à 9)
+**Mis à jour le :** 16 octobre 2026 (fin du sprint 3)
 
 Statuts : « À faire », « En cours », « Preuve produite », « Validée » (validée par le porteur).
 
@@ -10,11 +10,11 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 | Code | Compétence (résumé)                                              | Phase | Preuve prévue                                                               | Statut          |
 | ---- | ---------------------------------------------------------------- | ----- | --------------------------------------------------------------------------- | --------------- |
-| C1   | Automatiser l'extraction (API, scraping, fichier, BDD, big data) | 0, 3  | Sources identifiées et vérifiées (phase 0a) ; scripts en phase 3            | En cours        |
+| C1   | Automatiser l'extraction (API, scraping, fichier, BDD, big data) | 0, 3  | Sources identifiées et vérifiées (phase 0a) ; scripts en phase 3            | Preuve produite |
 | C2   | Requêtes SQL d'extraction (SGBD et big data)                     | 1, 3  | Règles d'extraction SQL et big data conçues (phase 1) ; requêtes en phase 3 | Preuve produite |
 | C3   | Agrégation, nettoyage et homogénéisation des données             | 1, 3  | Défauts des sources et cas VD-01 à VD-28 (phase 1) ; script en phase 3      | Preuve produite |
-| C4   | Base de données conforme au RGPD (MCD, MPD, import)              | 1, 3  | Modèles conceptuel et physique, registre RGPD (phase 1) ; base en phase 3   | En cours        |
-| C5   | API REST de mise à disposition du jeu de données                 | 1, 3  | API des référentiels spécifiée (phase 1) ; contrat OpenAPI en phase 2       | En cours        |
+| C4   | Base de données conforme au RGPD (MCD, MPD, import)              | 1, 3  | Modèles conceptuel et physique, registre RGPD (phase 1) ; base en phase 3   | Preuve produite |
+| C5   | API REST de mise à disposition du jeu de données                 | 1, 3  | API des référentiels spécifiée (phase 1) ; contrat OpenAPI en phase 2       | Preuve produite |
 
 ## E2 : veille, benchmark et paramétrage de services d'IA (15 à 20 pages, 15 min)
 
@@ -54,7 +54,7 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 ## Preuves, case par case
 
-**Cases cochées : 39 sur 61** (au 15 octobre 2026).
+**Cases cochées : 42 sur 61** (au 16 octobre 2026).
 
 Une case n'est cochée que si la preuve existe dans le dépôt. Source des preuves attendues :
 `docs/v1/couverture-competences.md`. Une compétence passe à « Preuve produite » quand toutes
@@ -62,11 +62,11 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 
 ### E1 : données (premier oral, 29 octobre)
 
-**C1** (2 sur 3)
+**C1** (3 sur 3)
 
 - [x] Sources inventoriées et vérifiées : `docs/conception/sources_de_donnees/03-sources-de-donnees.md`
 - [x] Scripts d'extraction : service web (API Géo), page web (Wiktionnaire), fichiers (COG, codes postaux), base de données (Wikidata, SPARQL) : `src/muninn/ingestion/`, `muninn-ingestion tout` (sprint 3, PR n° 30 à 33)
-- [ ] Extraction big data Sirene par DuckDB, tâche planifiée (V-06, sprint 3) : DuckDB fait (`src/muninn/ingestion/sirene.py`, PR n° 34) ; reste la tâche Container Apps (étape 10)
+- [x] Extraction big data Sirene par DuckDB, tâche planifiée : `src/muninn/ingestion/sirene.py` (PR n° 34) ; tâche Container Apps planifiée le 3 de chaque mois (D-60, PR n° 43)
 
 **C2** (3 sur 3)
 
@@ -79,16 +79,16 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 - [x] Défauts des sources et cas VD : `docs/conception/architecture_de_donnees/04-verification-exactitude.md`
 - [x] Script de nettoyage et d'homogénéisation, rejets motivés : COG, codes postaux, API Géo, lexique ; contrôles VD (PR n° 30 à 33)
 
-**C4** (2 sur 3)
+**C4** (3 sur 3)
 
 - [x] Modèles conceptuel et physique : `docs/conception/architecture_de_donnees/02-modele-de-donnees.md`
 - [x] Registre RGPD : `docs/conception/architecture_de_donnees/05-registre-rgpd.md`
-- [ ] Base PostgreSQL et import programmé (V-04, V-06, sprint 3) : schémas, rôles et import en une commande faits et prouvés en local (PR n° 29 à 34) ; reste la production (étape 10)
+- [x] Base PostgreSQL et import programmé : schémas, rôles et import en production par la tâche des données, planifiée chaque mois, rejouable en une commande (PR n° 29 à 43 ; `docs/v1/sprints/sprint-3/preuves/etape-10-production.md`)
 
-**C5** (1 sur 2)
+**C5** (2 sur 2)
 
 - [x] Contrat de l'API : `docs/conception/industrialisation/04-contrat-api.md`
-- [ ] API des référentiels déployée (V-05, sprint 3) : livrée en production le 15 octobre 2026 (PR n° 35), répond 503 tant que les données n'y sont pas chargées (étape 10)
+- [x] API des référentiels déployée et chargée en production : sources citées, refus motivés, 10 questions de démonstration sur 10 (PR n° 35 à 43)
 
 ### E2 : veille, benchmark, paramétrage (oral du 12 novembre)
 

@@ -205,7 +205,7 @@
     <tr><td>Livraison, de la fusion à la production</td><td>8 à 10 min (6 livraisons)</td><td>GitHub Actions</td></tr>
     <tr><td>Retour arrière, jusqu'au service vérifié</td><td>36 à 66 s (4 bascules)</td><td><code>preuves/etape-8-retour-arriere.md</code></td></tr>
     <tr><td>Voix : synthèse et transcription</td><td>1,4 s et 2,1 s pour 22 s d'audio ; 2 locuteurs séparés sans erreur (un essai)</td><td>D-50</td></tr>
-    <tr><td>Incidents</td><td>3, résolus et documentés (INC-03 le 15 octobre)</td><td>INC-01 à INC-03</td></tr>
+    <tr><td>Incidents</td><td>4, résolus et documentés (INC-03 le 15, INC-04 le 16 octobre)</td><td>INC-01 à INC-04</td></tr>
   </table>
   <p class="note">Peu d'exécutions : ce sont des ordres de grandeur, pas des engagements de service.</p>
 </section>
@@ -236,6 +236,37 @@
   <p class="note">Déroulé complet, ordre de passage et préparation : <code>docs/v1/sprints/sprint-2/demonstration.md</code>.
   La livraison (P2) se lance en premier ; le rollback (P4) vient en dernier, jamais pendant une livraison.
   Hors trafic, l'application s'endort : l'ouvrir 5 minutes avant.</p>
+</section>
+
+<section id="s-sprint-3">
+  <h2><span class="n">10</span>Sprint 3 : travail attendu et évaluation par le pair</h2>
+  <p><b>Consigne, telle que donnée.</b> « Brancher le projet sur ses données : ingestion, stockage, et le mécanisme
+  d'ancrage qui convient. À la fin du sprint, l'application répond à partir de ses données, en citant ses sources, et
+  refuse proprement ce qui sort de son corpus ou de son périmètre, livré par la chaîne du sprint 2. » Livrables :
+  l'application en production, sources citées ; le pipeline rejouable ; un jeu de 5 à 10 questions versionné.</p>
+  <p><b>Pour Muninn.</b> Aucun corpus documentaire, donc ni RAG ni base vectorielle : des référentiels structurés,
+  interrogés par SQL sécurisé (D-56). Une question est une commune, un code postal, un terme de métier ou un marché.</p>
+  <table>
+    <tr><th>Travail attendu</th><th>Ce qui est livré</th><th>État</th></tr>
+    <tr><td>Pipeline d'ingestion rejouable sur demande</td><td>Cinq sources (fichiers, service web, page web, base, big data) ; <code>muninn-ingestion tout</code> ; tâche Azure planifiée chaque mois</td><td class="fait">Fait</td></tr>
+    <tr><td>Choisir et poser le stockage</td><td>PostgreSQL, schémas <code>ref</code> et <code>market</code> ; rôles de lecture et d'écriture</td><td class="fait">Fait</td></tr>
+    <tr><td>Implémenter l'ancrage</td><td>SQL sécurisé : requêtes paramétrées, lecture seule, délai par requête</td><td class="fait">Fait</td></tr>
+    <tr><td>Chaque réponse cite sa source</td><td>Source, licence, dates, version ; table et clé de chaque valeur</td><td class="fait">Fait</td></tr>
+    <tr><td>Refus sous un seuil de pertinence</td><td>Seuil du lexique 0,55, calibré par un protocole écrit avant la mesure</td><td class="fait">Fait</td></tr>
+    <tr><td>Minimisation RGPD avant indexation</td><td>Sirene : colonnes lues, SIREN en mémoire seulement, secret statistique</td><td class="fait">Fait</td></tr>
+  </table>
+  <table>
+    <tr><th>Critère du pair</th><th>L'évaluateur constate</th><th>Démonstration en direct</th><th>Preuve de secours</th><th>Statut</th></tr>
+    <tr><td>P1. Sources identifiées et licites</td><td>Six sources avec licence et conditions, revérifiées ; données personnelles source par source</td><td>Registre des sources et note RGPD (3 min)</td><td><code>sources.md</code>, <code>rgpd.md</code></td><td class="fait">Prêt</td></tr>
+    <tr><td>P2. Réponses traçables</td><td>Il tape une commune : la réponse donne la ligne en base et la source, jusqu'au fichier d'origine</td><td>Écran de production, son clavier (4 min)</td><td>Capture de production ; Swagger</td><td class="fait">Prêt</td></tr>
+    <tr><td>P3. Refus hors corpus</td><td>Sa question hors sujet est refusée avec le motif, sans valeur inventée</td><td>Écran de production, son clavier (3 min)</td><td>Capture du refus</td><td class="fait">Prêt</td></tr>
+    <tr><td>P4. Pipeline rejouable en une commande</td><td>Une commande relance tout en production ; aucune version créée</td><td><code>gh workflow run donnees</code> (3 min)</td><td>Exécution du 16 octobre : 83 s, 10 sur 10</td><td class="fait">Prêt</td></tr>
+    <tr><td>P5. Tout visible en production</td><td>Écran et API sur Azure, livrés par la chaîne ; aucun notebook</td><td>Adresses et dernier passage de la chaîne (1 min)</td><td>Compte rendu, mesures</td><td class="fait">Prêt</td></tr>
+    <tr><td>P6. Journal des retours tenu</td><td>Chaque retour, sa décision, sa justification, son lien</td><td>Journal des retours (2 min)</td><td>Le journal est la preuve</td><td class="prop">En attente</td></tr>
+  </table>
+  <p class="note">Déroulé complet : <code>docs/v1/sprints/sprint-3/demonstration.md</code>. Mesures : 37 496 communes,
+  38 925 codes postaux, 142 termes, 2 614 cellules Sirene ; premier chargement en production 5 min 24 s ; jeu de
+  10 questions à 10 sur 10 en production ; 143 tests. Un incident, INC-04, résolu.</p>
 </section>
 
 <footer>Dépôt <code>Bealph/Muninn</code>. Documents de référence : <code>docs/v1/dossier-conception-v1.md</code>,

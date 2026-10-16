@@ -2,10 +2,10 @@
 
 Un dossier par sprint : sa checklist, son compte rendu, ses preuves et ses fiches d'incident.
 
-| Sprint | Intitulé                 | Dossier     | État     |
-| ------ | ------------------------ | ----------- | -------- |
-| 2      | Le socle et la chaîne    | `sprint-2/` | Clos     |
-| 3      | Les données et l'ancrage | `sprint-3/` | En cours |
+| Sprint | Intitulé                 | Dossier     | État                                 |
+| ------ | ------------------------ | ----------- | ------------------------------------ |
+| 2      | Le socle et la chaîne    | `sprint-2/` | Clos                                 |
+| 3      | Les données et l'ancrage | `sprint-3/` | Clos ; retours du pair attendus (P6) |
 
 ## Rituel de fin de sprint
 

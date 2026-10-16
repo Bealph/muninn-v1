@@ -106,14 +106,14 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 10 : le jeu de démonstration et la production
 
-- [x] Jeu de 10 questions versionné (`src/muninn/referentiels/questions_demonstration.json`) : 7 couvertes (dont une ambiguë, une incohérente, une par code postal), 2 hors corpus, 1 hors périmètre, chacune avec sa réponse attendue et la source qui doit être citée ; rejoué par `muninn-questions <adresse>` ou `make questions`. 10 sur 10 contre l'API locale sur les vraies données.
+- [x] Jeu de 10 questions versionné (`src/muninn/referentiels/questions_demonstration.json` ; version lisible : `questions-demonstration.md`) : 7 couvertes (dont une ambiguë, une incohérente, une par code postal), 2 hors corpus, 1 hors périmètre, chacune avec sa réponse attendue et la source qui doit être citée ; rejoué par `muninn-questions <adresse>` ou `make questions`. 10 sur 10 contre l'API locale sur les vraies données.
 - [x] Ce jeu tourne en CI (structure et logique de comparaison) et contre la production après chaque chargement : 10 sur 10 en préproduction et en production, le 16 octobre 2026.
 - [x] Ingestion lancée en production par la tâche des données ; rejouée en une commande, `gh workflow run donnees -f environnement=production` (83 s, aucune version créée). L'API lit avec le rôle `muninn_prod_api`, en lecture seule. Preuve : `preuves/etape-10-production.md`.
 - [x] Tout livré par la chaîne du sprint 2 (dont l'image de la tâche) ; les 10 questions du jeu passent en production ; écran de production capturé (`preuves/etape-10-production-*.png`).
 
 ### Étape 11 : clôture (rituel de fin de sprint)
 
-- [ ] Checklist close ; compte rendu de sprint (C16) ; fiches d'incident s'il y a lieu (C21).
-- [ ] Déroulé de démonstration du sprint 3 (`demonstration.md`).
-- [ ] Section « Sprint 3 » des deux infographies, rendus régénérés.
-- [ ] Suivi des tâches et des compétences (C1 à C5) à jour ; journal de session.
+- [x] Checklist close ; compte rendu de sprint (C16) : `compte-rendu.md` ; fiche d'incident (C21) : `incidents/INC-04-delai-role-ingestion.md`.
+- [x] Déroulé de démonstration du sprint 3 : `demonstration.md`. Journal des retours : `retours.md`, en attente des retours du pair (critère P6).
+- [x] Section « Sprint 3 » des deux infographies (fiche d'ingénierie, section 10 ; présentation produit, section 9), rendus régénérés.
+- [x] Suivi des tâches et des compétences (C1 à C5) à jour ; journal de session (local).

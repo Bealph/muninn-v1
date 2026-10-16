@@ -1,5 +1,7 @@
 """Jeu de questions de démonstration (sprint 3, livrable) et sa vérification."""
 
+from pathlib import Path
+
 from muninn.referentiels import demonstration
 
 STATUTS = {"trouve", "hors_corpus", "hors_perimetre", "incoherent"}
@@ -28,3 +30,21 @@ def test_ecarts_detectes() -> None:
         "« 94300 » absent",
         "source SRC-07 non citée",
     ]
+
+
+def test_document_lisible_conforme_au_jeu() -> None:
+    """Le document du livrable dit la même chose que le jeu rejoué par la machine."""
+    document = (
+        Path(__file__).parents[1] / "docs/v1/sprints/sprint-3/questions-demonstration.md"
+    ).read_text(encoding="utf-8")
+    lignes = {
+        ligne.split("|")[1].strip(): ligne
+        for ligne in document.splitlines()
+        if ligne.startswith("| Q")
+    }
+    assert set(lignes) == {q["id"] for q in demonstration.questions()}
+    for q in demonstration.questions():
+        assert f"`{q['statut']}`" in lignes[q["id"]], q["id"]
+        for valeur in q["contient"]:
+            if valeur != "wiktionary.org":  # lien rendu en clair dans le document
+                assert valeur in lignes[q["id"]], (q["id"], valeur)

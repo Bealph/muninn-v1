@@ -597,6 +597,21 @@
   </section>
 
 
+  <section id="s-sprint-3">
+  <h2><span class="num">9</span>Sprint 3 : les données et l'ancrage, devant le pair</h2>
+  <div class="frise-note"><b>La consigne.</b> « Brancher le projet sur ses données : ingestion, stockage, et le mécanisme d'ancrage qui convient. L'application répond à partir de ses données, en citant ses sources, et refuse proprement ce qui sort de son corpus ou de son périmètre. » Pour Muninn : des référentiels publics (communes, codes postaux, lexique de métier, entreprises Sirene), interrogés par SQL sécurisé ; ni RAG ni base vectorielle, faute de corpus documentaire. Le travail attendu est fait ; seul le journal des retours attend ceux du pair.</div>
+  <div class="criteres">
+    <div class="critere"><span class="ca">P1</span><b>Des sources licites</b>Six sources ouvertes, licences revérifiées ; Sirene réduit à des comptages, sans aucune identité gardée.</div>
+    <div class="critere"><span class="ca">P2</span><b>Des réponses traçables</b>L'évaluateur tape une commune en production : la réponse cite sa source et la ligne en base, jusqu'au fichier d'origine.</div>
+    <div class="critere"><span class="ca">P3</span><b>Un refus propre</b>Sa question hors sujet est refusée, avec le motif, sans valeur inventée ; le seuil a été calibré avant la mesure.</div>
+    <div class="critere"><span class="ca">P4</span><b>Une seule commande</b>Une commande recharge tout en production, sans doublon ; la tâche tourne aussi chaque mois.</div>
+    <div class="critere"><span class="ca">P5</span><b>En production</b>L'écran et l'API tournent sur Azure, livrés par la chaîne : 10 questions de démonstration sur 10.</div>
+    <div class="critere"><span class="ca">P6</span><b>Retours du pair</b>Le journal des retours donne, pour chacun, la décision : traité, reporté ou écarté. En attente des retours.</div>
+  </div>
+  <div class="frise-note">Déroulé de la démonstration et preuves de secours : <code>docs/v1/sprints/sprint-3/demonstration.md</code>.</div>
+  </section>
+
+
   <footer>
     Personnages et données fictifs. Sources des chiffres : CAPEB, 11e baromètre ARTI Santé (juin 2025) ; Urssaf, open data « auto-entrepreneurs par secteur d'activité » (trimestre clos le 31/12/2025) ; INSEE, base Sirene. Communes vérifiées dans l'API Géo le 12 octobre 2026.
   </footer>
