@@ -47,6 +47,11 @@ def test_roles_crees_et_relancables(base: str) -> None:
         assert api.execute("SHOW statement_timeout").fetchone() == ("5s",)
         with pytest.raises(errors.ReadOnlySqlTransaction):
             api.execute("DELETE FROM ref.communes")
+    url_ingestion = roles.url_du_role(url, f"{base}_ingestion", MDP_INGESTION)
+    with psycopg.connect(url_ingestion, autocommit=True) as ingestion:
+        # Délai large pour l'ingestion : un délai de 5 s annulait un contrôle sur Azure.
+        assert ingestion.execute("SHOW statement_timeout").fetchone() == ("15min",)
+        assert ingestion.execute("SHOW default_transaction_read_only").fetchone() == ("off",)
 
 
 def test_mot_de_passe_change_au_second_passage(base: str, monkeypatch: pytest.MonkeyPatch) -> None:

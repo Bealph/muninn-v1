@@ -19,8 +19,11 @@ from psycopg.conninfo import conninfo_to_dict, make_conninfo
 from muninn.core.config import get_settings
 
 LONGUEUR_MIN = 24
-# Délai par requête imposé aux rôles eux-mêmes, en plus de celui de l'API.
-DELAI = "5s"
+# Délai par requête imposé au rôle lui-même. L'API ne fait que des lectures courtes : 5 s.
+# L'ingestion contrôle des dizaines de milliers de lignes sur un serveur Burstable : un délai
+# court y annulait le contrôle VD-11 du COG (constaté le 16 octobre 2026) ; borné à 15 min.
+DELAI_API = "5s"
+DELAI_INGESTION = "15min"
 
 
 def mots_de_passe() -> dict[str, str]:
@@ -54,10 +57,11 @@ def nom_base(url: str) -> str:
 def preparer_roles(url: str, mots: dict[str, str]) -> list[str]:
     """Crée ou met à jour les rôles de connexion ; rend leurs noms. Relançable."""
     base = nom_base(url)
-    roles = [(f"{base}_api", f"{base}_lecture", mots["api"], True),
-             (f"{base}_ingestion", f"{base}_ecriture", mots["ingestion"], False)]  # fmt: skip
+    roles = [(f"{base}_api", f"{base}_lecture", mots["api"], True, DELAI_API),
+             (f"{base}_ingestion", f"{base}_ecriture", mots["ingestion"], False,
+              DELAI_INGESTION)]  # fmt: skip
     with psycopg.connect(url, autocommit=True) as conn:
-        for role, groupe, mot, lecture_seule in roles:
+        for role, groupe, mot, lecture_seule, delai in roles:
             existe = conn.execute("SELECT 1 FROM pg_roles WHERE rolname = %s", [role]).fetchone()
             ordre = "ALTER ROLE {} WITH LOGIN PASSWORD {}" if existe else (
                 "CREATE ROLE {} WITH LOGIN PASSWORD {}"
@@ -68,7 +72,7 @@ def preparer_roles(url: str, mots: dict[str, str]) -> list[str]:
             )
             conn.execute(
                 sql.SQL("ALTER ROLE {} SET statement_timeout = {}").format(
-                    sql.Identifier(role), sql.Literal(DELAI)
+                    sql.Identifier(role), sql.Literal(delai)
                 )
             )
             if lecture_seule:
