@@ -21,7 +21,7 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 | Code | Compétence (résumé)                                    | Phase | Preuve prévue                                                                                                                 | Statut   |
 | ---- | ------------------------------------------------------ | ----- | ----------------------------------------------------------------------------------------------------------------------------- | -------- |
 | C6   | Veille technique et réglementaire organisée            | 0     | Dispositif de veille et synthèses                                                                                             | À faire  |
-| C7   | Benchmark de services d'IA existants et recommandation | 0     | Grille comparative et recommandation argumentée                                                                               | À faire  |
+| C7   | Benchmark de services d'IA existants et recommandation | 0     | Grille comparative et recommandation argumentée                                                                               | En cours |
 | C8   | Paramétrer un service d'IA selon sa documentation      | 4     | Configuration documentée et connecteurs intégrés ; déploiements Foundry en zone UE et authentification Entra ID (D-44 à D-46) | En cours |
 
 ## E3 : exposition, intégration et industrialisation du modèle (15 à 20 pages, 20 min dont démo)
@@ -54,7 +54,7 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 ## Preuves, case par case
 
-**Cases cochées : 42 sur 61** (au 16 octobre 2026).
+**Cases cochées : 43 sur 61** (au 16 octobre 2026).
 
 Une case n'est cochée que si la preuve existe dans le dépôt. Source des preuves attendues :
 `docs/v1/couverture-competences.md`. Une compétence passe à « Preuve produite » quand toutes
@@ -97,10 +97,10 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 - [ ] Dispositif de veille : sources, collecte, partage (31 octobre)
 - [ ] Synthèses et recommandations (31 octobre)
 
-**C7** (1 sur 3)
+**C7** (2 sur 3)
 
 - [x] Comparatif des services big data : `docs/conception/architecture_de_donnees/06-big-data-externalise.md`
-- [ ] Banc d'essai des modèles LLM (T-06)
+- [x] Banc d'essai des modèles LLM (T-06) : protocole commité avant la mesure, 48 extractions, recommandation et décision D-61 (`docs/v1/banc-essai-t06/`)
 - [ ] Benchmark complet : transcription, synthèse vocale, téléphonie (1er novembre)
 
 **C8** (2 sur 4)
