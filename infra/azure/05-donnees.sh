@@ -4,14 +4,16 @@
 # Pour chaque environnement (les deux par défaut, ou ceux passés en arguments) :
 #   1. extension pg_trgm autorisée sur le serveur (paramètre dynamique, sans redémarrage) ;
 #   2. tâche Container Apps des données, créée ou mise à jour : même image que l'API servie,
-#      1 vCPU, 2 Gio, déclenchement manuel ; commande `muninn-donnees` (migrations, rôles,
-#      ingestion avec le seul rôle d'écriture) ;
+#      1 vCPU, 2 Gio, planifiée le 3 de chaque mois (Sirene est publié chaque mois), et
+#      lançable à la demande par le workflow « donnees » ; commande `muninn-donnees`
+#      (migrations, rôles, ingestion avec le seul rôle d'écriture) ;
 #   3. droit de l'identité de déploiement sur la tâche (mettre son image à jour, la lancer) ;
 #   4. une exécution de la tâche, suivie jusqu'à son terme ;
 #   5. l'API basculée sur le rôle de lecture `<base>_api`, puis redémarrée ;
 #   6. contrôle : le jeu de questions de démonstration rejoué contre l'API publique.
 #
-# Coût : une exécution dure environ 6 min à 1 vCPU et 2 Gio, soit environ 360 vCPU-secondes ;
+# Coût : un premier chargement dure environ 6 min à 1 vCPU et 2 Gio (environ 360
+# vCPU-secondes), une exécution mensuelle sans nouveauté environ 80 s ;
 # la franchise mensuelle de Container Apps est de 180 000 vCPU-secondes par abonnement.
 # Mots de passe des rôles : tirés au hasard au premier passage, gardés dans les secrets de la
 # tâche, réutilisés ensuite (un rejeu ne coupe pas l'API). Rien n'est écrit sur disque.
@@ -37,6 +39,9 @@ secret_tache() { # tâche, nom du secret : valeur, ou vide
 }
 
 if [ "$#" -gt 0 ]; then environnements=("$@"); else environnements=("${ENVIRONNEMENTS_APP[@]}"); fi
+# Planification mensuelle, en UTC : deux jours après la publication du stock Sirene ; la
+# préproduction une heure avant la production, pour ne pas charger le serveur en même temps.
+planification() { if [ "$1" = production ]; then echo "0 4 3 * *"; else echo "0 3 3 * *"; fi; }
 execution_id=$(az identity show -g "$GROUPE" -n "$IDENTITE_EXECUTION" --query id -o tsv)
 deploiement_principal=$(az identity show -g "$GROUPE" -n "$IDENTITE_DEPLOIEMENT" --query principalId -o tsv)
 hote="$POSTGRES.postgres.database.azure.com"
@@ -64,9 +69,18 @@ for env in "${environnements[@]}"; do
   secrets=("database-url=$url_admin" "mdp-api=$mdp_api" "mdp-ingestion=$mdp_ingestion")
 
   echo "2/6 Tâche $tache"
+  # Le type de déclenchement ne se change pas par « job update » : une tâche encore manuelle
+  # est supprimée puis recréée planifiée. Ses mots de passe ont été relus ci-dessus.
+  declenchement=$(az containerapp job show -g "$GROUPE" -n "$tache" \
+    --query properties.configuration.triggerType -o tsv --only-show-errors 2>/dev/null || true)
+  if [ "$declenchement" = "Manual" ]; then
+    echo "   tâche manuelle : recréée planifiée"
+    az containerapp job delete -g "$GROUPE" -n "$tache" --yes --only-show-errors -o none
+  fi
   if ! existe az containerapp job show -g "$GROUPE" -n "$tache"; then
     az containerapp job create -g "$GROUPE" -n "$tache" --environment "$ENVIRONNEMENT_CA" \
-      --trigger-type Manual --replica-timeout 1800 --replica-retry-limit 0 \
+      --trigger-type Schedule --cron-expression "$(planification "$env")" \
+      --replica-timeout 1800 --replica-retry-limit 0 \
       --replica-completion-count 1 --parallelism 1 \
       --image "$image" --cpu 1 --memory 2Gi \
       --registry-server "$REGISTRE.azurecr.io" --registry-identity "$execution_id" \

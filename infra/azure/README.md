@@ -156,8 +156,12 @@ Pour chaque environnement, le script :
 1. autorise l'extension `pg_trgm` sur le serveur (paramètre `azure.extensions`, dynamique : sans
    redémarrage) ;
 2. crée la tâche Container Apps `job-muninn-donnees-<env>` (même image que l'API, 1 vCPU,
-   2 Gio, déclenchement manuel), qui lance `muninn-donnees` : migrations, rôles de connexion,
-   puis ingestion avec le seul rôle d'écriture ;
+   2 Gio), qui lance `muninn-donnees` : migrations, rôles de connexion, puis ingestion avec le
+   seul rôle d'écriture. Elle est planifiée le 3 de chaque mois, en UTC (préproduction à 3 h,
+   production à 4 h), deux jours après la publication mensuelle du stock Sirene. Le type de
+   déclenchement ne se change pas par `job update` : une tâche encore manuelle est supprimée
+   puis recréée, avec ses mots de passe ; l'historique de ses exécutions est alors perdu, leurs
+   journaux restent dans Log Analytics ;
 3. donne à l'identité de déploiement le rôle « Container Apps Jobs Contributor » sur la tâche
    (« Container Apps Contributor » ne couvre pas les tâches) ;
 4. lance une exécution et la suit (environ 6 min) ;
@@ -177,8 +181,8 @@ Le workflow (`.github/workflows/donnees.yml`) lance `donnees.sh` : exécution de
 jusqu'à son terme, puis jeu de questions. Une source inchangée ne crée aucune version. Chaque
 livraison met à jour l'image de la tâche (`deployer.sh`).
 
-**Coût :** une exécution consomme environ 360 vCPU-secondes et 720 Gio-secondes (mesuré en
-local, 1 vCPU et 2 Gio, 345 s). La franchise mensuelle de Container Apps est de 180 000
+**Coût :** un premier chargement consomme environ 360 vCPU-secondes et 720 Gio-secondes
+(mesuré en local, 1 vCPU et 2 Gio, 345 s) ; une exécution sans nouveauté, environ 80 s. La franchise mensuelle de Container Apps est de 180 000
 vCPU-secondes et 360 000 Gio-secondes par abonnement (page de facturation de Container Apps) ;
 au-delà, l'API de prix ne publie pas de tarif exploitable pour France Central [H : quelques
 centimes par exécution au plus].
