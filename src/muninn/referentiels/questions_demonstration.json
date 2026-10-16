@@ -1,0 +1,25 @@
+{
+ "description": "Jeu de questions de démonstration du sprint 3 : couvertes, hors corpus, hors périmètre. Chaque question porte la réponse attendue et la source qui doit être citée.",
+ "questions": [
+  {"id": "Q01", "nature": "couverte", "point": "communes", "corps": {"nom": "Vincennes"},
+   "statut": "trouve", "contient": ["94080", "94300"], "source": "SRC-07"},
+  {"id": "Q02", "nature": "couverte, ambiguë", "point": "communes", "corps": {"nom": "Montreuil"},
+   "statut": "trouve", "contient": ["28267", "85148", "93048"], "source": "SRC-07"},
+  {"id": "Q03", "nature": "couverte, incohérente", "point": "communes", "corps": {"nom": "Bagnolet", "code_postal": "93100"},
+   "statut": "incoherent", "contient": ["93170"], "source": "SRC-06"},
+  {"id": "Q04", "nature": "couverte, par code postal", "point": "communes", "corps": {"code_postal": "75001"},
+   "statut": "trouve", "contient": ["75056"], "source": "SRC-06"},
+  {"id": "Q05", "nature": "couverte", "point": "termes", "corps": {"mot": "cumulus", "metier": "plomberie"},
+   "statut": "trouve", "contient": ["cumulus", "wiktionary.org"], "source": "SRC-12"},
+  {"id": "Q06", "nature": "couverte, mot approché", "point": "termes", "corps": {"mot": "chauffe eau", "metier": "plomberie"},
+   "statut": "trouve", "contient": ["chauffe-eau"], "source": "SRC-12"},
+  {"id": "Q07", "nature": "couverte", "point": "marche", "corps": {"metier": "plomberie"},
+   "statut": "trouve", "contient": ["43.22A"], "source": "SRC-01"},
+  {"id": "Q08", "nature": "hors corpus", "point": "communes", "corps": {"nom": "Gotham City"},
+   "statut": "hors_corpus", "contient": [], "source": "SRC-07"},
+  {"id": "Q09", "nature": "hors corpus", "point": "termes", "corps": {"mot": "ordinateur", "metier": "plomberie"},
+   "statut": "hors_corpus", "contient": [], "source": "SRC-12"},
+  {"id": "Q10", "nature": "hors périmètre", "point": "termes", "corps": {"mot": "disjoncteur", "metier": "electricite"},
+   "statut": "hors_perimetre", "contient": [], "source": null}
+ ]
+}

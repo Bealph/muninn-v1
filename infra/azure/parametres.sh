@@ -37,6 +37,8 @@ ENVIRONNEMENTS_APP=("preproduction" "production")
 app_api()     { echo "ca-muninn-api-${1/production/prod}"; }
 app_console() { echo "ca-muninn-console-${1/production/prod}"; }
 base_de_donnees() { echo "muninn_${1/production/prod}"; }
+# Tâche Container Apps des données de chaque environnement (D-58) : migrations, rôles, ingestion.
+tache_donnees() { echo "job-muninn-donnees-${1/production/prod}"; }
 
 BUDGET_MENSUEL_EUR=60
 
@@ -44,3 +46,6 @@ BUDGET_MENSUEL_EUR=60
 # Foundry User (ex-Azure AI User) : inférence par Entra ID, modèles OpenAI et non OpenAI.
 ROLE_FOUNDRY_USER="53ca6127-db72-4b80-b1b0-d745d6d5456d"
 ROLE_CONTAINER_APPS_CONTRIBUTOR="358470bc-b998-42bd-ab17-a7e34c199c0f"
+# Container Apps Contributor ne donne aucun droit sur les tâches (actions containerApps/* seulement,
+# lu le 16 octobre 2026) : rôle dédié pour mettre à jour l'image d'une tâche et la lancer.
+ROLE_CONTAINER_APPS_JOBS_CONTRIBUTOR="4e3d2b60-56ae-4dc6-a233-09c8e5a82e68"

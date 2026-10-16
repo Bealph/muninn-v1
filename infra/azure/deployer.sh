@@ -99,6 +99,19 @@ controler_console() {
 livrer "$(app_api "$env")" controler_api
 livrer "$(app_console "$env")" controler_console
 
+# Tâche des données (D-58) : même image que l'API livrée, pour que le prochain chargement
+# exécute le code livré. Avant 05-donnees.sh, elle n'existe pas : la livraison n'en dépend pas.
+tache=$(tache_donnees "$env")
+if az containerapp job show -g "$GROUPE" -n "$tache" --only-show-errors -o none 2>/dev/null; then
+  if az containerapp job update -g "$GROUPE" -n "$tache" --image "$image"     --set-env-vars GIT_SHA="$sha" --only-show-errors -o none; then
+    echo "== $tache : image $sha"
+  else
+    echo "AVERTISSEMENT : image de $tache non mise à jour" >&2
+  fi
+else
+  echo "== $tache absente ou inaccessible : image non mise à jour"
+fi
+
 # Contrôle final par l'adresse publique de chaque application.
 for app in "$(app_api "$env")" "$(app_console "$env")"; do
   url="https://$(az containerapp show -g "$GROUPE" -n "$app" --query properties.configuration.ingress.fqdn -o tsv)"

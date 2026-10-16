@@ -103,6 +103,9 @@ jobs:
           test "$(docker exec api whoami)" = "muninn"
           # Migrations embarquées dans l'image : la commande et les fichiers sont présents.
           docker run --rm muninn:ci muninn-db --help > /dev/null
+          # Tâche des données et jeu de questions de démonstration (sprint 3, étape 10).
+          docker run --rm muninn:ci sh -c 'command -v muninn-donnees && command -v muninn-questions' > /dev/null
+          docker run --rm muninn:ci python -c "from muninn.referentiels import demonstration; assert len(demonstration.questions()) == 10"
           # Données de l'ingestion embarquées : requête SPARQL et instantané de secours du lexique.
           docker run --rm muninn:ci python -c "from muninn.ingestion import lexique, sirene; assert lexique.REQUETE_WIKIDATA and lexique.FICHIER_SECOURS.is_file() and sirene.FICHIER_REQUETE.is_file() and lexique.FICHIER_EVALUATIONS.is_file()"
           docker run --rm muninn:ci python -c "from muninn.db.migrer import DOSSIER_MIGRATIONS as d; assert (d / 'env.py').is_file() and (d / 'script.py.mako').is_file() and any((d / 'versions').glob('0001_*.py'))"

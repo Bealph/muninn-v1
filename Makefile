@@ -2,7 +2,7 @@
 # Shell POSIX requis : sous Windows, lancer depuis Git Bash. La CI appelle les mêmes cibles.
 
 .DEFAULT_GOAL := aide
-.PHONY: aide installer format lint types tests verifier base-demarrer base-arreter tests-base         migrer ingerer calibrer api console image
+.PHONY: aide installer format lint types tests verifier base-demarrer base-arreter tests-base         migrer ingerer calibrer questions api console image
 
 # PostgreSQL 16 jetable pour le poste (identifiants d'essai, jamais ceux d'Azure).
 PG_CONTENEUR ?= muninn-pg-essai
@@ -54,6 +54,9 @@ ingerer: migrer ## Charge les cinq sources dans la base locale (environ 4 min, r
 
 calibrer: base-demarrer ## Mesure le seuil du lexique sur le jeu étiqueté (protocole du sprint 3)
 	DATABASE_URL=$(PG_URL)/$(BASE) uv run python -m muninn.referentiels.calibration
+
+questions: ## Rejoue le jeu de questions de démonstration (URL=adresse de l'API, locale par défaut)
+	uv run muninn-questions $(or $(URL),http://127.0.0.1:$(PORT_API))
 
 api: base-demarrer ## Lance l'API sur la base locale (port 8000)
 	DATABASE_URL=$(PG_URL)/$(BASE) MUNINN_PROCESSUS=api PORT=$(PORT_API) uv run python -m muninn.serveur

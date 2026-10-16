@@ -106,8 +106,8 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 10 : le jeu de démonstration et la production
 
-- [ ] Jeu de 5 à 10 questions versionné : couvertes, hors corpus, hors périmètre, chacune avec sa réponse attendue et sa source.
-- [ ] Ce jeu tourne en CI sur une base de test, et contre la production après livraison.
+- [x] Jeu de 10 questions versionné (`src/muninn/referentiels/questions_demonstration.json`) : 7 couvertes (dont une ambiguë, une incohérente, une par code postal), 2 hors corpus, 1 hors périmètre, chacune avec sa réponse attendue et la source qui doit être citée ; rejoué par `muninn-questions <adresse>` ou `make questions`. 10 sur 10 contre l'API locale sur les vraies données.
+- [ ] Ce jeu tourne en CI (structure et logique de comparaison, `tests/test_demonstration.py`) et contre la production après chaque chargement (workflow `donnees`). Reste : la première exécution en production.
 - [ ] Ingestion lancée en production par la commande unique ; tables chargées, traçabilité lisible.
 - [ ] Tout livré par la chaîne du sprint 2 ; les questions du jeu passent en production.
 

@@ -139,3 +139,46 @@ Le workflow (`.github/workflows/retour-arriere.yml`) lance `retour-arriere.sh`, 
 l'adresse publique sert bien le commit visé et affiche la durée mesurée. Il partage un verrou avec
 la livraison du même environnement : les deux ne tournent jamais en même temps. La livraison
 suivante repart de la révision servie après le retour arrière.
+
+## Données (sprint 3)
+
+Mise en place, une fois, par le porteur (R10), depuis Git Bash, à la racine du dépôt :
+
+```bash
+az login
+python infra/azure/verifier-options.py infra/azure/*.sh   # doit finir par « options absentes : 0 »
+export POSTGRES_MOT_DE_PASSE="..."                        # celui de 01-socle.sh
+bash infra/azure/05-donnees.sh preproduction              # puis : bash infra/azure/05-donnees.sh production
+```
+
+Pour chaque environnement, le script :
+
+1. autorise l'extension `pg_trgm` sur le serveur (paramètre `azure.extensions`, dynamique : sans
+   redémarrage) ;
+2. crée la tâche Container Apps `job-muninn-donnees-<env>` (même image que l'API, 1 vCPU,
+   2 Gio, déclenchement manuel), qui lance `muninn-donnees` : migrations, rôles de connexion,
+   puis ingestion avec le seul rôle d'écriture ;
+3. donne à l'identité de déploiement le rôle « Container Apps Jobs Contributor » sur la tâche
+   (« Container Apps Contributor » ne couvre pas les tâches) ;
+4. lance une exécution et la suit (environ 6 min) ;
+5. bascule l'API sur le rôle de lecture `<base>_api`, puis redémarre sa révision ;
+6. rejoue le jeu de questions de démonstration contre l'API publique.
+
+Les mots de passe des deux rôles sont tirés au hasard au premier passage et gardés dans les
+secrets de la tâche ; un rejeu les réutilise, sans couper l'API. Le script est relançable.
+
+Ensuite, le chargement se rejoue en une commande, sans le poste :
+
+```bash
+gh workflow run donnees -f environnement=production
+```
+
+Le workflow (`.github/workflows/donnees.yml`) lance `donnees.sh` : exécution de la tâche, suivie
+jusqu'à son terme, puis jeu de questions. Une source inchangée ne crée aucune version. Chaque
+livraison met à jour l'image de la tâche (`deployer.sh`).
+
+**Coût :** une exécution consomme environ 360 vCPU-secondes et 720 Gio-secondes (mesuré en
+local, 1 vCPU et 2 Gio, 345 s). La franchise mensuelle de Container Apps est de 180 000
+vCPU-secondes et 360 000 Gio-secondes par abonnement (page de facturation de Container Apps) ;
+au-delà, l'API de prix ne publie pas de tarif exploitable pour France Central [H : quelques
+centimes par exécution au plus].

@@ -21,6 +21,8 @@ dependencies = [
 [project.scripts]
 muninn-db = "muninn.db.migrer:main"
 muninn-ingestion = "muninn.ingestion.commande:main"
+muninn-donnees = "muninn.donnees:main"
+muninn-questions = "muninn.referentiels.demonstration:main"
 
 [dependency-groups]
 dev = [
