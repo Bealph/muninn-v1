@@ -68,6 +68,6 @@ modèle sur ce point est vérifié dans la documentation à l'étape 2.
 
 ## 5. Ce qui reste à vérifier
 
-- Les mots-clés du schéma acceptés par la sortie structurée stricte (motifs, bornes de tableau) :
-  vérification dans la documentation officielle à l'étape 2, puis par un appel réel.
+- Les mots-clés du schéma acceptés par la sortie structurée stricte : vérifiés à l'étape 2 ;
+  motifs et bornes retirés du schéma (`fournisseur-llm.md`, § 3).
 - Les seuils de 0,7 et de 0,6 restent des hypothèses du contrat ([H : ADR-08]).

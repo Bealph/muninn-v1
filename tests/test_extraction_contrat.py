@@ -404,3 +404,56 @@ def test_imports_de_l_extraction_dans_l_empreinte() -> None:
             if ligne.startswith(("from muninn", "import muninn")):
                 module = ligne.split()[1]
                 assert module in couverts, f"{fichier.name} importe {module}, hors empreinte"
+
+
+# --- Limites de la sortie structurée stricte d'Azure (Microsoft Learn, lu le 19 octobre 2026) ---
+
+MOTS_CLES_REFUSES = {
+    "pattern",
+    "format",
+    "minLength",
+    "maxLength",
+    "minimum",
+    "maximum",
+    "multipleOf",
+    "minItems",
+    "maxItems",
+    "uniqueItems",
+    "contains",
+    "patternProperties",
+    "minProperties",
+    "maxProperties",
+    "propertyNames",
+    "unevaluatedProperties",
+    "unevaluatedItems",
+}
+
+
+def _parcourir(noeud: Any, profondeur: int = 0) -> list[tuple[str, int, Any]]:
+    trouves: list[tuple[str, int, Any]] = []
+    if isinstance(noeud, dict):
+        for cle, valeur in noeud.items():
+            trouves.append((cle, profondeur, valeur))
+            suivante = profondeur + 1 if cle in ("properties", "items") else profondeur
+            trouves += _parcourir(valeur, suivante)
+    elif isinstance(noeud, list):
+        for valeur in noeud:
+            trouves += _parcourir(valeur, profondeur)
+    return trouves
+
+
+def test_schemas_dans_les_limites_d_azure() -> None:
+    """Pas de mot-clé refusé, 100 propriétés et 5 niveaux d'imbrication au plus ; enum sans null."""
+    paquet = charger_paquet()
+    schemas = [paquet.schema_sortie["schema"]] + [
+        o["function"]["parameters"] for o in paquet.outils
+    ]
+    for schema in schemas:
+        noeuds = _parcourir(schema)
+        assert not {cle for cle, _, _ in noeuds} & MOTS_CLES_REFUSES
+        proprietes = sum(len(v) for cle, _, v in noeuds if cle == "properties")
+        assert proprietes <= 100
+        assert max(p for cle, p, _ in noeuds if cle == "properties") < 5
+        assert all(None not in v for cle, _, v in noeuds if cle == "enum")
+    for outil in paquet.outils:
+        assert len(outil["function"]["description"]) <= 1024

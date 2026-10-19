@@ -41,7 +41,7 @@ def configuration_isolee(monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
 @pytest.fixture(autouse=True)
 def faux_fournisseur() -> Iterator[None]:
     """Faux fournisseur et limite neuve à chaque test : aucun test ne dépend d'un autre."""
-    api.dependency_overrides[get_fournisseur] = FauxFournisseur
+    api.dependency_overrides[get_fournisseur] = lambda: FauxFournisseur()
     limiteur = LimiteurDebit([(60, 1000)])
     api.dependency_overrides[get_limiteur] = lambda: limiteur
     yield

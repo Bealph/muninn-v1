@@ -57,9 +57,9 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 2 : le fournisseur LLM (C8)
 
-- [ ] Interface du fournisseur étendue : messages multi-tours, appel d'outils (`parallel_tool_calls` désactivé), sortie structurée par schéma, délai par appel, jetons et coût par appel, refus du filtre de contenu distingué d'une panne.
-- [ ] Faux fournisseur scriptable (appels d'outils et sorties programmés), pour les tests et la CI sans clé.
-- [ ] Paramétrage documenté selon la documentation officielle (sortie structurée, appel d'outils), avec ses sources.
+- [x] Interface du fournisseur étendue : messages multi-tours, appel d'outils (`parallel_tool_calls` désactivé), sortie structurée par schéma, délai par appel, jetons et coût par appel, refus du filtre de contenu distingué d'une panne et du délai dépassé, annotation de détournement lue (D-65). Preuve : `src/muninn/llm/fournisseur.py`, `tests/test_llm_completer.py` (16 tests).
+- [x] Faux fournisseur scriptable (réponses, appels d'outils et exceptions programmés ; requêtes reçues gardées), pour les tests et la CI sans clé.
+- [x] Paramétrage documenté selon la documentation officielle (Microsoft Learn, lu le 19 octobre 2026) ; schéma du paquet corrigé (mots-clés refusés par Azure retirés), limites d'Azure testées. Preuve : `fournisseur-llm.md`.
 
 ### Étape 3 : l'agent et sa boucle bornée (V-07, C8, C9)
 

@@ -37,9 +37,7 @@
                 ]
               },
               "confidence": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 1
+                "type": "number"
               }
             }
           },
@@ -58,9 +56,7 @@
                 ]
               },
               "confidence": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 1
+                "type": "number"
               }
             }
           },
@@ -77,13 +73,10 @@
                 "type": [
                   "string",
                   "null"
-                ],
-                "pattern": "^\\+[1-9][0-9]{7,14}$"
+                ]
               },
               "confidence": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 1
+                "type": "number"
               },
               "origin": {
                 "type": [
@@ -92,8 +85,7 @@
                 ],
                 "enum": [
                   "caller_id",
-                  "spoken",
-                  null
+                  "spoken"
                 ]
               }
             }
@@ -122,9 +114,7 @@
                     ]
                   },
                   "confidence": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 1
+                    "type": "number"
                   }
                 }
               },
@@ -140,13 +130,10 @@
                     "type": [
                       "string",
                       "null"
-                    ],
-                    "pattern": "^[0-9]{4,5}$"
+                    ]
                   },
                   "confidence": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 1
+                    "type": "number"
                   }
                 }
               },
@@ -165,9 +152,7 @@
                     ]
                   },
                   "confidence": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 1
+                    "type": "number"
                   }
                 }
               }
@@ -201,9 +186,7 @@
                 ]
               },
               "confidence": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 1
+                "type": "number"
               }
             }
           },
@@ -222,9 +205,7 @@
                 ]
               },
               "confidence": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 1
+                "type": "number"
               }
             }
           },
@@ -249,7 +230,6 @@
           },
           "disponibilites_client": {
             "type": "array",
-            "maxItems": 5,
             "items": {
               "type": "object",
               "additionalProperties": false,
@@ -265,9 +245,7 @@
                   ]
                 },
                 "confidence": {
-                  "type": "number",
-                  "minimum": 0,
-                  "maximum": 1
+                  "type": "number"
                 }
               }
             }
@@ -282,7 +260,6 @@
       },
       "actions": {
         "type": "array",
-        "maxItems": 10,
         "items": {
           "type": "object",
           "additionalProperties": false,
