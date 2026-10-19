@@ -1,6 +1,6 @@
 # User stories de Muninn
 
-**Version :** 2.4
+**Version :** 2.5
 **Date :** 19 octobre 2026
 **Historique :** la v2 ajoute l'épopée EP10 (données de référence, US-46 à US-53), l'acteur
 « porteur du projet » et le contrôle des champs extraits par l'API des référentiels dans la démo.
@@ -12,7 +12,9 @@ ajoutée. La v2.3 ajoute l'épopée EP11 (mémoire de travail de l'artisan, US-5
 et donc hors de la V1, sur décision D-66 du 16 octobre 2026 ; sa conception détaillée viendra
 après le 13 novembre. La v2.4, à la demande du porteur (19 octobre 2026), précise US-03 (coût du
 renvoi, refus du renvoi inconditionnel, réécoute impossible), US-04 (téléphone qui sonne d'abord)
-et ajoute en section 9 la mention « Ce document n'est pas une facture ».
+et ajoute en section 9 la mention « Ce document n'est pas une facture ». La v2.5 suit D-68 : délai
+et code `**004*` (US-03), test du cas injoignable (US-04), récapitulatif d'intervention (US-61,
+EP11).
 **Phase :** 0a (besoin, flux et sources de données)
 **Statut :** proposition, à valider par le porteur
 **Compétence principale servie :** C14 (analyse du besoin, spécifications fonctionnelles)
@@ -82,19 +84,19 @@ clients en un geste, est couvert par US-28. Son métier n'a pas de lexique dans 
 
 ## 4. Épopées
 
-| Épopée | Titre                                           | Propositions de valeur | Stories              |
-| ------ | ----------------------------------------------- | ---------------------- | -------------------- |
-| EP1    | Mise en service : ligne, renvoi, disponibilités | PV1                    | US-01 à US-05        |
-| EP2    | Messagerie intelligente                         | PV1                    | US-06 à US-12        |
-| EP3    | Débrief vocal et lexiques                       | PV2, levier 3          | US-13 à US-16        |
-| EP4    | Dossier et clé humaine                          | PV3                    | US-17 à US-20        |
-| EP5    | Rentabilité et export                           | PV4                    | US-21 à US-25, US-55 |
-| EP6    | Rendez-vous et imprévus                         | PV5                    | US-26 à US-30        |
-| EP7    | Confiance par conception                        | PV6                    | US-31 à US-35, US-54 |
-| EP8    | Supervision et exploitation                     | PV1, PV6 (KPI du POC)  | US-36 à US-41        |
-| EP9    | Hors MVP (frontière du périmètre)               | Section 4.4            | US-42 à US-45        |
-| EP10   | Données de référence                            | PV1, PV5, levier 3     | US-46 à US-53        |
-| EP11   | Mémoire de travail de l'artisan                 | PV2, PV5 (D-66)        | US-56 à US-60        |
+| Épopée | Titre                                           | Propositions de valeur     | Stories              |
+| ------ | ----------------------------------------------- | -------------------------- | -------------------- |
+| EP1    | Mise en service : ligne, renvoi, disponibilités | PV1                        | US-01 à US-05        |
+| EP2    | Messagerie intelligente                         | PV1                        | US-06 à US-12        |
+| EP3    | Débrief vocal et lexiques                       | PV2, levier 3              | US-13 à US-16        |
+| EP4    | Dossier et clé humaine                          | PV3                        | US-17 à US-20        |
+| EP5    | Rentabilité et export                           | PV4                        | US-21 à US-25, US-55 |
+| EP6    | Rendez-vous et imprévus                         | PV5                        | US-26 à US-30        |
+| EP7    | Confiance par conception                        | PV6                        | US-31 à US-35, US-54 |
+| EP8    | Supervision et exploitation                     | PV1, PV6 (KPI du POC)      | US-36 à US-41        |
+| EP9    | Hors MVP (frontière du périmètre)               | Section 4.4                | US-42 à US-45        |
+| EP10   | Données de référence                            | PV1, PV5, levier 3         | US-46 à US-53        |
+| EP11   | Mémoire de travail de l'artisan                 | PV2, PV3, PV5 (D-66, D-68) | US-56 à US-61        |
 
 EP10 sert aussi le dimensionnement du marché (analyse, section 1.1), qui n'est pas une
 proposition de valeur : US-52 et US-53 relèvent du porteur du projet.
@@ -175,8 +177,10 @@ numéro.
 Critères d'acceptation :
 
 1. Étant donné un opérateur choisi parmi Orange, SFR, Bouygues Telecom et Free [H : codes à
-   vérifier par opérateur], quand l'artisan ouvre l'écran de renvoi, alors il voit les codes d'activation et de
-   désactivation pour les trois cas de renvoi.
+   vérifier par opérateur], quand l'artisan ouvre l'écran de renvoi, alors il voit un seul code,
+   `**004*`, qui active les trois renvois conditionnels avec le numéro de Muninn et le délai, et le
+   code de désactivation (`##004#`) ; à défaut de prise en charge de `**004*`, les trois codes
+   séparés (D-68).
 2. Étant donné un code affiché, quand l'artisan le touche, alors le composeur du téléphone
    s'ouvre avec le code prérempli ; Muninn n'active rien à la place de l'artisan.
 3. Étant donné un premier usage, quand 5 testeurs [H] suivent les instructions, alors chacun active
@@ -192,6 +196,8 @@ Critères d'acceptation :
 6. Étant donné l'écran de renvoi, quand il s'affiche, alors il explique que Muninn remplace la
    messagerie vocale et que, contrairement à un répondeur, l'artisan ne pourra pas réécouter le
    message : l'audio est détruit après l'appel (R2) ; il lira le dossier ou le message.
+7. Étant donné l'écran de renvoi, quand l'artisan règle le délai de non-réponse, alors il le choisit
+   de 10 à 25 s par pas de 5 s, 15 s par défaut, et le code affiché le reprend (D-68).
 
 #### US-04. Vérifier le renvoi par un appel de test
 
@@ -216,6 +222,9 @@ Critères d'acceptation :
 4. Étant donné un appel de test reçu, quand l'écran demande à l'artisan si son téléphone a sonné
    avant le renvoi et qu'il répond non, alors l'écran signale un renvoi inconditionnel probable
    et indique comment l'annuler (US-03, critère 5).
+5. Étant donné le renvoi activé, quand l'artisan lance le test « injoignable », éteint son
+   téléphone et se fait appeler depuis un autre, alors l'appel arrive à Muninn et l'écran affiche,
+   au rallumage, « renvoi sur injoignable vérifié » (D-68).
 
 [H] Cette story n'est pas écrite dans le concept. Elle découle du KPI d'activation du renvoi et
 de la règle « jamais d'action invisible » (section 3.4).
@@ -1614,6 +1623,42 @@ Critères d'acceptation :
 3. Étant donné une pièce cochée « achetée », quand l'artisan dicte ou photographie une dépense du
    même dossier (US-21, US-22), alors Muninn propose de relier la dépense à la pièce [H].
 
+#### US-61. Envoyer au client le récapitulatif de l'intervention
+
+En tant qu'artisan, je veux envoyer à mon client, à la fin d'un chantier ou d'une intervention, un
+e-mail récapitulatif avec un ou plusieurs PDF joints afin de lui laisser une trace claire de ce qui
+a été fait et acheté.
+
+- Priorité : Should
+- Horizon : V2 [H : à confirmer par le porteur, D-68]
+- Démo : non
+- Règles : R1, R7
+- Compétences : C17
+
+Critères d'acceptation :
+
+1. Étant donné un dossier, quand l'artisan demande le récapitulatif, alors un PDF est produit sur
+   le téléphone à partir de l'historique du dossier (travaux, notes choisies, achats), avec un
+   aperçu avant tout envoi.
+2. Étant donné l'aperçu, quand il s'affiche, alors l'artisan choisit les sections à joindre ; la
+   case « inclure les prix d'achat » est cochée par défaut et décochable pour ce client.
+3. Étant donné un PDF produit, quand il s'affiche, alors il porte la mention « Ce document n'est
+   pas une facture » (section 9).
+4. Étant donné l'envoi validé par l'artisan, quand l'e-mail part, alors il part de la messagerie
+   professionnelle de l'artisan, sur son téléphone, vers l'adresse de la fiche du client ; un test
+   vérifie que ni l'e-mail ni le PDF ne passent par le serveur de Muninn.
+5. Étant donné une fiche client sans adresse e-mail, quand l'artisan demande l'envoi, alors Muninn
+   lui demande l'adresse et l'enregistre sur la fiche du client, sur le téléphone [H : champ à
+   ajouter au modèle de l'appareil].
+6. Étant donné une note qui contient un terme de santé, quand le PDF est produit, alors ce terme n'y
+   figure pas (R7).
+7. Étant donné un récapitulatif envoyé, quand l'artisan ouvre le dossier, alors l'envoi apparaît
+   daté dans son historique.
+
+L'envoi part du téléphone parce que le serveur ne connaît pas l'adresse de l'artisan (D-26) et
+qu'un envoi par Muninn ferait transiter le dossier en clair (R1) ; même interprétation que l'export
+vers la facturation (section 9).
+
 ## 6. Couverture
 
 ### 6.1 Propositions de valeur et configuration
@@ -1622,7 +1667,7 @@ Critères d'acceptation :
 | ------------------------------------------------ | ---------------------------------------------------------- |
 | PV1. Messagerie intelligente                     | US-06 à US-12, US-51                                       |
 | PV2. Débrief vocal                               | US-13, US-14 ; US-56, US-58 à US-60 (V2)                   |
-| PV3. Clé humaine de dossier                      | US-17 à US-20                                              |
+| PV3. Clé humaine de dossier                      | US-17 à US-20 ; US-61 (V2)                                 |
 | PV4. Rentabilité et export                       | US-21 à US-24 (MVP), US-25 et US-55 (V2), US-45 (V3 ou V4) |
 | PV5. Imprévus et rendez-vous                     | US-26 à US-30 ; US-56, US-57 (V2)                          |
 | PV6. Confiance par conception                    | US-31 à US-35, US-54                                       |
@@ -1637,13 +1682,13 @@ Critères d'acceptation :
 
 | Règle | Objet                                             | Stories                                                                                                                                                           |
 | ----- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| R1    | Aucun dossier en clair côté serveur               | US-01, US-05, US-08, US-12, US-16 à US-21, US-23 à US-28, US-30, US-32 à US-35, US-38, US-41, US-45, US-51, US-54 à US-60                                         |
+| R1    | Aucun dossier en clair côté serveur               | US-01, US-05, US-08, US-12, US-16 à US-21, US-23 à US-28, US-30, US-32 à US-35, US-38, US-41, US-45, US-51, US-54 à US-61                                         |
 | R2    | Audio détruit après extraction                    | US-03, US-04, US-10, US-11, US-13, US-14, US-22, US-31, US-42, US-44, US-56, US-58 à US-60                                                                        |
 | R3    | Transcriptions éphémères                          | US-11, US-13, US-16, US-18, US-22, US-31, US-36, US-39, US-51, US-56, US-58 à US-60                                                                               |
 | R4    | Journaux sans donnée personnelle                  | US-01, US-05, US-11, US-12, US-16, US-17, US-20, US-21, US-26 à US-29, US-31, US-35, US-38, US-39, US-41, US-50, US-51, US-52, US-54, US-55, US-56, US-58 à US-60 |
 | R5    | Hébergement et traitement dans l'UE               | US-11, US-13, US-15, US-21, US-22, US-25, US-37, US-40, US-43, US-45, US-50, US-55, US-56, US-58 à US-60                                                          |
 | R6    | L'agent s'annonce toujours                        | US-02, US-04, US-06, US-07, US-09, US-10, US-42                                                                                                                   |
-| R7    | Aucune donnée de santé                            | US-09, US-11, US-13, US-55, US-56, US-58 à US-60                                                                                                                  |
+| R7    | Aucune donnée de santé                            | US-09, US-11, US-13, US-55, US-56, US-58 à US-61                                                                                                                  |
 | R8    | Pas de secret dans le dépôt                       | US-40                                                                                                                                                             |
 | R9    | Aucune donnée réelle dans le dépôt                | US-36, US-37, US-40, US-52                                                                                                                                        |
 | R10   | Aucune action payante ou irréversible sans accord | US-01, US-27, US-36                                                                                                                                               |
@@ -1673,7 +1718,7 @@ citent R5 appellent un fournisseur d'IA et sont couvertes par ce contrôle.
 | C13         | US-37, US-40                                                                                                     | Livraison contrôlée, versionnage, retour arrière                                            |
 | C14         | toutes                                                                                                           | Ce document et le document 04                                                               |
 | C15, C16    | sans objet                                                                                                       | Portées par la phase 2 (architecture, méthode agile)                                        |
-| C17         | US-01 à US-05, US-12, US-14, US-16 à US-20, US-23, US-24, US-26 à US-30, US-32, US-33, US-45, US-54 à US-60      | Composants et interfaces                                                                    |
+| C17         | US-01 à US-05, US-12, US-14, US-16 à US-20, US-23, US-24, US-26 à US-30, US-32, US-33, US-45, US-54 à US-61      | Composants et interfaces                                                                    |
 | C18, C19    | US-40                                                                                                            | Intégration et livraison continues                                                          |
 | C20         | US-31, US-38, US-39, US-41                                                                                       | Surveillance et journalisation conforme                                                     |
 | C21         | US-39                                                                                                            | Fiches d'incident                                                                           |
@@ -1742,9 +1787,10 @@ citent R5 appellent un fournisseur d'IA et sont couvertes par ce contrôle.
 | US-58 | Dictée dans un dossier ouvert            | Should   | V2             | non  |
 | US-59 | Rubrique « Hors dossier »                | Should   | V2             | non  |
 | US-60 | Liste des pièces à acheter               | Could    | V2             | non  |
+| US-61 | Récapitulatif d'intervention au client   | Should   | V2             | non  |
 
-Décompte : 60 stories ; 49 au MVP (37 Must, 12 Should), 9 en V2 (US-25, US-42, US-43, US-55 et
-US-56 à US-60, ces cinq dernières à confirmer), 1 en V3 ou V4 (US-45), 1 hors périmètre (US-44) ;
+Décompte : 61 stories ; 49 au MVP (37 Must, 12 Should), 10 en V2 (US-25, US-42, US-43, US-55 et
+US-56 à US-61, ces six dernières à confirmer), 1 en V3 ou V4 (US-45), 1 hors périmètre (US-44) ;
 12 dans la démo. US-52 et US-53 sont classées au MVP comme études préalables au lancement ; elles
 n'ajoutent aucune fonction à l'application.
 
@@ -1843,34 +1889,35 @@ Restent en phase 3, hors de ces 9 jours : la BAN (SRC-05), le lexique (US-48), l
 
 ## 9. Points d'interprétation
 
-| Point                                    | Interprétation retenue                                                                                                          | Raison                                                                                                                                                                                                                      |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Acteur exploitant                        | Ajouté                                                                                                                          | KPI du POC et supervision imposés par la passation (sections 1, 10 et 11) ; C11, C20, C21                                                                                                                                   |
-| Serrurerie                               | Métier sélectionnable au MVP, lexique dédié reporté en V2 [H]                                                                   | Cible de la passation, mais la section 4.4 ne cite que les lexiques plomberie, chauffage, électricité                                                                                                                       |
-| Recherche « par LLM sur corpus local »   | La comparaison avec les dossiers se fait sur l'appareil ; seule la phrase de recherche sort                                     | R1 et passation, section 6 : la résolution se fait sur l'appareil                                                                                                                                                           |
-| Export vers la facturation               | Sortie de données en clair autorisée, à la demande explicite de l'artisan, vers son outil                                       | « Rien ne sort en clair » vise le stockage et le transit par Muninn, pas le choix de l'artisan [H]                                                                                                                          |
-| Source des encaissements                 | Dictée ou saisie par l'artisan                                                                                                  | Le concept ne la précise pas                                                                                                                                                                                                |
-| Preuve de destruction                    | Mention datée fournie par le serveur, adossée aux tests de conformité                                                           | Le concept dit « preuve visible » sans en préciser la nature                                                                                                                                                                |
-| Comptage des corrections                 | Nom du champ corrigé seulement, sans valeur                                                                                     | Nécessaire au monitoring (C11) sans contredire R1 et R4                                                                                                                                                                     |
-| Démo sans transcription audio            | Le simulateur fournit une transcription écrite                                                                                  | Charge du plan de démo (9 jours, section 8.2) ; la feuille de route ne liste pas la transcription parmi les briques réelles                                                                                                 |
-| Appel de test du renvoi (US-04)          | Ajouté en Should                                                                                                                | Découle du KPI d'activation et de « jamais d'action invisible »                                                                                                                                                             |
-| Effacement d'un dossier (US-35)          | Ajouté en Should                                                                                                                | Droits des personnes au titre du RGPD ; absent de l'analyse, à valider avec l'AIPD                                                                                                                                          |
-| Supervision (US-41)                      | Ajoutée en Should                                                                                                               | Points de santé et purges prévus par la passation (sections 8 et 9), pas par l'analyse                                                                                                                                      |
-| Annonce de l'agent (US-06)               | Annonce dès la première phrase (décision D-04 du 12 octobre 2026)                                                               | R6 dit « première phrase », alors que le message type de la passation annonce l'assistant en troisième phrase. Le porteur a retenu R6                                                                                       |
-| Créneaux réservés par l'agent (US-05)    | Le serveur garde occupés les créneaux réservés par l'agent tant que l'appareil ne les a pas reçus                               | Sans cette règle, la synchronisation de l'appareil peut libérer un créneau déjà promis [H]                                                                                                                                  |
-| Encaissements (US-23)                    | Enregistrés sur l'appareil, sans traitement serveur                                                                             | Le contrat `DossierDraft`, en 1.0 comme en 1.1, n'a pas de source « encaissement » ; une dictée exigerait de l'étendre                                                                                                      |
-| Équivalent écrit de la voix              | Débrief, dépense et recherche peuvent être écrits (US-13, US-18, US-22)                                                         | Accessibilité (document 04, EXA-16). Exige un point d'extraction à partir de texte, absent de la passation ; c'est aussi celui de la démo                                                                                   |
-| Horodatage de destruction (US-31)        | Bloc `destruction` du brouillon chiffré (décidé : D-24)                                                                         | Le concept demande une « preuve visible » ; le contrat 1.0 n'avait pas ce champ                                                                                                                                             |
-| Porteur du projet (EP10)                 | Ajouté comme acteur                                                                                                             | L'analyse (section 1.1) demande le dimensionnement par Sirene ; ce n'est ni l'artisan ni l'exploitant                                                                                                                       |
-| Contrôle des adresses en production      | Tables locales (SRC-05 à SRC-07) ; Géoplateforme pour le synthétique seulement                                                  | Document 03 (fiches SRC-03 et SRC-04, décision 3) : aucune adresse de client ne sort vers un tiers                                                                                                                          |
-| API des référentiels (US-50)             | Interne, réservée aux composants de Muninn [H]                                                                                  | Les données servies sont publiques, mais les demandes de contrôle portent des fragments de données de clients                                                                                                               |
-| Contrôle du numéro (US-51)               | Seul le préfixe de bloc est transmis à l'API des référentiels                                                                   | Minimisation : le préfixe suffit à trouver la tranche [H : granularité à confirmer]                                                                                                                                         |
-| Résultat du contrôle (US-51)             | Résultat par champ dans le contrat `DossierDraft` 1.1, en plus de la baisse de confiance (décidé : D-24)                        | Le contrat 1.0 n'avait pas de champ de contrôle                                                                                                                                                                             |
-| Dimensionnement (US-52, US-53)           | Classé au MVP comme étude préalable, sans fonction dans l'application                                                           | Le dimensionnement précède le lancement ; il sert aussi le type « big data » de C1                                                                                                                                          |
-| Approbation d'un nouvel appareil (US-01) | Exigée par un appareil déjà enregistré ; le premier appareil du compte en est exempté (décision D-22 du 12 octobre 2026)        | Parade contre l'échange frauduleux de carte SIM : un code reçu par SMS ne suffit plus à recevoir les demandes                                                                                                               |
-| Révocation d'un appareil (US-54)         | Ajoutée en Must, depuis un autre appareil du compte (décision D-22)                                                             | Prévue par le modèle de données, sans story jusqu'ici ; complète l'approbation                                                                                                                                              |
-| Perte du seul appareil (US-01, US-54)    | Approbation du nouvel appareil par la phrase de récupération ; sans elle, aucun recours en ligne (décision D-28)                | Cohérent avec D-14 et R1 : le serveur ne garde que la clé publique dérivée de la phrase                                                                                                                                     |
-| LLM indisponible en fin d'appel (US-11)  | Brouillon de secours avec le numéro et l'heure de l'appel, marqué à vérifier (décision D-29)                                    | La transcription ne peut être ni gardée ni remise en file (R3) : sans ce brouillon, la demande serait perdue en silence                                                                                                     |
-| Travail le week-end (US-02, US-05)       | Les horaires et les disponibilités couvrent les sept jours ; hors horaires, rappel au prochain jour d'ouverture (décision D-30) | Un « jour ouvré suivant » figé ferait attendre le lundi le client d'un artisan qui travaille le samedi                                                                                                                      |
-| Mémoire de travail de l'artisan (EP11)   | Ajoutée à l'horizon V2 [H : à confirmer], donc hors du MVP et de la V1 (décision D-66 du 16 octobre 2026)                       | Idée du porteur : prolonge la promesse et la douleur du persona P1 (« rappels oubliés ») ; tout l'état sur le téléphone, rappels par notification locale, serveur sans état (R1, R3) ; rappels privés soumis à un avis RGPD |
-| Documents remis au client (hors devis)   | Portent la mention « Ce document n'est pas une facture », par exemple un futur récapitulatif d'intervention                     | Muninn n'émet pas de facture avant V3 ou V4, et seulement par une plateforme agréée partenaire (D-53, D-55, US-45) ; demandé par le porteur le 19 octobre 2026                                                              |
+| Point                                    | Interprétation retenue                                                                                                                   | Raison                                                                                                                                                                                                                      |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Acteur exploitant                        | Ajouté                                                                                                                                   | KPI du POC et supervision imposés par la passation (sections 1, 10 et 11) ; C11, C20, C21                                                                                                                                   |
+| Serrurerie                               | Métier sélectionnable au MVP, lexique dédié reporté en V2 [H]                                                                            | Cible de la passation, mais la section 4.4 ne cite que les lexiques plomberie, chauffage, électricité                                                                                                                       |
+| Recherche « par LLM sur corpus local »   | La comparaison avec les dossiers se fait sur l'appareil ; seule la phrase de recherche sort                                              | R1 et passation, section 6 : la résolution se fait sur l'appareil                                                                                                                                                           |
+| Export vers la facturation               | Sortie de données en clair autorisée, à la demande explicite de l'artisan, vers son outil                                                | « Rien ne sort en clair » vise le stockage et le transit par Muninn, pas le choix de l'artisan [H]                                                                                                                          |
+| Source des encaissements                 | Dictée ou saisie par l'artisan                                                                                                           | Le concept ne la précise pas                                                                                                                                                                                                |
+| Preuve de destruction                    | Mention datée fournie par le serveur, adossée aux tests de conformité                                                                    | Le concept dit « preuve visible » sans en préciser la nature                                                                                                                                                                |
+| Comptage des corrections                 | Nom du champ corrigé seulement, sans valeur                                                                                              | Nécessaire au monitoring (C11) sans contredire R1 et R4                                                                                                                                                                     |
+| Démo sans transcription audio            | Le simulateur fournit une transcription écrite                                                                                           | Charge du plan de démo (9 jours, section 8.2) ; la feuille de route ne liste pas la transcription parmi les briques réelles                                                                                                 |
+| Appel de test du renvoi (US-04)          | Ajouté en Should                                                                                                                         | Découle du KPI d'activation et de « jamais d'action invisible »                                                                                                                                                             |
+| Effacement d'un dossier (US-35)          | Ajouté en Should                                                                                                                         | Droits des personnes au titre du RGPD ; absent de l'analyse, à valider avec l'AIPD                                                                                                                                          |
+| Supervision (US-41)                      | Ajoutée en Should                                                                                                                        | Points de santé et purges prévus par la passation (sections 8 et 9), pas par l'analyse                                                                                                                                      |
+| Annonce de l'agent (US-06)               | Annonce dès la première phrase (décision D-04 du 12 octobre 2026)                                                                        | R6 dit « première phrase », alors que le message type de la passation annonce l'assistant en troisième phrase. Le porteur a retenu R6                                                                                       |
+| Créneaux réservés par l'agent (US-05)    | Le serveur garde occupés les créneaux réservés par l'agent tant que l'appareil ne les a pas reçus                                        | Sans cette règle, la synchronisation de l'appareil peut libérer un créneau déjà promis [H]                                                                                                                                  |
+| Encaissements (US-23)                    | Enregistrés sur l'appareil, sans traitement serveur                                                                                      | Le contrat `DossierDraft`, en 1.0 comme en 1.1, n'a pas de source « encaissement » ; une dictée exigerait de l'étendre                                                                                                      |
+| Équivalent écrit de la voix              | Débrief, dépense et recherche peuvent être écrits (US-13, US-18, US-22)                                                                  | Accessibilité (document 04, EXA-16). Exige un point d'extraction à partir de texte, absent de la passation ; c'est aussi celui de la démo                                                                                   |
+| Horodatage de destruction (US-31)        | Bloc `destruction` du brouillon chiffré (décidé : D-24)                                                                                  | Le concept demande une « preuve visible » ; le contrat 1.0 n'avait pas ce champ                                                                                                                                             |
+| Porteur du projet (EP10)                 | Ajouté comme acteur                                                                                                                      | L'analyse (section 1.1) demande le dimensionnement par Sirene ; ce n'est ni l'artisan ni l'exploitant                                                                                                                       |
+| Contrôle des adresses en production      | Tables locales (SRC-05 à SRC-07) ; Géoplateforme pour le synthétique seulement                                                           | Document 03 (fiches SRC-03 et SRC-04, décision 3) : aucune adresse de client ne sort vers un tiers                                                                                                                          |
+| API des référentiels (US-50)             | Interne, réservée aux composants de Muninn [H]                                                                                           | Les données servies sont publiques, mais les demandes de contrôle portent des fragments de données de clients                                                                                                               |
+| Contrôle du numéro (US-51)               | Seul le préfixe de bloc est transmis à l'API des référentiels                                                                            | Minimisation : le préfixe suffit à trouver la tranche [H : granularité à confirmer]                                                                                                                                         |
+| Résultat du contrôle (US-51)             | Résultat par champ dans le contrat `DossierDraft` 1.1, en plus de la baisse de confiance (décidé : D-24)                                 | Le contrat 1.0 n'avait pas de champ de contrôle                                                                                                                                                                             |
+| Dimensionnement (US-52, US-53)           | Classé au MVP comme étude préalable, sans fonction dans l'application                                                                    | Le dimensionnement précède le lancement ; il sert aussi le type « big data » de C1                                                                                                                                          |
+| Approbation d'un nouvel appareil (US-01) | Exigée par un appareil déjà enregistré ; le premier appareil du compte en est exempté (décision D-22 du 12 octobre 2026)                 | Parade contre l'échange frauduleux de carte SIM : un code reçu par SMS ne suffit plus à recevoir les demandes                                                                                                               |
+| Révocation d'un appareil (US-54)         | Ajoutée en Must, depuis un autre appareil du compte (décision D-22)                                                                      | Prévue par le modèle de données, sans story jusqu'ici ; complète l'approbation                                                                                                                                              |
+| Perte du seul appareil (US-01, US-54)    | Approbation du nouvel appareil par la phrase de récupération ; sans elle, aucun recours en ligne (décision D-28)                         | Cohérent avec D-14 et R1 : le serveur ne garde que la clé publique dérivée de la phrase                                                                                                                                     |
+| LLM indisponible en fin d'appel (US-11)  | Brouillon de secours avec le numéro et l'heure de l'appel, marqué à vérifier (décision D-29)                                             | La transcription ne peut être ni gardée ni remise en file (R3) : sans ce brouillon, la demande serait perdue en silence                                                                                                     |
+| Travail le week-end (US-02, US-05)       | Les horaires et les disponibilités couvrent les sept jours ; hors horaires, rappel au prochain jour d'ouverture (décision D-30)          | Un « jour ouvré suivant » figé ferait attendre le lundi le client d'un artisan qui travaille le samedi                                                                                                                      |
+| Mémoire de travail de l'artisan (EP11)   | Ajoutée à l'horizon V2 [H : à confirmer], donc hors du MVP et de la V1 (décision D-66 du 16 octobre 2026)                                | Idée du porteur : prolonge la promesse et la douleur du persona P1 (« rappels oubliés ») ; tout l'état sur le téléphone, rappels par notification locale, serveur sans état (R1, R3) ; rappels privés soumis à un avis RGPD |
+| Documents remis au client (hors devis)   | Portent la mention « Ce document n'est pas une facture », par exemple un futur récapitulatif d'intervention                              | Muninn n'émet pas de facture avant V3 ou V4, et seulement par une plateforme agréée partenaire (D-53, D-55, US-45) ; demandé par le porteur le 19 octobre 2026                                                              |
+| Récapitulatif d'intervention (US-61)     | Envoyé depuis la messagerie professionnelle de l'artisan, sur le téléphone ; prix d'achat inclus par défaut, décochables (décision D-68) | « Rien ne sort en clair » vise le transit par Muninn, comme pour l'export ; le serveur ne connaît pas l'adresse de l'artisan (D-26)                                                                                         |
