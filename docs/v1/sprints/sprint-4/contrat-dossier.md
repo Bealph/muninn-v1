@@ -40,9 +40,17 @@ Le dossier V1 exige trois informations que le contrat 1.1 ne porte pas :
   que la règle 6 réserve `needs_review` à une extraction incomplète.
 
 Elles iront dans une enveloppe écrite par le serveur, à côté du brouillon, comme le contrat le
-prévoit déjà pour les mesures d'exécution (`{draft, run}`, `RunMetrics`, § 4). Le brouillon reste conforme au
-contrat 1.1 et `needs_review` garde le sens de la règle 6. L'enveloppe est construite à
-l'étape 4 (évaluateur du serveur).
+prévoit déjà pour les mesures d'exécution (`{draft, run}`, `RunMetrics`, § 4). Le brouillon reste
+conforme au contrat 1.1 et `needs_review` garde le sens de la règle 6. L'enveloppe est construite
+à l'étape 4 (évaluateur du serveur).
+
+Décision D-67 (accordée par le porteur le 16 octobre 2026), avec trois conditions :
+
+1. l'enveloppe ne porte aucune valeur du client : seulement des chemins de champ, des
+   énumérations et des données publiques des référentiels (codes INSEE, noms de communes) ;
+2. elle n'est ni stockée, ni journalisée (R1, R3, R4) ;
+3. le contrat 1.1 n'est pas modifié ; hors V1, ces informations relèveraient d'une version
+   suivante du contrat.
 
 ## 4. Le paquet d'extraction
 

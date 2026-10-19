@@ -73,6 +73,7 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 - [ ] Règle contre l'invention ; règle « gaz » (liste fermée de l'annexe A, action d'orientation insérée en tête) ; règle « santé » (liste fermée de l'annexe A) ; `needs_review`, champs manquants.
 - [ ] Transcription détruite après extraction (`transcript_destroyed_at`, posé dans un `finally`) ; aucune transcription dans les journaux ni les métriques.
 - [ ] Journal d'audit de l'agent, sans contenu : outils appelés, nombre d'appels, garde-fous déclenchés, statut, jetons, coût, latence, `request_id`.
+- [ ] Enveloppe du serveur à côté du brouillon (D-67) : provenance par champ de la commune et du code postal, communes candidates, motifs « à vérifier » ; aucune valeur du client, ni stockée ni journalisée (test).
 
 ### Étape 5 : les garde-fous d'entrée (D-63)
 
