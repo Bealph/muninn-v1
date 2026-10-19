@@ -4,6 +4,9 @@
 l'évaluation par le pair. Pour chaque critère : ce que l'évaluateur constate, ce que je fais, la
 durée, et la preuve versionnée qui sert de secours si le direct échoue.
 
+**Texte à dire :** `script-oral.md`. **Explications et questions-réponses :**
+`explication-resultat.md`.
+
 **Adresses de production :**
 
 - écran : <https://ca-muninn-console-prod.graybeach-70019748.francecentral.azurecontainerapps.io/referentiels> ;
