@@ -70,6 +70,7 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 ### Étape 4 : l'évaluateur du serveur (V-07)
 
 - [ ] Contrôles de la commune et du code postal rejoués par le serveur ; statuts `verified`, `mismatch`, `not_checked` et provenance écrits par le serveur seul.
+- [ ] Correspondance faite par le serveur dans tous les cas (D-69) : une commune, code postal et département remplis, « déduit » ; plusieurs, valeur entendue gardée, candidates jointes avec code postal et département, « à vérifier », jamais de choix automatique ; choix de l'agent gardé seulement s'il figure parmi les candidates.
 - [ ] Règle contre l'invention ; règle « gaz » (liste fermée de l'annexe A, action d'orientation insérée en tête) ; règle « santé » (liste fermée de l'annexe A) ; `needs_review`, champs manquants.
 - [ ] Transcription détruite après extraction (`transcript_destroyed_at`, posé dans un `finally`) ; aucune transcription dans les journaux ni les métriques.
 - [ ] Journal d'audit de l'agent, sans contenu : outils appelés, nombre d'appels, garde-fous déclenchés, statut, jetons, coût, latence, `request_id`.
@@ -109,14 +110,14 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 - [ ] Jeu versionné : 20 scénarios de test (composition de la phase 1), partition de développement distincte, 5 cas de conformité à tolérance nulle, 3 cas de qualification ; oracles figés avant la première exécution.
 - [ ] Harnais : exactitude par champ avec intervalles de Wilson, base sans outils sur les mêmes scénarios, métriques de trajectoire (borne d'appels bloquante), latence p50 et p95, coût, part à vérifier ; rapport horodaté.
 - [ ] Job d'évaluation en CI, déclenché par un changement d'empreinte, plafond D-64, bloquant pour `verdict` ; sans accès au modèle : « non mesuré », bloquant.
-- [ ] Démonstration : une PR qui livre le paquet avec les outils désactivés est bloquée (CA-6, première partie).
+- [ ] Démonstration : une PR qui livre le paquet avec les outils désactivés est bloquée (CA-6, première partie) ; par avenant (D-69), par SC-07 et un second scénario d'ambiguïté résolu seulement par un indice (« Montreuil-sous-Bois »), à ajouter au jeu.
 
 ### Étape 10 : Langfuse (V-13, détachable)
 
 - [ ] Compte Langfuse Cloud UE créé par le porteur (palier gratuit, R10) ; clés dans les secrets.
 - [ ] Traces des appels au LLM sans contenu en production (métadonnées seulement), testé ; contenu visible sur les évaluations synthétiques seulement.
 - [ ] Jeux de données et expériences d'évaluation ; échec de la CI en cas de régression.
-- [ ] Point de décision du lundi 19 au soir : si le sprint a plus d'un quart de journée de retard, Langfuse est retiré par décision écrite.
+- [x] Point de décision du lundi 19 au soir : tranché le 19 octobre 2026 par le porteur, **Langfuse est gardé** (non négociable) ; étapes 0 à 3 faites, aucun retard.
 
 ### Étape 11 : la production
 
