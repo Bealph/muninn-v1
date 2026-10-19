@@ -26,7 +26,8 @@ terme rendu s'il y en a un.
 Champs :
 - client.nom : le nom de famille ; client.prenom : le prénom s'il est dit.
 - client.telephone : au format international (+33 suivi de 9 chiffres, sans le 0 initial),
-  origin « spoken » s'il est dicté, « caller_id » s'il vient du numéro présenté.
+  origin « spoken » s'il est dicté, « caller_id » s'il vient du numéro présenté. Si aucun numéro
+  n'est dit et que le numéro présenté est masqué : value null, confidence 0, origin null.
 - client.adresse.rue : numéro et voie ; code_postal : 5 chiffres ; commune : son nom.
 - demande.objet_court : 2 à 5 mots, avec les mots de l'appelant ou le terme du métier.
 - demande.description : une ou deux phrases factuelles sur le problème, sans donnée de santé.

@@ -63,9 +63,9 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 3 : l'agent et sa boucle bornée (V-07, C8, C9)
 
-- [ ] Deux outils en lecture seule, en liste fermée, qui appellent l'API des référentiels (rien d'autre ne part vers l'outil que le nom de commune, le code postal, le mot et le métier) ; outil inconnu refusé.
-- [ ] Boucle : six appels d'outils au plus, délai par appel, une relance unique en cas de sortie hors schéma, puis brouillon partiel « à vérifier » ; LLM indisponible : brouillon de secours (D-29).
-- [ ] Scénarios de l'annexe A en local avec le vrai modèle : SC-02, SC-07, SC-08, SC-10 appellent l'outil attendu ; consigne renforcée si besoin sur la partition de développement seulement (écarts SC-02, SC-07, SC-10 du banc T-06).
+- [x] Deux outils en lecture seule, en liste fermée, qui appellent l'API des référentiels (rien d'autre ne part vers l'outil que le nom de commune, le code postal, le mot et le métier) ; outil inconnu refusé, l'agent continue. Preuve : `src/muninn/extraction/outils.py`, `tests/test_agent.py`.
+- [x] Boucle : six appels d'outils au plus, délai par appel, une relance unique en cas de sortie hors schéma, puis brouillon partiel « à vérifier » ; LLM indisponible : brouillon de secours (D-29) ; refus du filtre distingué. 18 tests. Preuve : `src/muninn/extraction/agent.py`, `agent.md`.
+- [ ] Scénarios de l'annexe A en local avec le vrai modèle : SC-02, SC-07, SC-08, SC-10 appellent l'outil attendu ; consigne renforcée si besoin sur la partition de développement seulement (écarts SC-02, SC-07, SC-10 du banc T-06). **Mesuré le 19 octobre 2026 : 12 extractions complètes, outil attendu 9 sur 12 (SC-02 : 1 sur 3 ; SC-10 : 2 sur 3) ; SC-10 garde la commune entendue. Renforcement reporté à l'étape 9 (partition de développement) ; question de SC-10 soumise au porteur avant l'étape 4.** Preuve : `agent.md`, `eval/agent/essai_etape3.json`.
 
 ### Étape 4 : l'évaluateur du serveur (V-07)
 
