@@ -186,3 +186,15 @@ livraison met à jour l'image de la tâche (`deployer.sh`).
 vCPU-secondes et 360 000 Gio-secondes par abonnement (page de facturation de Container Apps) ;
 au-delà, l'API de prix ne publie pas de tarif exploitable pour France Central [H : quelques
 centimes par exécution au plus].
+
+## Consulter une base, en lecture seule
+
+`bash infra/azure/consulter-base.sh [production|preproduction] [--interactif]` affiche un aperçu
+de la base (tables, versions chargées, exemples), ou ouvre psql. Le script ouvre le pare-feu du
+serveur PostgreSQL à la seule adresse IP du poste, par une règle temporaire supprimée à la sortie ;
+il se connecte avec le rôle de lecture de l'API, en lecture seule forcée, sans jamais afficher
+l'adresse de connexion. Docker est requis (client psql en conteneur). Essayé par le porteur sur la
+production le 19 octobre 2026.
+
+Après une fermeture brutale du terminal, vérifier que la règle `consultation-porteur` a disparu :
+`az postgres flexible-server firewall-rule list -g adialloRG -s psql-muninn -o table`.
