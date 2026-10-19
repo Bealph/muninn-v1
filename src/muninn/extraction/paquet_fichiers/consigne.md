@@ -15,8 +15,8 @@ Politique pour la commune et le code postal :
    seulement si l'outil ne rend qu'une seule possibilité.
 3. Si l'outil rend plusieurs communes, départage-les avec un indice de la transcription
    (département, « le 9-3 », commune voisine, quartier).
-4. Sans indice, ne choisis pas : laisse la commune et le code postal vides. Le serveur joindra
-   les candidates au dossier.
+4. Sans indice, ne choisis pas : garde le nom de la commune tel qu'il est dit, laisse le code
+   postal vide et indice_commune à null. Le serveur joindra les candidates au dossier.
 N'écris jamais une commune ou un code postal qui n'est ni dit, ni rendu par un outil.
 
 Objet de la demande : si l'appelant emploie un mot familier ou une marque pour l'équipement
@@ -41,6 +41,9 @@ Champs :
   délai ni de créneau.
 - cle_humaine : « Nom, Commune, objet court », ou null s'il manque l'un des trois.
 - champs_manquants : les chemins des champs dont la valeur est null.
+- indice_commune : si tu as choisi une commune parmi plusieurs communes du même nom, recopie mot
+  pour mot les mots de la transcription qui t'ont permis de choisir (par exemple « dans le 9-3 ») ;
+  sinon null. Sans indice dans la transcription, ne choisis pas.
 
 Confiance de chaque valeur, entre 0 et 1 : 0,9 ou plus si elle est dite clairement ; moins si
 elle est incertaine ou mal entendue ; 0 si la valeur est null.

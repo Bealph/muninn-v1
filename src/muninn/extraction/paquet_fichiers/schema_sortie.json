@@ -9,7 +9,8 @@
       "demande",
       "cle_humaine",
       "actions",
-      "champs_manquants"
+      "champs_manquants",
+      "indice_commune"
     ],
     "properties": {
       "client": {
@@ -304,6 +305,12 @@
             "actions"
           ]
         }
+      },
+      "indice_commune": {
+        "type": [
+          "string",
+          "null"
+        ]
       }
     }
   }

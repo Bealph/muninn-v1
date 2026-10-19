@@ -156,6 +156,9 @@ class SortieLLM(Strict):
     cle_humaine: Annotated[str, Field(min_length=5, max_length=160)] | None
     actions: Annotated[list[Action], Field(max_length=10)]
     champs_manquants: list[CheminChamp]
+    # Mots de la transcription qui ont permis de choisir entre des communes homonymes (règle 4
+    # de la politique) ; le serveur vérifie qu'ils y figurent (D-69). Absent du brouillon.
+    indice_commune: Annotated[str, Field(min_length=1, max_length=120)] | None = None
 
     @model_validator(mode="after")
     def _sans_doublon(self) -> Self:

@@ -69,12 +69,13 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 4 : l'évaluateur du serveur (V-07)
 
-- [ ] Contrôles de la commune et du code postal rejoués par le serveur ; statuts `verified`, `mismatch`, `not_checked` et provenance écrits par le serveur seul.
-- [ ] Correspondance faite par le serveur dans tous les cas (D-69) : une commune, code postal et département remplis, « déduit » ; plusieurs, valeur entendue gardée, candidates jointes avec code postal et département, « à vérifier », jamais de choix automatique ; choix de l'agent gardé seulement s'il figure parmi les candidates.
-- [ ] Règle contre l'invention ; règle « gaz » (liste fermée de l'annexe A, action d'orientation insérée en tête) ; règle « santé » (liste fermée de l'annexe A) ; `needs_review`, champs manquants.
-- [ ] Transcription détruite après extraction (`transcript_destroyed_at`, posé dans un `finally`) ; aucune transcription dans les journaux ni les métriques.
-- [ ] Journal d'audit de l'agent, sans contenu : outils appelés, nombre d'appels, garde-fous déclenchés, statut, jetons, coût, latence, `request_id`.
-- [ ] Enveloppe du serveur à côté du brouillon (D-67) : provenance par champ de la commune et du code postal, communes candidates, motifs « à vérifier » ; aucune valeur du client, ni stockée ni journalisée (test).
+- [x] Contrôles de la commune et du code postal rejoués par le serveur ; statuts `verified`, `mismatch`, `not_checked` et provenance écrits par le serveur seul.
+- [x] Correspondance faite par le serveur dans tous les cas (D-69) : une commune, code postal et département remplis, « déduit » ; plusieurs, valeur entendue gardée, candidates jointes avec code postal et département, « à vérifier », jamais de choix automatique ; choix de l'agent gardé seulement s'il figure parmi les candidates.
+- [x] Règle contre l'invention ; règle « gaz » (liste fermée de l'annexe A, action d'orientation insérée en tête) ; règle « santé » (liste fermée de l'annexe A) ; `needs_review`, champs manquants.
+- [x] Transcription détruite après extraction (`transcript_destroyed_at`, posé dans un `finally`) ; aucune transcription dans les journaux ni les métriques.
+- [x] Journal d'audit de l'agent, sans contenu : outils appelés, nombre d'appels, garde-fous déclenchés, statut, jetons, coût, latence, `request_id`.
+- [x] Enveloppe du serveur à côté du brouillon (D-67) : provenance par champ de la commune et du code postal, communes candidates, motifs « à vérifier » ; aucune valeur du client, ni stockée ni journalisée (test).
+- [x] Preuves : `src/muninn/extraction/evaluateur.py`, `tests/test_evaluateur.py` (23 tests), `evaluateur.md` ; essai bout en bout avec le vrai modèle, 21 conformes sur 24 (SC-08 : limite connue du lexique).
 
 ### Étape 5 : les garde-fous d'entrée (D-63)
 

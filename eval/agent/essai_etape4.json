@@ -1,0 +1,365 @@
+{
+  "date": "2026-10-19",
+  "paquet": "extraction-2026.10.1",
+  "conformes": 21,
+  "refus_du_filtre": 0,
+  "extractions": 24,
+  "cout_total_eur": 0.084,
+  "lignes": [
+    {
+      "scenario": "SC-01",
+      "repetition": 1,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [],
+      "cout_micro_eur": 2233,
+      "duree_ms": 1492
+    },
+    {
+      "scenario": "SC-02",
+      "repetition": 1,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [
+        "chercher_communes"
+      ],
+      "cout_micro_eur": 3780,
+      "duree_ms": 1954
+    },
+    {
+      "scenario": "SC-03",
+      "repetition": 1,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [
+        "incoherent",
+        "champ_incertain"
+      ],
+      "garde_fous": [],
+      "outils": [
+        "chercher_terme_metier"
+      ],
+      "cout_micro_eur": 3692,
+      "duree_ms": 2335
+    },
+    {
+      "scenario": "SC-04",
+      "repetition": 1,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [
+        "gaz"
+      ],
+      "outils": [],
+      "cout_micro_eur": 2207,
+      "duree_ms": 1293
+    },
+    {
+      "scenario": "SC-05",
+      "repetition": 1,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [
+        "chercher_terme_metier"
+      ],
+      "cout_micro_eur": 3773,
+      "duree_ms": 2421
+    },
+    {
+      "scenario": "SC-07",
+      "repetition": 1,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [
+        "chercher_communes"
+      ],
+      "cout_micro_eur": 3777,
+      "duree_ms": 2081
+    },
+    {
+      "scenario": "SC-08",
+      "repetition": 1,
+      "resultat": "ecarts",
+      "ecarts": [
+        "objet L-08"
+      ],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [
+        "chercher_terme_metier",
+        "chercher_communes"
+      ],
+      "cout_micro_eur": 5201,
+      "duree_ms": 2779
+    },
+    {
+      "scenario": "SC-10",
+      "repetition": 1,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [
+        "commune_ambigue",
+        "champ_incertain"
+      ],
+      "garde_fous": [],
+      "outils": [
+        "chercher_communes"
+      ],
+      "cout_micro_eur": 3806,
+      "duree_ms": 2076
+    },
+    {
+      "scenario": "SC-01",
+      "repetition": 2,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [
+        "chercher_communes"
+      ],
+      "cout_micro_eur": 3728,
+      "duree_ms": 2150
+    },
+    {
+      "scenario": "SC-02",
+      "repetition": 2,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [],
+      "cout_micro_eur": 2272,
+      "duree_ms": 1287
+    },
+    {
+      "scenario": "SC-03",
+      "repetition": 2,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [
+        "incoherent",
+        "champ_incertain"
+      ],
+      "garde_fous": [],
+      "outils": [
+        "chercher_terme_metier"
+      ],
+      "cout_micro_eur": 3709,
+      "duree_ms": 2271
+    },
+    {
+      "scenario": "SC-04",
+      "repetition": 2,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [
+        "gaz"
+      ],
+      "outils": [],
+      "cout_micro_eur": 2242,
+      "duree_ms": 1683
+    },
+    {
+      "scenario": "SC-05",
+      "repetition": 2,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [
+        "chercher_terme_metier"
+      ],
+      "cout_micro_eur": 3773,
+      "duree_ms": 1993
+    },
+    {
+      "scenario": "SC-07",
+      "repetition": 2,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [
+        "chercher_communes"
+      ],
+      "cout_micro_eur": 3785,
+      "duree_ms": 2083
+    },
+    {
+      "scenario": "SC-08",
+      "repetition": 2,
+      "resultat": "ecarts",
+      "ecarts": [
+        "objet L-08"
+      ],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [
+        "chercher_terme_metier",
+        "chercher_communes"
+      ],
+      "cout_micro_eur": 5197,
+      "duree_ms": 3263
+    },
+    {
+      "scenario": "SC-10",
+      "repetition": 2,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [
+        "commune_ambigue",
+        "champ_incertain"
+      ],
+      "garde_fous": [],
+      "outils": [
+        "chercher_communes"
+      ],
+      "cout_micro_eur": 3767,
+      "duree_ms": 2062
+    },
+    {
+      "scenario": "SC-01",
+      "repetition": 3,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [],
+      "cout_micro_eur": 2216,
+      "duree_ms": 1177
+    },
+    {
+      "scenario": "SC-02",
+      "repetition": 3,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [],
+      "cout_micro_eur": 2277,
+      "duree_ms": 1269
+    },
+    {
+      "scenario": "SC-03",
+      "repetition": 3,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [
+        "incoherent",
+        "champ_incertain"
+      ],
+      "garde_fous": [],
+      "outils": [
+        "chercher_terme_metier"
+      ],
+      "cout_micro_eur": 3705,
+      "duree_ms": 2219
+    },
+    {
+      "scenario": "SC-04",
+      "repetition": 3,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [
+        "gaz"
+      ],
+      "outils": [],
+      "cout_micro_eur": 2272,
+      "duree_ms": 1366
+    },
+    {
+      "scenario": "SC-05",
+      "repetition": 3,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [
+        "chercher_terme_metier"
+      ],
+      "cout_micro_eur": 3773,
+      "duree_ms": 2044
+    },
+    {
+      "scenario": "SC-07",
+      "repetition": 3,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [
+        "chercher_communes"
+      ],
+      "cout_micro_eur": 3790,
+      "duree_ms": 2261
+    },
+    {
+      "scenario": "SC-08",
+      "repetition": 3,
+      "resultat": "ecarts",
+      "ecarts": [
+        "objet L-08"
+      ],
+      "statut": "complete",
+      "motifs": [],
+      "garde_fous": [],
+      "outils": [
+        "chercher_terme_metier",
+        "chercher_communes"
+      ],
+      "cout_micro_eur": 5210,
+      "duree_ms": 3359
+    },
+    {
+      "scenario": "SC-10",
+      "repetition": 3,
+      "resultat": "conforme",
+      "ecarts": [],
+      "statut": "complete",
+      "motifs": [
+        "commune_ambigue",
+        "champ_incertain"
+      ],
+      "garde_fous": [],
+      "outils": [
+        "chercher_communes"
+      ],
+      "cout_micro_eur": 3767,
+      "duree_ms": 2053
+    }
+  ]
+}
