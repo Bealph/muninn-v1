@@ -1,7 +1,7 @@
 # User stories de Muninn
 
-**Version :** 2.3
-**Date :** 16 octobre 2026
+**Version :** 2.4
+**Date :** 19 octobre 2026
 **Historique :** la v2 ajoute l'épopée EP10 (données de référence, US-46 à US-53), l'acteur
 « porteur du projet » et le contrôle des champs extraits par l'API des référentiels dans la démo.
 La v2.1 ajoute US-54 et le critère 5 de US-01 (décision D-22). La v2.2 suit les décisions D-24 à
@@ -10,7 +10,9 @@ D-30 : contrat `DossierDraft` 1.1 (US-11, US-31, US-51), recours par la phrase d
 week-end (US-02, critères 2 et 5 ; US-05, critère 4 ; US-49, critère 3). Aucune story n'est
 ajoutée. La v2.3 ajoute l'épopée EP11 (mémoire de travail de l'artisan, US-56 à US-60), hors MVP
 et donc hors de la V1, sur décision D-66 du 16 octobre 2026 ; sa conception détaillée viendra
-après le 13 novembre.
+après le 13 novembre. La v2.4, à la demande du porteur (19 octobre 2026), précise US-03 (coût du
+renvoi, refus du renvoi inconditionnel, réécoute impossible), US-04 (téléphone qui sonne d'abord)
+et ajoute en section 9 la mention « Ce document n'est pas une facture ».
 **Phase :** 0a (besoin, flux et sources de données)
 **Statut :** proposition, à valider par le porteur
 **Compétence principale servie :** C14 (analyse du besoin, spécifications fonctionnelles)
@@ -167,7 +169,7 @@ numéro.
 - Priorité : Must
 - Horizon : MVP
 - Démo : non
-- Règles : Aucune
+- Règles : R2
 - Compétences : C17
 
 Critères d'acceptation :
@@ -180,8 +182,16 @@ Critères d'acceptation :
 3. Étant donné un premier usage, quand 5 testeurs [H] suivent les instructions, alors chacun active
    le renvoi en moins de 2 minutes (KPI de l'action 2 de l'analyse) ; la médiane et le maximum sont
    consignés.
-4. Étant donné l'écran de renvoi, quand il s'affiche, alors un avertissement invite à vérifier
-   si le forfait facture le renvoi [H : conditions tarifaires non vérifiées].
+4. Étant donné l'écran de renvoi, quand il s'affiche, alors il prévient que le renvoi peut être
+   facturé selon le forfait, avec le tarif connu de l'opérateur choisi (Free : 0,05 € la minute,
+   `../appels-et-voix/03-raccordement-telephonique.md`, F11) [H : autres opérateurs non
+   vérifiés].
+5. Étant donné les codes proposés, quand un test les inspecte, alors aucun n'active le renvoi
+   inconditionnel (`**21*`) : le téléphone de l'artisan sonne toujours avant le renvoi, sauf s'il
+   est injoignable.
+6. Étant donné l'écran de renvoi, quand il s'affiche, alors il explique que Muninn remplace la
+   messagerie vocale et que, contrairement à un répondeur, l'artisan ne pourra pas réécouter le
+   message : l'audio est détruit après l'appel (R2) ; il lira le dossier ou le message.
 
 #### US-04. Vérifier le renvoi par un appel de test
 
@@ -203,6 +213,9 @@ Critères d'acceptation :
    affiche « renvoi non détecté » et renvoie vers les instructions de US-03.
 3. Étant donné un appel de test reçu, quand il se termine, alors aucun dossier n'est créé et aucun
    audio n'est conservé.
+4. Étant donné un appel de test reçu, quand l'écran demande à l'artisan si son téléphone a sonné
+   avant le renvoi et qu'il répond non, alors l'écran signale un renvoi inconditionnel probable
+   et indique comment l'annuler (US-03, critère 5).
 
 [H] Cette story n'est pas écrite dans le concept. Elle découle du KPI d'activation du renvoi et
 de la règle « jamais d'action invisible » (section 3.4).
@@ -1625,7 +1638,7 @@ Critères d'acceptation :
 | Règle | Objet                                             | Stories                                                                                                                                                           |
 | ----- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | R1    | Aucun dossier en clair côté serveur               | US-01, US-05, US-08, US-12, US-16 à US-21, US-23 à US-28, US-30, US-32 à US-35, US-38, US-41, US-45, US-51, US-54 à US-60                                         |
-| R2    | Audio détruit après extraction                    | US-04, US-10, US-11, US-13, US-14, US-22, US-31, US-42, US-44, US-56, US-58 à US-60                                                                               |
+| R2    | Audio détruit après extraction                    | US-03, US-04, US-10, US-11, US-13, US-14, US-22, US-31, US-42, US-44, US-56, US-58 à US-60                                                                        |
 | R3    | Transcriptions éphémères                          | US-11, US-13, US-16, US-18, US-22, US-31, US-36, US-39, US-51, US-56, US-58 à US-60                                                                               |
 | R4    | Journaux sans donnée personnelle                  | US-01, US-05, US-11, US-12, US-16, US-17, US-20, US-21, US-26 à US-29, US-31, US-35, US-38, US-39, US-41, US-50, US-51, US-52, US-54, US-55, US-56, US-58 à US-60 |
 | R5    | Hébergement et traitement dans l'UE               | US-11, US-13, US-15, US-21, US-22, US-25, US-37, US-40, US-43, US-45, US-50, US-55, US-56, US-58 à US-60                                                          |
@@ -1860,3 +1873,4 @@ Restent en phase 3, hors de ces 9 jours : la BAN (SRC-05), le lexique (US-48), l
 | LLM indisponible en fin d'appel (US-11)  | Brouillon de secours avec le numéro et l'heure de l'appel, marqué à vérifier (décision D-29)                                    | La transcription ne peut être ni gardée ni remise en file (R3) : sans ce brouillon, la demande serait perdue en silence                                                                                                     |
 | Travail le week-end (US-02, US-05)       | Les horaires et les disponibilités couvrent les sept jours ; hors horaires, rappel au prochain jour d'ouverture (décision D-30) | Un « jour ouvré suivant » figé ferait attendre le lundi le client d'un artisan qui travaille le samedi                                                                                                                      |
 | Mémoire de travail de l'artisan (EP11)   | Ajoutée à l'horizon V2 [H : à confirmer], donc hors du MVP et de la V1 (décision D-66 du 16 octobre 2026)                       | Idée du porteur : prolonge la promesse et la douleur du persona P1 (« rappels oubliés ») ; tout l'état sur le téléphone, rappels par notification locale, serveur sans état (R1, R3) ; rappels privés soumis à un avis RGPD |
+| Documents remis au client (hors devis)   | Portent la mention « Ce document n'est pas une facture », par exemple un futur récapitulatif d'intervention                     | Muninn n'émet pas de facture avant V3 ou V4, et seulement par une plateforme agréée partenaire (D-53, D-55, US-45) ; demandé par le porteur le 19 octobre 2026                                                              |

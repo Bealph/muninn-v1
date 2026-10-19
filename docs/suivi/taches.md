@@ -81,6 +81,7 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-16 | Sprint 4, étape 0 : checklist, décisions D-62 à D-65 (écran « Agent », garde-fous d'entrée, plafond de l'évaluation, filtre de contenu)                                                        | PR n° 112                                                              |
 | 2026-10-16 | Sprint 4, étape 1 : contrat `DossierDraft` 1.1 (sous-ensemble V1) et paquet d'extraction versionné, empreinte ; 123 tests                                                                      | PR n° 114                                                              |
 | 2026-10-16 | Idée du porteur ajoutée au projet global, hors V1 : mémoire de travail de l'artisan (D-66), épopée EP11, US-56 à US-60 au backlog                                                              | PR n° 116                                                              |
+| 2026-10-19 | Précisions de conception, hors V1 : renvoi jamais inconditionnel, réécoute impossible, coût du renvoi, mention « pas une facture »                                                             | PR n° 117                                                              |
 
 ## À faire
 
