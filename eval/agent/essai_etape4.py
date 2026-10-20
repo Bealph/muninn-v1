@@ -14,12 +14,12 @@ from pathlib import Path
 from typing import Any
 
 from muninn.core.config import Settings
+from muninn.extraction.entree import normaliser
 from muninn.extraction.evaluateur import (
     ACTION_GAZ,
     ContenuRefuse,
     Extraction,
     extraire_dossier,
-    normaliser,
 )
 from muninn.extraction.outils import ClientReferentiels
 from muninn.extraction.paquet import charger_paquet

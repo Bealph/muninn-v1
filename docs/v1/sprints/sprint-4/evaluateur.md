@@ -61,7 +61,7 @@ consigne d'avant D-69 faisait vider la commune. Coût total de l'étape : enviro
 
 - **SC-08** : à traiter par le lexique (relecture humaine, après la V1) ou par la consigne sur la
   partition de développement (étape 9).
-- **SC-05 non bloqué** : établir pourquoi le filtre d'Azure ne bloque plus, et le régler selon D-65
-  (étape 5).
+- **SC-05 non bloqué** : cause établie à l'étape 5 (bloc délimité), voir `garde-fous-entree.md`,
+  section 4.
 - **API endormie** : en production, l'agent appelle l'API de la même application, éveillée ; à
   surveiller comme signal du sprint 5 (contrôles « non contrôlé » pour délai).

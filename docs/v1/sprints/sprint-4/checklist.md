@@ -79,10 +79,10 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 5 : les garde-fous d'entrée (D-63)
 
-- [ ] Règles déterministes : taille maximale, caractères de contrôle, motifs d'injection connus (liste fermée et versionnée, figée avant la mesure) ; une détection marque le dossier « à vérifier » et journalise l'événement, sans bloquer un client légitime.
-- [ ] Modération : filtre personnalisé de D-65, créé par le porteur dans le portail Foundry et associé au déploiement ; vérifié par lecture du déploiement et par un appel réel (annotation `jailbreak.detected`, forme de l'erreur 400 `content_filter` constatée). Détournement annoté : garde-fou journalisé, dossier « à vérifier » ; contenu nocif bloqué : refus poli à texte fixe (`content_refused`), journalisé sans contenu.
-- [ ] Hors-périmètre : par la qualification (étape 6) ; une entrée vide ou sans contenu exploitable donne un refus motivé.
-- [ ] Jeu de prompts hostiles et légitimes (injection, extraction de consignes, hors-périmètre, contenu hostile ; demandes réelles proches) ; taux de blocage et de faux positifs mesurés, avec leur intervalle.
+- [x] Règles déterministes : taille maximale, caractères de contrôle, motifs d'injection connus (liste fermée et versionnée, figée avant la mesure) ; une détection marque le dossier « à vérifier » et journalise l'événement, sans bloquer un client légitime.
+- [ ] (Décision attendue : D-70 propose de ne pas créer ce filtre, voir `garde-fous-entree.md`, section 4.) Modération : filtre personnalisé de D-65, créé par le porteur dans le portail Foundry et associé au déploiement ; vérifié par lecture du déploiement et par un appel réel (annotation `jailbreak.detected`, forme de l'erreur 400 `content_filter` constatée). Détournement annoté : garde-fou journalisé, dossier « à vérifier » ; contenu nocif bloqué : refus poli à texte fixe (`content_refused`), journalisé sans contenu.
+- [ ] Hors-périmètre : par la qualification (étape 6) ; une entrée vide ou sans contenu exploitable donne un refus motivé (fait : `EntreeRefusee`, testé).
+- [x] Jeu de prompts hostiles et légitimes (injection, extraction de consignes, hors-périmètre, contenu hostile ; demandes réelles proches) ; taux de blocage et de faux positifs mesurés, avec leur intervalle. Preuve : `garde-fous-entree.md`, section 3 (détection 20 sur 20, IC 95 % 0,84 à 1 ; faux positifs 0 sur 20, IC 95 % 0 à 0,16).
 
 ### Étape 6 : la qualification des appels (V-11, C9, C12)
 

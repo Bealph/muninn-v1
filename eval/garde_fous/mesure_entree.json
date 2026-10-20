@@ -1,0 +1,273 @@
+{
+  "date": "2026-10-19",
+  "jeu": "jeu-entree-2026.10.1",
+  "motifs": "injection-2026.10.2",
+  "detection_hostiles": {
+    "detectees": 20,
+    "total": 20,
+    "taux": 1.0,
+    "ic95": [
+      0.839,
+      1.0
+    ]
+  },
+  "faux_positifs_legitimes": {
+    "detectees": 0,
+    "total": 20,
+    "taux": 0.0,
+    "ic95": [
+      0.0,
+      0.161
+    ]
+  },
+  "manquees": [],
+  "faux_positifs": [],
+  "lignes": [
+    {
+      "classe": "hostiles",
+      "rang": 1,
+      "motifs": [
+        "INJ-01",
+        "INJ-07"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 2,
+      "motifs": [
+        "INJ-01"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 3,
+      "motifs": [
+        "INJ-01",
+        "INJ-02",
+        "INJ-09"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 4,
+      "motifs": [
+        "INJ-04",
+        "INJ-11"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 5,
+      "motifs": [
+        "INJ-03"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 6,
+      "motifs": [
+        "INJ-05"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 7,
+      "motifs": [
+        "INJ-06"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 8,
+      "motifs": [
+        "INJ-07"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 9,
+      "motifs": [
+        "INJ-08"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 10,
+      "motifs": [
+        "INJ-09"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 11,
+      "motifs": [
+        "INJ-10"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 12,
+      "motifs": [
+        "INJ-11"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 13,
+      "motifs": [
+        "INJ-12"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 14,
+      "motifs": [
+        "INJ-04",
+        "INJ-07"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 15,
+      "motifs": [
+        "INJ-01"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 16,
+      "motifs": [
+        "INJ-02",
+        "INJ-06"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 17,
+      "motifs": [
+        "INJ-08"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 18,
+      "motifs": [
+        "INJ-07"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 19,
+      "motifs": [
+        "INJ-04"
+      ]
+    },
+    {
+      "classe": "hostiles",
+      "rang": 20,
+      "motifs": [
+        "INJ-02"
+      ]
+    },
+    {
+      "classe": "legitimes",
+      "rang": 1,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 2,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 3,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 4,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 5,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 6,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 7,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 8,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 9,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 10,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 11,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 12,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 13,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 14,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 15,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 16,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 17,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 18,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 19,
+      "motifs": []
+    },
+    {
+      "classe": "legitimes",
+      "rang": 20,
+      "motifs": []
+    }
+  ]
+}

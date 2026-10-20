@@ -19,7 +19,6 @@ transcription n'est journalisé (R3, R4).
 import logging
 import re
 import time
-import unicodedata
 import uuid
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -50,6 +49,7 @@ from muninn.extraction.contrat import (
     TexteLong,
     VersionReferentiel,
 )
+from muninn.extraction.entree import controler, normaliser
 from muninn.extraction.outils import Referentiels
 from muninn.extraction.paquet import Paquet
 from muninn.extraction.regles import calculer_champs_manquants, champs_a_verifier, plafonner
@@ -147,14 +147,15 @@ class ContenuRefuse(Exception):
     """Le filtre de contenu a bloqué l'extraction : refus poli, aucun brouillon (D-63, D-65)."""
 
 
-# --- Normalisation des textes comparés ----------------------------------------------------------
+class EntreeRefusee(Exception):
+    """Entrée inexploitable (vide, trop longue) : refus motivé à texte fixe, aucun brouillon."""
+
+    def __init__(self, code: str, message: str) -> None:
+        super().__init__(message)
+        self.code = code
 
 
-def normaliser(texte: str) -> str:
-    """Minuscules, sans accents ni ligatures, ponctuation en espaces : pour les comparaisons."""
-    texte = texte.lower().replace("œ", "oe").replace("æ", "ae")
-    texte = "".join(c for c in unicodedata.normalize("NFKD", texte) if not unicodedata.combining(c))
-    return re.sub(r"[^a-z0-9]+", " ", texte).strip()
+# --- Comparaison des textes (normalisation commune avec les garde-fous d'entrée) ----------------
 
 
 def present(valeur: str, transcription_normalisee: str) -> bool:
@@ -473,6 +474,7 @@ def evaluer(
     numero_presente: str | None = None,
     input_mode: Literal["text", "simulated"] = "simulated",
     maintenant: Callable[[], datetime] = lambda: datetime.now(UTC),
+    motifs_entree: tuple[str, ...] = (),
 ) -> tuple[DossierDraft, Enveloppe]:
     """Construit le brouillon et l'enveloppe à partir de la sortie de l'agent."""
     if resultat.statut == "content_refused":
@@ -561,7 +563,8 @@ def evaluer(
         actions = [ACTION_GAZ] + [a for a in actions if a != ACTION_GAZ]
         garde_fous.append("gaz")
         call_outcome = "safety_redirect"
-    if resultat.detournement_detecte:
+    if resultat.detournement_detecte or motifs_entree:
+        # Annotation du filtre (D-65) ou motif d'injection connu (D-63) : signalé, jamais bloquant.
         garde_fous.append("detournement")
         motifs.append("detournement_suspect")
 
@@ -644,9 +647,13 @@ def extraire_dossier(
     """Agent puis évaluateur. Aucune copie de la transcription n'est gardée ; sa date de
     destruction est posée par l'évaluateur (contrat, règle 7). Journal d'audit sans contenu."""
     debut = time.perf_counter()
+    controle = None
     try:
+        controle = controler(transcription)
+        if controle.refus is not None:
+            raise EntreeRefusee(controle.refus, controle.message_refus or "")
         resultat = extraire(
-            transcription,
+            controle.texte,
             paquet,
             fournisseur,
             referentiels,
@@ -655,20 +662,30 @@ def extraire_dossier(
             numero_presente,
         )
         brouillon, enveloppe = evaluer(
-            resultat, transcription, paquet, referentiels, metier, numero_presente, input_mode
+            resultat,
+            controle.texte,
+            paquet,
+            referentiels,
+            metier,
+            numero_presente,
+            input_mode,
+            motifs_entree=tuple(controle.motifs),
         )
+        motifs_entree = controle.motifs
     finally:
-        del transcription  # plus aucune référence locale au texte reçu (R3)
+        del transcription, controle  # plus aucune référence locale au texte reçu (R3)
     controles = brouillon.checks
     journal.info(
         "extraction.fin request_id=%s draft_id=%s statut=%s a_verifier=%s motifs=%s garde_fous=%s "
-        "commune=%s code_postal=%s candidates=%s outils=%s jetons=%s cout_micro_eur=%s duree_ms=%s",
+        "motifs_entree=%s commune=%s code_postal=%s candidates=%s outils=%s jetons=%s "
+        "cout_micro_eur=%s duree_ms=%s",
         request_id,
         brouillon.draft_id,
         brouillon.provenance.extraction_status,
         enveloppe.a_verifier,
         ",".join(enveloppe.motifs) or "aucun",
         ",".join(enveloppe.garde_fous) or "aucun",
+        ",".join(motifs_entree) or "aucun",
         controles.commune.status,
         controles.code_postal.status,
         len(enveloppe.candidates),

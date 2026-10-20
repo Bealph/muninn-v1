@@ -1,0 +1,66 @@
+{
+  "version": "injection-2026.10.2",
+  "description": "Motifs d'injection connus, cherchés dans la transcription après normalisation (minuscules, sans accents, ponctuation en espaces). Une détection marque le dossier « à vérifier » et est journalisée ; elle ne bloque jamais (D-63). Liste figée avant la mesure du 19 octobre 2026.",
+  "motifs": [
+    {
+      "id": "INJ-01",
+      "regex": "\\b(ignore|ignorez|oublie|oubliez|annule|annulez|contourne)\\b.{0,30}\\b(consignes?|instructions?|regles?|directives?|prompt)\\b",
+      "objet": "faire oublier les consignes"
+    },
+    {
+      "id": "INJ-02",
+      "regex": "\\b(ignore|forget|disregard)\\b.{0,30}\\b(instructions?|rules|prompt)\\b",
+      "objet": "même chose, en anglais"
+    },
+    {
+      "id": "INJ-03",
+      "regex": "\\b(nouvelles?|autres?) (consignes?|instructions?|regles?)\\b.{0,20}\\b(pour|a) (toi|l assistant|l ia|le modele)\\b",
+      "objet": "donner de nouvelles consignes à l'assistant"
+    },
+    {
+      "id": "INJ-04",
+      "regex": "\\b(note|message|consigne|instruction)s? (pour|a l intention de) (l assistant|l ia|le modele|le robot|muninn)\\b",
+      "objet": "message adressé à l'assistant (exemple de M-04)"
+    },
+    {
+      "id": "INJ-05",
+      "regex": "\\b(tu es|vous etes) (desormais|maintenant|a partir de maintenant)\\b",
+      "objet": "changer le rôle de l'assistant"
+    },
+    {
+      "id": "INJ-06",
+      "regex": "\\b(you are now|act as|pretend to be|jailbreak|developer mode|mode developpeur|dan mode)\\b",
+      "objet": "changer le rôle, formules connues"
+    },
+    {
+      "id": "INJ-07",
+      "regex": "\\b(marque|marquez|mets|mettez|indique|indiquez|coche|cochez)\\b.{0,40}\\b(verifie|verifies|valide|valides|controle|controles|confirme)\\b",
+      "objet": "forcer un statut de contrôle (CA-4, VE-22)"
+    },
+    {
+      "id": "INJ-08",
+      "regex": "\\b(revele|revelez|affiche|affichez|repete|repetez|donne|donnez|montre|montrez)\\b.{0,30}\\b(ta|tes|votre|vos|le|les) (consignes?|instructions?|prompt|regles?)\\b",
+      "objet": "extraire les consignes (M-09, VE-21)"
+    },
+    {
+      "id": "INJ-09",
+      "regex": "\\b(system prompt|prompt systeme|message systeme)\\b",
+      "objet": "viser le prompt système"
+    },
+    {
+      "id": "INJ-10",
+      "regex": "\\b(needs review|champs manquants|schema version|extraction status|transcript destroyed)\\b",
+      "objet": "dicter des champs du serveur (VE-22)"
+    },
+    {
+      "id": "INJ-11",
+      "regex": "\\b(ajoute|ajoutez|cree|creez)\\b.{0,30}\\b(une )?action\\b",
+      "objet": "ajouter une action (exemple de M-04)"
+    },
+    {
+      "id": "INJ-12",
+      "regex": "\\b(rends|reponds|renvoie) (uniquement|seulement) (le|un|du) json\\b",
+      "objet": "imposer une sortie"
+    }
+  ]
+}
