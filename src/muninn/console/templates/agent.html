@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block titre %}Muninn, agent{% endblock %}
+{% block contenu %}
+  <h1>Agent</h1>
+  <p>Un appel manqué, de la transcription au dossier ou au message : qualification de l'appel,
+  appels d'outils de l'agent, contrôles et garde-fous du serveur. Données synthétiques ; le
+  brouillon est montré en clair et rien n'est stocké (écart P-03).</p>
+
+  <form method="post" action="/agent/executer">
+    <input type="hidden" name="messages" value="{{ messages_json }}">
+    <fieldset>
+      <legend>Un appel</legend>
+      <p class="aide">Choisir un scénario du jeu synthétique, ou coller une transcription.</p>
+      <div role="radiogroup" aria-label="Source de l'appel">
+        <label><input type="radio" name="mode" value="scenario" {% if mode == "scenario" %}checked{% endif %} style="width:auto"> Scénario</label>
+        <label><input type="radio" name="mode" value="transcript" {% if mode == "transcript" %}checked{% endif %} style="width:auto"> Transcription saisie</label>
+      </div>
+      <label for="scenario_id">Scénario</label>
+      <select id="scenario_id" name="scenario_id">
+        {% for code, libelle in groupes.items() %}
+        <optgroup label="{{ libelle }}">
+          {% for s in scenarios if s.groupe == code %}
+          <option value="{{ s.id }}" {% if s.id == scenario_id %}selected{% endif %}>{{ s.id }} : {{ s.libelle }}</option>
+          {% endfor %}
+        </optgroup>
+        {% endfor %}
+      </select>
+      <label for="transcript">Transcription (8 000 caractères au plus)</label>
+      <textarea id="transcript" name="transcript" rows="5" maxlength="8000">{{ transcript }}</textarea>
+      <label for="trade">Métier de l'artisan</label>
+      <select id="trade" name="trade">
+        {% for m in metiers %}<option value="{{ m }}" {% if m == trade %}selected{% endif %}>{{ m }}</option>{% endfor %}
+      </select>
+      <label for="caller_number">Numéro présenté (facultatif, format +33…)</label>
+      <input id="caller_number" name="caller_number" value="{{ caller_number }}" maxlength="20" autocomplete="off">
+      <button type="submit">Traiter l'appel</button>
+    </fieldset>
+  </form>
+
+  <form method="post" action="/agent/lot">
+    <input type="hidden" name="messages" value="{{ messages_json }}">
+    <fieldset>
+      <legend>Les 8 scénarios d'un groupe</legend>
+      <p class="aide">Joue les 8 scénarios l'un après l'autre (environ une à deux minutes) et
+      rend le bilan de conformité. Chaque scénario appelle le modèle : la limite de débit
+      interrompt un second lot lancé dans la même minute.</p>
+      <label for="groupe">Groupe</label>
+      <select id="groupe" name="groupe">
+        <option value="annexe_a">{{ groupes.annexe_a }}</option>
+        <option value="qualification">{{ groupes.qualification }}</option>
+      </select>
+      <button type="submit">Jouer les 8 scénarios</button>
+    </fieldset>
+  </form>
+
+  <section aria-live="polite"{% if erreur or lot or run %} aria-labelledby="titre-resultat"{% endif %}>
+  {% if erreur %}
+    <h2 id="titre-resultat">Refus</h2>
+    <div class="erreur" role="alert">
+      <p>{{ erreur.message }}</p>
+      <p class="aide">Code <code>{{ erreur.code }}</code>{% if erreur.request_id %} ; requête <code>{{ erreur.request_id }}</code>{% endif %}{% if erreur.retry_after_s %} ; réessayer dans {{ erreur.retry_after_s }} s{% endif %}.</p>
+    </div>
+  {% elif lot %}
+    <h2 id="titre-resultat">Bilan : {{ lot.conformes }} sur {{ lot.total }} conformes</h2>
+    <table>
+      <caption>{{ groupes[lot.groupe] }}, coût {{ "%.4f" | format(lot.cout / 1000000) }} €</caption>
+      <thead><tr><th scope="col">Scénario</th><th scope="col">Issue</th><th scope="col">Catégorie</th><th scope="col">Conformité</th><th scope="col">Garde-fous</th><th scope="col">Durée</th></tr></thead>
+      <tbody>
+      {% for l in lot.lignes %}
+        <tr><th scope="row">{{ l.id }} : {{ l.libelle }}</th><td>{{ l.issue }}</td>
+          <td>{{ categories.get(l.categorie, "aucune") }}</td>
+          <td>{% if l.conformite.compliant %}conforme{% else %}écarts : {{ l.conformite.gaps | join(", ") }}{% endif %}</td>
+          <td>{% for g in l.garde_fous %}{{ g }}{% if not loop.last %}, {% endif %}{% else %}aucun{% endfor %}</td>
+          <td>{{ (l.duree / 1000) | round(1) }} s</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% if lot.arret %}
+    <div class="erreur" role="alert"><p>Lot interrompu au scénario {{ lot.arret.scenario }} : {{ lot.arret.message }}{% if lot.arret.retry_after_s %} Réessayer dans {{ lot.arret.retry_after_s }} s.{% endif %}</p></div>
+    {% endif %}
+  {% elif run %}
+    <h2 id="titre-resultat">Résultat : {{ {"dossier": "un dossier", "message": "un message", "trace": "une trace sans contenu"}[run.issue] }}</h2>
+    {% if run.simulated_model %}<div class="refus"><p>Modèle simulé : il obéit à l'injection, pour montrer ce que le serveur en fait.</p></div>{% endif %}
+    {% if run.conformity %}
+    <div class="{{ 'reponse' if run.conformity.compliant else 'refus' }}"><p>Scénario {{ run.scenario_id }} : {% if run.conformity.compliant %}conforme à l'attendu{% else %}écarts : {{ run.conformity.gaps | join(", ") }}{% endif %}.</p></div>
+    {% endif %}
+
+    {% if run.qualification %}
+    <h3>Qualification</h3>
+    <dl>
+      <dt>Catégorie</dt><dd>{{ categories[run.qualification.categorie] }}</dd>
+      <dt>Proposée par le modèle</dt><dd>{{ categories.get(run.qualification.categorie_modele, "aucune") }}, confiance {{ run.qualification.confiance }}</dd>
+      <dt>Règle du serveur</dt><dd>{{ run.qualification.regle or "aucune" }}</dd>
+      <dt>Sécurité (gaz)</dt><dd>{{ "oui" if run.qualification.securite else "non" }}</dd>
+    </dl>
+    {% endif %}
+
+    {% if run.draft %}
+    {% set d = run.draft %}{% set e = run.envelope %}
+    <h3>Dossier {% if e.a_verifier %}à vérifier{% else %}sans alerte{% endif %}</h3>
+    {% if e.motifs %}<p><strong>Motifs :</strong> {% for m in e.motifs %}{{ motifs.get(m, m) }}{% if not loop.last %} ; {% endif %}{% endfor %}.</p>{% endif %}
+    <table>
+      <caption>Champs du brouillon</caption>
+      <thead><tr><th scope="col">Champ</th><th scope="col">Valeur</th><th scope="col">Confiance</th><th scope="col">Contrôle et provenance</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Nom</th><td>{{ d.client.nom.value or "absent" }}</td><td>{{ d.client.nom.confidence }}</td><td></td></tr>
+        <tr><th scope="row">Prénom</th><td>{{ d.client.prenom.value or "absent" }}</td><td>{{ d.client.prenom.confidence }}</td><td></td></tr>
+        <tr><th scope="row">Téléphone</th><td>{{ d.client.telephone.value or "absent" }}</td><td>{{ d.client.telephone.confidence }}</td><td>{{ {"spoken": "dicté", "caller_id": "numéro présenté"}.get(d.client.telephone.origin, "") }}</td></tr>
+        <tr><th scope="row">Rue</th><td>{{ d.client.adresse.rue.value or "absent" }}</td><td>{{ d.client.adresse.rue.confidence }}</td><td></td></tr>
+        <tr><th scope="row">Code postal</th><td>{{ d.client.adresse.code_postal.value or "absent" }}</td><td>{{ d.client.adresse.code_postal.confidence }}</td>
+          <td>{{ d.checks["client.adresse.code_postal"].status }} ; {{ e.provenance["client.adresse.code_postal"].origine }} ({{ e.provenance["client.adresse.code_postal"].auteur }})</td></tr>
+        <tr><th scope="row">Commune</th><td>{{ d.client.adresse.commune.value or "absent" }}</td><td>{{ d.client.adresse.commune.confidence }}</td>
+          <td>{{ d.checks["client.adresse.commune"].status }} ; {{ e.provenance["client.adresse.commune"].origine }} ({{ e.provenance["client.adresse.commune"].auteur }}){% if e.departement %} ; département {{ e.departement }}{% endif %}</td></tr>
+        <tr><th scope="row">Objet</th><td>{{ d.demande.objet_court.value or "absent" }}</td><td>{{ d.demande.objet_court.confidence }}</td><td></td></tr>
+        <tr><th scope="row">Description</th><td>{{ d.demande.description.value or "absent" }}</td><td>{{ d.demande.description.confidence }}</td><td></td></tr>
+        <tr><th scope="row">Urgence</th><td>{{ d.demande.urgence }}</td><td></td><td></td></tr>
+      </tbody>
+    </table>
+    {% if e.candidates %}
+    <table>
+      <caption>Communes candidates (choix de l'artisan)</caption>
+      <thead><tr><th scope="col">Commune</th><th scope="col">Code INSEE</th><th scope="col">Département</th><th scope="col">Codes postaux</th></tr></thead>
+      <tbody>{% for c in e.candidates %}<tr><td>{{ c.nom }}</td><td><code>{{ c.code_insee }}</code></td><td>{{ c.departement }}</td><td>{{ c.codes_postaux | join(", ") }}</td></tr>{% endfor %}</tbody>
+    </table>
+    {% endif %}
+    <p><strong>Actions :</strong> {% for a in d.actions %}{{ a.libelle }}{% if not loop.last %} ; {% endif %}{% else %}aucune{% endfor %}.</p>
+    {% endif %}
+
+    {% if run.message %}
+    {% set m = run.message %}
+    <h3>Message ({{ categories[m.categorie] }})</h3>
+    <dl>
+      <dt>Appelant</dt><dd>{{ m.nom_appelant or "non dit" }}{% if m.societe %}, {{ m.societe }}{% endif %}</dd>
+      <dt>Rappel</dt><dd>{{ m.numero_rappel or "numéro masqué" }}{% if m.numero_dicte %} ; numéro dicté {{ m.numero_dicte }}{% endif %} ; {{ "rappel souhaité" if m.rappel_souhaite else "rappel non demandé" }}</dd>
+      <dt>Message</dt><dd>{{ m.message }}</dd>
+      <dt>Sécurité (gaz)</dt><dd>{{ "oui" if m.securite else "non" }}</dd>
+    </dl>
+    {% endif %}
+
+    {% if run.trace %}
+    <h3>Trace sans contenu</h3>
+    <p>Numéro {{ run.trace.numero_presente or "masqué" }} ; motif {{ run.trace.motif }}.</p>
+    {% endif %}
+
+    <h3>Appels d'outils de l'agent</h3>
+    {% if run.tool_calls %}
+    <table>
+      <caption>{{ run.tool_calls | length }} appel(s){% if run.tool_limit_reached %} ; borne atteinte, appels suivants refusés{% endif %}</caption>
+      <thead><tr><th scope="col">Outil</th><th scope="col">Statut</th><th scope="col">Rendu</th><th scope="col">Durée</th></tr></thead>
+      <tbody>{% for a in run.tool_calls %}<tr><td><code>{{ a.nom }}</code></td><td>{{ a.statut }}</td><td>{{ a.communes | join(" ; ") or a.terme or "" }}</td><td>{{ a.duree_ms }} ms</td></tr>{% endfor %}</tbody>
+    </table>
+    {% else %}<p>Aucun.</p>{% endif %}
+
+    <h3>Garde-fous déclenchés</h3>
+    {% if run.guardrails %}<ul>{% for g in run.guardrails %}<li>{{ garde_fous.get(g, g) }}</li>{% endfor %}</ul>{% else %}<p>Aucun.</p>{% endif %}
+
+    <h3>Exécution</h3>
+    <dl>
+      <dt>Requête</dt><dd>{{ run.request_id }}</dd>
+      <dt>Durée</dt><dd>{{ run.latency_ms }} ms</dd>
+      <dt>Coût</dt><dd>{{ "%.4f" | format(((run.qualification.cost_micro_eur if run.qualification else 0) + (run.run.cost_micro_eur if run.run else 0)) / 1000000) }} €</dd>
+      {% if run.run %}<dt>Statut de l'extraction</dt><dd>{{ run.run.status }}</dd>{% endif %}
+    </dl>
+  {% endif %}
+  </section>
+
+  <section aria-labelledby="titre-messages">
+    <h2 id="titre-messages">Messages</h2>
+    {% if messages %}
+    <table>
+      <caption>Messages reçus pendant cette visite (fournisseurs, proches, démarchage), du plus récent au plus ancien</caption>
+      <thead><tr><th scope="col">Catégorie</th><th scope="col">Appelant</th><th scope="col">Rappel</th><th scope="col">Message</th></tr></thead>
+      <tbody>{% for m in messages %}<tr><td>{{ categories.get(m.categorie, m.categorie) }}{% if m.securite %} (sécurité){% endif %}</td><td>{{ m.nom_appelant or "non dit" }}{% if m.societe %}, {{ m.societe }}{% endif %}</td><td>{{ m.numero_rappel or "masqué" }}</td><td>{{ m.message }}</td></tr>{% endfor %}</tbody>
+    </table>
+    {% else %}<p>Aucun message pour l'instant.</p>{% endif %}
+  </section>
+{% endblock %}

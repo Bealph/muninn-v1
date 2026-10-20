@@ -82,3 +82,10 @@ action du porteur dans le portail Foundry.
 Risque accepté : un détournement que le filtre bloque donne un refus, et non un
 dossier « à vérifier ». Pour un artisan, c'est un appel perdu au lieu d'un dossier signalé. Avec le
 bloc délimité, c'est rare (0 sur 24 à l'étape 4), et le compteur de refus sera un signal du sprint 5.
+
+## 5. Mise à jour du 20 octobre 2026, après l'étape 8
+
+Le constat de la section 4 ne tient pas : la décision du filtre sur SC-05 dépend d'un détail sans
+rapport (la date inscrite dans le message), et SC-05 est bloqué avec la date du jour. Détail et
+mesures : `api-ecran-agent.md`, section 4. D-70 est à revoir ; D-73 couvre le blocage de la seule
+qualification.

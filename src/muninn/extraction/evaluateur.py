@@ -331,7 +331,9 @@ def correspondre(
             raise ValueError("rien à chercher")
         reponse = referentiels.communes(corps)
         ref_communes, ref_codes = _version(reponse, "SRC-07"), _version(reponse, "SRC-06")
-    except (httpx.HTTPError, ValueError, KeyError, TypeError) as erreur:
+    except Exception as erreur:  # noqa: BLE001 (toute panne : contrôle « non contrôlé », D-29)
+        if not isinstance(erreur, httpx.HTTPError | ValueError | KeyError | TypeError):
+            journal.warning("evaluateur.referentiels_erreur type=%s", type(erreur).__name__)
         raison: RaisonNonControle = (
             "timeout" if isinstance(erreur, httpx.TimeoutException) else "service_unavailable"
         )

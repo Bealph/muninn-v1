@@ -1,16 +1,18 @@
 """Point d'entrée de l'API Muninn."""
 
 import logging
-from functools import lru_cache
 from typing import Annotated, Literal
 
 from fastapi import Depends, FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from muninn import __version__
+from muninn.api import erreurs
+from muninn.api.agent import routeur as routeur_agent
+from muninn.api.dependances import get_fournisseur, get_limiteur
 from muninn.api.limites import LimiteurDebit
 from muninn.core.config import get_settings
-from muninn.llm.fournisseur import ErreurFournisseur, FournisseurLLM, construire_fournisseur
+from muninn.llm.fournisseur import ErreurFournisseur, FournisseurLLM
 from muninn.referentiels.routes import routeur as routeur_referentiels
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
@@ -18,19 +20,10 @@ journal = logging.getLogger(__name__)
 
 app = FastAPI(title="Muninn API", version=__version__)
 app.include_router(routeur_referentiels)
+app.include_router(routeur_agent)
+erreurs.installer(app)
 
-
-@lru_cache
-def get_fournisseur() -> FournisseurLLM:
-    """Fournisseur LLM unique par processus ; remplacé par le faux dans les tests."""
-    return construire_fournisseur(get_settings())
-
-
-@lru_cache
-def get_limiteur() -> LimiteurDebit:
-    """Limite globale des appels au LLM, unique par processus."""
-    settings = get_settings()
-    return LimiteurDebit([(60, settings.llm_limite_minute), (86_400, settings.llm_limite_jour)])
+__all__ = ["app", "get_fournisseur", "get_limiteur"]
 
 
 class QuestionLLM(BaseModel):

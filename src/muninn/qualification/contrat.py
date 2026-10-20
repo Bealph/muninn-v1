@@ -15,7 +15,7 @@ Categorie = Literal["demande_service", "indetermine", "fournisseur", "personnel"
 CategorieMessage = Literal["fournisseur", "personnel", "autre"]
 CATEGORIES_MESSAGE: frozenset[str] = frozenset({"fournisseur", "personnel", "autre"})
 RegleServeur = Literal[
-    "seuil", "retrogradation", "detournement", "modele_indisponible", "sortie_invalide"
+    "seuil", "retrogradation", "detournement", "modele_indisponible", "sortie_invalide", "filtre"
 ]
 NumeroE164 = Annotated[str, Field(pattern=MOTIF_TELEPHONE.pattern)]
 LONGUEUR_MESSAGE = 500

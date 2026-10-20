@@ -156,3 +156,6 @@ def executer_outil(referentiels: Referentiels, nom: str, arguments_json: str) ->
         return resultat("delai_depasse", {"erreur": "référentiel indisponible (délai dépassé)"})
     except (httpx.HTTPError, ValueError, KeyError, TypeError):
         return resultat("indisponible", {"erreur": "référentiel indisponible"})
+    except Exception as erreur:  # noqa: BLE001 (l'agent garde la main, quelle que soit la panne)
+        journal.warning("agent.outil_erreur type=%s", type(erreur).__name__)
+        return resultat("indisponible", {"erreur": "référentiel indisponible"})

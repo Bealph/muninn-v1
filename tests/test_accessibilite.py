@@ -55,3 +55,37 @@ def test_page_erreur_accessible(navigateur: Browser, client_console: TestClient)
     assert 'role="alert"' in html
     nombre, rapport = _violations(navigateur, html)
     assert nombre == 0, rapport
+
+
+@pytest.mark.parametrize(
+    ("chemin", "donnees"),
+    [
+        ("/agent", None),
+        ("/agent/executer", {"mode": "scenario", "scenario_id": "P4-perimetre"}),
+        ("/agent/executer", {"mode": "scenario", "scenario_id": "SC-Q2"}),
+        ("/agent/executer", {"mode": "transcript", "transcript": ""}),
+        ("/agent/lot", {"groupe": "qualification"}),
+    ],
+    ids=["formulaire", "dossier-et-outils", "dossier-faux-modele", "refus", "lot"],
+)
+def test_ecran_agent_accessible(
+    navigateur: Browser, client_console: TestClient, chemin: str, donnees: dict[str, str] | None
+) -> None:
+    """États de l'écran « Agent » (D-62) : formulaire, dossier, refus, bilan d'un lot."""
+    from muninn.api.agent import get_referentiels
+    from muninn.api.main import app as api
+
+    class HorsLigne:
+        def communes(self, corps: dict[str, str]) -> dict[str, object]:
+            raise ConnectionError
+
+        def termes(self, corps: dict[str, str]) -> dict[str, object]:
+            raise ConnectionError
+
+    api.dependency_overrides[get_referentiels] = HorsLigne
+    page = (
+        client_console.get(chemin) if donnees is None else client_console.post(chemin, data=donnees)
+    )
+    assert page.status_code == 200
+    nombre, rapport = _violations(navigateur, page.text)
+    assert nombre == 0, rapport

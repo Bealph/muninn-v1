@@ -289,3 +289,18 @@ def test_normalisation_benigne_d_une_valeur_nulle() -> None:
         [reponse_faux(contenu=json.dumps(json.loads(sortie()) | {"client": donnees["client"]}))]
     )
     assert r.statut == "complete" and r.tentatives == 1
+
+
+def test_panne_imprevue_d_un_referentiel_ne_leve_pas() -> None:
+    """Toute panne d'un référentiel, même hors httpx, donne « indisponible » (D-29)."""
+    from muninn.extraction.outils import executer_outil
+
+    class EnPanne:
+        def communes(self, corps: dict[str, str]) -> dict[str, object]:
+            raise ConnectionError
+
+        def termes(self, corps: dict[str, str]) -> dict[str, object]:
+            raise OSError
+
+    r = executer_outil(EnPanne(), "chercher_communes", '{"nom": "Montreuil", "code_postal": null}')
+    assert r.statut == "indisponible"

@@ -101,10 +101,10 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 8 : l'API et l'écran « Agent » (C9, D-62)
 
-- [ ] `POST /v1/extract/text` et `POST /v1/demo/runs` (scénario ou transcription) ; format d'erreur du contrat, `Cache-Control: no-store` ; limite de débit ; OpenAPI dans Swagger.
-- [ ] Écran « Agent » : choisir un scénario ou coller un texte, voir la qualification, le dossier, les statuts et la provenance, les appels d'outils, les garde-fous déclenchés, le refus et son motif ; liste « Messages ».
-- [ ] Périmètre d'accès démontré : outil hors liste refusé, appel au-delà de la borne arrêté, événement journalisé (critère P4).
-- [ ] Contrôle d'accessibilité axe-core (WCAG 2.2 AA) sur les états de l'écran, en CI.
+- [x] `POST /v1/extract/text` et `POST /v1/demo/runs` (scénario ou transcription) ; format d'erreur du contrat, `Cache-Control: no-store` ; limite de débit ; OpenAPI dans Swagger. Preuve : `tests/test_api_agent.py` ; `api-ecran-agent.md`.
+- [x] Écran « Agent » : choisir un scénario ou coller un texte, voir la qualification, le dossier, les statuts et la provenance, les appels d'outils, les garde-fous déclenchés, le refus et son motif ; liste « Messages ». Plus : « Jouer les 8 scénarios » d'un groupe, avec le bilan de conformité (demande du porteur). Preuve : `tests/test_console_agent.py`.
+- [x] Périmètre d'accès démontré : outil hors liste refusé, appel au-delà de la borne arrêté, événement journalisé (critère P4). Scénario `P4-perimetre` (modèle simulé qui obéit à l'injection). Preuve : `test_perimetre_p4_outil_refuse_et_borne`.
+- [x] Contrôle d'accessibilité axe-core (WCAG 2.2 AA) sur les états de l'écran, en CI. Cinq états de l'écran. Preuve : `tests/test_accessibilite.py::test_ecran_agent_accessible`.
 
 ### Étape 9 : l'évaluation (V-08, C12, C13)
 
@@ -134,6 +134,7 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 ### Étape 13 : préparer le sprint 5
 
 - [ ] Signaux à surveiller, avec leur source, leur seuil et leur alerte : latence (extraction, démo), coût (par extraction, budget), taux de refus (filtre, règles, qualification), erreurs de la composante (fournisseur, validation, relance, borne d'outils, référentiels indisponibles), part à vérifier. Valeurs de référence mesurées pendant ce sprint. Preuve : `signaux-sprint-5.md`.
+- [ ] Demandes du porteur pour le sprint 5 (20 octobre 2026) : appel simulé audible, au plus près d'un vrai appel (sonnerie, attente avant que Muninn décroche, D-68), puis transcription et dossier, avec V-12 et l'avenant D-74 de CA-8 ; suivi animé du déroulé, étape par étape (qualification, outils, contrôles, garde-fous, dossier), rejoué après coup à partir de la liste chronologique des étapes rendue par l'API, avec l'indication « rejoué » et sans animation si l'utilisateur la refuse.
 
 ### Étape 14 : clôture (rituel de fin de sprint)
 

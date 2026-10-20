@@ -16,13 +16,12 @@ from pathlib import Path
 from typing import Any
 
 from muninn.core.config import Settings
-from muninn.extraction.entree import normaliser
+from muninn.demo.verification import verifier_qualification
 from muninn.extraction.evaluateur import ContenuRefuse
 from muninn.extraction.outils import ClientReferentiels
 from muninn.extraction.paquet import charger_paquet
 from muninn.llm.fournisseur import construire_fournisseur
 from muninn.qualification.qualificateur import (
-    Traitement,
     charger_paquet_qualification,
     traiter_appel,
 )
@@ -34,33 +33,6 @@ API_REFERENTIELS = (
     "https://ca-muninn-api-prod.graybeach-70019748.francecentral.azurecontainerapps.io"
 )
 PLAFOND_MICRO_EUR = 500_000  # 0,50 €, dans le plafond du sprint (D-64)
-
-
-def verifier(attendu: dict[str, Any], t: Traitement) -> list[str]:
-    """Écarts au regard de CA-7 ; vide si conforme."""
-    ecarts: list[str] = []
-
-    def exiger(condition: bool, nom: str) -> None:
-        if not condition:
-            ecarts.append(nom)
-
-    m, x = t.message, t.extraction
-    if attendu.get("issue") == "message":
-        exiger(m is not None and x is None, "message sans dossier")
-        if m is not None:
-            exiger(m.categorie == attendu["categorie"], f"categorie {attendu['categorie']}")
-            exiger(attendu["nom_contient"] in normaliser(m.nom_appelant or ""), "nom dit")
-            exiger(m.numero_rappel == attendu["numero_rappel"], "numero presente")
-    if attendu.get("issue") == "dossier":
-        exiger(x is not None and m is None, "dossier, jamais un message")
-    if attendu.get("a_verifier"):
-        exiger(x is not None and x.enveloppe.a_verifier, "a verifier")
-    if attendu.get("securite"):
-        securite = (m is not None and m.securite) or (
-            x is not None and x.brouillon.demande.urgence == "securite"
-        )
-        exiger(securite, "urgence de securite")
-    return ecarts
 
 
 def main() -> None:
@@ -94,7 +66,7 @@ def main() -> None:
                 t.extraction.agent.cout_micro_eur if t.extraction and t.extraction.agent else 0
             )
             cout += cout_ligne
-            ecarts = verifier(s["attendu"], t)
+            ecarts = verifier_qualification(s["attendu"], t)
             lignes.append(
                 {
                     "scenario": s["id"],

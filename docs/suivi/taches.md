@@ -89,8 +89,9 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-19 | Sprint 4, étape 4 : évaluateur du serveur (correspondance D-69, contrôles, garde-fous, enveloppe) ; essai réel 21 sur 24                                                                       | PR n° 130                                                              |
 | 2026-10-19 | Sprint 4, étape 5 : garde-fous d'entrée par règles ; détection 20 sur 20, faux positifs 0 sur 20 ; D-70 proposée                                                                               | PR n° 132                                                              |
 | 2026-10-20 | Décision D-70 : filtre de contenu standard gardé, D-65 remplacée                                                                                                                               | PR n° 134                                                              |
-| 2026-10-20 | Sprint 4, étape 6 : qualification des appels ; D-71 et D-72 (trame v1.2) ; CA-7 en local 24 sur 24, écart SC-Q8 renvoyé à l'étape 9                                                            | PR n° 136 (en revue)                                                   |
-| 2026-10-20 | Sprint 4, étape 7 : garde-fous de sortie (fuite, invention étendue, hors rôle, refus journalisés) ; table de conformité, 26 engagements                                                        | PR n° 139 (en revue)                                                   |
+| 2026-10-20 | Sprint 4, étape 6 : qualification des appels ; D-71 et D-72 (trame v1.2) ; CA-7 en local 24 sur 24, écart SC-Q8 renvoyé à l'étape 9                                                            | PR n° 136                                                              |
+| 2026-10-20 | Sprint 4, étape 7 : garde-fous de sortie (fuite, invention étendue, hors rôle, refus journalisés) ; table de conformité, 26 engagements                                                        | PR n° 139                                                              |
+| 2026-10-20 | Sprint 4, étape 8 : API de l'agent et écran « Agent » (lots de 8 scénarios, P4) ; D-73, D-74                                                                                                   | PR n° 141 (en revue)                                                   |
 
 ## À faire
 

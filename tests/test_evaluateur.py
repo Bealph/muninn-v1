@@ -465,3 +465,12 @@ def test_refus_journalise_avec_request_id_sans_contenu(caplog: pytest.LogCapture
 TRANSCRIPTION_COMPLETE = (
     "Paul Martin, 12 rue des Lilas à Montreuil, 93100, fuite sous l'évier, au 06 99 00 00 01."
 )
+
+
+def test_panne_imprevue_des_referentiels_non_controle() -> None:
+    b, e = evaluer_cas(
+        resultat(sortie("Montreuil", "93100")),
+        TRANSCRIPTION_COMPLETE,
+        Referentiels(panne=ConnectionError()),
+    )
+    assert b.checks.commune.status == "not_checked" and "non_controle" in e.motifs

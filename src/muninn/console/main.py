@@ -3,6 +3,7 @@
 La console ne parle qu'à l'API, jamais directement au LLM.
 """
 
+import json
 from collections.abc import Callable, Iterator
 from datetime import UTC, datetime
 from pathlib import Path
@@ -226,3 +227,217 @@ def referentiels_marche(
         erreur=erreur,
         rappel=f"marché, métier {metier}",
     )
+
+
+# --- Écran « Agent » (D-62, sprint 4, étape 8) -------------------------------------------------
+
+DELAI_EXECUTION_S = 90.0  # une exécution appelle le modèle plusieurs fois, plus les outils
+MESSAGES_GARDES = 10
+REFUS_DU_SCENARIO = ("content_refused", "content_unprocessable", "validation_failed")
+GROUPES = {
+    "annexe_a": "Annexe A : extraction du dossier",
+    "qualification": "Qualification des appels (CA-7)",
+    "perimetre": "Périmètre d'accès (P4, modèle simulé)",
+}
+CATEGORIES = {
+    "demande_service": "demande de service",
+    "indetermine": "indéterminé",
+    "fournisseur": "fournisseur",
+    "personnel": "personnel",
+    "autre": "autre (démarchage, erreur)",
+}
+GARDE_FOUS = {
+    "gaz": "gaz : urgence de sécurité, orientation en tête",
+    "sante": "santé : information retirée",
+    "invention": "invention : valeur non dite retirée",
+    "detournement": "détournement suspecté",
+    "fuite": "fuite : texte vidé",
+    "hors_role": "hors rôle : lien ou balisage retiré",
+}
+MOTIFS = {
+    "extraction_incomplete": "extraction incomplète",
+    "brouillon_de_secours": "brouillon de secours",
+    "commune_ambigue": "commune ambiguë",
+    "code_postal_ambigu": "code postal ambigu",
+    "incoherent": "commune et code postal incohérents",
+    "commune_inconnue": "commune inconnue",
+    "non_controle": "contrôle impossible",
+    "invention_retiree": "invention retirée",
+    "detournement_suspect": "détournement suspect",
+    "champ_incertain": "champ clé incertain",
+    "choix_sans_indice": "choix entre homonymes sans indice",
+    "qualification_indeterminee": "qualification indéterminée",
+    "fuite_retiree": "fuite retirée",
+}
+CHAMPS_MESSAGE = (
+    "categorie",
+    "nom_appelant",
+    "societe",
+    "numero_rappel",
+    "numero_dicte",
+    "message",
+    "rappel_souhaite",
+    "securite",
+    "recu_le",
+)
+
+
+def _scenarios(client: httpx.Client) -> list[dict[str, Any]]:
+    """Liste des scénarios, demandée à l'API (la console ne parle qu'à l'API)."""
+    donnees, _ = _interroger(lambda: client.get("/v1/demo/scenarios"))
+    return list(donnees["scenarios"]) if donnees else []
+
+
+def _messages_recus(brut: str) -> list[dict[str, Any]]:
+    """Messages des exécutions précédentes, renvoyés par le formulaire : rien n'est stocké."""
+    try:
+        valeur = json.loads(brut) if brut else []
+    except ValueError:
+        return []
+    if not isinstance(valeur, list):
+        return []
+    return [{k: m.get(k) for k in CHAMPS_MESSAGE} for m in valeur if isinstance(m, dict)][
+        :MESSAGES_GARDES
+    ]
+
+
+def _executer(
+    client: httpx.Client, corps: dict[str, Any]
+) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    """Une exécution de `/v1/demo/runs` ; rend la réponse, ou l'erreur au format du contrat."""
+    try:
+        reponse = client.post("/v1/demo/runs", json=corps, timeout=DELAI_EXECUTION_S)
+        donnees: dict[str, Any] = reponse.json()
+    except (httpx.HTTPError, ValueError):
+        return None, {"code": "api_unreachable", "message": "L'API est injoignable."}
+    if reponse.status_code == 200:
+        return donnees, None
+    return None, {
+        "code": donnees.get("code", f"http_{reponse.status_code}"),
+        "message": donnees.get("message", f"Erreur {reponse.status_code}."),
+        "request_id": donnees.get("request_id"),
+        "retry_after_s": donnees.get("retry_after_s"),
+    }
+
+
+def _message_resume(run: dict[str, Any]) -> dict[str, Any] | None:
+    m = run.get("message")
+    return {k: m.get(k) for k in CHAMPS_MESSAGE} if m else None
+
+
+def _page_agent(request: Request, client: httpx.Client, **contexte: Any) -> HTMLResponse:
+    messages: list[dict[str, Any]] = contexte.pop("messages", [])
+    valeurs: dict[str, Any] = {
+        "page": "agent",
+        "scenarios": _scenarios(client),
+        "groupes": GROUPES,
+        "categories": CATEGORIES,
+        "garde_fous": GARDE_FOUS,
+        "motifs": MOTIFS,
+        "metiers": METIERS,
+        "mode": "scenario",
+        "scenario_id": "SC-01",
+        "transcript": "",
+        "trade": "plomberie",
+        "caller_number": "",
+        "run": None,
+        "erreur": None,
+        "lot": None,
+        "messages": messages,
+        "messages_json": json.dumps(messages, ensure_ascii=False),
+    }
+    return gabarits.TemplateResponse(request, "agent.html", valeurs | contexte)
+
+
+@app.get("/agent", response_class=HTMLResponse)
+def agent(request: Request, client: ClientAPI) -> HTMLResponse:
+    """Écran « Agent » : un scénario ou un texte, et tout ce que l'agent et le serveur ont fait."""
+    return _page_agent(request, client)
+
+
+@app.post("/agent/executer", response_class=HTMLResponse)
+def agent_executer(
+    request: Request,
+    client: ClientAPI,
+    mode: Annotated[str, Form(pattern="^(scenario|transcript)$")] = "scenario",
+    scenario_id: Annotated[str, Form(max_length=40)] = "",
+    transcript: Annotated[str, Form(max_length=8000)] = "",
+    trade: Annotated[str, Form(max_length=40)] = "plomberie",
+    caller_number: Annotated[str, Form(max_length=20)] = "",
+    messages: Annotated[str, Form(max_length=20_000)] = "",
+) -> HTMLResponse:
+    """Une exécution : scénario du jeu synthétique, ou transcription saisie."""
+    corps: dict[str, Any] = {"mode": mode}
+    if mode == "scenario":
+        corps["scenario_id"] = scenario_id
+    else:
+        corps |= {"transcript": transcript, "trade": trade}
+        if caller_number.strip():
+            corps["caller_number"] = caller_number.strip()
+    run, erreur = _executer(client, corps)
+    recus = _messages_recus(messages)
+    if run and (resume := _message_resume(run)):
+        recus = [resume, *recus][:MESSAGES_GARDES]
+    return _page_agent(
+        request, client, run=run, erreur=erreur, messages=recus, mode=mode,
+        scenario_id=scenario_id, transcript=transcript, trade=trade, caller_number=caller_number,
+    )  # fmt: skip
+
+
+@app.post("/agent/lot", response_class=HTMLResponse)
+def agent_lot(
+    request: Request,
+    client: ClientAPI,
+    groupe: Annotated[str, Form(pattern="^(annexe_a|qualification)$")],
+    messages: Annotated[str, Form(max_length=20_000)] = "",
+) -> HTMLResponse:
+    """Joue les 8 scénarios d'un groupe, l'un après l'autre, et rend le bilan de conformité."""
+    lignes: list[dict[str, Any]] = []
+    recus = _messages_recus(messages)
+    arret: dict[str, Any] | None = None
+    du_groupe = [s for s in _scenarios(client) if s["groupe"] == groupe]
+    for s in du_groupe:
+        run, erreur = _executer(client, {"mode": "scenario", "scenario_id": s["id"]})
+        if run is None and erreur and erreur["code"] in REFUS_DU_SCENARIO:
+            # Un refus est le résultat du scénario, pas une panne : le lot continue.
+            lignes.append(
+                {
+                    "id": s["id"],
+                    "libelle": s["libelle"],
+                    "issue": "refus",
+                    "categorie": None,
+                    "conformite": {"compliant": False, "gaps": [f"refus {erreur['code']}"]},
+                    "garde_fous": [],
+                    "cout": 0,
+                    "duree": 0,
+                }
+            )
+            continue
+        if run is None:
+            arret = (erreur or {}) | {"scenario": s["id"]}
+            break
+        if resume := _message_resume(run):
+            recus = [resume, *recus][:MESSAGES_GARDES]
+        q = run.get("qualification") or {}
+        cout = (q.get("cost_micro_eur") or 0) + ((run.get("run") or {}).get("cost_micro_eur") or 0)
+        lignes.append(
+            {
+                "id": s["id"],
+                "libelle": s["libelle"],
+                "issue": run["issue"],
+                "categorie": q.get("categorie"),
+                "conformite": run.get("conformity") or {},
+                "garde_fous": run.get("guardrails", []),
+                "cout": cout,
+                "duree": run.get("latency_ms", 0),
+            }
+        )
+    lot = {
+        "groupe": groupe,
+        "lignes": lignes,
+        "conformes": sum(bool(ligne["conformite"].get("compliant")) for ligne in lignes),
+        "total": len(du_groupe),
+        "cout": sum(ligne["cout"] for ligne in lignes),
+        "arret": arret,
+    }
+    return _page_agent(request, client, lot=lot, messages=recus)

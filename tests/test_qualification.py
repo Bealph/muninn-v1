@@ -131,9 +131,20 @@ def test_doute_technique_donne_un_dossier(reponse: Any, regle: str) -> None:
     assert t.extraction is not None and t.message is None
 
 
-def test_refus_du_filtre() -> None:
+def test_filtre_sur_la_qualification_donne_un_dossier() -> None:
+    """D-73 : la qualification bloquée par le filtre ne refuse pas l'appel."""
+    t, _ = traiter("Appelant : Bonjour, rappelez-moi s'il vous plaît.", RefusContenu("filtre"))
+    assert t.qualification.categorie == "indetermine" and t.qualification.regle == "filtre"
+    assert t.extraction is not None and t.extraction.enveloppe.a_verifier
+
+
+def test_refus_si_l_extraction_est_bloquee_aussi() -> None:
     with pytest.raises(ContenuRefuse):
-        traiter("Appelant : Bonjour, rappelez-moi s'il vous plaît.", RefusContenu("filtre"))
+        traiter(
+            "Appelant : Bonjour, rappelez-moi s'il vous plaît.",
+            RefusContenu("filtre"),
+            RefusContenu("filtre"),
+        )
 
 
 def test_appel_sans_contenu_donne_une_trace() -> None:

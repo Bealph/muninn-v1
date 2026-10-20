@@ -4,7 +4,8 @@
    un dialogue, seules les paroles de l'appelant comptent.
 2. Classification par le LLM : une seule étape, schéma fermé, sans outil. Ce n'est pas un agent.
 3. Règles du serveur, qui appliquent l'asymétrie des erreurs (§4.2) ; dans le doute, un dossier :
-   - modèle indisponible ou sortie hors schéma : `indetermine` ;
+   - modèle indisponible, sortie hors schéma, ou qualification bloquée par le filtre de contenu
+     (D-73) : `indetermine` ;
    - confiance sous le seuil (0,7, hypothèse [H]) : `indetermine` ;
    - `personnel` ou `autre` avec une expression de besoin de la liste figée : `indetermine` ;
    - `personnel` ou `autre` avec un motif d'injection connu : `indetermine` ;
@@ -162,8 +163,10 @@ def qualifier(
         if reponse.refus_modele is not None:
             raise ValueError("refus du modèle")
         q.sortie = SortieQualification.model_validate_json(reponse.contenu or "")
-    except RefusContenu as refus:
-        raise ContenuRefuse() from refus
+    except RefusContenu:
+        # D-73 : un blocage du filtre sur la qualification ne refuse pas l'appel ; dans le doute,
+        # un dossier « à vérifier ». Le refus poli ne vient que si l'extraction est bloquée aussi.
+        q.regle = "filtre"
     except (DelaiDepasse, ErreurFournisseur):
         q.regle = "modele_indisponible"
     except (ValidationError, ValueError):

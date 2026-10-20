@@ -40,3 +40,17 @@ deux essais : 0,145 €.
 - La règle d'identité compare après normalisation : un nom mal transcrit puis corrigé par le modèle
   serait retiré. Aucun cas sur l'annexe A ; à suivre sur la partition de développement (étape 9).
 - Un code de porte dit sous la forme « code secret : 1234 » serait vidé comme un secret.
+
+## 4. Corrections après la revue de sécurité
+
+Deux défauts relevés par la revue automatique, corrigés avant la fusion (PR n° 139) :
+
+- **Témoin recollé par le nettoyage** : un caractère de balisage ou invisible glissé dans le jeton
+  le cachait, puis le nettoyage le recollait. Le nettoyage est répété jusqu'à un point fixe et la
+  fuite cherchée à chaque tour (`test_temoin_coupe_reconnu_apres_nettoyage`).
+- **Validation sans exception** : un texte raccourci pouvait passer sous une longueur minimale du
+  contrat. Les champs recalculés par le serveur sont mis à null ; en dernier recours, brouillon de
+  secours « à vérifier » (`test_validation_impossible_apres_assainissement`).
+
+Les fausses clés des tests sont assemblées à l'exécution : aucune ne figure en clair dans le dépôt,
+que la recherche de secrets de la CI parcourt en entier (PR n° 138 fermée pour cette raison).
