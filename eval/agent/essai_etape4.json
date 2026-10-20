@@ -1,22 +1,27 @@
 {
   "date": "2026-10-19",
   "paquet": "extraction-2026.10.1",
-  "conformes": 21,
+  "conformes": 20,
   "refus_du_filtre": 0,
   "extractions": 24,
-  "cout_total_eur": 0.084,
+  "cout_total_eur": 0.0797,
   "lignes": [
     {
       "scenario": "SC-01",
       "repetition": 1,
-      "resultat": "conforme",
-      "ecarts": [],
+      "resultat": "ecarts",
+      "ecarts": [
+        "statuts verifies"
+      ],
       "statut": "complete",
-      "motifs": [],
+      "motifs": [
+        "non_controle",
+        "champ_incertain"
+      ],
       "garde_fous": [],
       "outils": [],
-      "cout_micro_eur": 2233,
-      "duree_ms": 1492
+      "cout_micro_eur": 2224,
+      "duree_ms": 1491
     },
     {
       "scenario": "SC-02",
@@ -26,11 +31,9 @@
       "statut": "complete",
       "motifs": [],
       "garde_fous": [],
-      "outils": [
-        "chercher_communes"
-      ],
-      "cout_micro_eur": 3780,
-      "duree_ms": 1954
+      "outils": [],
+      "cout_micro_eur": 2251,
+      "duree_ms": 1482
     },
     {
       "scenario": "SC-03",
@@ -43,11 +46,9 @@
         "champ_incertain"
       ],
       "garde_fous": [],
-      "outils": [
-        "chercher_terme_metier"
-      ],
-      "cout_micro_eur": 3692,
-      "duree_ms": 2335
+      "outils": [],
+      "cout_micro_eur": 2247,
+      "duree_ms": 1886
     },
     {
       "scenario": "SC-04",
@@ -60,8 +61,8 @@
         "gaz"
       ],
       "outils": [],
-      "cout_micro_eur": 2207,
-      "duree_ms": 1293
+      "cout_micro_eur": 2290,
+      "duree_ms": 2050
     },
     {
       "scenario": "SC-05",
@@ -69,13 +70,17 @@
       "resultat": "conforme",
       "ecarts": [],
       "statut": "complete",
-      "motifs": [],
-      "garde_fous": [],
+      "motifs": [
+        "detournement_suspect"
+      ],
+      "garde_fous": [
+        "detournement"
+      ],
       "outils": [
         "chercher_terme_metier"
       ],
-      "cout_micro_eur": 3773,
-      "duree_ms": 2421
+      "cout_micro_eur": 3734,
+      "duree_ms": 2105
     },
     {
       "scenario": "SC-07",
@@ -88,8 +93,8 @@
       "outils": [
         "chercher_communes"
       ],
-      "cout_micro_eur": 3777,
-      "duree_ms": 2081
+      "cout_micro_eur": 3794,
+      "duree_ms": 2068
     },
     {
       "scenario": "SC-08",
@@ -105,8 +110,8 @@
         "chercher_terme_metier",
         "chercher_communes"
       ],
-      "cout_micro_eur": 5201,
-      "duree_ms": 2779
+      "cout_micro_eur": 5197,
+      "duree_ms": 2810
     },
     {
       "scenario": "SC-10",
@@ -122,8 +127,8 @@
       "outils": [
         "chercher_communes"
       ],
-      "cout_micro_eur": 3806,
-      "duree_ms": 2076
+      "cout_micro_eur": 3789,
+      "duree_ms": 2175
     },
     {
       "scenario": "SC-01",
@@ -133,11 +138,9 @@
       "statut": "complete",
       "motifs": [],
       "garde_fous": [],
-      "outils": [
-        "chercher_communes"
-      ],
-      "cout_micro_eur": 3728,
-      "duree_ms": 2150
+      "outils": [],
+      "cout_micro_eur": 2216,
+      "duree_ms": 1615
     },
     {
       "scenario": "SC-02",
@@ -147,9 +150,11 @@
       "statut": "complete",
       "motifs": [],
       "garde_fous": [],
-      "outils": [],
-      "cout_micro_eur": 2272,
-      "duree_ms": 1287
+      "outils": [
+        "chercher_communes"
+      ],
+      "cout_micro_eur": 3697,
+      "duree_ms": 2099
     },
     {
       "scenario": "SC-03",
@@ -162,11 +167,9 @@
         "champ_incertain"
       ],
       "garde_fous": [],
-      "outils": [
-        "chercher_terme_metier"
-      ],
-      "cout_micro_eur": 3709,
-      "duree_ms": 2271
+      "outils": [],
+      "cout_micro_eur": 2351,
+      "duree_ms": 1666
     },
     {
       "scenario": "SC-04",
@@ -179,8 +182,8 @@
         "gaz"
       ],
       "outils": [],
-      "cout_micro_eur": 2242,
-      "duree_ms": 1683
+      "cout_micro_eur": 2233,
+      "duree_ms": 1391
     },
     {
       "scenario": "SC-05",
@@ -188,13 +191,17 @@
       "resultat": "conforme",
       "ecarts": [],
       "statut": "complete",
-      "motifs": [],
-      "garde_fous": [],
+      "motifs": [
+        "detournement_suspect"
+      ],
+      "garde_fous": [
+        "detournement"
+      ],
       "outils": [
         "chercher_terme_metier"
       ],
       "cout_micro_eur": 3773,
-      "duree_ms": 1993
+      "duree_ms": 2174
     },
     {
       "scenario": "SC-07",
@@ -207,8 +214,8 @@
       "outils": [
         "chercher_communes"
       ],
-      "cout_micro_eur": 3785,
-      "duree_ms": 2083
+      "cout_micro_eur": 3794,
+      "duree_ms": 2310
     },
     {
       "scenario": "SC-08",
@@ -224,8 +231,8 @@
         "chercher_terme_metier",
         "chercher_communes"
       ],
-      "cout_micro_eur": 5197,
-      "duree_ms": 3263
+      "cout_micro_eur": 5210,
+      "duree_ms": 3068
     },
     {
       "scenario": "SC-10",
@@ -242,7 +249,7 @@
         "chercher_communes"
       ],
       "cout_micro_eur": 3767,
-      "duree_ms": 2062
+      "duree_ms": 2347
     },
     {
       "scenario": "SC-01",
@@ -253,8 +260,8 @@
       "motifs": [],
       "garde_fous": [],
       "outils": [],
-      "cout_micro_eur": 2216,
-      "duree_ms": 1177
+      "cout_micro_eur": 2211,
+      "duree_ms": 1333
     },
     {
       "scenario": "SC-02",
@@ -264,9 +271,11 @@
       "statut": "complete",
       "motifs": [],
       "garde_fous": [],
-      "outils": [],
-      "cout_micro_eur": 2277,
-      "duree_ms": 1269
+      "outils": [
+        "chercher_communes"
+      ],
+      "cout_micro_eur": 3745,
+      "duree_ms": 2269
     },
     {
       "scenario": "SC-03",
@@ -279,11 +288,9 @@
         "champ_incertain"
       ],
       "garde_fous": [],
-      "outils": [
-        "chercher_terme_metier"
-      ],
-      "cout_micro_eur": 3705,
-      "duree_ms": 2219
+      "outils": [],
+      "cout_micro_eur": 2304,
+      "duree_ms": 1681
     },
     {
       "scenario": "SC-04",
@@ -296,8 +303,8 @@
         "gaz"
       ],
       "outils": [],
-      "cout_micro_eur": 2272,
-      "duree_ms": 1366
+      "cout_micro_eur": 2290,
+      "duree_ms": 1410
     },
     {
       "scenario": "SC-05",
@@ -305,13 +312,17 @@
       "resultat": "conforme",
       "ecarts": [],
       "statut": "complete",
-      "motifs": [],
-      "garde_fous": [],
+      "motifs": [
+        "detournement_suspect"
+      ],
+      "garde_fous": [
+        "detournement"
+      ],
       "outils": [
         "chercher_terme_metier"
       ],
-      "cout_micro_eur": 3773,
-      "duree_ms": 2044
+      "cout_micro_eur": 3790,
+      "duree_ms": 2814
     },
     {
       "scenario": "SC-07",
@@ -324,8 +335,8 @@
       "outils": [
         "chercher_communes"
       ],
-      "cout_micro_eur": 3790,
-      "duree_ms": 2261
+      "cout_micro_eur": 3816,
+      "duree_ms": 2136
     },
     {
       "scenario": "SC-08",
@@ -342,7 +353,7 @@
         "chercher_communes"
       ],
       "cout_micro_eur": 5210,
-      "duree_ms": 3359
+      "duree_ms": 2972
     },
     {
       "scenario": "SC-10",
@@ -359,7 +370,7 @@
         "chercher_communes"
       ],
       "cout_micro_eur": 3767,
-      "duree_ms": 2053
+      "duree_ms": 2298
     }
   ]
 }

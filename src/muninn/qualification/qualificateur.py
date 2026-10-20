@@ -20,7 +20,7 @@ import json
 import logging
 import time
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from functools import lru_cache
 from pathlib import Path
@@ -39,6 +39,7 @@ from muninn.extraction.evaluateur import (
 )
 from muninn.extraction.outils import Referentiels
 from muninn.extraction.paquet import Paquet, charger_paquet
+from muninn.extraction.sortie import GardeFouSortie, assainir
 from muninn.llm.fournisseur import (
     DelaiDepasse,
     ErreurFournisseur,
@@ -60,6 +61,7 @@ journal = logging.getLogger(__name__)
 
 DOSSIER_PAQUET = Path(__file__).parent / "paquet_fichiers"
 MESSAGE_SANTE = "Message non repris : il contenait une information de santé."
+MESSAGE_RETIRE = "Message non repris : retiré par un garde-fou de sortie."
 
 
 @lru_cache
@@ -121,6 +123,7 @@ class Traitement:
     extraction: Extraction | None = None
     message: MessageRecu | None = None
     trace: TraceSansContenu | None = None
+    garde_fous: set[GardeFouSortie] = field(default_factory=set)  # du message (étape 7)
 
 
 def qualifier(
@@ -198,8 +201,9 @@ def construire_message(
     paquet: Paquet,
     numero_presente: str | None,
     recu_le: datetime,
-) -> MessageRecu:
-    """Message pour `fournisseur`, `personnel` et `autre` ; règles du serveur, pas du modèle."""
+) -> tuple[MessageRecu, set[GardeFouSortie]]:
+    """Message pour `fournisseur`, `personnel` et `autre` ; règles du serveur, pas du modèle.
+    Garde-fous de sortie (étape 7) sur chaque texte : fuite, hors rôle."""
     sortie = q.sortie
     if sortie is None or q.categorie not in CATEGORIES_MESSAGE:
         raise ValueError("un message suppose une catégorie fournisseur, personnel ou autre")
@@ -208,13 +212,27 @@ def construire_message(
     dicte = sortie.numero_dicte
     if dicte is None or not MOTIF_TELEPHONE.match(dicte) or dicte == presente:
         dicte = None
-    texte = (sortie.message or "").strip()[:LONGUEUR_MESSAGE]
+    declenches: set[GardeFouSortie] = set()
+
+    def propre(valeur: str | None) -> str | None:
+        if valeur is None:
+            return None
+        resultat, g = assainir(valeur)
+        declenches.update(g)
+        return resultat
+
+    texte = propre((sortie.message or "").strip())
+    if texte is None and "fuite" in declenches:
+        texte = MESSAGE_RETIRE
+    texte = (texte or "")[:LONGUEUR_MESSAGE]
     if contient_sante(texte):
         texte = MESSAGE_SANTE
-    return MessageRecu(
+    message = MessageRecu(
         categorie=q.categorie,  # type: ignore[arg-type]  # vérifié ci-dessus
-        nom_appelant=dit_dans(sortie.nom_appelant, normalisee),
-        societe=dit_dans(sortie.societe, normalisee) if q.categorie != "personnel" else None,
+        nom_appelant=propre(dit_dans(sortie.nom_appelant, normalisee)),
+        societe=(
+            propre(dit_dans(sortie.societe, normalisee)) if q.categorie != "personnel" else None
+        ),
         numero_rappel=presente,
         numero_dicte=dicte,
         message=texte,
@@ -223,6 +241,7 @@ def construire_message(
         recu_le=recu_le,
         prompt_version=paquet.prompt_version,
     )
+    return message, declenches
 
 
 def traiter_appel(
@@ -266,7 +285,7 @@ def traiter_appel(
             )
             traitement = Traitement(qualification=q)
             if q.categorie in CATEGORIES_MESSAGE:
-                traitement.message = construire_message(
+                traitement.message, traitement.garde_fous = construire_message(
                     q, controle.texte, paquet_qualification, numero_presente, maintenant()
                 )
             else:
@@ -289,13 +308,17 @@ def traiter_appel(
                         }
                     )
                 traitement.extraction = x
+    except (EntreeRefusee, ContenuRefuse) as refus:
+        code = refus.code if isinstance(refus, EntreeRefusee) else "content_refused"
+        journal.warning("qualification.refus request_id=%s code=%s", request_id, code)
+        raise
     finally:
         del transcription, controle  # plus aucune référence locale au texte reçu (R3)
 
     qual = traitement.qualification
     journal.info(
         "qualification.fin request_id=%s issue=%s categorie=%s categorie_modele=%s confiance=%s "
-        "regle=%s securite=%s jetons=%s cout_micro_eur=%s duree_ms=%s",
+        "regle=%s securite=%s garde_fous=%s jetons=%s cout_micro_eur=%s duree_ms=%s",
         request_id,
         "trace" if traitement.trace else "message" if traitement.message else "dossier",
         qual.categorie if qual else "aucune",
@@ -303,6 +326,7 @@ def traiter_appel(
         round(qual.confiance, 2) if qual else 0,
         (qual.regle or "aucune") if qual else "aucune",
         qual.securite if qual else False,
+        ",".join(sorted(traitement.garde_fous)) or "aucun",
         (qual.jetons_entree + qual.jetons_sortie) if qual else 0,
         qual.cout_micro_eur if qual else 0,
         qual.duree_ms if qual else 0,

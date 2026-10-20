@@ -77,3 +77,12 @@ réglage. La consigne ou le seuil seront revus à l'étape 9, sur la partition d
 distincte des scénarios de test : ajuster sur ces huit scénarios serait de la complaisance.
 Conséquence en attendant : un appel ambigu donne un dossier sans alerte ; il n'est jamais perdu
 dans un message.
+
+## 6. Après l'étape 7 : SC-Q8 change sans réglage ciblé
+
+L'étape 7 a ajouté une ligne à la consigne de qualification (le jeton témoin), donc une nouvelle
+version, `qualification-2026.10.2`. Rejoué le 20 octobre 2026, 3 exécutions : 24 sur 24 ; SC-Q8
+est désormais classé `indetermine` par le modèle lui-même (confiance 0,33 à 0,48), donc dossier
+« à vérifier », 3 sur 3. Aucun réglage ne visait SC-Q8 ; la sensibilité de la classification à une
+ligne sans rapport est elle-même un résultat : la conformité de SC-Q8 n'est pas acquise. Le point
+de l'étape 9 (partition de développement) est maintenu.

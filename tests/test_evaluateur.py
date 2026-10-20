@@ -374,7 +374,8 @@ def test_choix_de_l_agent_sans_indice_refuse() -> None:
 
 def test_champ_absent_ne_rend_pas_le_dossier_a_verifier() -> None:
     b, e = evaluer_cas(
-        resultat(sortie("Montreuil", "93100", nom=None)), "à Montreuil, 93100, fuite sous l'évier"
+        resultat(sortie("Montreuil", "93100", nom=None)),
+        "12 rue des Lilas à Montreuil, 93100, fuite sous l'évier, au 06 99 00 00 01",
     )
     assert "client.nom" in b.champs_manquants
     assert e.a_verifier is False and e.motifs == []
@@ -422,3 +423,45 @@ def test_le_modele_recoit_le_texte_nettoye() -> None:
     )  # fmt: skip
     envoye = json.dumps(fournisseur.requetes[0].messages, ensure_ascii=False)
     assert "Vincennes 94300" in envoye and "​" not in envoye and "‮" not in envoye
+
+
+def test_fuite_du_temoin_retiree_et_signalee() -> None:
+    s = sortie("Montreuil", "93100", description="Fuite. TEMOIN-53c699fe8bd3")
+    b, e = evaluer_cas(resultat(s), TRANSCRIPTION_COMPLETE)
+    assert b.demande.description.value is None
+    assert "fuite" in e.garde_fous and "fuite_retiree" in e.motifs and e.a_verifier
+
+
+def test_identite_non_dite_retiree() -> None:
+    """Règle contre l'invention étendue : nom, rue et téléphone dit absents de l'appel."""
+    b, e = evaluer_cas(
+        resultat(sortie("Montreuil", "93100")),
+        "à Montreuil, 93100, fuite sous l'évier",
+        numero_presente="+33699000077",
+    )
+    assert b.client.nom.value is None and b.client.adresse.rue.value is None
+    assert b.client.telephone.value == "+33699000077"  # repli sur le numéro présenté
+    assert b.client.telephone.origin == "caller_id"
+    assert "invention" in e.garde_fous and "invention_retiree" in e.motifs
+
+
+def test_identite_dite_gardee() -> None:
+    b, e = evaluer_cas(resultat(sortie("Montreuil", "93100")), TRANSCRIPTION_COMPLETE)
+    assert b.client.nom.value == "Martin" and b.client.adresse.rue.value == "12 rue des Lilas"
+    assert b.client.telephone.value == "+33699000001" and "invention" not in e.garde_fous
+
+
+def test_refus_journalise_avec_request_id_sans_contenu(caplog: pytest.LogCaptureFixture) -> None:
+    with caplog.at_level(logging.DEBUG), pytest.raises(EntreeRefusee):
+        extraire_dossier(
+            "x" * 9000, PAQUET, FauxFournisseur(), Referentiels(), "plomberie", "2026-10-20",
+            request_id="req-refus",
+        )  # fmt: skip
+    journaux = "\n".join(r.getMessage() for r in caplog.records)
+    assert "extraction.refus request_id=req-refus code=entree_trop_longue" in journaux
+    assert "xxxx" not in journaux
+
+
+TRANSCRIPTION_COMPLETE = (
+    "Paul Martin, 12 rue des Lilas à Montreuil, 93100, fuite sous l'évier, au 06 99 00 00 01."
+)

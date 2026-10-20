@@ -94,10 +94,10 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 7 : les garde-fous de sortie
 
-- [ ] Fuite : aucune valeur absente de la transcription et non rendue par un outil (règle contre l'invention) ; jeton témoin dans la consigne, jamais dans une sortie ; recherche de secrets et de motifs de clé dans toute sortie.
-- [ ] Hors rôle : sortie limitée au schéma fermé ; texte échappé à l'affichage, sans Markdown ni lien.
-- [ ] Refus poli à texte fixe, jamais un fragment de l'entrée ; chaque refus et chaque garde-fou déclenché journalisés (code, `request_id`, garde-fou), sans contenu.
-- [ ] Table de conformité « annoncé / livré / preuve » du dossier V1 (§ 3.1 à 3.4) : `conformite-conception.md` (critère P1).
+- [x] Fuite : aucune valeur absente de la transcription et non rendue par un outil (règle contre l'invention) ; jeton témoin dans la consigne, jamais dans une sortie ; recherche de secrets et de motifs de clé dans toute sortie. Règle d'identité étendue au nom, au prénom, à la rue et au téléphone dit. Preuve : `garde-fous-sortie.md`.
+- [x] Hors rôle : sortie limitée au schéma fermé ; texte échappé à l'affichage, sans Markdown ni lien. Côté serveur : liens et balisage retirés ; l'échappement à l'écran est vérifié à l'étape 8.
+- [x] Refus poli à texte fixe, jamais un fragment de l'entrée ; chaque refus et chaque garde-fou déclenché journalisés (code, `request_id`, garde-fou), sans contenu.
+- [x] Table de conformité « annoncé / livré / preuve » du dossier V1 (§ 3.1 à 3.4) : `conformite-conception.md` (critère P1). 26 engagements : 20 livrés, 4 en partie, 2 à l'étape 9.
 
 ### Étape 8 : l'API et l'écran « Agent » (C9, D-62)
 

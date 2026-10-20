@@ -106,6 +106,8 @@ def main() -> None:
                     "categorie_modele": q.categorie_modele if q else None,
                     "confiance": q.confiance if q else None,
                     "regle": q.regle if q else None,
+                    "garde_fous": sorted(t.garde_fous)
+                    + (t.extraction.enveloppe.garde_fous if t.extraction else []),
                     "cout_micro_eur": cout_ligne,
                 }
             )

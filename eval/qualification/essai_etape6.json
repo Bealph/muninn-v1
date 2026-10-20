@@ -1,11 +1,11 @@
 {
   "date": "2026-10-20",
   "dialogues": "qualification-2026.10.1",
-  "paquet": "qualification-2026.10.1",
-  "conformes": 21,
+  "paquet": "qualification-2026.10.2",
+  "conformes": 24,
   "executions": 24,
   "refus_du_filtre": 0,
-  "cout_total_eur": 0.0679,
+  "cout_total_eur": 0.0655,
   "lignes": [
     {
       "scenario": "SC-Q1",
@@ -17,7 +17,7 @@
       "categorie_modele": "fournisseur",
       "confiance": 0.98,
       "regle": null,
-      "cout_micro_eur": 1073
+      "cout_micro_eur": 1088
     },
     {
       "scenario": "SC-Q2",
@@ -27,9 +27,9 @@
       "issue": "message",
       "categorie": "personnel",
       "categorie_modele": "personnel",
-      "confiance": 0.98,
+      "confiance": 0.99,
       "regle": null,
-      "cout_micro_eur": 964
+      "cout_micro_eur": 1009
     },
     {
       "scenario": "SC-Q3",
@@ -39,9 +39,9 @@
       "issue": "dossier",
       "categorie": "demande_service",
       "categorie_modele": "demande_service",
-      "confiance": 0.99,
+      "confiance": 0.98,
       "regle": null,
-      "cout_micro_eur": 5072
+      "cout_micro_eur": 5110
     },
     {
       "scenario": "SC-Q4",
@@ -53,7 +53,7 @@
       "categorie_modele": "demande_service",
       "confiance": 0.99,
       "regle": null,
-      "cout_micro_eur": 5228
+      "cout_micro_eur": 5247
     },
     {
       "scenario": "SC-Q5",
@@ -65,7 +65,7 @@
       "categorie_modele": "autre",
       "confiance": 0.96,
       "regle": null,
-      "cout_micro_eur": 1051
+      "cout_micro_eur": 1061
     },
     {
       "scenario": "SC-Q6",
@@ -75,9 +75,9 @@
       "issue": "message",
       "categorie": "fournisseur",
       "categorie_modele": "fournisseur",
-      "confiance": 0.98,
+      "confiance": 0.99,
       "regle": null,
-      "cout_micro_eur": 1157
+      "cout_micro_eur": 1167
     },
     {
       "scenario": "SC-Q7",
@@ -87,23 +87,21 @@
       "issue": "dossier",
       "categorie": "demande_service",
       "categorie_modele": "demande_service",
-      "confiance": 0.98,
+      "confiance": 0.96,
       "regle": null,
-      "cout_micro_eur": 4883
+      "cout_micro_eur": 3260
     },
     {
       "scenario": "SC-Q8",
       "repetition": 1,
-      "resultat": "ecarts",
-      "ecarts": [
-        "a verifier"
-      ],
+      "resultat": "conforme",
+      "ecarts": [],
       "issue": "dossier",
-      "categorie": "demande_service",
-      "categorie_modele": "demande_service",
-      "confiance": 0.78,
-      "regle": null,
-      "cout_micro_eur": 3255
+      "categorie": "indetermine",
+      "categorie_modele": "indetermine",
+      "confiance": 0.33,
+      "regle": "seuil",
+      "cout_micro_eur": 4880
     },
     {
       "scenario": "SC-Q1",
@@ -115,7 +113,7 @@
       "categorie_modele": "fournisseur",
       "confiance": 0.98,
       "regle": null,
-      "cout_micro_eur": 1064
+      "cout_micro_eur": 1096
     },
     {
       "scenario": "SC-Q2",
@@ -127,7 +125,7 @@
       "categorie_modele": "personnel",
       "confiance": 0.98,
       "regle": null,
-      "cout_micro_eur": 925
+      "cout_micro_eur": 1009
     },
     {
       "scenario": "SC-Q3",
@@ -139,7 +137,7 @@
       "categorie_modele": "demande_service",
       "confiance": 0.98,
       "regle": null,
-      "cout_micro_eur": 5105
+      "cout_micro_eur": 5123
     },
     {
       "scenario": "SC-Q4",
@@ -151,7 +149,7 @@
       "categorie_modele": "demande_service",
       "confiance": 0.99,
       "regle": null,
-      "cout_micro_eur": 5236
+      "cout_micro_eur": 6942
     },
     {
       "scenario": "SC-Q5",
@@ -163,7 +161,7 @@
       "categorie_modele": "autre",
       "confiance": 0.98,
       "regle": null,
-      "cout_micro_eur": 1051
+      "cout_micro_eur": 1079
     },
     {
       "scenario": "SC-Q6",
@@ -175,7 +173,7 @@
       "categorie_modele": "fournisseur",
       "confiance": 0.98,
       "regle": null,
-      "cout_micro_eur": 1183
+      "cout_micro_eur": 1167
     },
     {
       "scenario": "SC-Q7",
@@ -187,21 +185,19 @@
       "categorie_modele": "demande_service",
       "confiance": 0.98,
       "regle": null,
-      "cout_micro_eur": 4792
+      "cout_micro_eur": 3356
     },
     {
       "scenario": "SC-Q8",
       "repetition": 2,
-      "resultat": "ecarts",
-      "ecarts": [
-        "a verifier"
-      ],
+      "resultat": "conforme",
+      "ecarts": [],
       "issue": "dossier",
-      "categorie": "demande_service",
-      "categorie_modele": "demande_service",
-      "confiance": 0.86,
-      "regle": null,
-      "cout_micro_eur": 3242
+      "categorie": "indetermine",
+      "categorie_modele": "indetermine",
+      "confiance": 0.43,
+      "regle": "seuil",
+      "cout_micro_eur": 3213
     },
     {
       "scenario": "SC-Q1",
@@ -213,7 +209,7 @@
       "categorie_modele": "fournisseur",
       "confiance": 0.98,
       "regle": null,
-      "cout_micro_eur": 1064
+      "cout_micro_eur": 1096
     },
     {
       "scenario": "SC-Q2",
@@ -225,7 +221,7 @@
       "categorie_modele": "personnel",
       "confiance": 0.98,
       "regle": null,
-      "cout_micro_eur": 925
+      "cout_micro_eur": 1013
     },
     {
       "scenario": "SC-Q3",
@@ -237,7 +233,7 @@
       "categorie_modele": "demande_service",
       "confiance": 0.98,
       "regle": null,
-      "cout_micro_eur": 5070
+      "cout_micro_eur": 3530
     },
     {
       "scenario": "SC-Q4",
@@ -249,7 +245,7 @@
       "categorie_modele": "demande_service",
       "confiance": 0.99,
       "regle": null,
-      "cout_micro_eur": 5232
+      "cout_micro_eur": 5264
     },
     {
       "scenario": "SC-Q5",
@@ -261,7 +257,7 @@
       "categorie_modele": "autre",
       "confiance": 0.98,
       "regle": null,
-      "cout_micro_eur": 1060
+      "cout_micro_eur": 1061
     },
     {
       "scenario": "SC-Q6",
@@ -271,9 +267,9 @@
       "issue": "message",
       "categorie": "fournisseur",
       "categorie_modele": "fournisseur",
-      "confiance": 0.98,
+      "confiance": 0.99,
       "regle": null,
-      "cout_micro_eur": 1153
+      "cout_micro_eur": 1159
     },
     {
       "scenario": "SC-Q7",
@@ -285,21 +281,19 @@
       "categorie_modele": "demande_service",
       "confiance": 0.98,
       "regle": null,
-      "cout_micro_eur": 4874
+      "cout_micro_eur": 3273
     },
     {
       "scenario": "SC-Q8",
       "repetition": 3,
-      "resultat": "ecarts",
-      "ecarts": [
-        "a verifier"
-      ],
+      "resultat": "conforme",
+      "ecarts": [],
       "issue": "dossier",
-      "categorie": "demande_service",
-      "categorie_modele": "demande_service",
-      "confiance": 0.74,
-      "regle": null,
-      "cout_micro_eur": 3281
+      "categorie": "indetermine",
+      "categorie_modele": "indetermine",
+      "confiance": 0.48,
+      "regle": "seuil",
+      "cout_micro_eur": 3326
     }
   ]
 }

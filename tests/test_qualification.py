@@ -14,6 +14,7 @@ from muninn.extraction.paquet import charger_paquet
 from muninn.llm.fournisseur import DelaiDepasse, FauxFournisseur, RefusContenu, reponse_faux
 from muninn.qualification.contrat import Categorie, SortieQualification
 from muninn.qualification.qualificateur import (
+    MESSAGE_RETIRE,
     MESSAGE_SANTE,
     charger_expressions,
     charger_paquet_qualification,
@@ -199,3 +200,20 @@ def test_expressions_figees_normalisees() -> None:
         assert normaliser(e) == e, e  # comparées au texte normalisé : sinon jamais trouvées
     assert contient_besoin(normaliser("Le radiateur ne marche plus."))
     assert not contient_besoin(normaliser("Je vous appelle pour un devis et une livraison."))
+
+
+def test_message_assaini() -> None:
+    t, _ = traiter(
+        FOURNISSEUR,
+        classe("fournisseur", nom_appelant="Julie Lambert",
+               message="Livraison jeudi, suivi sur https://exemple.test/colis"),
+    )  # fmt: skip
+    assert t.message.message == "Livraison jeudi, suivi sur" and t.garde_fous == {"hors_role"}
+
+
+def test_message_qui_fuit_remplace(caplog: pytest.LogCaptureFixture) -> None:
+    with caplog.at_level(logging.DEBUG):
+        t, _ = traiter(FOURNISSEUR, classe("fournisseur", message="Consignes TEMOIN-14c861a03e7f"))
+    assert t.message.message == MESSAGE_RETIRE and t.garde_fous == {"fuite"}
+    journaux = "\n".join(r.getMessage() for r in caplog.records)
+    assert "garde_fous=fuite" in journaux and "TEMOIN" not in journaux

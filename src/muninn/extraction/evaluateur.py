@@ -53,6 +53,7 @@ from muninn.extraction.entree import controler, normaliser
 from muninn.extraction.outils import Referentiels
 from muninn.extraction.paquet import Paquet
 from muninn.extraction.regles import calculer_champs_manquants, champs_a_verifier, plafonner
+from muninn.extraction.sortie import appliquer
 from muninn.llm.fournisseur import FournisseurLLM
 
 journal = logging.getLogger(__name__)
@@ -99,8 +100,9 @@ Motif = Literal[
     "champ_incertain",
     "choix_sans_indice",
     "qualification_indeterminee",
+    "fuite_retiree",
 ]
-GardeFou = Literal["gaz", "sante", "invention", "detournement"]
+GardeFou = Literal["gaz", "sante", "invention", "detournement", "fuite", "hors_role"]
 RaisonNonControle = Literal["no_value", "service_unavailable", "timeout", "not_applicable"]
 
 
@@ -144,8 +146,17 @@ class Extraction:
     agent: ResultatAgent | None
 
 
+MESSAGE_REFUS_CONTENU = (
+    "La demande n'a pas pu être traitée : son contenu a été bloqué par le filtre de modération."
+)
+
+
 class ContenuRefuse(Exception):
-    """Le filtre de contenu a bloqué l'extraction : refus poli, aucun brouillon (D-63, D-65)."""
+    """Le filtre de contenu a bloqué l'extraction : refus poli à texte fixe, aucun brouillon
+    (D-63, D-70). Le texte ne reprend jamais un fragment de l'entrée."""
+
+    def __init__(self, message: str = MESSAGE_REFUS_CONTENU) -> None:
+        super().__init__(MESSAGE_REFUS_CONTENU)
 
 
 class EntreeRefusee(Exception):
@@ -169,6 +180,35 @@ def present_code_postal(code: str, transcription: str) -> bool:
     """Un code postal dit en chiffres groupés (« 93 100 ») compte comme entendu."""
     chiffres = re.sub(r"(?<=\d)[ .](?=\d)", "", transcription)
     return re.search(rf"(?<!\d){re.escape(code)}(?!\d)", chiffres) is not None
+
+
+def chiffres(texte: str) -> str:
+    return re.sub(r"\D", "", texte)
+
+
+def retirer_identite_inventee(
+    sortie: SortieLLM, texte: str, transcription: str, numero_presente: str | None
+) -> tuple[SortieLLM, bool]:
+    """Règle contre l'invention (D-37) étendue au nom, au prénom, à la rue et au téléphone dit :
+    une valeur absente de la transcription est retirée (fuite d'une autre donnée, ou invention)."""
+    client = sortie.client
+    mises_a_jour: dict[str, Any] = {}
+    for champ in ("nom", "prenom"):
+        valeur = getattr(client, champ).value
+        if valeur is not None and not present(valeur, texte):
+            mises_a_jour[champ] = _vide()
+    rue = client.adresse.rue.value
+    if rue is not None and not present(rue, texte):
+        mises_a_jour["adresse"] = client.adresse.model_copy(update={"rue": _vide()})
+    tel = client.telephone
+    if tel.value is not None:
+        national = "0" + tel.value[3:] if tel.value.startswith("+33") else tel.value
+        dit = national in chiffres(transcription) or tel.value[1:] in chiffres(transcription)
+        if not (dit or (tel.origin == "caller_id" and tel.value == numero_presente)):
+            mises_a_jour["telephone"] = Telephone(value=None, confidence=0, origin=None)
+    if not mises_a_jour:
+        return sortie, False
+    return sortie.model_copy(update={"client": client.model_copy(update=mises_a_jour)}), True
 
 
 # --- Règles « gaz » et « santé » ---------------------------------------------------------------
@@ -479,7 +519,7 @@ def evaluer(
 ) -> tuple[DossierDraft, Enveloppe]:
     """Construit le brouillon et l'enveloppe à partir de la sortie de l'agent."""
     if resultat.statut == "content_refused":
-        raise ContenuRefuse("Le filtre de contenu a bloqué l'extraction.")
+        raise ContenuRefuse()
     texte = normaliser(transcription)
     garde_fous: list[GardeFou] = []
     motifs: list[Motif] = []
@@ -496,6 +536,21 @@ def evaluer(
         sortie, retire = retirer_sante(sortie)
         if retire:
             garde_fous.append("sante")
+        # Garde-fous de sortie (étape 7) : fuite (témoin, secret) et hors rôle (lien, balisage).
+        assainie, declenches = appliquer(
+            sortie.model_dump(), SortieLLM.model_validate, ("cle_humaine", "indice_commune")
+        )
+        garde_fous += sorted(declenches)
+        if "fuite" in declenches:
+            motifs.append("fuite_retiree")
+        if assainie is None:
+            journal.warning("evaluateur.sortie_invalide_apres_assainissement")
+            assainie = _brouillon_vide(metier, numero_presente)
+            motifs.append("extraction_incomplete")
+        sortie = assainie
+        sortie, inventes = retirer_identite_inventee(sortie, texte, transcription, numero_presente)
+        if inventes:
+            garde_fous.append("invention")
         if sortie.client.telephone.value is None and numero_presente:
             client = sortie.client.model_copy(
                 update={"telephone": _telephone_presente(numero_presente)}
@@ -673,6 +728,10 @@ def extraire_dossier(
             motifs_entree=tuple(controle.motifs),
         )
         motifs_entree = controle.motifs
+    except (EntreeRefusee, ContenuRefuse) as refus:
+        code = refus.code if isinstance(refus, EntreeRefusee) else "content_refused"
+        journal.warning("extraction.refus request_id=%s code=%s", request_id, code)
+        raise
     finally:
         del transcription, controle  # plus aucune référence locale au texte reçu (R3)
     controles = brouillon.checks
