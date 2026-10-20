@@ -49,8 +49,9 @@ from muninn.extraction.contrat import (
     TexteLong,
     VersionReferentiel,
 )
-from muninn.extraction.entree import controler, normaliser
-from muninn.extraction.outils import Referentiels
+from muninn.extraction.entree import controler, normaliser, paroles_appelant
+from muninn.extraction.indices import departements_cites
+from muninn.extraction.outils import MOTIF_NOM_COMPOSE, Referentiels
 from muninn.extraction.paquet import Paquet
 from muninn.extraction.regles import calculer_champs_manquants, champs_a_verifier, plafonner
 from muninn.extraction.sortie import appliquer
@@ -193,12 +194,16 @@ def retirer_identite_inventee(
     une valeur absente de la transcription est retirée (fuite d'une autre donnée, ou invention)."""
     client = sortie.client
     mises_a_jour: dict[str, Any] = {}
+    # L'identité du client vient de ce que dit l'appelant : dans un dialogue, une valeur qui n'est
+    # que dans les répliques de l'agent (le nom de l'artisan dans « Karim vous rappellera ») est
+    # retirée.
+    paroles = normaliser(paroles_appelant(transcription))
     for champ in ("nom", "prenom"):
         valeur = getattr(client, champ).value
-        if valeur is not None and not present(valeur, texte):
+        if valeur is not None and not present(valeur, paroles):
             mises_a_jour[champ] = _vide()
     rue = client.adresse.rue.value
-    if rue is not None and not present(rue, texte):
+    if rue is not None and not present(rue, paroles):
         mises_a_jour["adresse"] = client.adresse.model_copy(update={"rue": _vide()})
     tel = client.telephone
     if tel.value is not None:
@@ -311,6 +316,7 @@ def correspondre(
     provenance_commune: ProvenanceChamp,
     provenance_code_postal: ProvenanceChamp,
     choix_agent: bool,
+    transcription_normalisee: str = "",
 ) -> Correspondance:
     """Rejoue le contrôle et complète la commune et le code postal par les référentiels (D-69)."""
     nom, code = commune.value, code_postal.value
@@ -330,6 +336,20 @@ def correspondre(
         if not corps:
             raise ValueError("rien à chercher")
         reponse = referentiels.communes(corps)
+        principal = MOTIF_NOM_COMPOSE.match(nom or "")
+        if reponse.get("statut") == "hors_corpus" and principal:
+            # Nom usuel non officiel (« Clichy-la-Garenne ») : le serveur cherche le nom principal,
+            # même si l'agent ne l'a pas fait. Une commune : elle est retenue ; plusieurs : jointes
+            # au dossier, jamais choisies (D-69, D-77).
+            secours = referentiels.communes(corps | {"nom": principal.group(1)})
+            if secours.get("candidates"):
+                reponse = secours | {
+                    "candidates": [
+                        c | {"via": "nom principal"}
+                        for c in secours["candidates"]
+                        if isinstance(c, dict)
+                    ]
+                }
         ref_communes, ref_codes = _version(reponse, "SRC-07"), _version(reponse, "SRC-06")
     except Exception as erreur:  # noqa: BLE001 (toute panne : contrôle « non contrôlé », D-29)
         if not isinstance(erreur, httpx.HTTPError | ValueError | KeyError | TypeError):
@@ -356,6 +376,16 @@ def correspondre(
         for c in lignes
     ]
     vias = {str(c["code_insee"]): str(c.get("via") or "") for c in lignes}
+
+    indice_serveur = False
+    if statut == "trouve" and len(candidates) > 1 and code is None and nom is not None:
+        # D-78 : un département cité en clair (« en Seine-et-Marne », « le 9-3 ») départage les
+        # homonymes ; seulement si une seule candidate est dans un département cité.
+        retenues = [
+            c for c in candidates if c.departement in departements_cites(transcription_normalisee)
+        ]
+        if len(retenues) == 1:
+            candidates, indice_serveur = retenues, True
 
     if malforme:
         resultat.controle_code_postal = ControleCodePostal(
@@ -406,6 +436,8 @@ def correspondre(
         elif choix_agent:
             # L'agent a choisi parmi des homonymes grâce à un indice (« le 9-3 ») : déduit.
             resultat.provenance_commune = ProvenanceChamp(origine="deduit", auteur="agent")
+        elif indice_serveur:
+            resultat.provenance_commune = ProvenanceChamp(origine="deduit", auteur="serveur")
         if code is None:
             if len(choisie.codes_postaux) == 1:
                 resultat.code_postal = CodePostal(
@@ -600,6 +632,7 @@ def evaluer(
         _provenance(commune.value, commune_entendue, commune_outil),
         _provenance(code_postal.value, code_entendu, code_outil),
         choix_agent,
+        texte,
     )
     motifs += correspondance.motifs
 

@@ -12,6 +12,7 @@ pour ses propres contrôles (communes et termes rendus, règle contre l'inventio
 
 import json
 import logging
+import re
 import time
 from dataclasses import dataclass, field
 from typing import Any, Protocol
@@ -21,6 +22,8 @@ import httpx
 journal = logging.getLogger(__name__)
 
 NOMS_OUTILS = frozenset({"chercher_communes", "chercher_terme_metier"})
+# Nom composé dont le complément suit un article ou une préposition : « X-la-Y », « X-sous-Y ».
+MOTIF_NOM_COMPOSE = re.compile(r"^(.+?)[- ](?:la|le|les|sous|sur|lès|lez|en)[- ].+$", re.IGNORECASE)
 OUTIL_INCONNU = {"erreur": "outil inconnu ; outils : chercher_communes, chercher_terme_metier"}
 
 
@@ -118,6 +121,18 @@ def executer_outil(referentiels: Referentiels, nom: str, arguments_json: str) ->
                     "arguments_illisibles", {"erreur": "donner un nom de commune ou un code postal"}
                 )
             donnees = referentiels.communes(corps)
+            principal = None
+            if donnees.get("statut") == "hors_corpus" and "nom" in corps:
+                # Nom usuel non officiel (« X-la-Y », « X-sous-Y ») : aucune commune ne le porte ;
+                # l'outil cherche le nom principal et le dit. Le complément dit reste un indice.
+                trouve = MOTIF_NOM_COMPOSE.match(corps["nom"])
+                if trouve:
+                    principal = trouve.group(1)
+                    secours = referentiels.communes(corps | {"nom": principal})
+                    if secours.get("candidates"):
+                        donnees = secours
+                    else:
+                        principal = None
             communes = [
                 CommuneRendue(
                     code_insee=str(c["code_insee"]),
@@ -139,6 +154,9 @@ def executer_outil(referentiels: Referentiels, nom: str, arguments_json: str) ->
                     for c in communes
                 ],
             }
+            if principal:
+                contenu["nom_principal"] = principal
+                contenu["note"] = "aucune commune ne porte le nom dit : candidates du nom principal"
             return resultat(str(donnees.get("statut")), contenu, communes=communes)
 
         mot, metier = _texte(arguments.get("mot")), _texte(arguments.get("metier"))

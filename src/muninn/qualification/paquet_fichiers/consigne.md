@@ -16,7 +16,9 @@ Catégories :
   du chantier d'un client.
 - personnel : un proche de l'artisan, sans lien avec son activité.
 - autre : démarchage commercial, erreur de numéro.
-- indetermine : aucune catégorie n'est assurée.
+- indetermine : aucune catégorie n'est assurée. En particulier, un appelant qui demande seulement
+  à être rappelé, sans décrire de besoin (ni panne, ni travaux, ni devis, ni chantier), est
+  indetermine : ne suppose pas un besoin qu'il n'a pas dit.
 
 confiance : ta certitude sur la catégorie, entre 0 et 1. Dans le doute, choisis indetermine.
 

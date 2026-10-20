@@ -108,10 +108,10 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 9 : l'évaluation (V-08, C12, C13)
 
-- [ ] Jeu versionné : 20 scénarios de test (composition de la phase 1), partition de développement distincte, 5 cas de conformité à tolérance nulle, 3 cas de qualification ; oracles figés avant la première exécution.
-- [ ] Harnais : exactitude par champ avec intervalles de Wilson, base sans outils sur les mêmes scénarios, métriques de trajectoire (borne d'appels bloquante), latence p50 et p95, coût, part à vérifier ; rapport horodaté.
-- [ ] Job d'évaluation en CI, déclenché par un changement d'empreinte, plafond D-64, bloquant pour `verdict` ; sans accès au modèle : « non mesuré », bloquant.
-- [ ] Qualification : écart de SC-Q8 (Q-05, appel ambigu classé `demande_service` avec une confiance de 0,74 à 0,86) traité par la consigne ou le seuil, réglés sur la partition de développement seulement ; SC-Q8 remesuré ensuite (étape 6, `qualification.md`).
+- [x] Jeu versionné : 20 scénarios de test (composition de la phase 1), partition de développement distincte, 5 cas de conformité à tolérance nulle, 3 cas de qualification ; oracles figés avant la première exécution. Preuve : `eval/v08/`, `tests/test_jeu_v08.py` ; relecture du porteur, v2 de l'oracle de l'objet (D-77) ; `evaluation.md`.
+- [x] Harnais : exactitude par champ avec intervalles de Wilson, base sans outils sur les mêmes scénarios, métriques de trajectoire (borne d'appels bloquante), latence p50 et p95, coût, part à vérifier ; rapport horodaté. Preuve : `src/muninn/evaluation/`, `tests/test_evaluation.py` ; campagnes du 20 octobre 2026 dans `eval/v08/rapports/`.
+- [x] Job d'évaluation en CI, déclenché par un changement d'empreinte, plafond D-64, bloquant pour `verdict` ; sans accès au modèle : « non mesuré », bloquant. Identité dédiée `id-muninn-evaluation` (`infra/azure/06-evaluation.sh`) ; campagne jouée par la CI de la PR n° 145 : `reussite`, 119/120. Preuve : `evaluation.md`, § 4 quater.
+- [x] Qualification : écart de SC-Q8 (Q-05, appel ambigu classé `demande_service` avec une confiance de 0,74 à 0,86) traité par la consigne ou le seuil, réglés sur la partition de développement seulement ; SC-Q8 remesuré ensuite (étape 6, `qualification.md`). Consigne `qualification-2026.10.3`, réglée sur DQ1 à DQ4 seulement ; SC-Q8 remesuré : 3 sur 3, CA-7 24 sur 24 (`evaluation.md`, § 5).
 - [ ] Démonstration : une PR qui livre le paquet avec les outils désactivés est bloquée (CA-6, première partie) ; par avenant (D-69), par SC-07 et un second scénario d'ambiguïté résolu seulement par un indice (« Montreuil-sous-Bois »), à ajouter au jeu.
 
 ### Étape 10 : Langfuse (V-13, détachable)

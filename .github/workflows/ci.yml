@@ -131,9 +131,65 @@ jobs:
       - name: Recherche de secrets dans tout l'historique
         run: ./gitleaks git . --no-banner --redact --exit-code 1
 
+  # Évaluation de l'agent (V-08, sprint 4, étape 9 ; D-64) : seulement si l'empreinte du paquet
+  # d'extraction diffère de celle de main, ou à la demande. Identité Azure dédiée, qui ne peut
+  # qu'appeler le modèle (infra/azure/06-evaluation.sh) : le code d'une PR n'a aucun autre droit.
+  # Sans accès au modèle, ou au-delà du plafond de 1 € : « non mesuré », bloquant.
+  evaluation:
+    needs: tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment: evaluation
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+      - run: uv sync --frozen
+      - id: empreinte
+        name: Empreinte du paquet, ici et sur main
+        run: |
+          git worktree add --detach ../base origin/main
+          calcul='from pathlib import Path; import sys; from muninn.extraction.paquet import calculer_empreinte; print(calculer_empreinte(Path(sys.argv[1])))'
+          ici=$(uv run python -c "$calcul" .)
+          base=$(uv run python -c "$calcul" ../base 2>/dev/null || echo absente)
+          echo "empreinte ici=$ici main=$base"
+          if [ "$ici" != "$base" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "requise=oui" >> "$GITHUB_OUTPUT"
+          else
+            echo "requise=non" >> "$GITHUB_OUTPUT"
+            echo "Empreinte inchangée : évaluation non requise." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - if: steps.empreinte.outputs.requise == 'oui'
+        uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - if: steps.empreinte.outputs.requise == 'oui'
+        name: Campagne d'évaluation (plafond 1 €, D-64)
+        env:
+          LLM_FOURNISSEUR: azure
+          AZURE_AI_ENDPOINT: https://adialloext-muninn1-resource.services.ai.azure.com
+        run: |
+          set -o pipefail
+          uv run python -m muninn.evaluation.harnais --sortie rapports-evaluation | tee resume.txt
+      - if: always() && steps.empreinte.outputs.requise == 'oui'
+        name: Rapport dans le résumé du job
+        run: |
+          { echo '```'; cat resume.txt 2>/dev/null || echo "aucun résumé"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          cat rapports-evaluation/*.json 2>/dev/null || true
+
   verdict:
     if: always()
-    needs: [lint, tests, build, secrets]
+    needs: [lint, tests, build, secrets, evaluation]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -141,7 +197,9 @@ jobs:
         run: |
           echo "lint=${{ needs.lint.result }} tests=${{ needs.tests.result }}"
           echo "build=${{ needs.build.result }} secrets=${{ needs.secrets.result }}"
+          echo "evaluation=${{ needs.evaluation.result }}"
           test "${{ needs.lint.result }}" = "success"
+          test "${{ needs.evaluation.result }}" = "success"
           test "${{ needs.tests.result }}" = "success"
           test "${{ needs.build.result }}" = "success"
           test "${{ needs.secrets.result }}" = "success"

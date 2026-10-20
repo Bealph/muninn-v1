@@ -196,6 +196,12 @@ def reponse_faux(
     )
 
 
+# Reprise d'un appel limité (429) ou indisponible (503) : deux essais de plus au plus, attente
+# plafonnée ; au-delà, l'erreur remonte et l'agent rend le brouillon de secours (D-29).
+REPRISES_LIMITE = 2
+ATTENTE_MAX_S = 10.0
+
+
 class FournisseurAzure:
     """Azure AI Foundry, déploiement en zone de données UE (R5), API au format OpenAI v1."""
 
@@ -207,11 +213,13 @@ class FournisseurAzure:
         entetes_auth: Callable[[], dict[str, str]],
         client: httpx.Client | None = None,
         max_jetons: int = 300,
+        dormir: Callable[[float], None] = time.sleep,
     ) -> None:
         self._url = endpoint.rstrip("/") + "/openai/v1/chat/completions"
         self._entetes_auth = entetes_auth
         self._client = client or httpx.Client(timeout=httpx.Timeout(30.0, connect=5.0))
         self._max_jetons = max_jetons
+        self._dormir = dormir
 
     def repondre(self, question: str, modele: str) -> ReponseLLM:
         corps = {
@@ -264,19 +272,29 @@ class FournisseurAzure:
             corps["response_format"] = {"type": "json_schema", "json_schema": requete.schema_sortie}
         modele = requete.modele
         debut = time.perf_counter()
-        try:
-            reponse = self._client.post(
-                self._url,
-                json=corps,
-                headers=self._entetes_auth(),
-                timeout=httpx.Timeout(requete.delai_s, connect=5.0),
-            )
-        except httpx.TimeoutException as exc:
-            journal.warning("llm.echec modele=%s cause=delai_depasse", modele)
-            raise DelaiDepasse("Le modèle n'a pas répondu dans le délai.") from exc
-        except httpx.HTTPError as exc:
-            journal.warning("llm.echec modele=%s cause=%s", modele, type(exc).__name__)
-            raise ErreurFournisseur("Le service du modèle est injoignable.") from exc
+        for essai in range(1, REPRISES_LIMITE + 2):
+            try:
+                reponse = self._client.post(
+                    self._url,
+                    json=corps,
+                    headers=self._entetes_auth(),
+                    timeout=httpx.Timeout(requete.delai_s, connect=5.0),
+                )
+            except httpx.TimeoutException as exc:
+                journal.warning("llm.echec modele=%s cause=delai_depasse", modele)
+                raise DelaiDepasse("Le modèle n'a pas répondu dans le délai.") from exc
+            except httpx.HTTPError as exc:
+                journal.warning("llm.echec modele=%s cause=%s", modele, type(exc).__name__)
+                raise ErreurFournisseur("Le service du modèle est injoignable.") from exc
+            if reponse.status_code not in (429, 503) or essai > REPRISES_LIMITE:
+                break
+            # Limite de débit ou indisponibilité passagère : reprise bornée, selon Retry-After.
+            attente = min(_attente(reponse), ATTENTE_MAX_S)
+            journal.warning(
+                "llm.reprise modele=%s statut=%s essai=%s attente_s=%s",
+                modele, reponse.status_code, essai, attente,
+            )  # fmt: skip
+            self._dormir(attente)
         duree_ms = round((time.perf_counter() - debut) * 1000)
         if reponse.status_code != 200:
             if reponse.status_code == 400 and _code_erreur(reponse) == "content_filter":
@@ -338,6 +356,14 @@ class FournisseurAzure:
             detournement_detecte=detournement,
             refus_modele=message.get("refusal"),
         )
+
+
+def _attente(reponse: httpx.Response) -> float:
+    """Attente demandée par le service (Retry-After, en secondes), 2 s à défaut."""
+    try:
+        return max(0.0, float(reponse.headers.get("Retry-After", "2")))
+    except ValueError:
+        return 2.0
 
 
 def _code_erreur(reponse: httpx.Response) -> str | None:

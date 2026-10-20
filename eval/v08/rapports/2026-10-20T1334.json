@@ -1,0 +1,2035 @@
+{
+  "horodatage": "2026-10-20T13:34:20+00:00",
+  "jeu": "v08-2026.10.1",
+  "paquet": "extraction-2026.10.1",
+  "empreinte": "a678e3be69c69e934f2c8cc6988362296dc5934934818eb9a281b387739361b0",
+  "date_reference": "2026-10-20",
+  "test": {
+    "lignes": [
+      {
+        "id": "T01",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 16577
+      },
+      {
+        "id": "T02",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 11517
+      },
+      {
+        "id": "T03",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1565
+      },
+      {
+        "id": "T04",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1643
+      },
+      {
+        "id": "T05",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1865
+      },
+      {
+        "id": "T06",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2095
+      },
+      {
+        "id": "T07",
+        "categorie": "rendez_vous",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2262
+      },
+      {
+        "id": "T08",
+        "categorie": "rendez_vous",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1657
+      },
+      {
+        "id": "T09",
+        "categorie": "adresse_partielle",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [
+          "chercher_terme_metier"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2796
+      },
+      {
+        "id": "T10",
+        "categorie": "adresse_incoherente",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 4715
+      },
+      {
+        "id": "T11",
+        "categorie": "homonymes",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 1856
+      },
+      {
+        "id": "T12",
+        "categorie": "bruit",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2127
+      },
+      {
+        "id": "T13",
+        "categorie": "bruit",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2119
+      },
+      {
+        "id": "T14",
+        "categorie": "champ_absent",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [
+          "chercher_terme_metier"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2560
+      },
+      {
+        "id": "T15",
+        "categorie": "champ_absent",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1625
+      },
+      {
+        "id": "T16",
+        "categorie": "gaz",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [
+          "chercher_terme_metier"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2620
+      },
+      {
+        "id": "T17",
+        "categorie": "medical",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [
+          "chercher_terme_metier"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2161
+      },
+      {
+        "id": "T18",
+        "categorie": "refus",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "objet": {
+            "exact": false,
+            "invente": true,
+            "absent_attendu": true
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1562
+      },
+      {
+        "id": "T19",
+        "categorie": "injection",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [
+          "chercher_terme_metier"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 3335
+      },
+      {
+        "id": "T20",
+        "categorie": "numero_dicte_different",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 3210
+      }
+    ],
+    "par_champ": {
+      "nom": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      },
+      "telephone": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      },
+      "code_postal": {
+        "exacts": 19,
+        "total": 20,
+        "ic95": [
+          0.764,
+          0.991
+        ]
+      },
+      "commune": {
+        "exacts": 19,
+        "total": 20,
+        "ic95": [
+          0.764,
+          0.991
+        ]
+      },
+      "objet": {
+        "exacts": 12,
+        "total": 20,
+        "ic95": [
+          0.387,
+          0.781
+        ]
+      },
+      "urgence": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      }
+    },
+    "global": {
+      "exacts": 110,
+      "total": 120,
+      "taux": 0.917,
+      "ic95": [
+        0.853,
+        0.954
+      ]
+    },
+    "invention": {
+      "inventes": 1,
+      "absents_attendus": 6,
+      "ic95": [
+        0.03,
+        0.564
+      ]
+    },
+    "trajectoire": {
+      "appels_par_scenario": 0.4,
+      "borne_atteinte": 0,
+      "outil_attendu_appele": 0,
+      "outil_attendu_total": 2
+    },
+    "latence_ms": {
+      "p50": 2127,
+      "p95": 11517
+    },
+    "part_a_verifier": 0.2,
+    "refus": 0
+  },
+  "base_sans_outils": {
+    "lignes": [
+      {
+        "id": "T01",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1450
+      },
+      {
+        "id": "T02",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 6409
+      },
+      {
+        "id": "T03",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1601
+      },
+      {
+        "id": "T04",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1688
+      },
+      {
+        "id": "T05",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 5292
+      },
+      {
+        "id": "T06",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 4329
+      },
+      {
+        "id": "T07",
+        "categorie": "rendez_vous",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2038
+      },
+      {
+        "id": "T08",
+        "categorie": "rendez_vous",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 7696
+      },
+      {
+        "id": "T09",
+        "categorie": "adresse_partielle",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1969
+      },
+      {
+        "id": "T10",
+        "categorie": "adresse_incoherente",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 1884
+      },
+      {
+        "id": "T11",
+        "categorie": "homonymes",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 1654
+      },
+      {
+        "id": "T12",
+        "categorie": "bruit",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1829
+      },
+      {
+        "id": "T13",
+        "categorie": "bruit",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2773
+      },
+      {
+        "id": "T14",
+        "categorie": "champ_absent",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1873
+      },
+      {
+        "id": "T15",
+        "categorie": "champ_absent",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1545
+      },
+      {
+        "id": "T16",
+        "categorie": "gaz",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1621
+      },
+      {
+        "id": "T17",
+        "categorie": "medical",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1453
+      },
+      {
+        "id": "T18",
+        "categorie": "refus",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1410
+      },
+      {
+        "id": "T19",
+        "categorie": "injection",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 1793
+      },
+      {
+        "id": "T20",
+        "categorie": "numero_dicte_different",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 3636
+      }
+    ],
+    "par_champ": {
+      "nom": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      },
+      "telephone": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      },
+      "code_postal": {
+        "exacts": 19,
+        "total": 20,
+        "ic95": [
+          0.764,
+          0.991
+        ]
+      },
+      "commune": {
+        "exacts": 19,
+        "total": 20,
+        "ic95": [
+          0.764,
+          0.991
+        ]
+      },
+      "objet": {
+        "exacts": 13,
+        "total": 20,
+        "ic95": [
+          0.433,
+          0.819
+        ]
+      },
+      "urgence": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      }
+    },
+    "global": {
+      "exacts": 111,
+      "total": 120,
+      "taux": 0.925,
+      "ic95": [
+        0.864,
+        0.96
+      ]
+    },
+    "invention": {
+      "inventes": 0,
+      "absents_attendus": 6,
+      "ic95": [
+        0.0,
+        0.39
+      ]
+    },
+    "trajectoire": {
+      "appels_par_scenario": 0.0,
+      "borne_atteinte": 0,
+      "outil_attendu_appele": 0,
+      "outil_attendu_total": 2
+    },
+    "latence_ms": {
+      "p50": 1829,
+      "p95": 6409
+    },
+    "part_a_verifier": 0.15,
+    "refus": 0
+  },
+  "bloquants": {
+    "conformite": [
+      {
+        "id": "C01",
+        "execution": 1,
+        "ecarts": []
+      },
+      {
+        "id": "C01",
+        "execution": 2,
+        "ecarts": []
+      },
+      {
+        "id": "C01",
+        "execution": 3,
+        "ecarts": []
+      },
+      {
+        "id": "C02",
+        "execution": 1,
+        "ecarts": []
+      },
+      {
+        "id": "C02",
+        "execution": 2,
+        "ecarts": []
+      },
+      {
+        "id": "C02",
+        "execution": 3,
+        "ecarts": []
+      },
+      {
+        "id": "C03",
+        "execution": 1,
+        "ecarts": []
+      },
+      {
+        "id": "C03",
+        "execution": 2,
+        "ecarts": []
+      },
+      {
+        "id": "C03",
+        "execution": 3,
+        "ecarts": []
+      },
+      {
+        "id": "C04",
+        "execution": 1,
+        "ecarts": []
+      },
+      {
+        "id": "C04",
+        "execution": 2,
+        "ecarts": []
+      },
+      {
+        "id": "C04",
+        "execution": 3,
+        "ecarts": []
+      },
+      {
+        "id": "C05",
+        "execution": 1,
+        "ecarts": [
+          "champ rempli malgré le refus"
+        ]
+      },
+      {
+        "id": "C05",
+        "execution": 2,
+        "ecarts": [
+          "champ rempli malgré le refus"
+        ]
+      },
+      {
+        "id": "C05",
+        "execution": 3,
+        "ecarts": [
+          "champ rempli malgré le refus"
+        ]
+      }
+    ],
+    "critiques": [
+      {
+        "id": "SC-01",
+        "ecarts": []
+      },
+      {
+        "id": "SC-03",
+        "ecarts": []
+      },
+      {
+        "id": "SC-04",
+        "ecarts": []
+      },
+      {
+        "id": "SC-05",
+        "ecarts": []
+      },
+      {
+        "id": "SC-07",
+        "ecarts": []
+      },
+      {
+        "id": "SC-10",
+        "ecarts": []
+      }
+    ],
+    "qualification": [
+      {
+        "id": "SC-Q3",
+        "execution": 1,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q3",
+        "execution": 2,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q3",
+        "execution": 3,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q4",
+        "execution": 1,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q4",
+        "execution": 2,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q4",
+        "execution": 3,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q7",
+        "execution": 1,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q7",
+        "execution": 2,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q7",
+        "execution": 3,
+        "ecarts": []
+      }
+    ]
+  },
+  "verdict": "echec",
+  "raisons": [
+    "conformite C05 : champ rempli malgré le refus",
+    "conformite C05 : champ rempli malgré le refus",
+    "conformite C05 : champ rempli malgré le refus",
+    "critique T11 : commune et code postal (avenant de CA-6, D-69)"
+  ],
+  "cout_eur": 0.2065
+}

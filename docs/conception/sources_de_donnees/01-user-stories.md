@@ -1,7 +1,7 @@
 # User stories de Muninn
 
-**Version :** 2.5
-**Date :** 19 octobre 2026
+**Version :** 2.6
+**Date :** 20 octobre 2026
 **Historique :** la v2 ajoute l'épopée EP10 (données de référence, US-46 à US-53), l'acteur
 « porteur du projet » et le contrôle des champs extraits par l'API des référentiels dans la démo.
 La v2.1 ajoute US-54 et le critère 5 de US-01 (décision D-22). La v2.2 suit les décisions D-24 à
@@ -14,7 +14,9 @@ après le 13 novembre. La v2.4, à la demande du porteur (19 octobre 2026), pré
 renvoi, refus du renvoi inconditionnel, réécoute impossible), US-04 (téléphone qui sonne d'abord)
 et ajoute en section 9 la mention « Ce document n'est pas une facture ». La v2.5 suit D-68 : délai
 et code `**004*` (US-03), test du cas injoignable (US-04), récapitulatif d'intervention (US-61,
-EP11).
+EP11). La v2.6 suit D-76 : l'agent propose des créneaux, il ne prend jamais de rendez-vous
+(US-26 et US-08 réécrites : les créneaux sont proposés à
+l'artisan, jamais à l'appelant).
 **Phase :** 0a (besoin, flux et sources de données)
 **Statut :** proposition, à valider par le porteur
 **Compétence principale servie :** C14 (analyse du besoin, spécifications fonctionnelles)
@@ -306,10 +308,11 @@ Critères d'acceptation :
 4. Étant donné une question sur un prix, un délai garanti ou un diagnostic, quand le client la
    pose, alors l'agent répond qu'il ne peut pas s'engager et que l'artisan rappellera.
 
-#### US-08. Obtenir un créneau ou l'annonce d'un rappel
+#### US-08. Donner ses disponibilités et savoir qu'on sera rappelé
 
-En tant que client final, je veux obtenir un créneau parmi les disponibilités de l'artisan, ou
-l'annonce d'un rappel, afin de savoir quand il interviendra.
+En tant que client final, je veux dire quand je suis disponible et savoir que l'artisan me
+rappellera pour fixer le rendez-vous, afin d'être rappelé à un moment qui me convient. Aucun
+créneau ne m'est proposé par l'assistant (D-76).
 
 - Priorité : Must
 - Horizon : MVP
@@ -319,12 +322,15 @@ l'annonce d'un rappel, afin de savoir quand il interviendra.
 
 Critères d'acceptation :
 
-1. Étant donné la prise de rendez-vous activée et un créneau libre, quand le client accepte le
-   créneau proposé, alors le brouillon contient `rdv_propose` avec `accepte_par_client` à vrai.
-2. Étant donné aucun créneau libre dans les 14 jours, quand le client demande un rendez-vous,
-   alors l'agent annonce un rappel par l'artisan.
-3. Étant donné un créneau accepté, quand un autre client appelle ensuite, alors ce créneau ne lui
-   est plus proposé.
+1. Étant donné un appel de demande de service, quand l'agent demande au client à quel moment
+   l'artisan peut le rappeler pour fixer le rendez-vous (par exemple entre quelle heure et quelle
+   heure), alors sa réponse figure telle qu'il la dit dans `demande.disponibilites_client` ;
+   « tout de suite » est noté aussi et la demande est prise, sans promesse de délai.
+2. Étant donné un client qui demande un rendez-vous ou propose lui-même une date, quand l'agent
+   répond, alors il ne propose ni n'accepte aucun créneau : il note la disponibilité et annonce
+   que l'artisan rappellera pour fixer le rendez-vous.
+3. Étant donné la fin de l'appel, quand l'agent conclut, alors aucun créneau n'est réservé dans
+   l'agenda de l'artisan.
 
 #### US-09. Recevoir la consigne de sécurité en cas de danger
 
@@ -748,10 +754,12 @@ Critères d'acceptation :
 
 ### EP6. Rendez-vous et imprévus
 
-#### US-26. Retrouver dans son agenda le rendez-vous pris par l'assistant
+#### US-26. Décider des créneaux proposés par l'assistant
 
-En tant qu'artisan, je veux que le rendez-vous accepté par un client au téléphone apparaisse dans
-mon agenda Muninn afin d'éviter les doubles réservations.
+En tant qu'artisan, je veux que l'assistant me propose, à moi seul, des créneaux possibles,
+calculés à partir des disponibilités dites par le client et des créneaux libres de mon agenda, et
+rester seul à fixer le rendez-vous quand je rappelle le client, afin de ne jamais être engagé par
+une proposition de l'assistant (D-76).
 
 - Priorité : Must
 - Horizon : MVP
@@ -761,12 +769,16 @@ mon agenda Muninn afin d'éviter les doubles réservations.
 
 Critères d'acceptation :
 
-1. Étant donné un brouillon avec un `rdv_propose` accepté, quand il arrive sur l'appareil, alors
-   le rendez-vous apparaît dans l'agenda avec la mention « pris par l'assistant ».
-2. Étant donné ce rendez-vous, quand l'artisan l'annule ou le déplace, alors Muninn prépare le SMS
-   au client et ne l'envoie qu'après validation (US-28).
-3. Étant donné un rendez-vous pris, quand le serveur l'enregistre, alors le créneau est marqué
-   occupé sans nom ni adresse.
+1. Étant donné un dossier avec les disponibilités du client, quand l'assistant propose des
+   créneaux à l'artisan, alors ce sont seulement des créneaux libres de son agenda compatibles
+   avec ces disponibilités ; aucun n'a été proposé au client et aucun n'est réservé.
+2. Étant donné un dossier temporaire avec des créneaux proposés, quand il s'affiche, alors chaque
+   créneau porte la mention visible « proposé, à confirmer par l'artisan ».
+3. Étant donné ce dossier, quand l'artisan veut le valider, alors la validation n'est possible
+   qu'après sa décision sur chaque créneau proposé : confirmer, modifier ou écarter.
+4. Étant donné un créneau confirmé par l'artisan, quand le serveur l'enregistre, alors le
+   créneau est marqué occupé sans nom ni adresse ; une annulation ou un déplacement prépare le
+   SMS au client, envoyé seulement après validation (US-28).
 
 #### US-27. Envoyer des rappels de rendez-vous par SMS
 

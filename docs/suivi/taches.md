@@ -92,7 +92,8 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-20 | Sprint 4, étape 6 : qualification des appels ; D-71 et D-72 (trame v1.2) ; CA-7 en local 24 sur 24, écart SC-Q8 renvoyé à l'étape 9                                                            | PR n° 136                                                              |
 | 2026-10-20 | Sprint 4, étape 7 : garde-fous de sortie (fuite, invention étendue, hors rôle, refus journalisés) ; table de conformité, 26 engagements                                                        | PR n° 139                                                              |
 | 2026-10-20 | Sprint 4, étape 8 : API de l'agent et écran « Agent » (lots de 8 scénarios, P4) ; D-73, D-74                                                                                                   | PR n° 141                                                              |
-| 2026-10-20 | Décision D-75 : garde-fou personnalisé créé par le porteur (détournements annotés), vérifié par appels réels ; D-70 remplacée                                                                  | PR n° 143 (en revue)                                                   |
+| 2026-10-20 | Décision D-75 : garde-fou personnalisé créé par le porteur (détournements annotés), vérifié par appels réels ; D-70 remplacée                                                                  | PR n° 143                                                              |
+| 2026-10-20 | Sprint 4, étape 9 : évaluation V-08 (jeu figé et relu, harnais, job de CI, identité dédiée) ; campagne 2 : 117/120, verdict réussite ; SC-Q8 réglé sur le développement ; D-76, D-77           | PR n° 145 (en revue)                                                   |
 
 ## À faire
 

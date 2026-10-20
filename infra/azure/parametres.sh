@@ -21,6 +21,8 @@ POSTGRES_ADMIN="muninnadmin"
 # Identités managées : l'une pour l'exécution (tirer les images, appeler le modèle), l'autre pour
 # le déploiement depuis GitHub Actions (OIDC, sans secret).
 IDENTITE_EXECUTION="id-muninn-execution"
+# Évaluation de l'agent en CI (D-64) : identité à part, un seul droit (appeler le modèle).
+IDENTITE_EVALUATION="id-muninn-evaluation"
 IDENTITE_DEPLOIEMENT="id-muninn-deploiement"
 DEPOT_GITHUB="Bealph/Muninn"
 # Sujet OIDC « immuable » du dépôt (identifiants du compte et du dépôt) : voir oidc-github.sh.

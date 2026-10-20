@@ -71,6 +71,16 @@ def normaliser(texte: str) -> str:
     return re.sub(r"[^a-z0-9]+", " ", texte).strip()
 
 
+def paroles_appelant(transcription: str) -> str:
+    """Les répliques de l'appelant d'un dialogue (« Appelant : ») ; le texte entier sinon."""
+    lignes = [
+        ligne.split(":", 1)[1]
+        for ligne in transcription.splitlines()
+        if ligne.strip().lower().startswith("appelant") and ":" in ligne
+    ]
+    return "\n".join(lignes) if lignes or "Agent :" in transcription else transcription
+
+
 def nettoyer(texte: str) -> tuple[str, int]:
     """Retire les caractères de contrôle et de format (catégories Cc et Cf), sauf saut de ligne et
     tabulation ; rend le texte et le nombre de caractères retirés."""

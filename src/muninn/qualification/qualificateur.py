@@ -29,7 +29,7 @@ from pathlib import Path
 from pydantic import ValidationError
 
 from muninn.extraction.contrat import MOTIF_TELEPHONE, Metier
-from muninn.extraction.entree import LETTRES_MIN, controler, normaliser
+from muninn.extraction.entree import LETTRES_MIN, controler, normaliser, paroles_appelant
 from muninn.extraction.evaluateur import (
     ContenuRefuse,
     EntreeRefusee,
@@ -83,16 +83,6 @@ def contient_besoin(transcription_normalisee: str) -> bool:
     _, expressions = charger_expressions()
     texte = f" {transcription_normalisee} "
     return any(f" {e} " in texte for e in expressions)
-
-
-def paroles_appelant(transcription: str) -> str:
-    """Les répliques de l'appelant d'un dialogue (« Appelant : ») ; le texte entier sinon."""
-    lignes = [
-        ligne.split(":", 1)[1]
-        for ligne in transcription.splitlines()
-        if ligne.strip().lower().startswith("appelant") and ":" in ligne
-    ]
-    return "\n".join(lignes) if lignes or "Agent :" in transcription else transcription
 
 
 def sans_contenu(transcription: str) -> bool:

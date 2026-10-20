@@ -474,3 +474,70 @@ def test_panne_imprevue_des_referentiels_non_controle() -> None:
         Referentiels(panne=ConnectionError()),
     )
     assert b.checks.commune.status == "not_checked" and "non_controle" in e.motifs
+
+
+def test_nom_usuel_retrouve_par_le_serveur() -> None:
+    """D-77 : nom composé inconnu, une seule commune pour le nom principal : elle est retenue."""
+    refs = Referentiels()
+    b, e = evaluer_cas(
+        resultat(sortie("Vincennes-la-Ville", None)),  # nom usuel fictif, pour le test
+        "12 rue des Lilas à Vincennes-la-Ville, fuite sous l'évier",
+        refs,
+    )
+    assert [c.get("nom") for c in refs.recus] == ["Vincennes-la-Ville", "Vincennes"]
+    assert b.client.adresse.commune.value == "Vincennes"
+    assert b.client.adresse.code_postal.value == "94300"
+    assert b.checks.commune.status == "verified" and b.checks.commune.match == "delegated"
+    assert b.checks.commune.heard_value == "Vincennes-la-Ville"
+
+
+def test_nom_usuel_ambigu_jamais_choisi() -> None:
+    """« Montreuil-sous-Bois » : trois Montreuil ; candidates jointes, à vérifier, aucun choix."""
+    b, e = evaluer_cas(
+        resultat(sortie("Montreuil-sous-Bois", None)),
+        "12 rue des Lilas à Montreuil-sous-Bois, fuite sous l'évier",
+    )
+    assert b.client.adresse.code_postal.value is None and len(e.candidates) == 3
+    assert "commune_ambigue" in e.motifs and e.a_verifier
+
+
+@pytest.mark.parametrize(
+    "transcription",
+    [
+        "fuite à Montreuil, dans le 9-3",
+        "fuite à Montreuil, en Seine-Saint-Denis",
+        "fuite à Montreuil, dans le 93",
+    ],
+)
+def test_indice_de_departement_resolu_par_le_serveur(transcription: str) -> None:
+    """D-78 : un département cité en clair départage les homonymes, même sans outil."""
+    b, e = evaluer_cas(
+        resultat(sortie("Montreuil", None)), "Paul Martin, 12 rue des Lilas, " + transcription
+    )
+    assert b.client.adresse.code_postal.value == "93100" and b.checks.commune.insee_code == "93048"
+    assert e.provenance["client.adresse.commune"].origine == "deduit"
+    assert e.provenance["client.adresse.commune"].auteur == "serveur" and not e.candidates
+
+
+def test_departement_absent_des_candidates_jamais_choisi() -> None:
+    b, e = evaluer_cas(resultat(sortie("Montreuil", None)), "fuite à Montreuil, dans le Var")
+    assert b.client.adresse.code_postal.value is None and len(e.candidates) == 3
+
+
+def test_departements_cites() -> None:
+    from muninn.extraction.indices import departements_cites
+
+    assert departements_cites(normaliser("à Chelles, en Seine-et-Marne")) == {"77"}
+    assert departements_cites(normaliser("le 9-3")) == {"93"}
+    assert departements_cites(normaliser("au 12 rue de la Paix, au nord de la ville")) == set()
+
+
+def test_nom_de_l_artisan_jamais_pris_pour_le_client() -> None:
+    """Le nom n'apparaît que dans une réplique de l'agent : ce n'est pas celui du client."""
+    s = sortie("Montreuil", "93100", nom="Karim")
+    b, e = evaluer_cas(
+        resultat(s),
+        "Agent : Karim vous rappellera, au revoir.\n"
+        "Appelant : 12 rue des Lilas à Montreuil, 93100, au 06 99 00 00 01.",
+    )
+    assert b.client.nom.value is None and "invention" in e.garde_fous

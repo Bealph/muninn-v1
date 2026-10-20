@@ -243,3 +243,28 @@ def test_message_outil_sans_nom() -> None:
         "tool_call_id": "appel-1",
         "content": '{"statut": "trouve"}',
     }
+
+
+def _azure_qui_dort(gestionnaire: Any, attentes: list[float]) -> FournisseurAzure:
+    return FournisseurAzure(
+        "https://exemple.services.ai.azure.com",
+        lambda: {"Authorization": "Bearer jeton-de-test"},
+        client=httpx.Client(transport=httpx.MockTransport(gestionnaire)),
+        dormir=attentes.append,
+    )
+
+
+def test_limite_de_debit_reprise_puis_reussite() -> None:
+    reponses = [httpx.Response(429, headers={"Retry-After": "3"}),
+                _reponse({"role": "assistant", "content": "{}"})]  # fmt: skip
+    attentes: list[float] = []
+    r = _azure_qui_dort(lambda requete: reponses.pop(0), attentes).completer(_requete())
+    assert r.contenu == "{}" and attentes == [3.0]
+
+
+def test_limite_de_debit_reprise_bornee() -> None:
+    attentes: list[float] = []
+    azure = _azure_qui_dort(lambda r: httpx.Response(429, headers={"Retry-After": "60"}), attentes)
+    with pytest.raises(ErreurFournisseur):
+        azure.completer(_requete())
+    assert attentes == [10.0, 10.0]  # deux reprises, attente plafonnée

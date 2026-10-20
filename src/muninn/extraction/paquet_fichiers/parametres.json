@@ -1,5 +1,5 @@
 {
-  "prompt_version": "extraction-2026.10.1",
+  "prompt_version": "extraction-2026.10.3",
   "modele": "gpt-5.4-mini",
   "modele_version": "2026-03-17",
   "max_jetons_sortie": 4000,

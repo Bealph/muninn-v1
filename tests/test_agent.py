@@ -304,3 +304,31 @@ def test_panne_imprevue_d_un_referentiel_ne_leve_pas() -> None:
 
     r = executer_outil(EnPanne(), "chercher_communes", '{"nom": "Montreuil", "code_postal": null}')
     assert r.statut == "indisponible"
+
+
+def test_nom_usuel_cherche_sous_son_nom_principal() -> None:
+    """« Clichy-la-Garenne » n'est pas un nom officiel : l'outil cherche « Clichy » et le dit."""
+    from muninn.extraction.outils import executer_outil
+
+    class Refs:
+        def __init__(self) -> None:
+            self.recus: list[dict[str, str]] = []
+
+        def communes(self, corps: dict[str, str]) -> dict[str, object]:
+            self.recus.append(corps)
+            if corps["nom"] == "Clichy":
+                return {"statut": "trouve", "candidates": [
+                    {"code_insee": "92024", "nom": "Clichy", "departement": "92",
+                     "codes_postaux": ["92110"]}]}  # fmt: skip
+            return {"statut": "hors_corpus", "candidates": []}
+
+        def termes(self, corps: dict[str, str]) -> dict[str, object]:
+            return {}
+
+    refs = Refs()
+    r = executer_outil(refs, "chercher_communes", '{"nom": "Clichy-la-Garenne"}')
+    assert [c["nom"] for c in refs.recus] == ["Clichy-la-Garenne", "Clichy"]
+    assert r.statut == "trouve" and r.communes[0].codes_postaux == ("92110",)
+    assert '"nom_principal": "Clichy"' in r.contenu
+    sans = executer_outil(Refs(), "chercher_communes", '{"nom": "Nulle-Part"}')
+    assert sans.statut == "hors_corpus" and "nom_principal" not in sans.contenu

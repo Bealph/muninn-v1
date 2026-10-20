@@ -7,7 +7,7 @@ données, schéma de sortie, définitions des outils et paramètres. Il est lu d
 L'empreinte est un SHA-256 sur une liste fermée de chemins : le paquet, le code de l'extraction
 et des outils (D-37), la qualification des appels (V-11), l'adaptateur du fournisseur et le
 fichier de verrouillage des dépendances. L'évaluation en CI ne tourne que si elle change (D-64).
-Le harnais et le jeu d'évaluation s'y ajouteront à l'étape 9 du sprint 4.
+Le harnais et le jeu d'évaluation y sont depuis l'étape 9 du sprint 4.
 """
 
 import hashlib
@@ -27,10 +27,15 @@ _BALISES = re.compile(r"</?\s*transcription\s*>", re.IGNORECASE)
 # erreur : un chemin renommé ne doit pas sortir de l'empreinte en silence.
 MOTIFS_EMPREINTE: tuple[str, ...] = (
     "src/muninn/extraction/*.py",
+    "src/muninn/extraction/departements.json",
     "src/muninn/extraction/paquet_fichiers/*",
     "src/muninn/llm/*.py",
     "src/muninn/qualification/*.py",
     "src/muninn/qualification/paquet_fichiers/*",
+    "src/muninn/evaluation/*.py",
+    "src/muninn/demo/*",
+    "eval/v08/*.json",
+    "eval/qualification/scenarios.json",
     "uv.lock",
 )
 

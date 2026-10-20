@@ -86,3 +86,9 @@ est désormais classé `indetermine` par le modèle lui-même (confiance 0,33 à
 « à vérifier », 3 sur 3. Aucun réglage ne visait SC-Q8 ; la sensibilité de la classification à une
 ligne sans rapport est elle-même un résultat : la conformité de SC-Q8 n'est pas acquise. Le point
 de l'étape 9 (partition de développement) est maintenu.
+
+## 7. Après l'étape 9
+
+La consigne `qualification-2026.10.3`, mise au point sur les dialogues de développement DQ1 à DQ4
+seulement, classe `indetermine` un appel qui ne demande qu'un rappel sans besoin décrit. SC-Q8,
+remesuré sans réglage : `indetermine` 3 sur 3 ; CA-7 : 24 sur 24 (`evaluation.md`, § 5).

@@ -81,7 +81,7 @@ def dossier_sc01(**surcharges: Any) -> dict[str, Any]:
         "call_outcome": "completed",
         "provenance": {
             "input_mode": "simulated",
-            "prompt_version": "extraction-2026.10.1",
+            "prompt_version": "extraction-2026.10.3",
             "model_id": "gpt-5.4-mini-2026-03-17",
             "lexicon": {"trade": "plomberie", "version": "2026.10.2"},
             "extraction_status": "complete",
@@ -347,7 +347,7 @@ def test_outils_en_liste_fermee() -> None:
 
 def test_parametres_et_versions() -> None:
     paquet = charger_paquet()
-    assert paquet.prompt_version == "extraction-2026.10.1"
+    assert paquet.prompt_version == "extraction-2026.10.3"
     assert paquet.model_id == "gpt-5.4-mini-2026-03-17"
     assert paquet.parametres["max_appels_outils"] == 6
     assert paquet.parametres["parallel_tool_calls"] is False

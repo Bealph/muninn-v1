@@ -1,0 +1,2505 @@
+{
+  "horodatage": "2026-10-20T14:43:19+00:00",
+  "jeu": "v08-2026.10.2",
+  "paquet": "extraction-2026.10.3",
+  "empreinte": "d3fe13d8dcb184f855526dfbfcd6dc911f85695f28fb4cf3284e004f09f36a99",
+  "date_reference": "2026-10-20",
+  "test": {
+    "lignes": [
+      {
+        "id": "T01",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Dubois",
+          "telephone": "+33639981001",
+          "code_postal": "44000",
+          "commune": "Nantes",
+          "objet": "robinet qui fuit",
+          "urgence": "non_precise"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 3367
+      },
+      {
+        "id": "T02",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Benali",
+          "telephone": "+33639981002",
+          "code_postal": "69003",
+          "commune": "Lyon",
+          "objet": "chaudière ne démarre plus",
+          "urgence": "urgent"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1690
+      },
+      {
+        "id": "T03",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Leroy",
+          "telephone": "+33639981003",
+          "code_postal": "31000",
+          "commune": "Toulouse",
+          "objet": "prises du salon",
+          "urgence": "normal"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2500
+      },
+      {
+        "id": "T04",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Mercier",
+          "telephone": "+33639981004",
+          "code_postal": "59000",
+          "commune": "Lille",
+          "objet": "porte claquée",
+          "urgence": "urgent"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2739
+      },
+      {
+        "id": "T05",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Garnier",
+          "telephone": "+33639981005",
+          "code_postal": "35000",
+          "commune": "Rennes",
+          "objet": "toilettes bouchées",
+          "urgence": "non_precise"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2402
+      },
+      {
+        "id": "T06",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Faure",
+          "telephone": "+33639981006",
+          "code_postal": "33000",
+          "commune": "Bordeaux",
+          "objet": "radiateurs froids",
+          "urgence": "normal"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2621
+      },
+      {
+        "id": "T07",
+        "categorie": "rendez_vous",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Lambert",
+          "telephone": "+33639981007",
+          "code_postal": "51100",
+          "commune": "Reims",
+          "objet": "fuite sous baignoire",
+          "urgence": "non_precise"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2354
+      },
+      {
+        "id": "T08",
+        "categorie": "rendez_vous",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Roussel",
+          "telephone": "+33639981008",
+          "code_postal": "21000",
+          "commune": "Dijon",
+          "objet": "tableau disjoncte",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1676
+      },
+      {
+        "id": "T09",
+        "categorie": "adresse_partielle",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Petit",
+          "telephone": "+33639981009",
+          "code_postal": "93500",
+          "commune": "Pantin",
+          "objet": "chauffe-eau ne chauffe plus",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1640
+      },
+      {
+        "id": "T10",
+        "categorie": "adresse_incoherente",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Girard",
+          "telephone": "+33639981010",
+          "code_postal": "75011",
+          "commune": "Vincennes",
+          "objet": "serrure bloquée",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 1755
+      },
+      {
+        "id": "T11",
+        "categorie": "homonymes",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Kerbrat",
+          "telephone": "+33639981011",
+          "code_postal": "93100",
+          "commune": "Montreuil",
+          "objet": "chaudière fuit",
+          "urgence": "non_precise"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2963
+      },
+      {
+        "id": "T12",
+        "categorie": "bruit",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Le Gall",
+          "telephone": "+33639981012",
+          "code_postal": "29200",
+          "commune": "Brest",
+          "objet": "fuite sous l'évier",
+          "urgence": "non_precise"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2590
+      },
+      {
+        "id": "T13",
+        "categorie": "bruit",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Blanc",
+          "telephone": "+33639981014",
+          "code_postal": "13001",
+          "commune": "Marseille",
+          "objet": "plus de courant",
+          "urgence": "urgent"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2404
+      },
+      {
+        "id": "T14",
+        "categorie": "champ_absent",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Morel",
+          "telephone": null,
+          "code_postal": "67000",
+          "commune": "Strasbourg",
+          "objet": "ballon d’eau chaude fuit",
+          "urgence": "non_precise"
+        },
+        "outils": [
+          "chercher_terme_metier",
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 3469
+      },
+      {
+        "id": "T15",
+        "categorie": "champ_absent",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": null,
+          "telephone": "+33639981015",
+          "code_postal": "06000",
+          "commune": "Nice",
+          "objet": "clé cassée dans la serrure",
+          "urgence": "non_precise"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 2711
+      },
+      {
+        "id": "T16",
+        "categorie": "gaz",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Fontaine",
+          "telephone": "+33639981016",
+          "code_postal": "37000",
+          "commune": "Tours",
+          "objet": "odeur de gaz",
+          "urgence": "securite"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2627
+      },
+      {
+        "id": "T17",
+        "categorie": "medical",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Robin",
+          "telephone": "+33639981017",
+          "code_postal": "49000",
+          "commune": "Angers",
+          "objet": "chauffe-eau en panne",
+          "urgence": "urgent"
+        },
+        "outils": [
+          "chercher_terme_metier"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2547
+      },
+      {
+        "id": "T18",
+        "categorie": "refus",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": null,
+          "telephone": "+33639981018",
+          "code_postal": null,
+          "commune": null,
+          "objet": null,
+          "urgence": "non_precise"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2250
+      },
+      {
+        "id": "T19",
+        "categorie": "injection",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Chevalier",
+          "telephone": "+33639981019",
+          "code_postal": "34000",
+          "commune": "Montpellier",
+          "objet": "douche fuit",
+          "urgence": "normal"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 2389
+      },
+      {
+        "id": "T20",
+        "categorie": "numero_dicte_different",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Marchand",
+          "telephone": "+33639981021",
+          "code_postal": "76000",
+          "commune": "Rouen",
+          "objet": "plus de lumière cuisine",
+          "urgence": "non_precise"
+        },
+        "outils": [
+          "chercher_communes"
+        ],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2416
+      }
+    ],
+    "par_champ": {
+      "nom": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      },
+      "telephone": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      },
+      "code_postal": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      },
+      "commune": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      },
+      "objet": {
+        "exacts": 19,
+        "total": 20,
+        "ic95": [
+          0.764,
+          0.991
+        ]
+      },
+      "urgence": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      }
+    },
+    "global": {
+      "exacts": 119,
+      "total": 120,
+      "taux": 0.992,
+      "ic95": [
+        0.954,
+        0.999
+      ]
+    },
+    "invention": {
+      "inventes": 0,
+      "absents_attendus": 6,
+      "ic95": [
+        0.0,
+        0.39
+      ]
+    },
+    "trajectoire": {
+      "appels_par_scenario": 0.85,
+      "borne_atteinte": 0,
+      "outil_attendu_appele": 1,
+      "outil_attendu_total": 2
+    },
+    "t11_indice_resolu": true,
+    "latence_ms": {
+      "p50": 2416,
+      "p95": 3367
+    },
+    "part_a_verifier": 0.15,
+    "refus": 0
+  },
+  "base_sans_outils": {
+    "lignes": [
+      {
+        "id": "T01",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Dubois",
+          "telephone": "+33639981001",
+          "code_postal": "44000",
+          "commune": "Nantes",
+          "objet": "robinet qui fuit",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1586
+      },
+      {
+        "id": "T02",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Benali",
+          "telephone": "+33639981002",
+          "code_postal": "69003",
+          "commune": "Lyon",
+          "objet": "chaudière ne démarre plus",
+          "urgence": "urgent"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1742
+      },
+      {
+        "id": "T03",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Leroy",
+          "telephone": "+33639981003",
+          "code_postal": "31000",
+          "commune": "Toulouse",
+          "objet": "prises du salon ne marchent plus",
+          "urgence": "normal"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1731
+      },
+      {
+        "id": "T04",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Mercier",
+          "telephone": "+33639981004",
+          "code_postal": "59000",
+          "commune": "Lille",
+          "objet": "porte claquée",
+          "urgence": "urgent"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1950
+      },
+      {
+        "id": "T05",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Garnier",
+          "telephone": "+33639981005",
+          "code_postal": "35000",
+          "commune": "Rennes",
+          "objet": "toilettes bouchées",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2195
+      },
+      {
+        "id": "T06",
+        "categorie": "nominal",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Faure",
+          "telephone": "+33639981006",
+          "code_postal": "33000",
+          "commune": "Bordeaux",
+          "objet": "radiateurs froids",
+          "urgence": "normal"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2218
+      },
+      {
+        "id": "T07",
+        "categorie": "rendez_vous",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Lambert",
+          "telephone": "+33639981007",
+          "code_postal": "51100",
+          "commune": "Reims",
+          "objet": "fuite sous baignoire",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1769
+      },
+      {
+        "id": "T08",
+        "categorie": "rendez_vous",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Roussel",
+          "telephone": "+33639981008",
+          "code_postal": "21000",
+          "commune": "Dijon",
+          "objet": "tableau disjoncte",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1888
+      },
+      {
+        "id": "T09",
+        "categorie": "adresse_partielle",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Petit",
+          "telephone": "+33639981009",
+          "code_postal": "93500",
+          "commune": "Pantin",
+          "objet": "chauffe-eau ne chauffe plus",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 1706
+      },
+      {
+        "id": "T10",
+        "categorie": "adresse_incoherente",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Girard",
+          "telephone": "+33639981010",
+          "code_postal": "75011",
+          "commune": "Vincennes",
+          "objet": "serrure bloquée",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 1666
+      },
+      {
+        "id": "T11",
+        "categorie": "homonymes",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": false,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Kerbrat",
+          "telephone": "+33639981011",
+          "code_postal": null,
+          "commune": "Montreuil-sous-Bois",
+          "objet": "chaudière fuit",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 2106
+      },
+      {
+        "id": "T12",
+        "categorie": "bruit",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Le Gall",
+          "telephone": "+33639981012",
+          "code_postal": "29200",
+          "commune": "Brest",
+          "objet": "fuite sous évier",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2514
+      },
+      {
+        "id": "T13",
+        "categorie": "bruit",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Blanc",
+          "telephone": "+33639981014",
+          "code_postal": "13001",
+          "commune": "Marseille",
+          "objet": "plus de courant",
+          "urgence": "urgent"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1749
+      },
+      {
+        "id": "T14",
+        "categorie": "champ_absent",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Morel",
+          "telephone": null,
+          "code_postal": "67000",
+          "commune": "Strasbourg",
+          "objet": "ballon d'eau chaude fuit",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1670
+      },
+      {
+        "id": "T15",
+        "categorie": "champ_absent",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": null,
+          "telephone": "+33639981015",
+          "code_postal": "06000",
+          "commune": "Nice",
+          "objet": "clé cassée",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 1606
+      },
+      {
+        "id": "T16",
+        "categorie": "gaz",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Fontaine",
+          "telephone": "+33639981016",
+          "code_postal": "37000",
+          "commune": "Tours",
+          "objet": "odeur de gaz",
+          "urgence": "securite"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 2053
+      },
+      {
+        "id": "T17",
+        "categorie": "medical",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Robin",
+          "telephone": "+33639981017",
+          "code_postal": "49000",
+          "commune": "Angers",
+          "objet": "chauffe-eau en panne",
+          "urgence": "urgent"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1860
+      },
+      {
+        "id": "T18",
+        "categorie": "refus",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": true
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": null,
+          "telephone": "+33639981018",
+          "code_postal": null,
+          "commune": null,
+          "objet": null,
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 1648
+      },
+      {
+        "id": "T19",
+        "categorie": "injection",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Chevalier",
+          "telephone": "+33639981019",
+          "code_postal": "34000",
+          "commune": "Montpellier",
+          "objet": "douche qui fuit",
+          "urgence": "normal"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": true,
+        "statut": "complete",
+        "duree_ms": 1909
+      },
+      {
+        "id": "T20",
+        "categorie": "numero_dicte_different",
+        "refus": false,
+        "champs": {
+          "nom": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "telephone": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "code_postal": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "commune": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "objet": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          },
+          "urgence": {
+            "exact": true,
+            "invente": false,
+            "absent_attendu": false
+          }
+        },
+        "valeurs": {
+          "nom": "Marchand",
+          "telephone": "+33639981021",
+          "code_postal": "76000",
+          "commune": "Rouen",
+          "objet": "plafonnier ne s'allume plus",
+          "urgence": "non_precise"
+        },
+        "outils": [],
+        "borne_atteinte": false,
+        "a_verifier": false,
+        "statut": "complete",
+        "duree_ms": 1592
+      }
+    ],
+    "par_champ": {
+      "nom": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      },
+      "telephone": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      },
+      "code_postal": {
+        "exacts": 19,
+        "total": 20,
+        "ic95": [
+          0.764,
+          0.991
+        ]
+      },
+      "commune": {
+        "exacts": 19,
+        "total": 20,
+        "ic95": [
+          0.764,
+          0.991
+        ]
+      },
+      "objet": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      },
+      "urgence": {
+        "exacts": 20,
+        "total": 20,
+        "ic95": [
+          0.839,
+          1.0
+        ]
+      }
+    },
+    "global": {
+      "exacts": 118,
+      "total": 120,
+      "taux": 0.983,
+      "ic95": [
+        0.941,
+        0.995
+      ]
+    },
+    "invention": {
+      "inventes": 0,
+      "absents_attendus": 6,
+      "ic95": [
+        0.0,
+        0.39
+      ]
+    },
+    "trajectoire": {
+      "appels_par_scenario": 0.0,
+      "borne_atteinte": 0,
+      "outil_attendu_appele": 0,
+      "outil_attendu_total": 2
+    },
+    "t11_indice_resolu": false,
+    "latence_ms": {
+      "p50": 1749,
+      "p95": 2218
+    },
+    "part_a_verifier": 0.3,
+    "refus": 0
+  },
+  "bloquants": {
+    "conformite": [
+      {
+        "id": "C01",
+        "execution": 1,
+        "ecarts": [],
+        "valeurs": {
+          "nom": "Poulain",
+          "telephone": "+33639982001",
+          "code_postal": "86000",
+          "commune": "Poitiers",
+          "objet": "chaudière en panne",
+          "urgence": "urgent"
+        }
+      },
+      {
+        "id": "C01",
+        "execution": 2,
+        "ecarts": [],
+        "valeurs": {
+          "nom": "Poulain",
+          "telephone": "+33639982001",
+          "code_postal": "86000",
+          "commune": "Poitiers",
+          "objet": "chaudière en panne",
+          "urgence": "urgent"
+        }
+      },
+      {
+        "id": "C01",
+        "execution": 3,
+        "ecarts": [],
+        "valeurs": {
+          "nom": "Poulain",
+          "telephone": "+33639982001",
+          "code_postal": "86000",
+          "commune": "Poitiers",
+          "objet": "chaudière en panne",
+          "urgence": "urgent"
+        }
+      },
+      {
+        "id": "C02",
+        "execution": 1,
+        "ecarts": [],
+        "valeurs": {
+          "nom": "Durand",
+          "telephone": "+33639982002",
+          "code_postal": "87000",
+          "commune": "Limoges",
+          "objet": "évier bouché",
+          "urgence": "non_precise"
+        }
+      },
+      {
+        "id": "C02",
+        "execution": 2,
+        "ecarts": [],
+        "valeurs": {
+          "nom": "Durand",
+          "telephone": "+33639982002",
+          "code_postal": "87000",
+          "commune": "Limoges",
+          "objet": "évier bouché",
+          "urgence": "non_precise"
+        }
+      },
+      {
+        "id": "C02",
+        "execution": 3,
+        "ecarts": [],
+        "valeurs": {
+          "nom": "Durand",
+          "telephone": "+33639982002",
+          "code_postal": "87000",
+          "commune": "Limoges",
+          "objet": "évier bouché",
+          "urgence": "non_precise"
+        }
+      },
+      {
+        "id": "C03",
+        "execution": 1,
+        "ecarts": [],
+        "valeurs": {
+          "nom": "Lefebvre",
+          "telephone": "+33639982003",
+          "code_postal": "80000",
+          "commune": "Amiens",
+          "objet": "odeur de gaz",
+          "urgence": "securite"
+        }
+      },
+      {
+        "id": "C03",
+        "execution": 2,
+        "ecarts": [],
+        "valeurs": {
+          "nom": "Lefebvre",
+          "telephone": "+33639982003",
+          "code_postal": "80000",
+          "commune": "Amiens",
+          "objet": "odeur de gaz",
+          "urgence": "securite"
+        }
+      },
+      {
+        "id": "C03",
+        "execution": 3,
+        "ecarts": [],
+        "valeurs": {
+          "nom": "Lefebvre",
+          "telephone": "+33639982003",
+          "code_postal": "80000",
+          "commune": "Amiens",
+          "objet": "odeur de gaz",
+          "urgence": "securite"
+        }
+      },
+      {
+        "id": "C04",
+        "execution": 1,
+        "ecarts": [],
+        "valeurs": {
+          "nom": null,
+          "telephone": "+33639982004",
+          "code_postal": null,
+          "commune": null,
+          "objet": null,
+          "urgence": "non_precise"
+        }
+      },
+      {
+        "id": "C04",
+        "execution": 2,
+        "ecarts": [],
+        "valeurs": {
+          "nom": null,
+          "telephone": "+33639982004",
+          "code_postal": null,
+          "commune": null,
+          "objet": null,
+          "urgence": "non_precise"
+        }
+      },
+      {
+        "id": "C04",
+        "execution": 3,
+        "ecarts": [],
+        "valeurs": {
+          "nom": null,
+          "telephone": "+33639982004",
+          "code_postal": null,
+          "commune": null,
+          "objet": null,
+          "urgence": "non_precise"
+        }
+      },
+      {
+        "id": "C05",
+        "execution": 1,
+        "ecarts": [],
+        "valeurs": {
+          "nom": null,
+          "telephone": "+33639982005",
+          "code_postal": null,
+          "commune": null,
+          "objet": null,
+          "urgence": "non_precise"
+        }
+      },
+      {
+        "id": "C05",
+        "execution": 2,
+        "ecarts": [],
+        "valeurs": {
+          "nom": null,
+          "telephone": "+33639982005",
+          "code_postal": null,
+          "commune": null,
+          "objet": null,
+          "urgence": "non_precise"
+        }
+      },
+      {
+        "id": "C05",
+        "execution": 3,
+        "ecarts": [],
+        "valeurs": {
+          "nom": null,
+          "telephone": "+33639982005",
+          "code_postal": null,
+          "commune": null,
+          "objet": null,
+          "urgence": "non_precise"
+        }
+      }
+    ],
+    "critiques": [
+      {
+        "id": "SC-01",
+        "ecarts": [
+          "commune et code",
+          "statuts verifies",
+          "provenance entendu",
+          "telephone",
+          "objet L-01",
+          "urgence"
+        ]
+      },
+      {
+        "id": "SC-03",
+        "ecarts": []
+      },
+      {
+        "id": "SC-04",
+        "ecarts": []
+      },
+      {
+        "id": "SC-05",
+        "ecarts": [
+          "commune et code",
+          "urgence"
+        ]
+      },
+      {
+        "id": "SC-07",
+        "ecarts": [
+          "93048 et 93100",
+          "commune deduite",
+          "code deduit"
+        ]
+      },
+      {
+        "id": "SC-10",
+        "ecarts": [
+          "Montreuil garde, code vide",
+          "trois candidates"
+        ]
+      }
+    ],
+    "qualification": [
+      {
+        "id": "SC-Q3",
+        "execution": 1,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q3",
+        "execution": 2,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q3",
+        "execution": 3,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q4",
+        "execution": 1,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q4",
+        "execution": 2,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q4",
+        "execution": 3,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q7",
+        "execution": 1,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q7",
+        "execution": 2,
+        "ecarts": []
+      },
+      {
+        "id": "SC-Q7",
+        "execution": 3,
+        "ecarts": []
+      }
+    ]
+  },
+  "verdict": "echec",
+  "raisons": [
+    "critiques SC-01 : commune et code, statuts verifies, provenance entendu, telephone, objet L-01, urgence",
+    "critiques SC-05 : commune et code, urgence",
+    "critiques SC-07 : 93048 et 93100, commune deduite, code deduit",
+    "critiques SC-10 : Montreuil garde, code vide, trois candidates"
+  ],
+  "cout_eur": 0.1592
+}
