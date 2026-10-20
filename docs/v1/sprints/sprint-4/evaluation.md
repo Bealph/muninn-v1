@@ -122,6 +122,23 @@ L'écart entre l'agent et la base sans outils (2 champs) est dans l'incertitude 
 recouvrent largement. Coût total de l'étape 9 (campagnes et diagnostics) : environ 2 €, dans le
 plafond de 10 € du sprint (D-64).
 
+## 4 quinquies. CA-6 : la vigie démontrée (D-79)
+
+| PR, le 20 octobre 2026                                         | Tests unitaires | Campagne de la CI                                      | Fusion   |
+| -------------------------------------------------------------- | --------------- | ------------------------------------------------------ | -------- |
+| n° 146 : paquet d'extraction sans outils                       | Verts           | `reussite`, 117/120                                    | Possible |
+| n° 147 : consigne dégradée (urgence toujours « non précisée ») | Verts           | `echec` : C01 3 sur 3, SC-01, SC-05 ; 113/120 = 94,2 % | Bloquée  |
+
+La PR n° 146 montre que, sur ce jeu, les outils ne sont plus nécessaires : les règles du serveur
+(D-69, D-77, D-78) les remplacent. La PR n° 147 montre la vigie telle que CA-6 la veut : une
+régression invisible aux tests unitaires est arrêtée par l'évaluation. L'exactitude globale seule
+ne l'aurait pas arrêtée (94,2 %, au-dessus de 90 %) : ce sont les cas bloquants qui le font.
+Les deux PR sont fermées sans fusion.
+
+**Dette** : le job compare l'empreinte de la PR à celle de `main` ; tant qu'une PR modifie le
+paquet, chaque poussée rejoue une campagne (environ 0,25 €), même pour de la documentation. À
+corriger : comparer aussi à l'empreinte du dernier commit évalué avec succès.
+
 ## 5. Qualification (SC-Q8)
 
 Consigne `qualification-2026.10.3`, mise au point sur DQ1 à DQ4 seulement : un appelant qui demande
