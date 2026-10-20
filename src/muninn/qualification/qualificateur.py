@@ -114,6 +114,7 @@ class Qualification:
     jetons_sortie: int = 0
     cout_micro_eur: int = 0
     duree_ms: int = 0
+    detournement_annote: bool = False  # annotation du filtre d'Azure (D-65, D-75)
 
 
 @dataclass
@@ -160,6 +161,7 @@ def qualifier(
         )
         q.jetons_entree, q.jetons_sortie = reponse.jetons_entree, reponse.jetons_sortie
         q.cout_micro_eur = reponse.cout_micro_eur
+        q.detournement_annote = reponse.detournement_detecte
         if reponse.refus_modele is not None:
             raise ValueError("refus du modèle")
         q.sortie = SortieQualification.model_validate_json(reponse.contenu or "")
@@ -180,7 +182,7 @@ def qualifier(
             q.categorie, q.regle = "indetermine", "seuil"
         elif q.categorie in ("personnel", "autre") and contient_besoin(normalisee):
             q.categorie, q.regle = "indetermine", "retrogradation"
-        elif q.categorie in ("personnel", "autre") and motifs_entree:
+        elif q.categorie in ("personnel", "autre") and (motifs_entree or q.detournement_annote):
             q.categorie, q.regle = "indetermine", "detournement"
     q.securite = detecter_gaz(normalisee)
     q.duree_ms = round((time.perf_counter() - debut) * 1000)

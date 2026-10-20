@@ -89,3 +89,6 @@ Le constat de la section 4 ne tient pas : la décision du filtre sur SC-05 dépe
 rapport (la date inscrite dans le message), et SC-05 est bloqué avec la date du jour. Détail et
 mesures : `api-ecran-agent.md`, section 4. D-70 est à revoir ; D-73 couvre le blocage de la seule
 qualification.
+
+D-75 (même jour) remplace D-70 : le garde-fou personnalisé de D-65 est créé et vérifié
+(`api-ecran-agent.md`, section 4).

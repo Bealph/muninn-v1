@@ -71,9 +71,22 @@ La décision du filtre sur SC-05 bascule pour un détail sans rapport, la date d
 prouvaient pas que le bloc délimité protège SC-05, seulement qu'avec cette entrée précise, SC-05
 tombait du bon côté d'une frontière fragile. **D-70 repose sur ce constat ; il est réfuté.**
 
-**D-73** (choix du porteur) empêche déjà qu'un blocage de la seule qualification perde l'appel.
-Il ne suffit pas quand l'extraction est bloquée elle aussi : CA-4 (SC-05) n'est alors pas
-démontrable. La décision sur le filtre est attendue du porteur (restitution de l'étape 8).
+**D-73** (choix du porteur) empêche qu'un blocage de la seule qualification perde l'appel.
+**D-75** (choix du porteur) remplace D-70 et rétablit le garde-fou personnalisé de D-65,
+`muninn-annotation-injection`, créé dans le portail Foundry le 20 octobre 2026 : détection des
+détournements en annotation seule, catégories de nocivité bloquantes.
+
+**Vérification par appels réels, même jour, date du jour dans le message :**
+
+| Appel                   | Résultat       | Annotation `jailbreak`           | Dossier                                   |
+| ----------------------- | -------------- | -------------------------------- | ----------------------------------------- |
+| Qualification de SC-05  | Passe, 2 sur 2 | `detected` vrai, `filtered` faux | Sans objet                                |
+| Extraction seule, SC-05 | Passe, 2 sur 2 | `detected` vrai                  | Complet, « à vérifier », « détournement » |
+
+Lots rejoués depuis l'écran avec le garde-fou : annexe A 7 sur 8 (SC-05 conforme ; SC-08, limite
+connue du lexique) ; qualification 7 sur 8 (SC-Q8 de nouveau classé `demande_service` sans « à
+vérifier » : instabilité déjà notée, étape 9). L'annotation lue sur la qualification empêche
+désormais un message pour `personnel` ou `autre` (règle `detournement`).
 
 ## 5. Demandes du porteur pour le sprint 5
 

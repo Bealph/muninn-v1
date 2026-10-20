@@ -80,7 +80,7 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 ### Étape 5 : les garde-fous d'entrée (D-63)
 
 - [x] Règles déterministes : taille maximale, caractères de contrôle, motifs d'injection connus (liste fermée et versionnée, figée avant la mesure) ; une détection marque le dossier « à vérifier » et journalise l'événement, sans bloquer un client légitime.
-- [x] Modération : filtre standard `Microsoft.DefaultV2` gardé, filtre personnalisé de D-65 non créé (D-70, 20 octobre 2026). Un blocage donne le refus poli à texte fixe (`content_refused`), journalisé sans contenu ; constat sur le bloc délimité par 8 appels réels. Preuve : `garde-fous-entree.md`, section 4.
+- [x] Modération : garde-fou personnalisé `muninn-annotation-injection` (D-75, qui remplace D-70 et rétablit D-65), créé par le porteur et vérifié par appels réels : détournements annotés sans blocage, catégories de nocivité bloquantes. Un blocage restant donne le refus poli à texte fixe (`content_refused`), journalisé sans contenu (D-73). Preuve : `api-ecran-agent.md`, section 4.
 - [ ] Hors-périmètre : par la qualification (étape 6) ; une entrée vide ou sans contenu exploitable donne un refus motivé (fait : `EntreeRefusee`, testé).
 - [x] Jeu de prompts hostiles et légitimes (injection, extraction de consignes, hors-périmètre, contenu hostile ; demandes réelles proches) ; taux de blocage et de faux positifs mesurés, avec leur intervalle. Preuve : `garde-fous-entree.md`, section 3 (détection 20 sur 20, IC 95 % 0,84 à 1 ; faux positifs 0 sur 20, IC 95 % 0 à 0,16).
 

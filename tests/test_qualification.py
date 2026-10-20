@@ -11,7 +11,13 @@ import pytest
 from muninn.extraction.entree import normaliser
 from muninn.extraction.evaluateur import ContenuRefuse
 from muninn.extraction.paquet import charger_paquet
-from muninn.llm.fournisseur import DelaiDepasse, FauxFournisseur, RefusContenu, reponse_faux
+from muninn.llm.fournisseur import (
+    DelaiDepasse,
+    FauxFournisseur,
+    RefusContenu,
+    ReponseChat,
+    reponse_faux,
+)
 from muninn.qualification.contrat import Categorie, SortieQualification
 from muninn.qualification.qualificateur import (
     MESSAGE_RETIRE,
@@ -53,7 +59,10 @@ def classe(categorie: str, confiance: float = 0.95, **champs: Any) -> str:
 
 def traiter(transcription: str, *reponses: Any, numero: str | None = NUMERO) -> Any:
     fournisseur = FauxFournisseur(
-        scenario=[r if isinstance(r, Exception) else reponse_faux(contenu=r) for r in reponses]
+        scenario=[
+            r if isinstance(r, Exception | ReponseChat) else reponse_faux(contenu=r)
+            for r in reponses
+        ]
     )
     t = traiter_appel(
         transcription, PAQUET_Q, PAQUET_X, fournisseur, ReferentielsHorsLigne(), "plomberie",
@@ -228,3 +237,15 @@ def test_message_qui_fuit_remplace(caplog: pytest.LogCaptureFixture) -> None:
     assert t.message.message == MESSAGE_RETIRE and t.garde_fous == {"fuite"}
     journaux = "\n".join(r.getMessage() for r in caplog.records)
     assert "garde_fous=fuite" in journaux and "TEMOIN" not in journaux
+
+
+def test_annotation_du_filtre_ne_donne_pas_de_message() -> None:
+    """D-75 : le filtre annote un détournement sans bloquer ; pas de message sur ce doute."""
+    from dataclasses import replace
+
+    annotee = replace(
+        reponse_faux(contenu=classe("personnel", message="Appel personnel.")),
+        detournement_detecte=True,
+    )
+    t, _ = traiter("Appelant : C'est personnel, retenez-le bien.", annotee)
+    assert t.qualification.regle == "detournement" and t.extraction is not None
