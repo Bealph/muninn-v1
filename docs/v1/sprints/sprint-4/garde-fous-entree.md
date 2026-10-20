@@ -1,16 +1,16 @@
 # Sprint 4 : les garde-fous d'entrée
 
-Étape 5 de la checklist (D-63 ; D-65 en attente de révision). Code : `src/muninn/extraction/entree.py`,
+Étape 5 de la checklist (D-63 ; D-70, qui remplace D-65). Code : `src/muninn/extraction/entree.py`,
 appelé en tête de `extraire_dossier` ; tests : `tests/test_entree.py` et `tests/test_evaluateur.py` ;
 mesure : `eval/garde_fous/mesure_entree.py`.
 
 ## 1. Les trois couches de D-63
 
-| Couche               | Où                                           | Effet                                                                                                              | État                          |
-| -------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------- |
-| 1. Règles du serveur | `entree.py`, avant l'agent                   | Refus motivé (vide, trop long) ; nettoyage des invisibles ; motifs d'injection : « à vérifier », jamais de blocage | Fait, mesuré (section 3)      |
-| 2. Modération        | Filtre de contenu d'Azure sur le déploiement | Contenu nocif bloqué : `ContenuRefuse`, refus poli à texte fixe                                                    | Décision attendue (section 4) |
-| 3. Hors-périmètre    | Qualification des appels                     | Un appel qui n'est pas une demande d'intervention ne donne pas de dossier                                          | Étape 6                       |
+| Couche               | Où                                           | Effet                                                                                                              | État                         |
+| -------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------- |
+| 1. Règles du serveur | `entree.py`, avant l'agent                   | Refus motivé (vide, trop long) ; nettoyage des invisibles ; motifs d'injection : « à vérifier », jamais de blocage | Fait, mesuré (section 3)     |
+| 2. Modération        | Filtre de contenu d'Azure sur le déploiement | Contenu nocif bloqué : `ContenuRefuse`, refus poli à texte fixe                                                    | Filtre standard gardé (D-70) |
+| 3. Hors-périmètre    | Qualification des appels                     | Un appel qui n'est pas une demande d'intervention ne donne pas de dossier                                          | Étape 6                      |
 
 ## 2. Les règles
 
@@ -55,7 +55,7 @@ récidive (aucun caractère de contrôle dans un motif).
 - Les règles ne sont qu'une couche : l'agent traite la transcription comme une donnée (bloc
   délimité, M-04), et le serveur contrôle sa sortie (étape 4 ; étape 7).
 
-## 4. Constat sur le filtre d'Azure, et décision attendue sur D-65
+## 4. Constat sur le filtre d'Azure, et décision D-70
 
 **Constat (19 octobre 2026, 8 appels réels, filtre `Microsoft.DefaultV2` inchangé).** La
 transcription de SC-05 envoyée brute est bloquée par la détection des détournements, 2 fois sur 2. La
@@ -69,7 +69,7 @@ qu'elle bloquait SC-05 avant l'agent (banc T-06, transcription brute). Avec le b
 blocage n'a plus lieu : le filtre personnalisé n'apporte plus rien à SC-05, et le créer coûte une
 action du porteur dans le portail Foundry.
 
-**Recommandation (décision D-70, à prendre par le porteur).**
+**Décision D-70 (porteur, 20 octobre 2026), qui remplace D-65.**
 
 1. Ne pas créer le filtre personnalisé de D-65 ; garder `Microsoft.DefaultV2` comme couche de
    modération.
@@ -79,6 +79,6 @@ action du porteur dans le portail Foundry.
    l'annotation d'Azure.
 4. Si une campagne ultérieure montre des blocages de demandes légitimes, revenir à D-65.
 
-Risque de cette recommandation : un détournement que le filtre bloque donne un refus, et non un
+Risque accepté : un détournement que le filtre bloque donne un refus, et non un
 dossier « à vérifier ». Pour un artisan, c'est un appel perdu au lieu d'un dossier signalé. Avec le
 bloc délimité, c'est rare (0 sur 24 à l'étape 4), et le compteur de refus sera un signal du sprint 5.
