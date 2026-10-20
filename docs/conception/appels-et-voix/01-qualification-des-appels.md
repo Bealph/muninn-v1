@@ -45,7 +45,8 @@ encombrerait la liste de l'artisan.
 Cas limites tranchés :
 
 - un proche qui demande une réparation chez lui : `demande_service`, le besoin prime sur la
-  relation ;
+  relation ; l'agent vocal ne lui demande ni commune, ni adresse, ni nom, que l'artisan connaît
+  (trame v1.2, D-71) ;
 - un fournisseur qui appelle au sujet du chantier d'un client : `fournisseur` ; le nom du client
   éventuel figure dans le message ;
 - un appel sans contenu exploitable (silence, inaudible) : pas de catégorie, une trace sans

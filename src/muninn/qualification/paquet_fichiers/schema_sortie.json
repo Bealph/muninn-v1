@@ -1,0 +1,29 @@
+{
+  "name": "qualification_appel",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "categorie",
+      "confiance",
+      "nom_appelant",
+      "societe",
+      "numero_dicte",
+      "message",
+      "rappel_souhaite"
+    ],
+    "properties": {
+      "categorie": {
+        "type": "string",
+        "enum": ["demande_service", "indetermine", "fournisseur", "personnel", "autre"]
+      },
+      "confiance": { "type": "number" },
+      "nom_appelant": { "type": ["string", "null"] },
+      "societe": { "type": ["string", "null"] },
+      "numero_dicte": { "type": ["string", "null"] },
+      "message": { "type": ["string", "null"] },
+      "rappel_souhaite": { "type": "boolean" }
+    }
+  }
+}

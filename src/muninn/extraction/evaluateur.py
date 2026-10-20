@@ -98,6 +98,7 @@ Motif = Literal[
     "detournement_suspect",
     "champ_incertain",
     "choix_sans_indice",
+    "qualification_indeterminee",
 ]
 GardeFou = Literal["gaz", "sante", "invention", "detournement"]
 RaisonNonControle = Literal["no_value", "service_unavailable", "timeout", "not_applicable"]

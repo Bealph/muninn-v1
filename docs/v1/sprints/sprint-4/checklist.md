@@ -86,11 +86,11 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 6 : la qualification des appels (V-11, C9, C12)
 
-- [ ] Liste des expressions de besoin figée et versionnée avant l'écriture des dialogues (garde-fou de complaisance).
-- [ ] Dialogues de SC-Q1 à SC-Q8 écrits selon la trame (D-51), relus par le porteur avant la première exécution, puis figés.
-- [ ] Classification par le LLM, schéma fermé, sans outil ; seuil 0,7 vers `indetermine` ; rétrogradation de `personnel` et `autre` par la règle du serveur ; `fournisseur` jamais rétrogradé ; règle « gaz » dans toutes les catégories.
-- [ ] `MessageRecu` pour `fournisseur`, `personnel` et `autre` ; le `DossierDraft` n'est pas modifié.
-- [ ] CA-7 en local : 8 scénarios ; SC-Q3, SC-Q4 et SC-Q7, 3 fois sur 3.
+- [x] Liste des expressions de besoin figée et versionnée avant l'écriture des dialogues (garde-fou de complaisance). Preuve : `besoin-2026.10.1`, commit `a2c35f7`.
+- [x] Dialogues de SC-Q1 à SC-Q8 écrits selon la trame (D-51), relus par le porteur avant la première exécution, puis figés. SC-Q3 réécrit selon D-71 ; trame v1.2 (D-71, D-72). Preuve : commit `f08d697`.
+- [x] Classification par le LLM, schéma fermé, sans outil ; seuil 0,7 vers `indetermine` ; rétrogradation de `personnel` et `autre` par la règle du serveur ; `fournisseur` jamais rétrogradé ; règle « gaz » dans toutes les catégories.
+- [x] `MessageRecu` pour `fournisseur`, `personnel` et `autre` ; le `DossierDraft` n'est pas modifié. Preuve : `tests/test_qualification.py`.
+- [x] CA-7 en local : 8 scénarios ; SC-Q3, SC-Q4 et SC-Q7, 3 fois sur 3. Résultat : 24 sur 24 au sens de CA-7 ; écart à la conception sur SC-Q8 (dossier non « à vérifier », 0 sur 3), documenté et renvoyé à l'étape 9 (choix du porteur). Preuve : `qualification.md`, section 3.
 
 ### Étape 7 : les garde-fous de sortie
 
@@ -111,6 +111,7 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 - [ ] Jeu versionné : 20 scénarios de test (composition de la phase 1), partition de développement distincte, 5 cas de conformité à tolérance nulle, 3 cas de qualification ; oracles figés avant la première exécution.
 - [ ] Harnais : exactitude par champ avec intervalles de Wilson, base sans outils sur les mêmes scénarios, métriques de trajectoire (borne d'appels bloquante), latence p50 et p95, coût, part à vérifier ; rapport horodaté.
 - [ ] Job d'évaluation en CI, déclenché par un changement d'empreinte, plafond D-64, bloquant pour `verdict` ; sans accès au modèle : « non mesuré », bloquant.
+- [ ] Qualification : écart de SC-Q8 (Q-05, appel ambigu classé `demande_service` avec une confiance de 0,74 à 0,86) traité par la consigne ou le seuil, réglés sur la partition de développement seulement ; SC-Q8 remesuré ensuite (étape 6, `qualification.md`).
 - [ ] Démonstration : une PR qui livre le paquet avec les outils désactivés est bloquée (CA-6, première partie) ; par avenant (D-69), par SC-07 et un second scénario d'ambiguïté résolu seulement par un indice (« Montreuil-sous-Bois »), à ajouter au jeu.
 
 ### Étape 10 : Langfuse (V-13, détachable)
