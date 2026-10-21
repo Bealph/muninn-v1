@@ -13,6 +13,7 @@
 
 set -euo pipefail
 source "$(dirname "$0")/parametres.sh"
+source "$(dirname "$0")/reessai.sh"
 
 env="${1:?environnement : preproduction ou production}"
 sha="${2:?SHA du commit à livrer}"
@@ -33,12 +34,12 @@ attendre() {
 contient() { [[ "$1" == *"$2"* ]]; }
 
 revision_en_service() {
-  az containerapp revision list -g "$GROUPE" -n "$1" \
+  az_tenace containerapp revision list -g "$GROUPE" -n "$1" \
     --query "[?properties.trafficWeight==\`100\`].name | [0]" -o tsv
 }
 
 image_de() { # application, révision
-  az containerapp revision show -g "$GROUPE" -n "$1" --revision "$2" \
+  az_tenace containerapp revision show -g "$GROUPE" -n "$1" --revision "$2" \
     --query "properties.template.containers[0].image" -o tsv
 }
 
@@ -53,18 +54,18 @@ livrer() { # application, fonction de contrôle
     return 0
   fi
   # 1. Trafic figé sur la révision nommée : la nouvelle ne reçoit rien avant d'être contrôlée.
-  az containerapp ingress traffic set -g "$GROUPE" -n "$app" \
+  az_tenace containerapp ingress traffic set -g "$GROUPE" -n "$app" \
     --revision-weight "$precedente=100" --only-show-errors -o none
 
   # 2. Nouvelle révision.
-  nouvelle=$(az containerapp update -g "$GROUPE" -n "$app" --image "$image" \
+  nouvelle=$(az_tenace containerapp update -g "$GROUPE" -n "$app" --image "$image" \
     --set-env-vars GIT_SHA="$sha" --only-show-errors \
     --query properties.latestRevisionName -o tsv)
   if [ "$nouvelle" = "$precedente" ]; then
     echo "Aucune nouvelle révision créée pour $app" >&2
     return 1
   fi
-  fqdn=$(az containerapp revision show -g "$GROUPE" -n "$app" --revision "$nouvelle" \
+  fqdn=$(az_tenace containerapp revision show -g "$GROUPE" -n "$app" --revision "$nouvelle" \
     --query properties.fqdn -o tsv)
   echo "   nouvelle révision $nouvelle"
 
@@ -75,7 +76,7 @@ livrer() { # application, fonction de contrôle
   fi
 
   # 4. Bascule.
-  az containerapp ingress traffic set -g "$GROUPE" -n "$app" \
+  az_tenace containerapp ingress traffic set -g "$GROUPE" -n "$app" \
     --revision-weight "$nouvelle=100" --only-show-errors -o none
   echo "   trafic : 100 % sur $nouvelle (précédente conservée : $precedente)"
 }
@@ -102,8 +103,8 @@ livrer "$(app_console "$env")" controler_console
 # Tâche des données (D-58) : même image que l'API livrée, pour que le prochain chargement
 # exécute le code livré. Avant 05-donnees.sh, elle n'existe pas : la livraison n'en dépend pas.
 tache=$(tache_donnees "$env")
-if az containerapp job show -g "$GROUPE" -n "$tache" --only-show-errors -o none 2>/dev/null; then
-  if az containerapp job update -g "$GROUPE" -n "$tache" --image "$image"     --set-env-vars GIT_SHA="$sha" --only-show-errors -o none; then
+if az_tenace containerapp job show -g "$GROUPE" -n "$tache" --only-show-errors -o none 2>/dev/null; then
+  if az_tenace containerapp job update -g "$GROUPE" -n "$tache" --image "$image"     --set-env-vars GIT_SHA="$sha" --only-show-errors -o none; then
     echo "== $tache : image $sha"
   else
     echo "AVERTISSEMENT : image de $tache non mise à jour" >&2
@@ -114,12 +115,12 @@ fi
 
 # Contrôle final par l'adresse publique de chaque application.
 for app in "$(app_api "$env")" "$(app_console "$env")"; do
-  url="https://$(az containerapp show -g "$GROUPE" -n "$app" --query properties.configuration.ingress.fqdn -o tsv)"
+  url="https://$(az_tenace containerapp show -g "$GROUPE" -n "$app" --query properties.configuration.ingress.fqdn -o tsv)"
   attendre "$url/health"
 done
-api_url="https://$(az containerapp show -g "$GROUPE" -n "$(app_api "$env")" --query properties.configuration.ingress.fqdn -o tsv)"
+api_url="https://$(az_tenace containerapp show -g "$GROUPE" -n "$(app_api "$env")" --query properties.configuration.ingress.fqdn -o tsv)"
 contient "$(curl -fsS -m 20 "$api_url/version")" "\"git_sha\":\"$sha\"" ||
   { echo "L'adresse publique ne sert pas $sha" >&2; exit 1; }
-console_url="https://$(az containerapp show -g "$GROUPE" -n "$(app_console "$env")" --query properties.configuration.ingress.fqdn -o tsv)"
+console_url="https://$(az_tenace containerapp show -g "$GROUPE" -n "$(app_console "$env")" --query properties.configuration.ingress.fqdn -o tsv)"
 echo "Livré en $env : $sha"
 if [ -n "${GITHUB_OUTPUT:-}" ]; then echo "url=$console_url" >>"$GITHUB_OUTPUT"; fi
