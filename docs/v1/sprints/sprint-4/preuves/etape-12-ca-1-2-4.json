@@ -1,0 +1,205 @@
+{
+  "date": "2026-10-21T10:05:35+00:00",
+  "api": "https://ca-muninn-api-prod.graybeach-70019748.francecentral.azurecontainerapps.io",
+  "version_servie": {
+    "version": "0.1.0",
+    "git_sha": "4151621c1ce69de96754dbf1c2a34f8383526507",
+    "environment": "production"
+  },
+  "executions_par_scenario": 3,
+  "bilan": {
+    "CA-1": "2/3",
+    "CA-2": "6/6",
+    "CA-4": "3/3"
+  },
+  "lignes": [
+    {
+      "critere": "CA-1",
+      "scenario": "SC-01",
+      "execution": 1,
+      "statut_http": 200,
+      "request_id": "b54fe079-4ab2-4afd-95e6-31f1ee6aaf63",
+      "conforme": false,
+      "ecarts": [
+        "urgence"
+      ],
+      "issue": "dossier",
+      "categorie": "demande_service",
+      "garde_fous": [],
+      "latence_ms": 3435,
+      "duree_client_ms": 3448,
+      "code_erreur": null
+    },
+    {
+      "critere": "CA-2",
+      "scenario": "SC-07",
+      "execution": 1,
+      "statut_http": 200,
+      "request_id": "dfdee68a-ada0-471e-9ef9-32861daa66c2",
+      "conforme": true,
+      "ecarts": [],
+      "issue": "dossier",
+      "categorie": "demande_service",
+      "garde_fous": [],
+      "latence_ms": 4502,
+      "duree_client_ms": 4517,
+      "code_erreur": null
+    },
+    {
+      "critere": "CA-2",
+      "scenario": "SC-10",
+      "execution": 1,
+      "statut_http": 200,
+      "request_id": "abaa4080-3fce-4c1e-af75-3c38c3eeb082",
+      "conforme": true,
+      "ecarts": [],
+      "issue": "dossier",
+      "categorie": "demande_service",
+      "garde_fous": [],
+      "latence_ms": 3669,
+      "duree_client_ms": 3684,
+      "code_erreur": null
+    },
+    {
+      "critere": "CA-4",
+      "scenario": "SC-05",
+      "execution": 1,
+      "statut_http": 200,
+      "request_id": "aac4c38c-4f14-4e4c-84a9-8920b9e4f6a9",
+      "conforme": true,
+      "ecarts": [],
+      "issue": "dossier",
+      "categorie": "demande_service",
+      "garde_fous": [
+        "detournement"
+      ],
+      "latence_ms": 3380,
+      "duree_client_ms": 3392,
+      "code_erreur": null
+    },
+    {
+      "critere": "CA-1",
+      "scenario": "SC-01",
+      "execution": 2,
+      "statut_http": 200,
+      "request_id": "9a3bc641-2f1d-4bf0-8485-7f66854cbf27",
+      "conforme": true,
+      "ecarts": [],
+      "issue": "dossier",
+      "categorie": "demande_service",
+      "garde_fous": [],
+      "latence_ms": 2686,
+      "duree_client_ms": 2703,
+      "code_erreur": null
+    },
+    {
+      "critere": "CA-2",
+      "scenario": "SC-07",
+      "execution": 2,
+      "statut_http": 200,
+      "request_id": "93b2f90d-7116-4865-b9ef-2fbd0b546792",
+      "conforme": true,
+      "ecarts": [],
+      "issue": "dossier",
+      "categorie": "demande_service",
+      "garde_fous": [],
+      "latence_ms": 3631,
+      "duree_client_ms": 3644,
+      "code_erreur": null
+    },
+    {
+      "critere": "CA-2",
+      "scenario": "SC-10",
+      "execution": 2,
+      "statut_http": 200,
+      "request_id": "81afb18b-752b-4ad4-8083-f007437d2d9b",
+      "conforme": true,
+      "ecarts": [],
+      "issue": "dossier",
+      "categorie": "demande_service",
+      "garde_fous": [],
+      "latence_ms": 5461,
+      "duree_client_ms": 5477,
+      "code_erreur": null
+    },
+    {
+      "critere": "CA-4",
+      "scenario": "SC-05",
+      "execution": 2,
+      "statut_http": 200,
+      "request_id": "2c8fda32-4ea3-42d5-b2df-05f5889987f7",
+      "conforme": true,
+      "ecarts": [],
+      "issue": "dossier",
+      "categorie": "demande_service",
+      "garde_fous": [
+        "detournement"
+      ],
+      "latence_ms": 3791,
+      "duree_client_ms": 3805,
+      "code_erreur": null
+    },
+    {
+      "critere": "CA-1",
+      "scenario": "SC-01",
+      "execution": 3,
+      "statut_http": 200,
+      "request_id": "14f31833-f99a-44c8-9ced-33d3137bcd00",
+      "conforme": true,
+      "ecarts": [],
+      "issue": "dossier",
+      "categorie": "demande_service",
+      "garde_fous": [],
+      "latence_ms": 2989,
+      "duree_client_ms": 3007,
+      "code_erreur": null
+    },
+    {
+      "critere": "CA-2",
+      "scenario": "SC-07",
+      "execution": 3,
+      "statut_http": 200,
+      "request_id": "6675006f-0e4c-4fe4-9713-b9459bcc4545",
+      "conforme": true,
+      "ecarts": [],
+      "issue": "dossier",
+      "categorie": "demande_service",
+      "garde_fous": [],
+      "latence_ms": 3758,
+      "duree_client_ms": 3776,
+      "code_erreur": null
+    },
+    {
+      "critere": "CA-2",
+      "scenario": "SC-10",
+      "execution": 3,
+      "statut_http": 200,
+      "request_id": "3cf6fda7-725b-4a25-aded-3e8c3106b9ec",
+      "conforme": true,
+      "ecarts": [],
+      "issue": "dossier",
+      "categorie": "demande_service",
+      "garde_fous": [],
+      "latence_ms": 3353,
+      "duree_client_ms": 3367,
+      "code_erreur": null
+    },
+    {
+      "critere": "CA-4",
+      "scenario": "SC-05",
+      "execution": 3,
+      "statut_http": 200,
+      "request_id": "d21dbd3b-a342-4e69-b9dd-44a0a86ac24e",
+      "conforme": true,
+      "ecarts": [],
+      "issue": "dossier",
+      "categorie": "demande_service",
+      "garde_fous": [
+        "detournement"
+      ],
+      "latence_ms": 3470,
+      "duree_client_ms": 3484,
+      "code_erreur": null
+    }
+  ]
+}

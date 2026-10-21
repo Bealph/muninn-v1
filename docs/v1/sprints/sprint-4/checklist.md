@@ -65,7 +65,7 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 - [x] Deux outils en lecture seule, en liste fermée, qui appellent l'API des référentiels (rien d'autre ne part vers l'outil que le nom de commune, le code postal, le mot et le métier) ; outil inconnu refusé, l'agent continue. Preuve : `src/muninn/extraction/outils.py`, `tests/test_agent.py`.
 - [x] Boucle : six appels d'outils au plus, délai par appel, une relance unique en cas de sortie hors schéma, puis brouillon partiel « à vérifier » ; LLM indisponible : brouillon de secours (D-29) ; refus du filtre distingué. 18 tests. Preuve : `src/muninn/extraction/agent.py`, `agent.md`.
-- [ ] Scénarios de l'annexe A en local avec le vrai modèle : SC-02, SC-07, SC-08, SC-10 appellent l'outil attendu ; consigne renforcée si besoin sur la partition de développement seulement (écarts SC-02, SC-07, SC-10 du banc T-06). **Mesuré le 19 octobre 2026 : 12 extractions complètes, outil attendu 9 sur 12 (SC-02 : 1 sur 3 ; SC-10 : 2 sur 3) ; SC-10 garde la commune entendue. Renforcement reporté à l'étape 9 (partition de développement) ; question de SC-10 soumise au porteur avant l'étape 4.** Preuve : `agent.md`, `eval/agent/essai_etape3.json`.
+- [x] Scénarios de l'annexe A en local avec le vrai modèle : SC-02, SC-07, SC-08, SC-10 appellent l'outil attendu ; consigne renforcée si besoin sur la partition de développement seulement (écarts SC-02, SC-07, SC-10 du banc T-06). **Mesuré le 19 octobre 2026 : 12 extractions complètes, outil attendu 9 sur 12 (SC-02 : 1 sur 3 ; SC-10 : 2 sur 3) ; SC-10 garde la commune entendue. Renforcement reporté à l'étape 9 (partition de développement) ; question de SC-10 soumise au porteur avant l'étape 4.** **Traité le 21 octobre 2026** : SC-10 tranché par D-69 ; consigne renforcée sur la partition de développement (`extraction-2026.10.3`, D-78) ; nouvel essai, outil attendu 12 sur 12, valeurs 12 sur 12. Preuve : `agent.md` (§ 4), `eval/agent/essai_etape3.json`, `eval/agent/essai_etape3-2026-10-21.json`.
 
 ### Étape 4 : l'évaluateur du serveur (V-07)
 
@@ -81,7 +81,7 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 - [x] Règles déterministes : taille maximale, caractères de contrôle, motifs d'injection connus (liste fermée et versionnée, figée avant la mesure) ; une détection marque le dossier « à vérifier » et journalise l'événement, sans bloquer un client légitime.
 - [x] Modération : garde-fou personnalisé `muninn-annotation-injection` (D-75, qui remplace D-70 et rétablit D-65), créé par le porteur et vérifié par appels réels : détournements annotés sans blocage, catégories de nocivité bloquantes. Un blocage restant donne le refus poli à texte fixe (`content_refused`), journalisé sans contenu (D-73). Preuve : `api-ecran-agent.md`, section 4.
-- [ ] Hors-périmètre : par la qualification (étape 6) ; une entrée vide ou sans contenu exploitable donne un refus motivé (fait : `EntreeRefusee`, testé).
+- [x] Hors-périmètre : par la qualification (étape 6) ; une entrée vide ou sans contenu exploitable donne un refus motivé (fait : `EntreeRefusee`, testé). **Vérifié en production le 21 octobre 2026** : hors-périmètre rendu en message par la qualification (CA-7, 24 sur 24, `production.md`) ; extraction seule (`POST /v1/extract/text`) : entrée vide, sans lettre ou trop courte refusée à texte fixe (HTTP 422, `content_unprocessable`, 3 sur 3) ; parcours d'appel (`POST /v1/demo/runs`) : trace sans contenu, sans appel au modèle (Q-09, conception de la qualification, § 5.4). Preuve : `tests/test_entree.py`, `qualification.md`.
 - [x] Jeu de prompts hostiles et légitimes (injection, extraction de consignes, hors-périmètre, contenu hostile ; demandes réelles proches) ; taux de blocage et de faux positifs mesurés, avec leur intervalle. Preuve : `garde-fous-entree.md`, section 3 (détection 20 sur 20, IC 95 % 0,84 à 1 ; faux positifs 0 sur 20, IC 95 % 0 à 0,16).
 
 ### Étape 6 : la qualification des appels (V-11, C9, C12)
@@ -129,7 +129,7 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 12 : le contrat personnel
 
-- [ ] `contrat-personnel.md` : CA-1 à CA-8, statut (tenu, en cours, avenant), preuve, écart documenté ; avenants par décision écrite.
+- [x] `contrat-personnel.md` : CA-1 à CA-8, statut (tenu, en cours, avenant), preuve, écart documenté ; avenants par décision écrite. Preuve : `contrat-personnel.md`, `preuves/etape-12-ca-1-2-4.json` ; livrable du sprint : `livrable-composante-agentique.md`.
 
 ### Étape 13 : préparer le sprint 5
 

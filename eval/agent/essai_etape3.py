@@ -1,10 +1,12 @@
 """Essai de l'agent avec le vrai modèle (sprint 4, étape 3) : l'outil attendu est-il appelé ?
 
-Usage : `uv run python eval/agent/essai_etape3.py [--repetitions N]`. Authentification Entra ID
+Usage : `uv run python eval/agent/essai_etape3.py [--repetitions N] [--date AAAA-MM-JJ]
+[--resultat nom.json]`. Authentification Entra ID
 du poste (`az login`) ; outils sur l'API des référentiels de production, en lecture seule.
 Scénarios de l'annexe A du dossier V1 (données synthétiques, R9), transcriptions du banc T-06.
 Ce n'est pas l'évaluation de V-08 (étape 9) : seulement une vérification de la boucle, plafonnée.
-Résultat : `eval/agent/essai_etape3.json` (aucune donnée réelle).
+Résultat : `eval/agent/essai_etape3.json` par défaut (aucune donnée réelle). SC-10 : la commune
+entendue est gardée (avenant D-69 de CA-2), le code postal reste vide.
 """
 
 import argparse
@@ -33,14 +35,17 @@ ATTENDUS: dict[str, tuple[str, str, dict[str, str | None]]] = {
     "SC-02": ("electricite", "chercher_communes", {"code_postal": "94300", "commune": "vincennes"}),
     "SC-07": ("plomberie", "chercher_communes", {"code_postal": "93100", "commune": "montreuil"}),
     "SC-08": ("plomberie", "chercher_terme_metier", {}),
-    "SC-10": ("chauffage", "chercher_communes", {"code_postal": None, "commune": None}),
+    "SC-10": ("chauffage", "chercher_communes", {"code_postal": None, "commune": "montreuil"}),
 }
 
 
 def main() -> None:
     arguments = argparse.ArgumentParser()
     arguments.add_argument("--repetitions", type=int, default=3)
-    repetitions = arguments.parse_args().repetitions
+    arguments.add_argument("--date", default="2026-10-19")
+    arguments.add_argument("--resultat", default="essai_etape3.json")
+    args = arguments.parse_args()
+    repetitions = args.repetitions
 
     paquet = charger_paquet()
     fournisseur = construire_fournisseur(
@@ -61,7 +66,7 @@ def main() -> None:
             if cout_total >= PLAFOND_MICRO_EUR:
                 sys.exit(f"Plafond atteint : {cout_total / 1e6:.4f} €")
             r = extraire(
-                transcriptions[scenario], paquet, fournisseur, referentiels, "2026-10-19", metier
+                transcriptions[scenario], paquet, fournisseur, referentiels, args.date, metier
             )
             cout_total += r.cout_micro_eur
             outils = [a.nom for a in r.appels_outils]
@@ -96,7 +101,7 @@ def main() -> None:
             )
 
     synthese = {
-        "date": "2026-10-19",
+        "date": args.date,
         "paquet": paquet.prompt_version,
         "modele": paquet.model_id,
         "extractions": len(lignes),
@@ -105,7 +110,7 @@ def main() -> None:
         "cout_total_eur": round(cout_total / 1e6, 4),
         "lignes": lignes,
     }
-    (DOSSIER / "essai_etape3.json").write_text(
+    (DOSSIER / args.resultat).write_text(
         json.dumps(synthese, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     print(

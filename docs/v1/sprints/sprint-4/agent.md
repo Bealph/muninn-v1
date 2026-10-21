@@ -50,3 +50,29 @@ du diagnostic : environ 0,13 €, dans le plafond du sprint (D-64).
   soumettre au porteur avant d'écrire l'étape 4.
 - **La règle contre l'invention reste la parade de SC-02** : sans outil, aucun code postal n'est
   inventé ; le dossier est « à vérifier » (étape 4).
+
+## 4. Suite : ce que sont devenus les écarts
+
+- **SC-10** : tranché par le porteur (D-69). La commune entendue est gardée, les candidates sont
+  jointes, le dossier est « à vérifier » ; avenant de CA-2.
+- **SC-02 et SC-07** : la correspondance faite par le serveur (D-69, D-77, D-78) remplit le code
+  postal sans dépendre de l'appel d'outil ; la trace d'un appel à `chercher_communes` n'est plus
+  exigée par CA-2 (D-78). La consigne a été renforcée sur la partition de développement
+  seulement (D11, consigne `extraction-2026.10.3`, D-78).
+
+**Nouvel essai, le 21 octobre 2026**, même protocole, paquet `extraction-2026.10.3`, attente de
+SC-10 mise à jour selon D-69 (commune « Montreuil » gardée, code postal vide). Résultat :
+`eval/agent/essai_etape3-2026-10-21.json`.
+
+| Scénario                         | Outil attendu appelé | Valeurs attendues | Ce qui se passe                                     |
+| -------------------------------- | -------------------- | ----------------- | --------------------------------------------------- |
+| SC-02, Vincennes sans code       | 3 sur 3              | 3 sur 3           | Conforme                                            |
+| SC-07, Montreuil « dans le 9-3 » | 3 sur 3              | 3 sur 3           | Conforme                                            |
+| SC-08, « cumulus »               | 3 sur 3              | sans objet ici    | Conforme ; il appelle aussi `chercher_communes`     |
+| SC-10, Montreuil sans indice     | 3 sur 3              | 3 sur 3           | Conforme ; « Montreuil » gardé, code postal vide    |
+| **Total**                        | **12 sur 12**        | **12 sur 12**     | 12 extractions complètes ; 2,2 à 3,5 s ; 0,053 €    |
+
+Portée : ces scénarios n'ont pas servi à régler la consigne (partition de développement
+seulement), la mesure est donc honnête ; mais 12 exécutions ne font pas un taux. Pour SC-08, seul
+l'appel de `chercher_terme_metier` est mesuré ici ; l'objet attendu (liste L-08) reste un écart
+connu du lexique (`conformite-conception.md`, § 2).

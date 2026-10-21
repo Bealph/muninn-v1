@@ -1,0 +1,206 @@
+{
+  "date": "2026-10-21",
+  "paquet": "extraction-2026.10.3",
+  "modele": "gpt-5.4-mini-2026-03-17",
+  "extractions": 12,
+  "outil_attendu_appele": 12,
+  "valeurs_conformes": 12,
+  "cout_total_eur": 0.0531,
+  "lignes": [
+    {
+      "scenario": "SC-02",
+      "repetition": 1,
+      "statut": "complete",
+      "outils": [
+        "chercher_communes"
+      ],
+      "outil_attendu_appele": true,
+      "valeurs_conformes": true,
+      "ecarts": [],
+      "etapes": 2,
+      "jetons_entree": 4038,
+      "jetons_sortie": 246,
+      "cout_micro_eur": 4003,
+      "duree_ms": 2509
+    },
+    {
+      "scenario": "SC-07",
+      "repetition": 1,
+      "statut": "complete",
+      "outils": [
+        "chercher_communes"
+      ],
+      "outil_attendu_appele": true,
+      "valeurs_conformes": true,
+      "ecarts": [],
+      "etapes": 2,
+      "jetons_entree": 4040,
+      "jetons_sortie": 262,
+      "cout_micro_eur": 4074,
+      "duree_ms": 2404
+    },
+    {
+      "scenario": "SC-08",
+      "repetition": 1,
+      "statut": "complete",
+      "outils": [
+        "chercher_terme_metier",
+        "chercher_communes"
+      ],
+      "outil_attendu_appele": true,
+      "valeurs_conformes": true,
+      "ecarts": [],
+      "etapes": 3,
+      "jetons_entree": 6043,
+      "jetons_sortie": 276,
+      "cout_micro_eur": 5589,
+      "duree_ms": 3216
+    },
+    {
+      "scenario": "SC-10",
+      "repetition": 1,
+      "statut": "complete",
+      "outils": [
+        "chercher_communes"
+      ],
+      "outil_attendu_appele": true,
+      "valeurs_conformes": true,
+      "ecarts": [],
+      "etapes": 2,
+      "jetons_entree": 4020,
+      "jetons_sortie": 273,
+      "cout_micro_eur": 4108,
+      "duree_ms": 2436
+    },
+    {
+      "scenario": "SC-02",
+      "repetition": 2,
+      "statut": "complete",
+      "outils": [
+        "chercher_communes"
+      ],
+      "outil_attendu_appele": true,
+      "valeurs_conformes": true,
+      "ecarts": [],
+      "etapes": 2,
+      "jetons_entree": 4038,
+      "jetons_sortie": 246,
+      "cout_micro_eur": 4003,
+      "duree_ms": 2160
+    },
+    {
+      "scenario": "SC-07",
+      "repetition": 2,
+      "statut": "complete",
+      "outils": [
+        "chercher_communes"
+      ],
+      "outil_attendu_appele": true,
+      "valeurs_conformes": true,
+      "ecarts": [],
+      "etapes": 2,
+      "jetons_entree": 4040,
+      "jetons_sortie": 260,
+      "cout_micro_eur": 4065,
+      "duree_ms": 2662
+    },
+    {
+      "scenario": "SC-08",
+      "repetition": 2,
+      "statut": "complete",
+      "outils": [
+        "chercher_terme_metier",
+        "chercher_communes"
+      ],
+      "outil_attendu_appele": true,
+      "valeurs_conformes": true,
+      "ecarts": [],
+      "etapes": 3,
+      "jetons_entree": 6043,
+      "jetons_sortie": 274,
+      "cout_micro_eur": 5581,
+      "duree_ms": 3009
+    },
+    {
+      "scenario": "SC-10",
+      "repetition": 2,
+      "statut": "complete",
+      "outils": [
+        "chercher_communes"
+      ],
+      "outil_attendu_appele": true,
+      "valeurs_conformes": true,
+      "ecarts": [],
+      "etapes": 2,
+      "jetons_entree": 4020,
+      "jetons_sortie": 259,
+      "cout_micro_eur": 4047,
+      "duree_ms": 2507
+    },
+    {
+      "scenario": "SC-02",
+      "repetition": 3,
+      "statut": "complete",
+      "outils": [
+        "chercher_communes"
+      ],
+      "outil_attendu_appele": true,
+      "valeurs_conformes": true,
+      "ecarts": [],
+      "etapes": 2,
+      "jetons_entree": 4038,
+      "jetons_sortie": 240,
+      "cout_micro_eur": 3977,
+      "duree_ms": 2552
+    },
+    {
+      "scenario": "SC-07",
+      "repetition": 3,
+      "statut": "complete",
+      "outils": [
+        "chercher_communes"
+      ],
+      "outil_attendu_appele": true,
+      "valeurs_conformes": true,
+      "ecarts": [],
+      "etapes": 2,
+      "jetons_entree": 4040,
+      "jetons_sortie": 252,
+      "cout_micro_eur": 4030,
+      "duree_ms": 2465
+    },
+    {
+      "scenario": "SC-08",
+      "repetition": 3,
+      "statut": "complete",
+      "outils": [
+        "chercher_terme_metier",
+        "chercher_communes"
+      ],
+      "outil_attendu_appele": true,
+      "valeurs_conformes": true,
+      "ecarts": [],
+      "etapes": 3,
+      "jetons_entree": 6043,
+      "jetons_sortie": 284,
+      "cout_micro_eur": 5624,
+      "duree_ms": 3452
+    },
+    {
+      "scenario": "SC-10",
+      "repetition": 3,
+      "statut": "complete",
+      "outils": [
+        "chercher_communes"
+      ],
+      "outil_attendu_appele": true,
+      "valeurs_conformes": true,
+      "ecarts": [],
+      "etapes": 2,
+      "jetons_entree": 4020,
+      "jetons_sortie": 259,
+      "cout_micro_eur": 4047,
+      "duree_ms": 2843
+    }
+  ]
+}
