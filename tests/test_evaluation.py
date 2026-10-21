@@ -132,3 +132,47 @@ def test_racines_de_l_objet() -> None:
     assert contient_racines("Tableau disjoncte four", [["disjonct"]])
     assert not contient_racines("prises salon", [["prise", "panne"], ["prise", "marche"]])
     assert not contient_racines("fuite", [])
+
+
+class FausseLangfuse:
+    """Imite le client Langfuse : dataset, items, expérience (tâche puis évaluateurs)."""
+
+    def __init__(self) -> None:
+        self.items: dict[str, Any] = {}
+        self.evaluations: list[Any] = []
+
+    def create_dataset(self, **kwargs: Any) -> None:
+        pass
+
+    def create_dataset_item(self, *, id: str, metadata: dict[str, Any], **kwargs: Any) -> None:
+        self.items[id] = type("Item", (), {"id": id, "metadata": metadata})()
+
+    def get_dataset(self, nom: str) -> Any:
+        return type("Dataset", (), {"items": list(self.items.values())})()
+
+    def run_experiment(
+        self, *, data: list[Any], task: Any, evaluators: list[Any], **kwargs: Any
+    ) -> None:
+        for item in data:
+            sortie = task(item=item)
+            self.evaluations += [
+                e(input=None, output=sortie, expected_output=None) for e in evaluators
+            ]
+
+    def flush(self) -> None:
+        pass
+
+
+def test_experience_langfuse_sans_double_execution(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from muninn import observabilite
+
+    lf = FausseLangfuse()
+    monkeypatch.setattr(observabilite, "client", lambda: lf)
+    fournisseur = FauxFournisseur()
+    rapport, _ = harnais.executer(lambda: fournisseur, ReferentielsHorsLigne(), tmp_path)
+    assert rapport["langfuse_experience"] == 20 and len(lf.items) == 20
+    assert len(lf.evaluations) == 20 * 6 and {e.name for e in lf.evaluations} >= {"exact_nom"}
+    # Le passage de l'agent vient de l'expérience : aucun scénario n'est joué deux fois.
+    assert rapport["test"]["global"]["total"] == 120

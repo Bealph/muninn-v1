@@ -260,6 +260,31 @@ class FournisseurAzure:
         return ReponseLLM(texte=texte, modele=modele_servi, fournisseur=self.nom, duree_ms=duree_ms)
 
     def completer(self, requete: RequeteChat) -> ReponseChat:
+        """Un appel au modèle, tracé dans Langfuse comme génération (V-13) : modèle, jetons, coût,
+        durée, raison de fin ; messages et réponse sur données synthétiques seulement."""
+        from muninn.observabilite import observation
+
+        with observation("llm", "generation", model=requete.modele) as obs:
+            try:
+                r = self._completer(requete)
+            except ErreurFournisseur as erreur:
+                obs.maj(level="ERROR", status_message=type(erreur).__name__)
+                raise
+            obs.maj(
+                usage_details={"input": r.jetons_entree, "output": r.jetons_sortie},
+                cost_details={"total": r.cout_micro_eur / 1e6},
+                metadata={
+                    "raison_fin": r.raison_fin,
+                    "duree_ms": r.duree_ms,
+                    "appels_outils": len(r.appels_outils),
+                    "detournement": r.detournement_detecte,
+                },  # fmt: skip
+                entree=requete.messages,
+                sortie=r.contenu,
+            )
+            return r
+
+    def _completer(self, requete: RequeteChat) -> ReponseChat:
         corps: dict[str, Any] = {
             "model": requete.modele,
             "messages": requete.messages,

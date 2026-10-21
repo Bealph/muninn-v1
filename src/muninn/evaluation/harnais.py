@@ -21,6 +21,7 @@ intervalles de Wilson le disent (phase 1, document 04, § 4.4).
 import argparse
 import dataclasses
 import json
+import logging
 import os
 import sys
 import time
@@ -29,6 +30,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from muninn import observabilite
 from muninn.core.config import Settings
 from muninn.demo import charger_scenarios
 from muninn.demo.verification import verifier_annexe_a, verifier_qualification
@@ -48,6 +50,7 @@ from muninn.qualification.qualificateur import charger_paquet_qualification, tra
 
 RACINE = Path(__file__).resolve().parents[3]
 JEU = RACINE / "eval" / "v08" / "jeu.json"
+DATASET = "muninn-v08-test"
 QUALIFICATION = RACINE / "eval" / "qualification" / "scenarios.json"
 DATE_REFERENCE = "2026-10-20"  # fixe : une campagne ne dépend pas du jour où elle tourne
 PLAFOND_MICRO_EUR = 1_000_000  # D-64
@@ -56,6 +59,9 @@ CAS_CRITIQUES = ("SC-01", "SC-03", "SC-04", "SC-05", "SC-07", "SC-10")
 CAS_QUALIFICATION = ("SC-Q3", "SC-Q4", "SC-Q7")
 REPETITIONS = 3
 API_PRODUCTION = "https://ca-muninn-api-prod.graybeach-70019748.francecentral.azurecontainerapps.io"
+
+
+journal = logging.getLogger(__name__)
 
 
 class PlafondAtteint(Exception):
@@ -88,11 +94,72 @@ class Campagne:
         return x, round((time.perf_counter() - debut) * 1000)
 
 
-def mesurer_test(c: Campagne, test: list[dict[str, Any]], paquet: Paquet | None) -> dict[str, Any]:
+def executer_experience(
+    c: Campagne, test: list[dict[str, Any]], jeu_version: str, horodatage: str
+) -> dict[str, tuple[Extraction | None, int]]:
+    """Le passage de l'agent comme expérience Langfuse (V-13) : dataset `muninn-v08-test`, un
+    score par champ. Une exécution à la fois (limite de débit). Rend ce qui a été exécuté ;
+    l'appelant exécute lui-même ce qui manque, si Langfuse échoue en route."""
+    lf = observabilite.client()
+    resultats: dict[str, tuple[Extraction | None, int]] = {}
+    if lf is None:
+        return resultats
+    from langfuse import Evaluation
+
+    par_id = {s["id"]: s for s in test}
+    try:
+        try:
+            lf.create_dataset(
+                name=DATASET, description="Jeu de test V-08", metadata={"jeu": jeu_version}
+            )
+        except Exception:  # noqa: BLE001 (dataset déjà créé : ses items sont mis à jour)
+            journal.info("langfuse.dataset_existant nom=%s", DATASET)
+        for s in test:
+            lf.create_dataset_item(
+                dataset_name=DATASET, id=f"{DATASET}-{s['id']}",
+                input={"transcription": s["transcription"], "metier": s["metier"],
+                       "numero_presente": s["numero_presente"]},
+                expected_output=s["verite"],
+                metadata={"scenario": s["id"], "categorie": s["categorie"]},
+            )  # fmt: skip
+
+        def tache(*, item: Any, **kwargs: Any) -> dict[str, Any]:
+            sid = item.metadata["scenario"]
+            x, duree = c.extraire(par_id[sid])
+            resultats[sid] = (x, duree)
+            exact = comparer(par_id[sid]["verite"], x.brouillon) if x else None
+            return {"scenario": sid, "exact": exact, "valeurs": valeurs(x.brouillon) if x else None}
+
+        def evaluateur(champ: str) -> Any:
+            def evaluer(*, output: dict[str, Any], **kwargs: Any) -> Any:
+                exact = bool(output.get("exact") and output["exact"][champ]["exact"])
+                return Evaluation(name=f"exact_{champ}", value=1.0 if exact else 0.0)
+
+            return evaluer
+
+        items = [i for i in lf.get_dataset(DATASET).items if i.metadata.get("scenario") in par_id]
+        lf.run_experiment(
+            name="V-08 agent", run_name=f"{jeu_version} {horodatage}", data=items, task=tache,
+            evaluators=[evaluateur(ch) for ch in CHAMPS], max_concurrency=1,
+        )  # fmt: skip
+    except PlafondAtteint:
+        raise
+    except Exception as erreur:  # noqa: BLE001 (Langfuse ne fait jamais échouer une campagne)
+        journal.warning("langfuse.experience_echec type=%s", type(erreur).__name__)
+    observabilite.envoyer()
+    return resultats
+
+
+def mesurer_test(
+    c: Campagne,
+    test: list[dict[str, Any]],
+    paquet: Paquet | None,
+    deja: dict[str, tuple[Extraction | None, int]] | None = None,
+) -> dict[str, Any]:
     """Exactitude par champ, invention, trajectoire, latence et part « à vérifier »."""
     lignes, durees = [], []
     for s in test:
-        x, duree = c.extraire(s, paquet)
+        x, duree = (deja or {}).get(s["id"]) or c.extraire(s, paquet)
         durees.append(duree)
         champs = comparer(s["verite"], x.brouillon) if x else {
             ch: {"exact": False, "invente": False, "absent_attendu": False} for ch in CHAMPS
@@ -249,6 +316,7 @@ def resumer(rapport: dict[str, Any]) -> str:
 def executer(
     fournisseur_de: Callable[[], FournisseurLLM], referentiels: Referentiels, sortie: Path
 ) -> tuple[dict[str, Any], int]:
+    observabilite.autoriser_contenu_synthetique()  # le jeu est synthétique (R9)
     jeu = json.loads(JEU.read_text(encoding="utf-8"))
     test = [s for s in jeu["scenarios"] if s["partition"] == "test"]
     paquet = charger_paquet()
@@ -262,7 +330,9 @@ def executer(
     c: Campagne | None = None
     try:
         c = Campagne(fournisseur_de(), referentiels, paquet)
-        rapport["test"] = mesurer_test(c, test, None)
+        deja = executer_experience(c, test, jeu["version"], rapport["horodatage"])
+        rapport["langfuse_experience"] = len(deja)
+        rapport["test"] = mesurer_test(c, test, None, deja)
         rapport["base_sans_outils"] = mesurer_test(c, test, dataclasses.replace(paquet, outils=[]))
         rapport["bloquants"] = mesurer_bloquants(c, jeu)
         rapport["verdict"], rapport["raisons"] = verdict(rapport["test"], rapport["bloquants"])

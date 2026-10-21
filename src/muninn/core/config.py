@@ -31,6 +31,10 @@ class Settings(BaseSettings):
     # Limite globale des lectures des référentiels (points publics en démonstration, D-57).
     referentiels_limite_minute: int = Field(default=120, ge=0)
     referentiels_limite_jour: int = Field(default=5000, ge=0)
+    # Langfuse Cloud, région UE (V-13, D-49). Sans clés, aucune trace n'est envoyée.
+    langfuse_public_key: SecretStr | None = None
+    langfuse_secret_key: SecretStr | None = None
+    langfuse_base_url: str = "https://cloud.langfuse.com"
 
 
 @lru_cache

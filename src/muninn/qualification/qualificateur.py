@@ -48,6 +48,7 @@ from muninn.llm.fournisseur import (
     RefusContenu,
     RequeteChat,
 )
+from muninn.observabilite import tracer
 from muninn.qualification.contrat import (
     CATEGORIES_MESSAGE,
     LONGUEUR_MESSAGE,
@@ -118,6 +119,10 @@ class Traitement:
     garde_fous: set[GardeFouSortie] = field(default_factory=set)  # du message (étape 7)
 
 
+@tracer("qualification", "chain", lambda q: {
+    "categorie": q.categorie, "categorie_modele": q.categorie_modele or "aucune",
+    "confiance": q.confiance, "regle": q.regle or "aucune", "securite": q.securite,
+})  # fmt: skip
 def qualifier(
     transcription: str,
     paquet: Paquet,
@@ -239,6 +244,10 @@ def construire_message(
     return message, declenches
 
 
+@tracer("appel", "span", lambda t: {
+    "issue": "trace" if t.trace else "message" if t.message else "dossier",
+    "garde_fous_message": ",".join(sorted(t.garde_fous)) or "aucun",
+})  # fmt: skip
 def traiter_appel(
     transcription: str,
     paquet_qualification: Paquet,

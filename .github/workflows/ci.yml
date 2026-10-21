@@ -178,6 +178,10 @@ jobs:
         env:
           LLM_FOURNISSEUR: azure
           AZURE_AI_ENDPOINT: https://adialloext-muninn1-resource.services.ai.azure.com
+          # Langfuse (V-13) : dataset et expérience ; sans ces secrets, le harnais tourne sans.
+          LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+          LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+          LANGFUSE_BASE_URL: https://cloud.langfuse.com
         run: |
           set -o pipefail
           uv run python -m muninn.evaluation.harnais --sortie rapports-evaluation | tee resume.txt

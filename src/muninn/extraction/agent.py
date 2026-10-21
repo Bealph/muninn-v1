@@ -24,7 +24,13 @@ from typing import Literal
 from pydantic import ValidationError
 
 from muninn.extraction.contrat import SortieLLM
-from muninn.extraction.outils import CommuneRendue, Referentiels, ResultatOutil, executer_outil
+from muninn.extraction.outils import (
+    NOMS_OUTILS,
+    CommuneRendue,
+    Referentiels,
+    ResultatOutil,
+    executer_outil,
+)
 from muninn.extraction.paquet import Paquet
 from muninn.llm.fournisseur import (
     DelaiDepasse,
@@ -35,6 +41,7 @@ from muninn.llm.fournisseur import (
     RequeteChat,
     message_outil,
 )
+from muninn.observabilite import tracer
 
 journal = logging.getLogger(__name__)
 
@@ -100,6 +107,13 @@ def _champs_en_erreur(erreur: ValidationError | ValueError) -> str:
     return "JSON illisible"
 
 
+@tracer("agent", "agent", lambda r: {
+    "statut": r.statut, "tentatives": r.tentatives, "etapes": r.etapes,
+    # Le nom vient du modèle : hors de la liste fermée, il n'est jamais recopié.
+    "outils": ",".join(a.nom if a.nom in NOMS_OUTILS else "outil_inconnu"
+                       for a in r.appels_outils) or "aucun",
+    "borne_atteinte": r.borne_atteinte, "cout_micro_eur": r.cout_micro_eur,
+})  # fmt: skip
 def extraire(
     transcription: str,
     paquet: Paquet,

@@ -30,6 +30,7 @@ MOTIFS_EMPREINTE: tuple[str, ...] = (
     "src/muninn/extraction/departements.json",
     "src/muninn/extraction/paquet_fichiers/*",
     "src/muninn/llm/*.py",
+    "src/muninn/observabilite.py",
     "src/muninn/qualification/*.py",
     "src/muninn/qualification/paquet_fichiers/*",
     "src/muninn/evaluation/*.py",

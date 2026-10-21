@@ -117,8 +117,8 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 ### Étape 10 : Langfuse (V-13, détachable)
 
 - [ ] Compte Langfuse Cloud UE créé par le porteur (palier gratuit, R10) ; clés dans les secrets.
-- [ ] Traces des appels au LLM sans contenu en production (métadonnées seulement), testé ; contenu visible sur les évaluations synthétiques seulement.
-- [ ] Jeux de données et expériences d'évaluation ; échec de la CI en cas de régression.
+- [ ] Traces des appels au LLM sans contenu en production (métadonnées seulement), testé ; contenu visible sur les évaluations synthétiques seulement. Code et tests faits (`langfuse.md`) ; vérification en production après la pose des clés.
+- [ ] Jeux de données et expériences d'évaluation ; échec de la CI en cas de régression. Code et tests faits (dataset `muninn-v08-test`, expérience « V-08 agent ») ; vérification réelle après la pose des clés.
 - [x] Point de décision du lundi 19 au soir : tranché le 19 octobre 2026 par le porteur, **Langfuse est gardé** (non négociable) ; étapes 0 à 3 faites, aucun retard.
 
 ### Étape 11 : la production

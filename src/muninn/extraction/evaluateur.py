@@ -56,6 +56,7 @@ from muninn.extraction.paquet import Paquet
 from muninn.extraction.regles import calculer_champs_manquants, champs_a_verifier, plafonner
 from muninn.extraction.sortie import appliquer
 from muninn.llm.fournisseur import FournisseurLLM
+from muninn.observabilite import tracer
 
 journal = logging.getLogger(__name__)
 
@@ -724,6 +725,13 @@ def evaluer(
     return brouillon, enveloppe
 
 
+@tracer("extraction", "span", lambda x: {
+    "statut": x.brouillon.provenance.extraction_status, "a_verifier": x.enveloppe.a_verifier,
+    "motifs": ",".join(x.enveloppe.motifs) or "aucun",
+    "garde_fous": ",".join(x.enveloppe.garde_fous) or "aucun",
+    "commune": x.brouillon.checks.commune.status,
+    "code_postal": x.brouillon.checks.code_postal.status,
+})  # fmt: skip
 def extraire_dossier(
     transcription: str,
     paquet: Paquet,

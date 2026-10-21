@@ -6,6 +6,7 @@ import httpx
 import pytest
 from fastapi.testclient import TestClient
 
+from muninn import observabilite
 from muninn.api.limites import LimiteurDebit
 from muninn.api.main import app as api
 from muninn.api.main import get_fournisseur, get_limiteur
@@ -22,6 +23,9 @@ VARIABLES_MUNINN = (
     "AZURE_AI_MODEL_A",
     "AZURE_AI_MODEL_B",
     "AZURE_AI_API_KEY",
+    "LANGFUSE_PUBLIC_KEY",
+    "LANGFUSE_SECRET_KEY",
+    "LANGFUSE_BASE_URL",
 )
 
 
@@ -33,6 +37,8 @@ def configuration_isolee(monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
         monkeypatch.delenv(nom, raising=False)
     get_settings.cache_clear()
     get_limiteur.cache_clear()
+    observabilite.client.cache_clear()
+    monkeypatch.setattr(observabilite, "_contenu_synthetique", False)
     yield
     get_settings.cache_clear()
     get_limiteur.cache_clear()

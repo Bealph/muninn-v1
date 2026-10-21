@@ -19,6 +19,8 @@ from typing import Any, Protocol
 
 import httpx
 
+from muninn.observabilite import tracer
+
 journal = logging.getLogger(__name__)
 
 NOMS_OUTILS = frozenset({"chercher_communes", "chercher_terme_metier"})
@@ -81,6 +83,11 @@ def _texte(valeur: object) -> str | None:
     return valeur.strip() if isinstance(valeur, str) and valeur.strip() else None
 
 
+@tracer(
+    lambda referentiels, nom, arguments_json: nom if nom in NOMS_OUTILS else "outil_inconnu",
+    "tool",
+    lambda r: {"statut": r.statut, "duree_ms": r.duree_ms, "communes": len(r.communes)},
+)
 def executer_outil(referentiels: Referentiels, nom: str, arguments_json: str) -> ResultatOutil:
     """Exécute un appel d'outil demandé par le modèle ; ne lève jamais d'exception."""
     debut = time.perf_counter()
