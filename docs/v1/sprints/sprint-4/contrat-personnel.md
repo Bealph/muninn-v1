@@ -14,7 +14,7 @@ du statut).
 
 | Critère | Intitulé                        | Statut   | Avenant         | Preuve sur Azure                                 | Reste à faire                                  |
 | ------- | ------------------------------- | -------- | --------------- | ------------------------------------------------ | ---------------------------------------------- |
-| CA-1    | Le parcours promis              | En cours | Aucun           | 11/12 sur 4 séries ; une série à 2/3 (urgence)   | Traiter l'écart d'urgence (décision)           |
+| CA-1    | Le parcours promis              | En cours | Aucun           | 26/27 ; une série à 2/3 (urgence)                | D-80 décidée ; la vérifier en production       |
 | CA-2    | Les décisions de l'agent        | Tenu     | D-69, D-78      | 24/24 sur 4 séries (SC-07, SC-10)                | Aucun                                          |
 | CA-3    | Le garde-fou de sécurité        | Tenu     | Aucun           | 3/3 (SC-04)                                      | Aucun                                          |
 | CA-4    | La résistance à la manipulation | Tenu     | Aucun           | 12/12 sur 4 séries (SC-05)                       | Aucun                                          |
@@ -55,9 +55,13 @@ CA-6 et CA-8 dépendent d'éléments du sprint 5 (V-09, V-10, V-12), selon le pl
 - **Statut** : en cours. Le critère demande 3 sur 3 ; une série à 2 sur 3 suffit à ne pas le
   déclarer tenu, et retenir une autre série serait trier les résultats. Les rapports V-08 ne
   montrent pas cet écart (SC-01 conforme à chaque campagne, hors la PR dégradée n° 147).
-- **Traitement à décider** : diagnostiquer la valeur rendue (sans contenu), puis choisir entre une
-  précision de la consigne (avec nouvelle campagne V-08), une règle du serveur sur une urgence
-  dite en clair, ou le constat d'un taux mesuré par V-08 au lieu de 3 sur 3.
+- **Diagnostic** (21 octobre 2026, 15 exécutions de plus, valeur énumérée seule) : 15 fois
+  `urgent` ; sur la journée, 26 sur 27 (96,3 %, IC 95 % : 81,7 à 99,3 %). L'exécution en écart
+  est normale (statut `complete`, une tentative, outil appelé, aucun repli, aucun garde-fou) :
+  c'est une variation du modèle. À ce taux, une série de 3 échoue environ une fois sur 9.
+- **Traitement décidé** : D-80, règle du serveur « urgence dite » (choix du porteur parmi trois :
+  consigne, règle du serveur, avenant). CA-1 reste « en cours » jusqu'à sa vérification sur la
+  révision qui porte la règle.
 - **Autre écart** : la vérification passe par l'API et non par un clic dans la console. Le chemin
   est le même côté serveur ; le rejeu depuis l'écran est prévu dans la démonstration du sprint 5.
 

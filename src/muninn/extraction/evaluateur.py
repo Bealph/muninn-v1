@@ -62,6 +62,25 @@ journal = logging.getLogger(__name__)
 
 # Annexe A du dossier V1 : listes fermées, comparées après normalisation.
 EXPRESSIONS_GAZ = ("odeur de gaz", "sent le gaz", "fuite de gaz", "odeur d oeuf pourri")
+# Règle « urgence dite » (D-80) : mots qui disent l'urgence, et mots qui l'annulent ou la mettent
+# en doute quand ils la précèdent (négation, condition, interrogation, atténuation).
+MOTS_URGENT = frozenset({"urgent", "urgente", "urgents", "urgentes", "urgemment"})
+BLOQUANTS_URGENCE = frozenset(
+    {
+        "pas",
+        "non",
+        "rien",
+        "aucun",
+        "aucune",
+        "jamais",
+        "sans",
+        "plus",
+        "peu",
+        "si",
+        "que",
+        "pourquoi",
+    }
+)
 TERMES_SANTE = (
     "diabet",
     "cardiaque",
@@ -222,6 +241,20 @@ def retirer_identite_inventee(
 
 def detecter_gaz(transcription_normalisee: str) -> bool:
     return any(f" {e} " in f" {transcription_normalisee} " for e in EXPRESSIONS_GAZ)
+
+
+def urgence_dite(paroles_normalisees: str) -> bool:
+    """« Urgent » dit en clair par l'appelant (D-80) : un mot de `MOTS_URGENT` sans négation,
+    condition ni question dans les quatre mots qui le précèdent (« ce n'est pas urgent », « je ne
+    sais pas si c'est urgent », « est-ce que c'est urgent »). Dans le doute, la règle ne dit rien
+    et la valeur du modèle reste."""
+    mots = paroles_normalisees.split()
+    for i, mot in enumerate(mots):
+        avant = mots[max(0, i - 4) : i]
+        question = any(avant[j : j + 2] == ["est", "ce"] for j in range(len(avant) - 1))
+        if mot in MOTS_URGENT and not (BLOQUANTS_URGENCE & set(avant) or question):
+            return True
+    return False
 
 
 def contient_sante(texte: str | None) -> bool:
@@ -649,6 +682,13 @@ def evaluer(
     demande = sortie.demande
     actions = list(sortie.actions)
     call_outcome: Literal["completed", "safety_redirect"] = "completed"
+    urgence_par_le_serveur = demande.urgence in ("normal", "non_precise") and urgence_dite(
+        normaliser(paroles_appelant(transcription))
+    )
+    if urgence_par_le_serveur:
+        # Règle « urgence dite » (D-80) : l'urgence dite en clair par l'appelant n'est jamais
+        # abaissée par le modèle ; la règle ne l'abaisse pas non plus, et « gaz » reste prioritaire.
+        demande = demande.model_copy(update={"urgence": "urgent"})
     if detecter_gaz(texte):
         # Règle « gaz » (US-09, CA-3) : urgence de sécurité, aucun rendez-vous, orientation en tête.
         demande = demande.model_copy(update={"urgence": "securite", "rdv_propose": None})
@@ -715,7 +755,12 @@ def evaluer(
                 if adresse_finale.code_postal.value
                 else ABSENT
             ),
-        },
+        }
+        | (
+            {"demande.urgence": ProvenanceChamp(origine="entendu", auteur="serveur")}
+            if urgence_par_le_serveur and brouillon.demande.urgence == "urgent"
+            else {}
+        ),
         departement=correspondance.departement,
         candidates=correspondance.candidates,
         a_verifier=brouillon.needs_review or bool(motifs),
@@ -780,8 +825,8 @@ def extraire_dossier(
     controles = brouillon.checks
     journal.info(
         "extraction.fin request_id=%s draft_id=%s statut=%s a_verifier=%s motifs=%s garde_fous=%s "
-        "motifs_entree=%s commune=%s code_postal=%s candidates=%s outils=%s jetons=%s "
-        "cout_micro_eur=%s duree_ms=%s",
+        "motifs_entree=%s commune=%s code_postal=%s urgence=%s urgence_serveur=%s candidates=%s "
+        "outils=%s jetons=%s cout_micro_eur=%s duree_ms=%s",
         request_id,
         brouillon.draft_id,
         brouillon.provenance.extraction_status,
@@ -791,6 +836,8 @@ def extraire_dossier(
         ",".join(motifs_entree) or "aucun",
         controles.commune.status,
         controles.code_postal.status,
+        brouillon.demande.urgence,
+        "demande.urgence" in enveloppe.provenance,
         len(enveloppe.candidates),
         len(resultat.appels_outils),
         resultat.jetons_entree + resultat.jetons_sortie,

@@ -113,7 +113,7 @@
           <td>{{ d.checks["client.adresse.commune"].status }} ; {{ e.provenance["client.adresse.commune"].origine }} ({{ e.provenance["client.adresse.commune"].auteur }}){% if e.departement %} ; département {{ e.departement }}{% endif %}</td></tr>
         <tr><th scope="row">Objet</th><td>{{ d.demande.objet_court.value or "absent" }}</td><td>{{ d.demande.objet_court.confidence }}</td><td></td></tr>
         <tr><th scope="row">Description</th><td>{{ d.demande.description.value or "absent" }}</td><td>{{ d.demande.description.confidence }}</td><td></td></tr>
-        <tr><th scope="row">Urgence</th><td>{{ d.demande.urgence }}</td><td></td><td></td></tr>
+        <tr><th scope="row">Urgence</th><td>{{ d.demande.urgence }}</td><td></td><td>{% if e.provenance["demande.urgence"] %}{{ e.provenance["demande.urgence"].origine }} ({{ e.provenance["demande.urgence"].auteur }}) : dite par l'appelant{% endif %}</td></tr>
       </tbody>
     </table>
     {% if e.candidates %}

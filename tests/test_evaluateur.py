@@ -16,6 +16,7 @@ from muninn.extraction.evaluateur import (
     EntreeRefusee,
     evaluer,
     extraire_dossier,
+    urgence_dite,
 )
 from muninn.extraction.outils import CommuneRendue, ResultatOutil
 from muninn.extraction.paquet import charger_paquet
@@ -213,6 +214,66 @@ def test_sc04_regle_gaz() -> None:
     assert b.demande.urgence == "securite" and b.demande.rdv_propose is None
     assert b.actions[0] == ACTION_GAZ and b.call_outcome == "safety_redirect"
     assert "gaz" in e.garde_fous
+
+
+@pytest.mark.parametrize(
+    ("paroles", "dite"),
+    [
+        ("c'est urgent, ça inonde la cuisine", True),
+        ("C'est très urgent !", True),
+        ("une intervention urgente svp", True),
+        ("il faut venir urgemment", True),
+        ("chaudière en panne, ce n'est pas urgent", False),
+        ("c'est pas du tout urgent", False),
+        ("ce n'est vraiment pas très urgent", False),
+        ("rien d'urgent", False),
+        ("c'est peu urgent", False),
+        ("je ne sais pas si c'est urgent", False),
+        ("est-ce que c'est urgent ?", False),
+        ("est-ce urgent ?", False),
+        ("il y a une urgence", False),  # « urgence » seul n'est pas retenu : trop d'emplois figés
+        ("fuite sous l'évier", False),
+    ],
+)
+def test_urgence_dite_en_clair(paroles: str, dite: bool) -> None:
+    assert urgence_dite(normaliser(paroles)) is dite
+
+
+def test_sc01_urgence_dite_relevee_par_le_serveur() -> None:
+    """D-80 : le modèle a rendu « normal » alors que l'appelant dit « c'est urgent ». La règle
+    relève l'urgence sans rien ajouter d'autre (ni motif, ni « à vérifier », ni garde-fou)."""
+    appel = "Paul Martin, 12 rue des Lilas à Montreuil, 93100, fuite sous l'évier"
+    _, sans = evaluer_cas(resultat(sortie("Montreuil", "93100", urgence="normal")), appel)
+    b, e = evaluer_cas(
+        resultat(sortie("Montreuil", "93100", urgence="normal")),
+        appel + ", c'est urgent, ça inonde la cuisine",
+    )
+    assert b.demande.urgence == "urgent"
+    assert e.provenance["demande.urgence"].model_dump() == {
+        "origine": "entendu",
+        "auteur": "serveur",
+    }
+    assert (e.a_verifier, e.motifs, e.garde_fous) == (sans.a_verifier, sans.motifs, sans.garde_fous)
+    assert "demande.urgence" not in sans.provenance
+
+
+@pytest.mark.parametrize(
+    ("transcription", "urgence_modele", "attendue"),
+    [
+        ("chaudière en panne, ce n'est pas urgent, Montreuil 93100", "normal", "normal"),
+        ("c'est urgent, fuite à Montreuil 93100", "urgent", "urgent"),
+        ("c'est urgent, ça sent le gaz, Montreuil 93100", "normal", "securite"),
+        ("Agent : C'est urgent ?\nAppelant : Non, Montreuil 93100.", "normal", "normal"),
+    ],
+)
+def test_urgence_dite_ne_change_que_ce_qu_elle_doit(
+    transcription: str, urgence_modele: str, attendue: str
+) -> None:
+    b, e = evaluer_cas(
+        resultat(sortie("Montreuil", "93100", urgence=urgence_modele)), transcription
+    )
+    assert b.demande.urgence == attendue
+    assert "demande.urgence" not in e.provenance
 
 
 def test_sc05_regle_sante() -> None:
