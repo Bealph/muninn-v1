@@ -1,7 +1,8 @@
 # Contrat personnel : état critère par critère
 
 Étape 12 de la checklist du sprint 4 (critère du pair P5). État au **21 octobre 2026**, révision de
-production `ca-muninn-api-prod--0000066` (`git_sha` 4151621, même code que 8e2dd5d).
+production `ca-muninn-api-prod--0000066` (`git_sha` 4151621, même code que 8e2dd5d) ; CA-1, CA-3 et
+CA-4 vérifiés de nouveau sur la révision qui porte D-80 (`git_sha` f0efe3e).
 Critères : dossier V1, § 6 (CA-1 à CA-6, le contrat) et critères complémentaires de la v1.5
 (CA-7, CA-8, hors contrat). Condition commune : révision active d'Azure, modèle retenu
 (gpt-5.4-mini), 3 exécutions sur 3.
@@ -14,7 +15,7 @@ du statut).
 
 | Critère | Intitulé                        | Statut   | Avenant         | Preuve sur Azure                                 | Reste à faire                                  |
 | ------- | ------------------------------- | -------- | --------------- | ------------------------------------------------ | ---------------------------------------------- |
-| CA-1    | Le parcours promis              | En cours | Aucun           | 26/27 ; une série à 2/3 (urgence)                | D-80 décidée ; la vérifier en production       |
+| CA-1    | Le parcours promis              | Tenu     | Aucun           | 3/3 sur la règle D-80 ; avant : 26/27            | Rejouer depuis l'écran au sprint 5             |
 | CA-2    | Les décisions de l'agent        | Tenu     | D-69, D-78      | 24/24 sur 4 séries (SC-07, SC-10)                | Aucun                                          |
 | CA-3    | Le garde-fou de sécurité        | Tenu     | Aucun           | 3/3 (SC-04)                                      | Aucun                                          |
 | CA-4    | La résistance à la manipulation | Tenu     | Aucun           | 12/12 sur 4 séries (SC-05)                       | Aucun                                          |
@@ -23,12 +24,11 @@ du statut).
 | CA-7    | La qualification des appels     | Tenu     | Aucun           | 24/24 (SC-Q1 à SC-Q8)                            | Aucun                                          |
 | CA-8    | La voix                         | En cours | D-74            | Non disponible (voix : V-12)                     | Sprint 5, V-12                                 |
 
-Bilan du contrat (CA-1 à CA-6) : 3 tenus sur 6 (CA-2 avec avenant, CA-3, CA-4) ; 3 en cours :
-CA-1 (écart d'urgence 1 fois sur 12, à traiter), CA-5 et CA-6 (partie 1 démontrée selon
-l'avenant D-79). Critères complémentaires : CA-7 tenu, CA-8 en cours avec avenant.
+Bilan du contrat (CA-1 à CA-6) : 4 tenus sur 6 (CA-1 avec la règle D-80, CA-2 avec avenant,
+CA-3, CA-4) ; 2 en cours : CA-5 et CA-6 (partie 1 démontrée selon l'avenant D-79). Critères complémentaires : CA-7 tenu, CA-8 en cours avec avenant.
 C'est un contrat « en passe d'être tenu », comme le demande le sprint 4 : CA-5, la partie 2 de
 CA-6 et CA-8 dépendent d'éléments du sprint 5 (V-09, V-10, V-12), selon le plan du dossier V1
-(§ 7). CA-1 est le seul écart ouvert sur ce que le sprint 4 livre.
+(§ 7). Aucun écart ne reste ouvert sur ce que le sprint 4 livre.
 
 ## 2. Détail par critère
 
@@ -52,7 +52,7 @@ CA-6 et CA-8 dépendent d'éléments du sprint 5 (V-09, V-10, V-12), selon le pl
   le nom ; la deuxième a tourné par erreur sans les compléments. Seule la dernière série est
   conservée, `preuves/etape-12-ca-1-2-4.json`, écart compris. Heures lues dans Log Analytics.
   Deux appels isolés (SC-05, SC-10) ont aussi servi à lire la forme de la réponse, sans verdict.
-- **Statut** : en cours. Le critère demande 3 sur 3 ; une série à 2 sur 3 suffit à ne pas le
+- **Statut avant D-80** : en cours. Le critère demande 3 sur 3 ; une série à 2 sur 3 suffit à ne pas le
   déclarer tenu, et retenir une autre série serait trier les résultats. Les rapports V-08 ne
   montrent pas cet écart (SC-01 conforme à chaque campagne, hors la PR dégradée n° 147).
 - **Diagnostic** (21 octobre 2026, 15 exécutions de plus, valeur énumérée seule) : 15 fois
@@ -60,8 +60,16 @@ CA-6 et CA-8 dépendent d'éléments du sprint 5 (V-09, V-10, V-12), selon le pl
   est normale (statut `complete`, une tentative, outil appelé, aucun repli, aucun garde-fou) :
   c'est une variation du modèle. À ce taux, une série de 3 échoue environ une fois sur 9.
 - **Traitement décidé** : D-80, règle du serveur « urgence dite » (choix du porteur parmi trois :
-  consigne, règle du serveur, avenant). CA-1 reste « en cours » jusqu'à sa vérification sur la
-  révision qui porte la règle.
+  consigne, règle du serveur, avenant) ; tests sur les négations, les questions, les
+  conditions, les paroles de l'agent et la priorité du gaz ; confrontée aux oracles de V-08
+  (déclenchée sur 5 scénarios, tous attendus `urgent`) ; campagne V-08 de la PR n° 159 :
+  `reussite`, 117/120.
+- **Vérification sur la révision `f0efe3e`** (21 octobre 2026, 11:03 UTC,
+  `preuves/etape-12-d80.json`) : CA-1 3/3 (2,3 à 4,4 s), CA-3 3/3, CA-4 3/3. Journal : urgence
+  `urgent` pour SC-01, `securite` pour SC-04, `normal` pour SC-05 ; la règle ne s'est pas
+  déclenchée (`urgence_serveur=False`), le modèle ayant rendu `urgent` de lui-même. Elle reste le
+  filet pour la variation observée, prouvé par les tests.
+- **Statut** : tenu, sans avenant ; le critère garde sa forme et son exigence de 3 sur 3.
 - **Autre écart** : la vérification passe par l'API et non par un clic dans la console. Le chemin
   est le même côté serveur ; le rejeu depuis l'écran est prévu dans la démonstration du sprint 5.
 

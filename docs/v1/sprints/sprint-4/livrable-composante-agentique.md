@@ -48,12 +48,12 @@ Sources : `production.md` (§ 2 à 5), `preuves/etape-11-criteres.json`,
 | Exactitude globale du dossier, V-08 (campagne 2)   | 117/120 = 97,5 %           | 92,9 à 99,1 %              | `evaluation.md`        |
 | Coût de la campagne V-08                           | 0,18 €                     | sans objet                 | `evaluation.md`        |
 | Prompts hostiles et légitimes depuis l'écran       | 11/11 tenus                | non calculé (11 cas)       | `production.md`, § 4   |
-| Durée du parcours SC-01 en production, côté client | 2,7 à 12,1 s (limite 30 s) | sans objet                 | `contrat-personnel.md` |
+| Durée du parcours SC-01 en production, côté client | 2,3 à 12,1 s (limite 30 s) | sans objet                 | `contrat-personnel.md` |
 
 ## 4. État du contrat personnel
 
 Détail critère par critère : `contrat-personnel.md`. En bref : CA-2 (avec avenants D-69, D-78),
-CA-3, CA-4 et CA-7 tenus sur Azure ; CA-1 en cours, un écart d'urgence sur 12 exécutions ;
+CA-3, CA-4 et CA-7 tenus sur Azure ; CA-1 tenu après la règle du serveur D-80 ;
 CA-5, CA-6 (partie 2) et CA-8 (avenant D-74) au sprint 5.
 
 ## 5. Limites
