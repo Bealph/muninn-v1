@@ -123,9 +123,9 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 11 : la production
 
-- [ ] Modèle accessible en production par l'identité de l'application (OIDC, sans clé) ; livré par la chaîne du sprint 2.
-- [ ] CA-2, CA-3, CA-4 et CA-7 vérifiés sur la révision active d'Azure, 3 exécutions sur 3. Preuve : `preuves/`.
-- [ ] Prompts hostiles tirés en production depuis l'écran « Agent » : bloqués ou neutralisés, journalisés ; usages légitimes acceptés.
+- [x] Modèle accessible en production par l'identité de l'application (OIDC, sans clé) ; livré par la chaîne du sprint 2.
+- [x] CA-2, CA-3, CA-4 et CA-7 vérifiés sur la révision active d'Azure, 3 exécutions sur 3. Preuve : `preuves/`.
+- [x] Prompts hostiles tirés en production depuis l'écran « Agent » : bloqués ou neutralisés, journalisés ; usages légitimes acceptés.
 
 ### Étape 12 : le contrat personnel
 
