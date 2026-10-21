@@ -61,3 +61,18 @@ l'API envoie ses traces au projet de production, étiquetées `environment=local
 
 **Revue de sécurité** : le nom d'un outil demandé par le modèle n'est jamais tracé hors de la liste
 fermée (`outil_inconnu`), testé.
+
+## 5. Vérification réelle, le 21 octobre 2026
+
+| Contrôle                                          | Résultat                                                                                                                                                                       |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Appel réel en production (SC-Q3), projet `muninn` | Trace « appel », environnement `production`, 8 observations (appel, qualification, extraction, agent, outil, 3 générations) ; aucune entrée ni sortie ; aucun texte de l'appel |
+| Génération                                        | Modèle gpt-5.4-mini, jetons (par exemple 2 199 en entrée, 259 en sortie), durée, raison de fin                                                                                 |
+| Campagne locale, projet `muninn-evaluation`       | Dataset `muninn-v08-test`, 20 items ; expérience « V-08 agent » ; scores `exact_*` par champ ; verdict `reussite`, 119/120                                                     |
+| CI de la PR n° 152                                | Deux expériences dans `muninn-evaluation` : le chemin de la CI fonctionne                                                                                                      |
+| Projet de production                              | Aucun dataset ni score d'évaluation                                                                                                                                            |
+
+**Corrigé en route** : le script `07-langfuse.sh` ne basculait pas le trafic vers la révision portant
+les clés (révisions multiples) ; il suit désormais `deployer.sh` (trafic figé, contrôle à l'adresse
+de la révision, bascule, précédente conservée). Le contrôle de santé échouait avec le `curl` de
+Windows (`-o /dev/null`) ; la réponse est jetée par bash.
