@@ -65,10 +65,9 @@ invention sur 6 champs absents ; 15 % de dossiers « à vérifier ».
 
 ## 4. Ce que disent ces mesures, et ce qu'elles ne disent pas
 
-- **Les outils n'apportent pas de gain mesurable sur ce jeu** : 117 sur 120 avec et sans. Depuis
-  D-69, le serveur fait la correspondance des communes ; l'agent n'appelle un outil que dans 15 %
-  des scénarios, et pas sur T09 ni T11. Sa valeur se démontre sur SC-07 (« le 9-3 » résolu par
-  l'outil, 3 sur 3 depuis l'étape 4) : c'est le cas que la base sans outils échoue (CA-6).
+- **Les outils n'apportent pas de gain mesurable sur ce jeu** : le modèle avec outils et le modèle
+  sans outils obtiennent le même score, à un ou deux champs près. Les règles du serveur font le
+  travail des communes (D-69, D-77, D-78). Voir le § 4 sexies, qui en tire les conséquences.
 - **Vingt scénarios ne prouvent pas un taux** : avec 117 sur 120 champs, la borne basse est
   92,9 % ; les champs d'un même scénario ne sont pas indépendants (effet de grappe, phase 1,
   document 04, § 4.4). Le seuil de 90 % est atteint en estimation ponctuelle (VE-11), pas démontré.
@@ -138,6 +137,49 @@ Les deux PR sont fermées sans fusion.
 **Dette** : le job compare l'empreinte de la PR à celle de `main` ; tant qu'une PR modifie le
 paquet, chaque poussée rejoue une campagne (environ 0,25 €), même pour de la documentation. À
 corriger : comparer aussi à l'empreinte du dernier commit évalué avec succès.
+
+## 4 sexies. Ce que cela change pour Muninn, et comment le dire
+
+**Ce que la mesure compare.** Muninn emploie le modèle de langage de deux façons : il lit l'appel et
+remplit le dossier (nom, téléphone, adresse, objet, urgence, refus, résistance aux injections,
+données de santé écartées) ; et il peut appeler deux outils, `chercher_communes` et
+`chercher_terme_metier`. La base de comparaison retire **les outils**, pas le modèle. Le score
+quasi identique dit que les outils sont devenus superflus sur ce jeu ; il ne dit pas que l'IA l'est :
+sans le modèle, il n'y a pas de dossier.
+
+**Pourquoi.** Les règles du serveur ont repris, une à une, le travail des communes : correspondance
+systématique (D-69), nom principal d'un nom usuel (D-77), département cité en clair (D-78). Chacune a
+été adoptée sur une mesure : l'agent appelait l'outil de façon irrégulière (de 15 % à 100 % des
+scénarios selon la consigne), alors qu'une règle est déterministe, testée et auditable.
+
+**Pour le produit, c'est un gain.** La promesse est un dossier juste pour l'artisan : 99 % des
+champs exacts sur la campagne de référence, aucune invention, un comportement prévisible et un peu
+plus rapide sans appel d'outil.
+
+**Pour la certification, c'est un point de vigilance, à traiter de front.** Le dossier V1 (§ 3.1)
+a choisi « un agent outillé qui décide lui-même quand appeler un outil ». Trois réponses, toutes
+vérifiables :
+
+1. L'agent existe et il est encadré : boucle bornée, outils en liste fermée, garde-fous d'entrée et
+   de sortie ; le périmètre d'accès est démontré (scénario P4 : outil hors liste refusé, borne
+   atteinte, événement journalisé).
+2. L'architecture hybride, règles et agent, était un principe de la conception (A-3). La mesure a
+   déplacé la frontière vers les règles là où elles sont plus fiables : c'est une décision fondée
+   sur des mesures, consignée (D-77, D-78), pas un échec caché.
+3. La valeur propre de l'agent est là où une règle ne va pas : indices libres (« près de la mairie
+   de Vincennes »), vocabulaire familier (« cumulus »). Les 20 scénarios n'en contiennent presque
+   pas ; sur le seul cas de vocabulaire (SC-08), l'outil échoue, faute de terme dans le lexique.
+   C'est une limite du jeu, dite.
+
+**Phrase pour la soutenance** : « Nous avons mesuré l'apport des outils de l'agent : il est nul sur
+nos vingt scénarios, parce que nos règles serveur font mieux ce travail. Nous l'avons constaté,
+nous en avons tiré une architecture hybride, et l'agent garde ce qu'une règle ne sait pas faire :
+c'est là que nous le mesurerons ensuite. »
+
+**Après la V1.** Ajouter au jeu des scénarios que les règles ne résolvent pas (indices libres,
+vocabulaire) et y comparer l'agent à la base sans outils ; si l'agent n'y apporte rien, reconsidérer
+la forme « agent outillé ». La composante la plus agentique viendra avec l'agenda (D-76) : proposer
+à l'artisan des créneaux libres demande une vraie suite d'appels d'outils.
 
 ## 5. Qualification (SC-Q8)
 
