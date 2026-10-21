@@ -611,6 +611,20 @@
   <div class="frise-note">Déroulé de la démonstration et preuves de secours : <code>docs/v1/sprints/sprint-3/demonstration.md</code>.</div>
   </section>
 
+  <section id="s-sprint-4">
+  <h2><span class="num">10</span>Sprint 4 : l'agent et ses garde-fous, devant le pair</h2>
+  <div class="frise-note"><b>La consigne.</b> « Construire la composante agentique choisie et la protéger par des garde-fous d'entrée et de sortie sérieux. À la fin du sprint, le contrat personnel est en passe d'être tenu. » Pour Muninn : un agent qui lit l'appel manqué, prépare le dossier et vérifie lui-même une commune quand il le faut ; le serveur contrôle tout ce qu'une règle sait contrôler. Le travail attendu est fait ; seul le journal des retours attend ceux du pair.</div>
+  <div class="criteres">
+    <div class="critere"><span class="ca">P1</span><b>Ce qui était annoncé</b>Chaque promesse du dossier de conception, ce qui est livré et sa preuve, ligne par ligne.</div>
+    <div class="critere"><span class="ca">P2</span><b>Des garde-fous qui tiennent</b>L'évaluateur tente de détourner l'agent en production : le dossier sort neutralisé, l'événement est journalisé sans un mot de l'appel.</div>
+    <div class="critere"><span class="ca">P3</span><b>Pas de fausse alerte</b>Ses demandes ordinaires passent ; aucune sur vingt n'a été prise pour une attaque à la mesure.</div>
+    <div class="critere"><span class="ca">P4</span><b>Un agent qui n'écrit rien</b>Deux outils en lecture seule ; un outil inconnu est refusé, le nombre d'appels est borné.</div>
+    <div class="critere"><span class="ca">P5</span><b>Un contrat suivi</b>Cinq critères sur huit tenus en production ; les trois autres viennent avec la vigie et la voix.</div>
+    <div class="critere"><span class="ca">P6</span><b>Retours du pair</b>Le journal des retours donne, pour chacun, la décision : traité, reporté ou écarté. En attente des retours.</div>
+  </div>
+  <div class="frise-note">Déroulé de la démonstration et preuves de secours : <code>docs/v1/sprints/sprint-4/demonstration.md</code>.</div>
+  </section>
+
 
   <footer>
     Personnages et données fictifs. Sources des chiffres : CAPEB, 11e baromètre ARTI Santé (juin 2025) ; Urssaf, open data « auto-entrepreneurs par secteur d'activité » (trimestre clos le 31/12/2025) ; INSEE, base Sirene. Communes vérifiées dans l'API Géo le 12 octobre 2026.

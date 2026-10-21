@@ -138,7 +138,7 @@ cochée qu'avec sa preuve (fichier, capture, exécution de la chaîne ou de la c
 
 ### Étape 14 : clôture (rituel de fin de sprint)
 
-- [ ] Checklist close ; compte rendu de sprint (C16) ; fiches d'incident s'il y en a (C21).
-- [ ] Déroulé de démonstration, avec le jeu de prompts hostiles et légitimes de l'évaluateur ; journal des retours.
-- [ ] Section « Sprint 4 » des deux infographies, rendus régénérés.
-- [ ] Suivi des tâches et des compétences à jour ; journal de session (local).
+- [x] Checklist close ; compte rendu de sprint (C16) : `compte-rendu.md` ; fiches d'incident (C21) : `incidents/INC-05-livraison-interrompue-par-azure.md` (correctif `infra/azure/reessai.sh`, testé), `incidents/INC-06-controle-des-secrets-sur-une-branche-ouverte.md`.
+- [x] Déroulé de démonstration, avec le jeu de prompts hostiles et légitimes de l'évaluateur : `demonstration.md` (P4 joué en production le 21 octobre). Journal des retours : `retours.md`, en attente des retours du pair (critère P6).
+- [x] Section « Sprint 4 » des deux infographies (fiche d'ingénierie, section 11 ; présentation produit, section 10), rendus régénérés ; script de capture versionné (`docs/v1/infographie/capture.cjs`).
+- [x] Suivi des tâches et des compétences à jour ; journal de session (local).

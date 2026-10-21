@@ -205,7 +205,8 @@
     <tr><td>Livraison, de la fusion à la production</td><td>8 à 10 min (6 livraisons)</td><td>GitHub Actions</td></tr>
     <tr><td>Retour arrière, jusqu'au service vérifié</td><td>36 à 66 s (4 bascules)</td><td><code>preuves/etape-8-retour-arriere.md</code></td></tr>
     <tr><td>Voix : synthèse et transcription</td><td>1,4 s et 2,1 s pour 22 s d'audio ; 2 locuteurs séparés sans erreur (un essai)</td><td>D-50</td></tr>
-    <tr><td>Incidents</td><td>4, résolus et documentés (INC-03 le 15, INC-04 le 16 octobre)</td><td>INC-01 à INC-04</td></tr>
+    <tr><td>Agent en production (21 octobre)</td><td>Extraction p50 2,7 s, p95 3,4 s ; 0,0037 € par extraction ; V-08 117/120</td><td><code>sprints/sprint-4/compte-rendu.md</code></td></tr>
+    <tr><td>Incidents</td><td>6, résolus et documentés (INC-05 et INC-06 trouvés le 21 octobre)</td><td>INC-01 à INC-06</td></tr>
   </table>
   <p class="note">Peu d'exécutions : ce sont des ordres de grandeur, pas des engagements de service.</p>
 </section>
@@ -267,6 +268,37 @@
   <p class="note">Déroulé complet : <code>docs/v1/sprints/sprint-3/demonstration.md</code>. Mesures : 37 496 communes,
   38 925 codes postaux, 142 termes, 2 614 cellules Sirene ; premier chargement en production 5 min 24 s ; jeu de
   10 questions à 10 sur 10 en production ; 143 tests. Un incident, INC-04, résolu.</p>
+</section>
+
+<section id="s-sprint-4">
+  <h2><span class="n">11</span>Sprint 4 : travail attendu et évaluation par le pair</h2>
+  <p><b>Consigne, telle que donnée.</b> « Construire la composante agentique choisie et gelée à la conception, et la
+  protéger par des garde-fous d'entrée et de sortie sérieux. À la fin du sprint, le contrat personnel est en passe
+  d'être tenu : les critères fonctionnels propres au projet se vérifient en production. »</p>
+  <p><b>Pour Muninn.</b> Un agent outillé et ancré (D-37) : il lit la transcription d'un appel manqué, produit un
+  <code>DossierDraft</code> 1.1 et décide seul d'appeler deux outils en lecture seule. Architecture hybride : le serveur
+  fait ce qu'une règle sait faire (correspondance, départage, urgence dite), l'agent ce qu'une règle comprend mal.</p>
+  <table>
+    <tr><th>Travail attendu</th><th>Ce qui est livré</th><th>État</th></tr>
+    <tr><td>Composante agentique gelée</td><td>Qualification (V-11), agent et boucle bornée (V-07), évaluateur du serveur ; écran « Agent »</td><td class="fait">Fait</td></tr>
+    <tr><td>Garde-fous d'entrée</td><td>Règles (taille, caractères, motifs), filtre de contenu personnalisé, hors périmètre par la qualification</td><td class="fait">Fait</td></tr>
+    <tr><td>Garde-fous de sortie</td><td>Schéma fermé, gaz, santé, contre l'invention, fuite, hors rôle ; refus à texte fixe, journalisé sans contenu</td><td class="fait">Fait</td></tr>
+    <tr><td>Évaluation de la composante</td><td>V-08 : 117/120, IC 95 % 92,9 à 99,1 % ; une PR qui dégrade l'agent est bloquée (D-79)</td><td class="fait">Fait</td></tr>
+    <tr><td>Observabilité</td><td>Langfuse (V-13) : traces sans contenu en production ; journaux sans contenu</td><td class="fait">Fait</td></tr>
+    <tr><td>Contrat personnel</td><td>CA-1 à CA-4 et CA-7 tenus sur Azure ; CA-5, CA-6 (partie 2), CA-8 au sprint 5</td><td class="fait">En passe</td></tr>
+  </table>
+  <table>
+    <tr><th>Critère du pair</th><th>L'évaluateur constate</th><th>Démonstration en direct</th><th>Preuve de secours</th><th>Statut</th></tr>
+    <tr><td>P1. Fait ce qui était annoncé</td><td>Annoncé, livré, preuve, ligne par ligne du dossier ; écarts motivés</td><td>SC-07, puis la table de conformité (3 min)</td><td><code>conformite-conception.md</code></td><td class="fait">Prêt</td></tr>
+    <tr><td>P2. Les garde-fous bloquent</td><td>Son texte hostile est neutralisé ; le journal trace le garde-fou, sans contenu</td><td>Écran « Agent », son clavier ; Log Analytics (5 min)</td><td>11 sur 11 tenus en production</td><td class="fait">Prêt</td></tr>
+    <tr><td>P3. Faux positifs contenus</td><td>Ses phrases légitimes passent</td><td>Écran « Agent », son clavier (3 min)</td><td>0 sur 20, IC 95 % 0 à 16,1 %</td><td class="fait">Prêt</td></tr>
+    <tr><td>P4. Si la composante agit</td><td>Aucune écriture ; outil hors liste refusé, borne atteinte</td><td>Scénario <code>P4-perimetre</code> (2 min)</td><td>Test du périmètre</td><td class="fait">Prêt</td></tr>
+    <tr><td>P5. Contrat en passe d'être tenu</td><td>État de CA-1 à CA-8, preuve et avenant ; SC-01 et SC-04 en direct</td><td>SC-01, SC-04, puis le contrat (4 min)</td><td>Preuves de l'étape 12</td><td class="fait">Prêt</td></tr>
+    <tr><td>P6. Journal des retours tenu</td><td>Chaque retour, sa décision, sa justification, son lien</td><td>Journal des retours (1 min)</td><td>Le journal est la preuve</td><td class="prop">En attente</td></tr>
+  </table>
+  <p class="note">Déroulé complet : <code>docs/v1/sprints/sprint-4/demonstration.md</code>. Mesures : extraction p50
+  2,7 s et p95 3,4 s en production, 0,0037 € par extraction ; détection des phrases hostiles 20 sur 20 ; 368 tests.
+  Deux incidents de livraison, INC-05 et INC-06, résolus.</p>
 </section>
 
 <footer>Dépôt <code>Bealph/Muninn</code>. Documents de référence : <code>docs/v1/dossier-conception-v1.md</code>,

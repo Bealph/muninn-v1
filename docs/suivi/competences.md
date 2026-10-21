@@ -30,27 +30,27 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 | ---- | -------------------------------------------------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | C9   | API REST exposant un modèle d'IA                               | 2, 4  | Contrat de l'API d'extraction et DossierDraft 1.1 (phase 2) ; API en phase 4 ; route `POST /llm/essai` du squelette (sprint 2) ; API de l'agent `POST /v1/extract/text` et `POST /v1/demo/runs`, format d'erreur du contrat, Swagger, écran « Agent » (sprint 4, étape 8) | En cours |
 | C10  | Intégrer l'API d'IA dans une application accessible            | 5     | Interface de démonstration, audit d'accessibilité ; console d'essai du LLM (sprint 2)                                                                                                                                                                                     | En cours |
-| C11  | Monitorer un modèle d'IA (métriques, alertes, restitution)     | 2, 4  | Observabilité du modèle : métriques, dérive, 25 alertes (phase 2) ; mise en place en phase 4 ; Traces Langfuse sans contenu en production, coût et jetons par appel (sprint 4, étape 10, vérifié le 21 octobre)                                                              | En cours |
+| C11  | Monitorer un modèle d'IA (métriques, alertes, restitution)     | 2, 4  | Observabilité du modèle : métriques, dérive, 25 alertes (phase 2) ; mise en place en phase 4 ; Traces Langfuse sans contenu en production, coût et jetons par appel (sprint 4, étape 10, vérifié le 21 octobre)                                                           | En cours |
 | C12  | Tests automatisés du modèle (données, préparation, évaluation) | 2, 4  | Cas VE-01 à VE-30, seuils de blocage (phase 1) ; tests en phase 4 ; Jeu V-08 figé et relu, harnais (Wilson, base sans outils, cas bloquants), campagne de référence 119/120 (sprint 4, étape 9) ; critères vérifiés en production, contrat personnel (étapes 11, 12)      | En cours |
-| C13  | Livraison continue du modèle (approche MLOps)                  | 2, 4  | Chaîne LLMOps et AgentOps conçue (phase 2) ; workflows en phase 4 ; Évaluation en CI déclenchée par l'empreinte, bloquante ; CA-6 démontré (PR dégradée bloquée, D-79)                                                                                                    | En cours |
+| C13  | Livraison continue du modèle (approche MLOps)                  | 2, 4  | Chaîne LLMOps et AgentOps conçue (phase 2) ; workflows en phase 4 ; Évaluation en CI déclenchée par l'empreinte, bloquante ; CA-6 démontré (PR dégradée bloquée, D-79) ; reprise de la livraison sur erreur passagère d'Azure, testée (INC-05)                            | En cours |
 
 ## E4 : conception et développement de l'application (15 à 20 pages, 20 min)
 
-| Code | Compétence (résumé)                                                    | Phase | Preuve prévue                                                                             | Statut          |
-| ---- | ---------------------------------------------------------------------- | ----- | ----------------------------------------------------------------------------------------- | --------------- |
-| C14  | Analyse du besoin, spécifications fonctionnelles, accessibilité        | 0     | User stories, flux, accessibilité (phase 0a faite) ; modélisation à compléter en phase 1  | Preuve produite |
-| C15  | Cadre technique : architecture, outils, méthodes                       | 2     | Architecture technique, 17 ADR, coûts (phase 2)                                           | Preuve produite |
-| C16  | Coordination agile en contexte MLOps                                   | 2 à 7 | Méthode agile, backlog et itérations (phase 2) ; application du 15 octobre au 12 novembre | En cours        |
-| C17  | Développer composants et interfaces (accessibilité, sécurité, données) | 3 à 5 | Code, revues, tests ; squelette API et console, 17 tests (sprint 2)                       | En cours        |
-| C18  | Intégration continue des tests                                         | 2, 5  | Intégration continue conçue : contrôle requis, tests, évaluation (phase 2)                | Preuve produite |
-| C19  | Livraison continue de l'application                                    | 2, 5  | Livraison continue conçue : staging, étiquette, canari, retour arrière (phase 2)          | En cours        |
+| Code | Compétence (résumé)                                                    | Phase | Preuve prévue                                                                                                        | Statut          |
+| ---- | ---------------------------------------------------------------------- | ----- | -------------------------------------------------------------------------------------------------------------------- | --------------- |
+| C14  | Analyse du besoin, spécifications fonctionnelles, accessibilité        | 0     | User stories, flux, accessibilité (phase 0a faite) ; modélisation à compléter en phase 1                             | Preuve produite |
+| C15  | Cadre technique : architecture, outils, méthodes                       | 2     | Architecture technique, 17 ADR, coûts (phase 2)                                                                      | Preuve produite |
+| C16  | Coordination agile en contexte MLOps                                   | 2 à 7 | Méthode agile, backlog et itérations (phase 2) ; application du 15 octobre au 12 novembre ; compte rendu du sprint 4 | En cours        |
+| C17  | Développer composants et interfaces (accessibilité, sécurité, données) | 3 à 5 | Code, revues, tests ; squelette API et console, 17 tests (sprint 2)                                                  | En cours        |
+| C18  | Intégration continue des tests                                         | 2, 5  | Intégration continue conçue : contrôle requis, tests, évaluation (phase 2)                                           | Preuve produite |
+| C19  | Livraison continue de l'application                                    | 2, 5  | Livraison continue conçue : staging, étiquette, canari, retour arrière (phase 2)                                     | En cours        |
 
 ## E5 : surveillance et résolution d'incidents (2 à 5 pages, 10 min)
 
 | Code | Compétence (résumé)                                                | Phase | Preuve prévue                                                                                                                       | Statut   |
 | ---- | ------------------------------------------------------------------ | ----- | ----------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | C20  | Surveiller l'application (journalisation conforme RGPD, détection) | 2, 6  | Journalisation sans DP, alertes et ouverture d'incident conçues (phase 2) ; journaux du LLM sans contenu échangé, testés (sprint 2) | En cours |
-| C21  | Résoudre et documenter des incidents techniques                    | 6     | Fiches d'incident et correctifs                                                                                                     | En cours |
+| C21  | Résoudre et documenter des incidents techniques                    | 6     | Fiches d'incident et correctifs ; INC-05 et INC-06 (sprint 4), correctif et non-régression                                          | En cours |
 
 ## Preuves, case par case
 
