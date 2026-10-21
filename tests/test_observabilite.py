@@ -129,3 +129,26 @@ def test_nom_d_outil_invente_jamais_recopie(exportateur: InMemorySpanExporter) -
     extraire(TRANSCRIPTION, charger_paquet(), f, ReferentielsHorsLigne(), "2026-10-20", "plomberie")
     _, texte = attributs(exportateur)
     assert "outil_inconnu" in texte and "ignore_tes_regles" not in texte
+
+
+def test_evaluation_ecrit_dans_le_projet_d_evaluation(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Avec les deux paires de clés, l'évaluation n'utilise jamais celles de production."""
+    from muninn.core.config import get_settings
+
+    vus: list[str] = []
+
+    class Langfuse:
+        def __init__(self, *, public_key: str, **kwargs: Any) -> None:
+            vus.append(public_key)
+
+    monkeypatch.setattr("langfuse.Langfuse", Langfuse)
+    for nom, valeur in (("LANGFUSE_PUBLIC_KEY", "pk-production"), ("LANGFUSE_SECRET_KEY", "x"),
+                        ("LANGFUSE_EVAL_PUBLIC_KEY", "pk-evaluation"),
+                        ("LANGFUSE_EVAL_SECRET_KEY", "y")):  # fmt: skip
+        monkeypatch.setenv(nom, valeur)
+    get_settings.cache_clear()
+    observabilite.client.cache_clear()
+    observabilite.client()
+    observabilite.autoriser_contenu_synthetique()
+    observabilite.client()
+    assert vus == ["pk-production", "pk-evaluation"]

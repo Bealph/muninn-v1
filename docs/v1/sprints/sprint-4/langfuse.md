@@ -54,5 +54,10 @@ le harnais joue lui-même ce qui manque.
 3. Vérification : une campagne locale (dataset et expérience visibles dans le projet d'évaluation) et
    un appel de l'écran « Agent » en production (trace sans contenu dans le projet de production).
 
+**Projet visé.** L'API vise le projet `muninn` (`LANGFUSE_*`). Le harnais d'évaluation vise
+`muninn-evaluation` dès que `LANGFUSE_EVAL_*` est défini (en local, `.env` porte les deux paires) ;
+en CI, l'environnement `evaluation` ne reçoit que les clés d'évaluation. Une exécution locale de
+l'API envoie ses traces au projet de production, étiquetées `environment=local`.
+
 **Revue de sécurité** : le nom d'un outil demandé par le modèle n'est jamais tracé hors de la liste
 fermée (`outil_inconnu`), testé.

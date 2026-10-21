@@ -36,6 +36,10 @@ def client() -> Any | None:
     s = get_settings()
     publique = s.langfuse_public_key.get_secret_value() if s.langfuse_public_key else ""
     privee = s.langfuse_secret_key.get_secret_value() if s.langfuse_secret_key else ""
+    if _contenu_synthetique and s.langfuse_eval_public_key and s.langfuse_eval_secret_key:
+        # Évaluation : toujours le projet « muninn-evaluation », jamais celui de production.
+        publique = s.langfuse_eval_public_key.get_secret_value()
+        privee = s.langfuse_eval_secret_key.get_secret_value()
     if not (publique and privee):  # absente ou vide (secret GitHub non défini) : rien
         return None
     from langfuse import Langfuse  # import tardif : sans clés, le SDK n'est jamais chargé
@@ -54,6 +58,9 @@ def autoriser_contenu_synthetique() -> None:
     """Le harnais d'évaluation, sur données synthétiques seulement, rend le contenu visible."""
     global _contenu_synthetique
     _contenu_synthetique = True
+    vider = getattr(client, "cache_clear", None)
+    if vider is not None:  # le client suivant vise le projet d'évaluation s'il est configuré
+        vider()
 
 
 def contenu_visible() -> bool:

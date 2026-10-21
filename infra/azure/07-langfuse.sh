@@ -28,14 +28,43 @@ if [ "$LANGFUSE_EVAL_PUBLIC_KEY" = "$LANGFUSE_PUBLIC_KEY" ]; then
 fi
 URL_LANGFUSE="https://cloud.langfuse.com"
 
+attendre() {
+  for _ in $(seq 1 36); do
+    # Réponse jetée par bash, pas par curl : le curl de Windows refuse « -o /dev/null ».
+    if curl -fsS -m 20 "$1" >/dev/null; then return 0; fi
+    sleep 5
+  done
+  echo "Pas de réponse de $1" >&2
+  return 1
+}
+revision_en_service() {
+  az containerapp revision list -g "$GROUPE" -n "$1" \
+    --query "[?properties.trafficWeight==\`100\`].name | [0]" -o tsv
+}
+
+# Révisions multiples (comme deployer.sh) : la nouvelle révision ne reçoit le trafic qu'après un
+# contrôle à son adresse propre ; la précédente reste disponible pour un retour arrière.
 for env in "${ENVIRONNEMENTS_APP[@]}"; do
   api=$(app_api "$env")
-  echo "API $api : secrets et variables Langfuse"
+  precedente=$(revision_en_service "$api")
+  echo "API $api : secrets et variables Langfuse (révision en service : $precedente)"
+  az containerapp ingress traffic set -g "$GROUPE" -n "$api" \
+    --revision-weight "$precedente=100" --only-show-errors -o none
   az containerapp secret set -g "$GROUPE" -n "$api" --only-show-errors -o none \
     --secrets "langfuse-public-key=$LANGFUSE_PUBLIC_KEY" "langfuse-secret-key=$LANGFUSE_SECRET_KEY"
-  az containerapp update -g "$GROUPE" -n "$api" --only-show-errors -o none \
+  nouvelle=$(az containerapp update -g "$GROUPE" -n "$api" --only-show-errors \
     --set-env-vars LANGFUSE_PUBLIC_KEY=secretref:langfuse-public-key \
-      LANGFUSE_SECRET_KEY=secretref:langfuse-secret-key LANGFUSE_BASE_URL="$URL_LANGFUSE"
+      LANGFUSE_SECRET_KEY=secretref:langfuse-secret-key LANGFUSE_BASE_URL="$URL_LANGFUSE" \
+    --query properties.latestRevisionName -o tsv)
+  fqdn=$(az containerapp revision show -g "$GROUPE" -n "$api" --revision "$nouvelle" \
+    --query properties.fqdn -o tsv)
+  if ! attendre "https://$fqdn/health"; then
+    echo "Contrôle échoué : le trafic reste sur $precedente" >&2
+    exit 1
+  fi
+  az containerapp ingress traffic set -g "$GROUPE" -n "$api" \
+    --revision-weight "$nouvelle=100" --only-show-errors -o none
+  echo "   trafic : 100 % sur $nouvelle (précédente conservée : $precedente)"
 done
 
 echo "GitHub : secrets de l'environnement « evaluation » (projet muninn-evaluation)"

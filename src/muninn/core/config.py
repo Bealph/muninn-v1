@@ -35,6 +35,9 @@ class Settings(BaseSettings):
     langfuse_public_key: SecretStr | None = None
     langfuse_secret_key: SecretStr | None = None
     langfuse_base_url: str = "https://cloud.langfuse.com"
+    # Projet d'évaluation, distinct de la production : l'évaluation y écrit, en local comme en CI.
+    langfuse_eval_public_key: SecretStr | None = None
+    langfuse_eval_secret_key: SecretStr | None = None
 
 
 @lru_cache
