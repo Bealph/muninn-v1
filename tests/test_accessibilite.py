@@ -89,3 +89,16 @@ def test_ecran_agent_accessible(
     assert page.status_code == 200
     nombre, rapport = _violations(navigateur, page.text)
     assert nombre == 0, rapport
+
+
+def test_dossier_a_valider_accessible(
+    navigateur: Browser, client_console: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Formulaire « Corriger et valider » (V-09) : le dossier est réputé enregistré."""
+    import muninn.api.agent as routes
+
+    monkeypatch.setattr(routes, "enregistrer", lambda e: True)
+    page = client_console.post("/agent/executer", data={"mode": "scenario", "scenario_id": "SC-01"})
+    assert page.status_code == 200 and "Valider le dossier" in page.text
+    nombre, rapport = _violations(navigateur, page.text)
+    assert nombre == 0, rapport

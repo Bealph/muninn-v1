@@ -1,10 +1,38 @@
 {% extends "base.html" %}
 {% block titre %}Muninn, agent{% endblock %}
 {% block contenu %}
+  {% macro tableau_dossier(d, e) %}
+    <table>
+      <caption>Champs du brouillon</caption>
+      <thead><tr><th scope="col">Champ</th><th scope="col">Valeur</th><th scope="col">Confiance</th><th scope="col">Contrôle et provenance</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Nom</th><td>{{ d.client.nom.value or "absent" }}</td><td>{{ d.client.nom.confidence }}</td><td></td></tr>
+        <tr><th scope="row">Prénom</th><td>{{ d.client.prenom.value or "absent" }}</td><td>{{ d.client.prenom.confidence }}</td><td></td></tr>
+        <tr><th scope="row">Téléphone</th><td>{{ d.client.telephone.value or "absent" }}</td><td>{{ d.client.telephone.confidence }}</td><td>{{ {"spoken": "dicté", "caller_id": "numéro présenté"}.get(d.client.telephone.origin, "") }}</td></tr>
+        <tr><th scope="row">Rue</th><td>{{ d.client.adresse.rue.value or "absent" }}</td><td>{{ d.client.adresse.rue.confidence }}</td><td></td></tr>
+        <tr><th scope="row">Code postal</th><td>{{ d.client.adresse.code_postal.value or "absent" }}</td><td>{{ d.client.adresse.code_postal.confidence }}</td>
+          <td>{{ d.checks["client.adresse.code_postal"].status }} ; {{ e.provenance["client.adresse.code_postal"].origine }} ({{ e.provenance["client.adresse.code_postal"].auteur }})</td></tr>
+        <tr><th scope="row">Commune</th><td>{{ d.client.adresse.commune.value or "absent" }}</td><td>{{ d.client.adresse.commune.confidence }}</td>
+          <td>{{ d.checks["client.adresse.commune"].status }} ; {{ e.provenance["client.adresse.commune"].origine }} ({{ e.provenance["client.adresse.commune"].auteur }}){% if e.departement %} ; département {{ e.departement }}{% endif %}</td></tr>
+        <tr><th scope="row">Objet</th><td>{{ d.demande.objet_court.value or "absent" }}</td><td>{{ d.demande.objet_court.confidence }}</td><td></td></tr>
+        <tr><th scope="row">Description</th><td>{{ d.demande.description.value or "absent" }}</td><td>{{ d.demande.description.confidence }}</td><td></td></tr>
+        <tr><th scope="row">Urgence</th><td>{{ d.demande.urgence }}</td><td></td><td>{% if e.provenance["demande.urgence"] %}{{ e.provenance["demande.urgence"].origine }} ({{ e.provenance["demande.urgence"].auteur }}) : dite par l'appelant{% endif %}</td></tr>
+      </tbody>
+    </table>
+    {% if e.candidates %}
+    <table>
+      <caption>Communes candidates (choix de l'artisan)</caption>
+      <thead><tr><th scope="col">Commune</th><th scope="col">Code INSEE</th><th scope="col">Département</th><th scope="col">Codes postaux</th></tr></thead>
+      <tbody>{% for c in e.candidates %}<tr><td>{{ c.nom }}</td><td><code>{{ c.code_insee }}</code></td><td>{{ c.departement }}</td><td>{{ c.codes_postaux | join(", ") }}</td></tr>{% endfor %}</tbody>
+    </table>
+    {% endif %}
+  {% endmacro %}
+
   <h1>Agent</h1>
   <p>Un appel manqué, de la transcription au dossier ou au message : qualification de l'appel,
   appels d'outils de l'agent, contrôles et garde-fous du serveur. Données synthétiques ; le
-  brouillon est montré en clair et rien n'est stocké (écart P-03).</p>
+  brouillon est montré en clair (écart P-03). Le dossier d'un scénario est conservé 30 jours pour
+  être corrigé et validé ; une transcription saisie ne laisse que ses mesures, sans contenu.</p>
 
   <form method="post" action="/agent/executer">
     <input type="hidden" name="messages" value="{{ messages_json }}">
@@ -53,7 +81,7 @@
     </fieldset>
   </form>
 
-  <section aria-live="polite"{% if erreur or lot or run %} aria-labelledby="titre-resultat"{% endif %}>
+  <section aria-live="polite"{% if erreur or lot or run or revue %} aria-labelledby="titre-resultat"{% endif %}>
   {% if erreur %}
     <h2 id="titre-resultat">Refus</h2>
     <div class="erreur" role="alert">
@@ -78,6 +106,11 @@
     {% if lot.arret %}
     <div class="erreur" role="alert"><p>Lot interrompu au scénario {{ lot.arret.scenario }} : {{ lot.arret.message }}{% if lot.arret.retry_after_s %} Réessayer dans {{ lot.arret.retry_after_s }} s.{% endif %}</p></div>
     {% endif %}
+  {% elif revue %}
+    <h2 id="titre-resultat">Dossier validé</h2>
+    <div class="reponse"><p>Validé le {{ revue.reviewed_at }} ; {% if revue.corrected_fields %}champs corrigés : {{ revue.corrected_fields | join(", ") }}{% else %}sans correction{% endif %}. Le serveur a rejoué le contrôle de la commune et du code postal.</p></div>
+    {% set d = revue.draft %}{% set e = revue.envelope %}
+    {{ tableau_dossier(d, e) }}
   {% elif run %}
     <h2 id="titre-resultat">Résultat : {{ {"dossier": "un dossier", "message": "un message", "trace": "une trace sans contenu"}[run.issue] }}</h2>
     {% if run.simulated_model %}<div class="refus"><p>Modèle simulé : il obéit à l'injection, pour montrer ce que le serveur en fait.</p></div>{% endif %}
@@ -99,31 +132,41 @@
     {% set d = run.draft %}{% set e = run.envelope %}
     <h3>Dossier {% if e.a_verifier %}à vérifier{% else %}sans alerte{% endif %}</h3>
     {% if e.motifs %}<p><strong>Motifs :</strong> {% for m in e.motifs %}{{ motifs.get(m, m) }}{% if not loop.last %} ; {% endif %}{% endfor %}.</p>{% endif %}
-    <table>
-      <caption>Champs du brouillon</caption>
-      <thead><tr><th scope="col">Champ</th><th scope="col">Valeur</th><th scope="col">Confiance</th><th scope="col">Contrôle et provenance</th></tr></thead>
-      <tbody>
-        <tr><th scope="row">Nom</th><td>{{ d.client.nom.value or "absent" }}</td><td>{{ d.client.nom.confidence }}</td><td></td></tr>
-        <tr><th scope="row">Prénom</th><td>{{ d.client.prenom.value or "absent" }}</td><td>{{ d.client.prenom.confidence }}</td><td></td></tr>
-        <tr><th scope="row">Téléphone</th><td>{{ d.client.telephone.value or "absent" }}</td><td>{{ d.client.telephone.confidence }}</td><td>{{ {"spoken": "dicté", "caller_id": "numéro présenté"}.get(d.client.telephone.origin, "") }}</td></tr>
-        <tr><th scope="row">Rue</th><td>{{ d.client.adresse.rue.value or "absent" }}</td><td>{{ d.client.adresse.rue.confidence }}</td><td></td></tr>
-        <tr><th scope="row">Code postal</th><td>{{ d.client.adresse.code_postal.value or "absent" }}</td><td>{{ d.client.adresse.code_postal.confidence }}</td>
-          <td>{{ d.checks["client.adresse.code_postal"].status }} ; {{ e.provenance["client.adresse.code_postal"].origine }} ({{ e.provenance["client.adresse.code_postal"].auteur }})</td></tr>
-        <tr><th scope="row">Commune</th><td>{{ d.client.adresse.commune.value or "absent" }}</td><td>{{ d.client.adresse.commune.confidence }}</td>
-          <td>{{ d.checks["client.adresse.commune"].status }} ; {{ e.provenance["client.adresse.commune"].origine }} ({{ e.provenance["client.adresse.commune"].auteur }}){% if e.departement %} ; département {{ e.departement }}{% endif %}</td></tr>
-        <tr><th scope="row">Objet</th><td>{{ d.demande.objet_court.value or "absent" }}</td><td>{{ d.demande.objet_court.confidence }}</td><td></td></tr>
-        <tr><th scope="row">Description</th><td>{{ d.demande.description.value or "absent" }}</td><td>{{ d.demande.description.confidence }}</td><td></td></tr>
-        <tr><th scope="row">Urgence</th><td>{{ d.demande.urgence }}</td><td></td><td>{% if e.provenance["demande.urgence"] %}{{ e.provenance["demande.urgence"].origine }} ({{ e.provenance["demande.urgence"].auteur }}) : dite par l'appelant{% endif %}</td></tr>
-      </tbody>
-    </table>
-    {% if e.candidates %}
-    <table>
-      <caption>Communes candidates (choix de l'artisan)</caption>
-      <thead><tr><th scope="col">Commune</th><th scope="col">Code INSEE</th><th scope="col">Département</th><th scope="col">Codes postaux</th></tr></thead>
-      <tbody>{% for c in e.candidates %}<tr><td>{{ c.nom }}</td><td><code>{{ c.code_insee }}</code></td><td>{{ c.departement }}</td><td>{{ c.codes_postaux | join(", ") }}</td></tr>{% endfor %}</tbody>
-    </table>
-    {% endif %}
+    {{ tableau_dossier(d, e) }}
     <p><strong>Actions :</strong> {% for a in d.actions %}{{ a.libelle }}{% if not loop.last %} ; {% endif %}{% else %}aucune{% endfor %}.</p>
+
+    {% if run.review_available %}
+    <form method="post" action="/agent/valider">
+      <input type="hidden" name="messages" value="{{ messages_json }}">
+      <input type="hidden" name="draft_id" value="{{ d.draft_id }}">
+      <input type="hidden" name="scenario_id" value="{{ run.scenario_id }}">
+      <input type="hidden" name="origine" value="{{ origine_json(d) }}">
+      <fieldset>
+      <legend>Corriger et valider (artisan)</legend>
+      <p class="aide">Modifier un champ si besoin, puis valider : le serveur rejoue le contrôle de la
+      commune et du code postal. Seuls les noms des champs corrigés sont gardés, jamais leurs valeurs.</p>
+      <label for="c-client-nom">Nom</label>
+      <input id="c-client-nom" name="client.nom" value="{{ d.client.nom.value or "" }}" maxlength="120" autocomplete="off">
+      <label for="c-client-prenom">Prénom</label>
+      <input id="c-client-prenom" name="client.prenom" value="{{ d.client.prenom.value or "" }}" maxlength="120" autocomplete="off">
+      <label for="c-client-telephone">Téléphone (format +33… ou 06…)</label>
+      <input id="c-client-telephone" name="client.telephone" value="{{ d.client.telephone.value or "" }}" maxlength="120" autocomplete="off">
+      <label for="c-client-adresse-rue">Rue</label>
+      <input id="c-client-adresse-rue" name="client.adresse.rue" value="{{ d.client.adresse.rue.value or "" }}" maxlength="120" autocomplete="off">
+      <label for="c-client-adresse-code_postal">Code postal</label>
+      <input id="c-client-adresse-code_postal" name="client.adresse.code_postal" value="{{ d.client.adresse.code_postal.value or "" }}" maxlength="120" autocomplete="off">
+      <label for="c-client-adresse-commune">Commune</label>
+      <input id="c-client-adresse-commune" name="client.adresse.commune" value="{{ d.client.adresse.commune.value or "" }}" maxlength="120" autocomplete="off">
+      <label for="c-demande-objet_court">Objet</label>
+      <input id="c-demande-objet_court" name="demande.objet_court" value="{{ d.demande.objet_court.value or "" }}" maxlength="120" autocomplete="off">
+      <label for="c-demande-urgence">Urgence</label>
+      <select id="c-demande-urgence" name="demande.urgence">
+        {% for u in ["securite", "urgent", "normal", "non_precise"] %}<option value="{{ u }}" {% if u == d.demande.urgence %}selected{% endif %}>{{ u }}</option>{% endfor %}
+      </select>
+      <button type="submit">Valider le dossier</button>
+      </fieldset>
+    </form>
+    {% endif %}
     {% endif %}
 
     {% if run.message %}

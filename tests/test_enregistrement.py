@@ -75,3 +75,10 @@ def test_un_refus_est_enregistre_avec_son_code(
     assert r.status_code == 422
     assert [e.code_refus for e in captures] == [code]
     assert ligne(captures[0])["issue"] == "refus"
+
+
+def test_revue_sans_base_rend_503(client_api: TestClient) -> None:
+    r = client_api.post(
+        "/v1/demo/runs/00000000-0000-0000-0000-000000000000/review", json={"decision": "validated"}
+    )
+    assert r.status_code == 503 and r.json()["code"] == "service_unavailable"

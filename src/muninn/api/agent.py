@@ -13,14 +13,17 @@ Les outils de l'agent appellent l'API des référentiels de la même application
 délai du paquet (`delai_outil_s`) : l'agent n'a accès à aucune base (D-18).
 """
 
+import logging
 import os
 import time
+import uuid
 from datetime import UTC, datetime
 from functools import lru_cache
 from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel, ConfigDict, Field
+from sqlalchemy.exc import SQLAlchemyError
 
 from muninn.api.dependances import get_fournisseur, get_limiteur
 from muninn.api.erreurs import DetailErreur, Erreur, ErreurAPI, identifiant
@@ -42,7 +45,14 @@ from muninn.extraction.paquet import charger_paquet
 from muninn.llm.fournisseur import FournisseurLLM
 from muninn.qualification.contrat import Categorie, MessageRecu, RegleServeur, TraceSansContenu
 from muninn.qualification.qualificateur import charger_paquet_qualification, traiter_appel
-from muninn.traitements.enregistrement import Enregistrement, enregistrer
+from muninn.traitements.enregistrement import Enregistrement, enregistrer, moteur
+from muninn.traitements.revue import (
+    CorrectionInvalide,
+    DejaValide,
+    DemandeRevue,
+    DossierInconnu,
+    reviser,
+)
 
 routeur = APIRouter(tags=["agent"])
 NumeroE164 = Annotated[str, Field(pattern=MOTIF_TELEPHONE.pattern)]
@@ -156,6 +166,19 @@ class ReponseDemo(BaseModel):
     expected: dict[str, object] | None
     conformity: Conformite | None
     latency_ms: int
+    # Le dossier est enregistré : il peut être corrigé et validé (V-09, CA-5).
+    review_available: bool = False
+    plaintext_draft_notice: Literal["P-03"] = "P-03"
+
+
+class ReponseRevue(BaseModel):
+    """Le dossier validé, contrôles rejoués par le serveur (V-09, CA-5, D-86)."""
+
+    draft: DossierDraft
+    envelope: Enveloppe
+    state: Literal["validated"] = "validated"
+    reviewed_at: datetime
+    corrected_fields: list[str]
     plaintext_draft_notice: Literal["P-03"] = "P-03"
 
 
@@ -315,7 +338,7 @@ def executer_demo(
         raise ErreurAPI(422, "validation_failed", [detail]) from refus
     del texte
     latence = round((time.perf_counter() - debut) * 1000)
-    enregistrer(Enregistrement(
+    stocke = enregistrer(Enregistrement(
         identifiant(request), "demo", latence,
         scenario_id=scenario.id if scenario else None,
         modele_simule=bool(scenario and scenario.modele_simule),
@@ -353,4 +376,45 @@ def executer_demo(
         expected=scenario.attendu if scenario else None,
         conformity=Conformite(compliant=not ecarts, gaps=ecarts) if scenario else None,
         latency_ms=latence,
+        review_available=bool(stocke and scenario and x),
     )
+
+
+@routeur.post(
+    "/v1/demo/runs/{draft_id}/review",
+    response_model=ReponseRevue,
+    responses={
+        **ERREURS,  # type: ignore[dict-item]
+        404: {"model": Erreur, "description": "Dossier inconnu, ou purgé"},
+        409: {"model": Erreur, "description": "Dossier déjà validé"},
+        503: {"model": Erreur, "description": "Enregistrement des traitements indisponible"},
+    },
+    dependencies=[Depends(reserver)],
+)
+def reviser_demo(
+    draft_id: uuid.UUID,
+    corps: DemandeRevue,
+    referentiels: Annotated[Referentiels, Depends(get_referentiels)],
+) -> ReponseRevue:
+    """Correction et validation d'un dossier de démonstration par l'artisan (contrat, § 4.9)."""
+    m = moteur()
+    if m is None:
+        raise ErreurAPI(503, "service_unavailable")
+    try:
+        r = reviser(m, draft_id, corps, referentiels)
+    except DossierInconnu as erreur:
+        raise ErreurAPI(404, "draft_not_found") from erreur
+    except DejaValide as erreur:
+        raise ErreurAPI(409, "conflict") from erreur
+    except CorrectionInvalide as erreur:
+        detail = DetailErreur(field=f"body.values.{erreur.champ}", issue="invalid_format")
+        raise ErreurAPI(422, "validation_failed", [detail]) from erreur
+    except SQLAlchemyError as erreur:
+        logging.getLogger(__name__).warning(
+            "revue.echec draft_id=%s erreur=%s", draft_id, type(erreur).__name__
+        )
+        raise ErreurAPI(503, "service_unavailable") from erreur
+    return ReponseRevue(
+        draft=r.brouillon, envelope=r.enveloppe, reviewed_at=r.valide_le,
+        corrected_fields=r.champs,
+    )  # fmt: skip

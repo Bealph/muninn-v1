@@ -106,8 +106,8 @@ CHAMPS_CLES = frozenset(
     }
 )
 
-Origine = Literal["entendu", "deduit", "absent"]
-Auteur = Literal["transcription", "agent", "serveur", "aucun"]
+Origine = Literal["entendu", "deduit", "absent", "corrige"]
+Auteur = Literal["transcription", "agent", "serveur", "aucun", "artisan"]
 Motif = Literal[
     "extraction_incomplete",
     "brouillon_de_secours",

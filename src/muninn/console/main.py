@@ -35,6 +35,35 @@ def date_lisible(valeur: str) -> str:
 
 gabarits.env.filters["date_lisible"] = date_lisible
 
+# Champs que l'artisan peut corriger avant de valider (V-09, CA-5), dans l'ordre de l'écran.
+CHAMPS_CORRIGEABLES = (
+    "client.nom",
+    "client.prenom",
+    "client.telephone",
+    "client.adresse.rue",
+    "client.adresse.code_postal",
+    "client.adresse.commune",
+    "demande.objet_court",
+    "demande.urgence",
+)
+
+
+def valeurs_corrigeables(brouillon: dict[str, Any]) -> dict[str, str]:
+    """Valeur actuelle de chaque champ corrigeable, en texte ; vide si absente."""
+    vus: dict[str, str] = {}
+    for chemin in CHAMPS_CORRIGEABLES:
+        noeud: Any = brouillon
+        for cle in chemin.split("."):
+            noeud = noeud.get(cle) if isinstance(noeud, dict) else None
+        valeur = noeud.get("value") if isinstance(noeud, dict) else noeud
+        vus[chemin] = "" if valeur is None else str(valeur)
+    return vus
+
+
+gabarits.env.globals["origine_json"] = lambda d: json.dumps(
+    valeurs_corrigeables(d), ensure_ascii=False
+)
+
 
 def get_client_api() -> Iterator[httpx.Client]:
     """Client HTTP vers l'API ; remplacé dans les tests par un client branché sur l'API."""
@@ -341,6 +370,7 @@ def _page_agent(request: Request, client: httpx.Client, **contexte: Any) -> HTML
         "trade": "plomberie",
         "caller_number": "",
         "run": None,
+        "revue": None,
         "erreur": None,
         "lot": None,
         "messages": messages,
@@ -382,6 +412,58 @@ def agent_executer(
         request, client, run=run, erreur=erreur, messages=recus, mode=mode,
         scenario_id=scenario_id, transcript=transcript, trade=trade, caller_number=caller_number,
     )  # fmt: skip
+
+
+@app.post("/agent/valider", response_class=HTMLResponse)
+def agent_valider(
+    request: Request,
+    client: ClientAPI,
+    draft_id: Annotated[str, Form(pattern=r"^[0-9a-f-]{36}$")],
+    origine: Annotated[str, Form(max_length=4000)],
+    scenario_id: Annotated[str, Form(max_length=40)] = "",
+    messages: Annotated[str, Form(max_length=20_000)] = "",
+    nom: Annotated[str, Form(alias="client.nom", max_length=120)] = "",
+    prenom: Annotated[str, Form(alias="client.prenom", max_length=120)] = "",
+    telephone: Annotated[str, Form(alias="client.telephone", max_length=120)] = "",
+    rue: Annotated[str, Form(alias="client.adresse.rue", max_length=120)] = "",
+    code_postal: Annotated[str, Form(alias="client.adresse.code_postal", max_length=120)] = "",
+    commune: Annotated[str, Form(alias="client.adresse.commune", max_length=120)] = "",
+    objet: Annotated[str, Form(alias="demande.objet_court", max_length=120)] = "",
+    urgence: Annotated[str, Form(alias="demande.urgence", max_length=20)] = "",
+) -> HTMLResponse:
+    """Validation par l'artisan : seuls les champs modifiés partent, avec leur nouvelle valeur."""
+    saisis = dict(zip(CHAMPS_CORRIGEABLES, (nom, prenom, telephone, rue, code_postal, commune,
+                                            objet, urgence), strict=True))  # fmt: skip
+    try:
+        avant = json.loads(origine)
+    except ValueError:
+        avant = {}
+    if not isinstance(avant, dict):
+        avant = {}
+    corriges = [
+        c for c in CHAMPS_CORRIGEABLES if saisis[c].strip() != str(avant.get(c, "")).strip()
+    ]
+    corps: dict[str, Any] = {
+        "decision": "validated_with_corrections" if corriges else "validated",
+        "corrected_fields": corriges,
+        "values": {c: saisis[c].strip() or None for c in corriges},
+    }
+    recus = _messages_recus(messages)
+    try:
+        reponse = client.post(f"/v1/demo/runs/{draft_id}/review", json=corps,
+                              timeout=DELAI_EXECUTION_S)  # fmt: skip
+        donnees: dict[str, Any] = reponse.json()
+    except (httpx.HTTPError, ValueError):
+        erreur: dict[str, Any] = {"code": "api_unreachable", "message": "L'API est injoignable."}
+        return _page_agent(request, client, erreur=erreur, messages=recus, scenario_id=scenario_id)
+    if reponse.status_code != 200:
+        erreur = {
+            "code": donnees.get("code", f"http_{reponse.status_code}"),
+            "message": donnees.get("message", f"Erreur {reponse.status_code}."),
+            "request_id": donnees.get("request_id"),
+        }
+        return _page_agent(request, client, erreur=erreur, messages=recus, scenario_id=scenario_id)
+    return _page_agent(request, client, revue=donnees, messages=recus, scenario_id=scenario_id)
 
 
 @app.post("/agent/lot", response_class=HTMLResponse)

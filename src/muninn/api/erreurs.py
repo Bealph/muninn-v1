@@ -24,6 +24,9 @@ MESSAGES = {
     "content_unprocessable": "Aucun contenu exploitable : la demande ne peut pas être traitée.",
     "rate_limited": "Trop de demandes : réessayer plus tard.",
     "scenario_not_found": "Scénario inconnu.",
+    "draft_not_found": "Dossier inconnu, ou purgé.",
+    "conflict": "Ce dossier a déjà été validé.",
+    "service_unavailable": "Le service est momentanément indisponible.",
 }
 # Types d'erreur de Pydantic vers les codes fermés du contrat (§ 2.8, `details[].issue`).
 ISSUES = {

@@ -79,12 +79,12 @@ Aucune nouvelle source de données externe : les référentiels du sprint 3 sont
 
 - [x] Tables des dossiers, des messages, des traitements (métriques sans contenu) et des corrections (champ corrigé, jamais la valeur) ; migration ; rôles. Preuve : migration `0003_traitements.py` (schéma `app`, rôle de groupe `<base>_app`), rôle de connexion `<base>_traitements` (`roles.py`, D-85), `tests/test_traitements_base.py`.
 - [x] Chaque traitement de l'API écrit son enregistrement ; aucune transcription en base ; tests. Preuve : `src/muninn/traitements/enregistrement.py`, appelé par `/v1/demo/runs` et `/v1/extract/text`, refus compris ; purge à 30 jours (`muninn-purge`) ; 430 tests, base comprise, aucun ignoré.
-- [ ] En production : `08-traitements.sh` lancé par le porteur ; enregistrement vérifié avec `consulter-base.sh <env> --traitements`.
+- [x] En production : `08-traitements.sh` lancé par le porteur ; enregistrement vérifié avec `consulter-base.sh <env> --traitements`. Preuve : sortie du porteur du 22 octobre 2026 (préproduction et production : migration, rôle, révision contrôlée ; en production, SC-01 enregistré, une ligne `dossier`, dossier « brouillon »).
 
 ### Étape 2 : correction et validation (V-09, CA-5)
 
-- [ ] Route de correction et de validation : le serveur rejoue le contrôle ; état « brouillon » puis « validé » ; une ligne de correction par champ, sans la valeur.
-- [ ] Écran : corriger un champ, « Valider » ; SC-03 de bout en bout ; accessibilité contrôlée (axe-core).
+- [x] Route de correction et de validation : le serveur rejoue le contrôle ; état « brouillon » puis « validé » ; une ligne de correction par champ, sans la valeur. Preuve : `POST /v1/demo/runs/{draft_id}/review` (D-86), `src/muninn/traitements/revue.py`, `tests/test_revue_base.py`.
+- [x] Écran : corriger un champ, « Valider » ; SC-03 de bout en bout ; accessibilité contrôlée (axe-core). Preuve : formulaire « Corriger et valider » de l'écran « Agent », route `/agent/valider` ; parcours de la console et pages contrôlées par axe-core (`test_parcours_de_la_console`, `test_dossier_a_valider_accessible`). SC-03 avec le vrai modèle : à l'étape suivante, en production.
 - [ ] CA-5 vérifié sur Azure, 3 sur 3 ; « 93170 » absent de la table des corrections et des journaux.
 
 ### Étape 3 : instrumenter (métriques et traces)
