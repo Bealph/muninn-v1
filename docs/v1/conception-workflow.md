@@ -24,6 +24,7 @@ garde-fous).
 
 Qui fait quoi, dans l'ordre. Les traits pleins sont des appels, les traits pointillés des réponses.
 Rendus : `diagrammes/conception-workflow/svg/1-le-deroule-d-un-appel.svg` et `png/`.
+Le même déroulé en blocs, pour les supports : `diagrammes/conception-workflow/svg/1-bis-le-deroule-d-un-appel-en-blocs.svg` et `png/`.
 
 ```mermaid
 sequenceDiagram

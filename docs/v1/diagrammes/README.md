@@ -15,6 +15,7 @@ Images générées depuis les blocs Mermaid des documents. Le document source fa
 | Fichier | Section source |
 | --- | --- |
 | `conception-workflow/svg/1-le-deroule-d-un-appel.svg` | 1. Le déroulé d'un appel |
+| `conception-workflow/svg/1-bis-le-deroule-d-un-appel-en-blocs.svg` | 1. Le déroulé d'un appel, en blocs (dessiné à la main en SVG, pas généré depuis Mermaid ; à tenir à jour avec la note) |
 | `conception-workflow/svg/2-les-decisions-en-route.svg` | 2. Les décisions en route |
 
 ## roadmap-v1

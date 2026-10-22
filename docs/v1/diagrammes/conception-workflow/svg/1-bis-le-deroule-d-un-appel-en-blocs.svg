@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1660" height="810" viewBox="0 0 1660 810" font-family="Arial, Helvetica, sans-serif" role="img" aria-labelledby="titre desc">
+  <title id="titre">Muninn V1 : le déroulé d'un appel, en blocs</title>
+  <desc id="desc">De l'appel manqué au rappel par l'artisan : conversation, contrôle d'entrée, qualification, agent outillé, contrôles du serveur, puis dossier, message ou sortie sans dossier ; référentiels publics, gouvernance des données, observabilité et évaluation.</desc>
+  <defs>
+    <marker id="fleche" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#555"/>
+    </marker>
+    <style>
+      .cadre { fill: #fff; stroke: #e07b2e; stroke-width: 1.6; }
+      .boite { fill: #fff; stroke: #e07b2e; stroke-width: 1.4; }
+      .panneau { fill: #fff; stroke: #e07b2e; stroke-width: 1.2; stroke-dasharray: 5 3; }
+      .titre { font-size: 19px; font-weight: 700; fill: #111; }
+      .stitre { font-size: 13.5px; font-weight: 700; fill: #111; }
+      .txt { font-size: 13px; fill: #222; }
+      .petit { font-size: 12px; fill: #222; }
+      .code { font-size: 10.4px; fill: #222; font-family: Consolas, "Courier New", monospace; }
+      .note { font-size: 12.5px; fill: #555; }
+      .trait { stroke: #555; stroke-width: 1.4; fill: none; marker-end: url(#fleche); }
+    </style>
+  </defs>
+  <rect width="1660" height="810" fill="#fff"/>
+
+  <!-- Colonne 1 : appel entrant -->
+  <text class="titre" x="24" y="32">Appel entrant</text>
+  <rect class="cadre" x="20" y="46" width="200" height="420" rx="3"/>
+  <rect class="boite" x="40" y="70" width="160" height="58" rx="3"/>
+  <text class="txt" x="120" y="104" text-anchor="middle">Appelant</text>
+  <rect class="boite" x="40" y="168" width="160" height="58" rx="3"/>
+  <text class="txt" x="120" y="194" text-anchor="middle">Ligne de l'artisan</text>
+  <text class="petit" x="120" y="212" text-anchor="middle">elle sonne</text>
+  <rect class="boite" x="40" y="266" width="160" height="58" rx="3"/>
+  <text class="txt" x="120" y="292" text-anchor="middle">15 s sans réponse</text>
+  <text class="petit" x="120" y="310" text-anchor="middle">(D-68)</text>
+  <rect class="boite" x="40" y="364" width="160" height="58" rx="3"/>
+  <text class="txt" x="120" y="390" text-anchor="middle">Renvoi vers Muninn</text>
+  <text class="petit" x="120" y="408" text-anchor="middle">(simulé en V1)</text>
+  <path class="trait" d="M120,128 V166"/>
+  <path class="trait" d="M120,226 V264"/>
+  <path class="trait" d="M120,324 V362"/>
+
+  <!-- Colonne 2 : conversation -->
+  <text class="titre" x="274" y="32">Conversation</text>
+  <rect class="cadre" x="270" y="46" width="250" height="330" rx="3"/>
+  <text class="txt" x="290" y="82">Annonce : une intelligence</text>
+  <text class="txt" x="290" y="99">artificielle (D-51)</text>
+  <text class="txt" x="290" y="132">Transcription annoncée,</text>
+  <text class="txt" x="290" y="149">droit de s'y opposer</text>
+  <text class="txt" x="290" y="182">Questions et récapitulatif</text>
+  <text class="txt" x="290" y="199">(trame v1.2)</text>
+  <text class="txt" x="290" y="232">Rappel au numéro affiché</text>
+  <text class="txt" x="290" y="249">(D-72)</text>
+  <text class="txt" x="290" y="282">Transcription, locuteurs</text>
+  <text class="txt" x="290" y="299">séparés (D-50)</text>
+  <text class="txt" x="290" y="332">Audio jamais conservé</text>
+  <path class="trait" d="M200,393 H245 V210 H268"/>
+
+  <!-- Colonne 3 : traitement -->
+  <text class="titre" x="574" y="32">Traitement</text>
+  <rect class="cadre" x="570" y="46" width="640" height="330" rx="3"/>
+
+  <rect class="panneau" x="586" y="64" width="140" height="296" rx="2"/>
+  <text class="stitre" x="598" y="90">Contrôle</text>
+  <text class="stitre" x="598" y="107">d'entrée</text>
+  <text class="txt" x="598" y="140">Taille, caractères</text>
+  <text class="txt" x="598" y="168">Motifs d'injection</text>
+  <text class="txt" x="598" y="196">Une donnée,</text>
+  <text class="txt" x="598" y="213">jamais une</text>
+  <text class="txt" x="598" y="230">consigne (D-63)</text>
+
+  <rect class="panneau" x="742" y="64" width="140" height="296" rx="2"/>
+  <text class="stitre" x="754" y="90">Qualification</text>
+  <text class="stitre" x="754" y="107">(LLM)</text>
+  <text class="txt" x="754" y="140">Catégorie fermée</text>
+  <text class="txt" x="754" y="168">Règles du serveur</text>
+  <text class="txt" x="754" y="185">(D-48, D-73)</text>
+  <text class="txt" x="754" y="213">Dans le doute,</text>
+  <text class="txt" x="754" y="230">un dossier</text>
+
+  <rect class="panneau" x="898" y="64" width="140" height="296" rx="2"/>
+  <text class="stitre" x="910" y="90">Agent outillé</text>
+  <text class="stitre" x="910" y="107">(LLM)</text>
+  <text class="txt" x="910" y="140">Boucle bornée,</text>
+  <text class="txt" x="910" y="157">6 appels au plus</text>
+  <text class="code" x="910" y="185">chercher_communes</text>
+  <text class="code" x="910" y="203">chercher_terme_metier</text>
+  <text class="txt" x="910" y="231">Lecture seule</text>
+  <text class="txt" x="910" y="259">Une relance</text>
+
+  <rect class="panneau" x="1054" y="64" width="140" height="296" rx="2"/>
+  <text class="stitre" x="1066" y="90">Contrôles</text>
+  <text class="stitre" x="1066" y="107">du serveur</text>
+  <text class="txt" x="1066" y="140">Commune, code</text>
+  <text class="txt" x="1066" y="157">postal (D-69, D-78)</text>
+  <text class="txt" x="1066" y="185">Gaz, santé,</text>
+  <text class="txt" x="1066" y="202">invention, fuite</text>
+  <text class="txt" x="1066" y="230">Urgence dite (D-80)</text>
+  <text class="txt" x="1066" y="258">Statuts, provenance</text>
+
+  <path class="trait" d="M726,300 H740"/>
+  <path class="trait" d="M882,300 H896"/>
+  <path class="trait" d="M1038,300 H1052"/>
+  <path class="trait" d="M520,210 H568"/>
+
+  <!-- Référentiels publics -->
+  <rect class="cadre" x="570" y="418" width="640" height="96" rx="3"/>
+  <rect class="boite" x="596" y="438" width="180" height="56" rx="3"/>
+  <text class="txt" x="686" y="462" text-anchor="middle">Communes</text>
+  <text class="petit" x="686" y="480" text-anchor="middle">(COG, API Géo)</text>
+  <rect class="boite" x="800" y="438" width="180" height="56" rx="3"/>
+  <text class="txt" x="890" y="462" text-anchor="middle">Codes postaux</text>
+  <text class="petit" x="890" y="480" text-anchor="middle">(La Poste)</text>
+  <rect class="boite" x="1004" y="438" width="180" height="56" rx="3"/>
+  <text class="txt" x="1094" y="462" text-anchor="middle">Lexique des métiers</text>
+  <text class="petit" x="1094" y="480" text-anchor="middle">(Wiktionnaire, Wikidata)</text>
+  <text class="titre" x="890" y="540" text-anchor="middle">Référentiels publics, en lecture seule</text>
+  <path class="trait" d="M968,360 V416"/>
+  <path class="trait" d="M1124,360 V416"/>
+
+  <!-- Sorties -->
+  <text class="titre" x="1272" y="32">Dossier</text>
+  <rect class="cadre" x="1268" y="46" width="360" height="176" rx="3"/>
+  <rect class="boite" x="1292" y="64" width="312" height="42" rx="3"/>
+  <text class="txt" x="1448" y="90" text-anchor="middle">Dossier prêt, statuts et provenance</text>
+  <rect class="boite" x="1292" y="116" width="312" height="42" rx="3"/>
+  <text class="txt" x="1448" y="142" text-anchor="middle">Dossier « à vérifier », motif donné</text>
+  <rect class="boite" x="1292" y="168" width="312" height="42" rx="3"/>
+  <text class="txt" x="1448" y="194" text-anchor="middle">Urgence de sécurité en tête (gaz)</text>
+
+  <text class="titre" x="1272" y="256">Message</text>
+  <rect class="cadre" x="1268" y="270" width="360" height="76" rx="3"/>
+  <rect class="boite" x="1292" y="287" width="312" height="42" rx="3"/>
+  <text class="txt" x="1448" y="313" text-anchor="middle">Fournisseur, proche : onglet « Messages »</text>
+
+  <text class="titre" x="1272" y="380">Sans dossier</text>
+  <rect class="cadre" x="1268" y="394" width="360" height="124" rx="3"/>
+  <rect class="boite" x="1292" y="411" width="312" height="42" rx="3"/>
+  <text class="txt" x="1448" y="437" text-anchor="middle">Trace sans contenu, numéro gardé</text>
+  <rect class="boite" x="1292" y="463" width="312" height="42" rx="3"/>
+  <text class="txt" x="1448" y="489" text-anchor="middle">Refus à texte fixe, journalisé</text>
+
+  <path class="trait" d="M1210,210 H1236 V134 H1266"/>
+  <path class="trait" d="M1236,210 V308 H1266"/>
+  <path class="trait" d="M1236,308 V456 H1266"/>
+
+  <!-- Artisan -->
+  <text class="titre" x="1272" y="570">Artisan</text>
+  <rect class="cadre" x="1268" y="584" width="360" height="160" rx="3"/>
+  <rect class="boite" x="1292" y="602" width="312" height="38" rx="3"/>
+  <text class="txt" x="1448" y="626" text-anchor="middle">Relit et corrige si besoin</text>
+  <rect class="boite" x="1292" y="648" width="312" height="38" rx="3"/>
+  <text class="txt" x="1448" y="672" text-anchor="middle">Valide (CA-5, sprint 5)</text>
+  <rect class="boite" x="1292" y="694" width="312" height="38" rx="3"/>
+  <text class="txt" x="1448" y="718" text-anchor="middle">Rappelle le client, seul à fixer un rendez-vous</text>
+  <path class="trait" d="M1628,134 H1646 V664 H1630"/>
+  <path d="M1628,308 H1646" stroke="#555" stroke-width="1.4" fill="none"/>
+
+  <!-- Bandeaux du bas -->
+  <rect class="cadre" x="20" y="584" width="520" height="104" rx="3"/>
+  <text class="txt" x="40" y="616">Journaux sans contenu (R3, R4)</text>
+  <text class="txt" x="290" y="616">Audio et transcription détruits</text>
+  <text class="txt" x="40" y="652">Aucune donnée personnelle</text>
+  <text class="txt" x="40" y="669">dans les métriques</text>
+  <text class="txt" x="290" y="652">Garde-fous journalisés</text>
+  <text class="txt" x="290" y="669">par leur code</text>
+  <text class="titre" x="280" y="714" text-anchor="middle">Gouvernance des données</text>
+
+  <rect class="cadre" x="570" y="584" width="640" height="104" rx="3"/>
+  <text class="txt" x="590" y="616">Traces Langfuse sans contenu (V-13)</text>
+  <text class="txt" x="900" y="616">Journaux dans Log Analytics</text>
+  <text class="txt" x="590" y="652">Évaluation V-08 en CI, bloquante</text>
+  <text class="txt" x="900" y="652">Signaux : latence, coût, refus,</text>
+  <text class="txt" x="900" y="669">erreurs, part « à vérifier »</text>
+  <text class="titre" x="890" y="714" text-anchor="middle">Observabilité et évaluation</text>
+
+  <text class="note" x="20" y="776">V1 : le renvoi d'appel est simulé dans la console (R10) ; la voix (V-12) et la validation par l'artisan (V-09) viennent au sprint 5.</text>
+  <text class="note" x="20" y="796">Source : docs/v1/conception-workflow.md, complément du 22 octobre 2026.</text>
+</svg>
