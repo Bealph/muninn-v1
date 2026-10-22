@@ -427,6 +427,11 @@ trafic sur la révision précédente, sans reconstruire. L'évaluation ne tourne
 d'extraction (prompt, schéma, lexique, outils, paramètres) a changé (phase 2, document 05,
 §5.2).
 
+### 5.3 Workflow d'un appel (complément du 22 octobre 2026)
+
+Le déroulé d'un appel et le logigramme de ses décisions, établis après coup ; le reste de ce
+dossier n'est pas modifié : `conception-workflow.md`.
+
 ---
 
 ## 6. Le contrat personnel : critères d'acceptance
