@@ -15,6 +15,9 @@ class Settings(BaseSettings):
     environment: str = "local"
     git_sha: str = "local"
     database_url: SecretStr | None = None
+    # Rôle qui enregistre les traitements dans le schéma `app` (D-82, D-85). Sans elle, rien n'est
+    # enregistré et l'appel est traité quand même.
+    database_url_traitements: SecretStr | None = None
     api_base_url: str = "http://localhost:8000"
 
     # LLM (D-44, D-45). « faux » répond sans réseau : c'est le défaut, pour les tests et la CI.

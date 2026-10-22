@@ -14,6 +14,7 @@ from muninn.console.main import app as console
 from muninn.console.main import get_client_api
 from muninn.core.config import Settings, get_settings
 from muninn.llm.fournisseur import FauxFournisseur
+from muninn.traitements import enregistrement
 
 VARIABLES_MUNINN = (
     "ENVIRONMENT",
@@ -28,6 +29,7 @@ VARIABLES_MUNINN = (
     "LANGFUSE_BASE_URL",
     "LANGFUSE_EVAL_PUBLIC_KEY",
     "LANGFUSE_EVAL_SECRET_KEY",
+    "DATABASE_URL_TRAITEMENTS",
 )
 
 
@@ -40,10 +42,12 @@ def configuration_isolee(monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
     get_settings.cache_clear()
     get_limiteur.cache_clear()
     observabilite.client.cache_clear()
+    enregistrement.moteur.cache_clear()
     monkeypatch.setattr(observabilite, "_contenu_synthetique", False)
     yield
     get_settings.cache_clear()
     get_limiteur.cache_clear()
+    enregistrement.moteur.cache_clear()
 
 
 @pytest.fixture(autouse=True)

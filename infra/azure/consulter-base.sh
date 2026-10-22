@@ -2,10 +2,13 @@
 # Consulter la base d'un environnement, en lecture seule, depuis le poste du porteur.
 #
 # Usage (Git Bash, depuis la racine du dépôt, après `az login`) :
-#   bash infra/azure/consulter-base.sh [production|preproduction] [--interactif]
+#   bash infra/azure/consulter-base.sh [production|preproduction] [--interactif] [--traitements]
 #
 # Sans option : affiche un aperçu (tables, versions chargées, lignes d'exemple).
 # Avec --interactif : ouvre psql, pour des requêtes libres.
+# Avec --traitements : se connecte avec le rôle des traitements (`<base>_traitements`, D-85), le
+# seul qui voit le schéma `app` ; l'aperçu montre les mesures des traitements, jamais le contenu
+# d'un dossier.
 #
 # Ce que fait le script, et ce qu'il défait :
 # - ouvre le pare-feu du serveur PostgreSQL à la seule adresse IP publique de ce poste, par une
@@ -21,10 +24,12 @@ source "$(dirname "$0")/parametres.sh"
 
 env="production"
 interactif=0
+traitements=0
 for arg in "$@"; do
   case "$arg" in
     production | preproduction) env="$arg" ;;
     --interactif) interactif=1 ;;
+    --traitements) traitements=1 ;;
     *) echo "Argument inconnu : $arg" >&2; exit 2 ;;
   esac
 done
@@ -50,13 +55,19 @@ echo "Ouverture du pare-feu de $POSTGRES à $ip seulement (règle temporaire « 
 az postgres flexible-server firewall-rule create -g "$GROUPE" -s "$POSTGRES" -n "$regle" \
   --start-ip-address "$ip" --end-ip-address "$ip" --only-show-errors -o none
 
-# Adresse de connexion du rôle de lecture, gardée en mémoire seulement.
-URL_BASE=$(az containerapp secret show -g "$GROUPE" -n "$api" --secret-name database-url \
+# Adresse de connexion du rôle choisi, gardée en mémoire seulement. Dans les deux cas, les
+# transactions sont forcées en lecture seule.
+if [[ $traitements -eq 1 ]]; then
+  secret=database-url-traitements; suffixe=traitements
+else
+  secret=database-url; suffixe=api
+fi
+URL_BASE=$(az containerapp secret show -g "$GROUPE" -n "$api" --secret-name "$secret" \
   --query value -o tsv --only-show-errors)
-[[ "$URL_BASE" == postgresql://*_api:* ]] || { echo "Le secret de $api n'est pas celui du rôle de lecture." >&2; exit 1; }
+[[ "$URL_BASE" == postgresql://*_"$suffixe":* ]] || { echo "Le secret $secret de $api n'est pas celui du rôle $suffixe." >&2; exit 1; }
 export URL_BASE
 export PGOPTIONS="-c default_transaction_read_only=on"
-echo "Connexion à $(base_de_donnees "$env") avec le rôle de lecture ($(base_de_donnees "$env")_api)."
+echo "Connexion à $(base_de_donnees "$env") avec le rôle $(base_de_donnees "$env")_$suffixe, en lecture seule."
 
 lancer_psql() { # options supplémentaires de psql
   # -i transmet l'entrée (requêtes de l'aperçu) ; -t seulement dans un vrai terminal.
@@ -85,6 +96,20 @@ Quelques commandes :
   \q                   quitter (le pare-feu se referme ensuite)
 AIDE
   lancer_psql
+elif [[ $traitements -eq 1 ]]; then
+  lancer_psql -P pager=off << 'SQL'
+\echo '== Traitements enregistrés, par issue (30 jours au plus, D-82)'
+select issue, count(*) as nombre, min(recu_le) as premier, max(recu_le) as dernier
+  from app.traitements group by issue order by issue;
+\echo '== Dix derniers traitements : mesures seulement, aucun contenu'
+select to_char(recu_le, 'YYYY-MM-DD HH24:MI:SS') as recu_le, route, scenario_id, issue,
+       code_refus, categorie, statut, a_verifier, outils, cout_micro_eur, duree_ms
+  from app.traitements order by recu_le desc limit 10;
+\echo '== Dossiers par état, messages, corrections'
+select 'dossiers ' || etat as quoi, count(*) from app.dossiers group by etat
+union all select 'messages', count(*) from app.messages
+union all select 'corrections', count(*) from app.corrections;
+SQL
 else
   lancer_psql -P pager=off << 'SQL'
 \echo '== Tables et nombre de lignes (toutes versions, publiées et retirées)'

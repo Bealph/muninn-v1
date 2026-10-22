@@ -187,14 +187,29 @@ vCPU-secondes et 360 000 Gio-secondes par abonnement (page de facturation de Con
 au-delà, l'API de prix ne publie pas de tarif exploitable pour France Central [H : quelques
 centimes par exécution au plus].
 
+## Traitements enregistrés (sprint 5)
+
+`bash infra/azure/08-traitements.sh [preproduction] [production]`, à lancer une fois après la
+livraison du code de l'étape 1 du sprint 5 (D-82, D-85). Il tire au hasard le mot de passe du rôle
+`<base>_traitements` (ou relit celui des secrets de la tâche), l'ajoute à la tâche des données, lance
+une exécution (migration du schéma `app`, création du rôle), puis donne à l'API l'adresse de ce rôle
+dans le secret `database-url-traitements` ; la nouvelle révision ne reçoit le trafic qu'après un
+contrôle, comme une livraison. Le rôle n'écrit que dans le schéma `app` ; l'API garde son rôle en
+lecture seule pour les référentiels. Sans cette adresse, l'API traite les appels sans les enregistrer.
+
 ## Consulter une base, en lecture seule
 
-`bash infra/azure/consulter-base.sh [production|preproduction] [--interactif]` affiche un aperçu
+`bash infra/azure/consulter-base.sh [production|preproduction] [--interactif] [--traitements]`
+affiche un aperçu
 de la base (tables, versions chargées, exemples), ou ouvre psql. Le script ouvre le pare-feu du
 serveur PostgreSQL à la seule adresse IP du poste, par une règle temporaire supprimée à la sortie ;
 il se connecte avec le rôle de lecture de l'API, en lecture seule forcée, sans jamais afficher
 l'adresse de connexion. Docker est requis (client psql en conteneur). Essayé par le porteur sur la
 production le 19 octobre 2026.
+
+Avec `--traitements`, le script se connecte avec le rôle des traitements, le seul qui voit le
+schéma `app`, toujours en lecture seule forcée ; l'aperçu montre les mesures des traitements, jamais
+le contenu d'un dossier.
 
 Après une fermeture brutale du terminal, vérifier que la règle `consultation-porteur` a disparu :
 `az postgres flexible-server firewall-rule list -g adialloRG -s psql-muninn -o table`.

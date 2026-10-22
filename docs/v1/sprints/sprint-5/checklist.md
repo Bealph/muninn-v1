@@ -77,8 +77,9 @@ Aucune nouvelle source de données externe : les référentiels du sprint 3 sont
 
 ### Étape 1 : les traitements enregistrés (V-09, V-10)
 
-- [ ] Tables des dossiers, des messages, des traitements (métriques sans contenu) et des corrections (champ corrigé, jamais la valeur) ; migration ; rôles.
-- [ ] Chaque traitement de l'API écrit son enregistrement ; aucune transcription en base ; tests.
+- [x] Tables des dossiers, des messages, des traitements (métriques sans contenu) et des corrections (champ corrigé, jamais la valeur) ; migration ; rôles. Preuve : migration `0003_traitements.py` (schéma `app`, rôle de groupe `<base>_app`), rôle de connexion `<base>_traitements` (`roles.py`, D-85), `tests/test_traitements_base.py`.
+- [x] Chaque traitement de l'API écrit son enregistrement ; aucune transcription en base ; tests. Preuve : `src/muninn/traitements/enregistrement.py`, appelé par `/v1/demo/runs` et `/v1/extract/text`, refus compris ; purge à 30 jours (`muninn-purge`) ; 430 tests, base comprise, aucun ignoré.
+- [ ] En production : `08-traitements.sh` lancé par le porteur ; enregistrement vérifié avec `consulter-base.sh <env> --traitements`.
 
 ### Étape 2 : correction et validation (V-09, CA-5)
 

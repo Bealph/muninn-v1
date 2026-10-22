@@ -54,7 +54,7 @@ def base_migree() -> Iterator[str]:
     finally:
         with connecter("postgres") as admin:
             admin.execute(sql.SQL("DROP DATABASE {} WITH (FORCE)").format(sql.Identifier(nom)))
-            for suffixe in ("lecture", "ecriture", "api", "ingestion"):
+            for suffixe in ("lecture", "ecriture", "app", "api", "ingestion", "traitements"):
                 admin.execute(
                     sql.SQL("DROP ROLE IF EXISTS {}").format(sql.Identifier(f"{nom}_{suffixe}"))
                 )

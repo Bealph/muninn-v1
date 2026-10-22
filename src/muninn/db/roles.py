@@ -3,9 +3,12 @@
 Les migrations créent deux rôles de groupe sans connexion, `<base>_lecture` et `<base>_ecriture`.
 Ce module crée, ou met à jour, les rôles qui se connectent :
 - `<base>_api`, membre de `<base>_lecture` : celui de l'API ;
-- `<base>_ingestion`, membre de `<base>_ecriture` : celui de l'ingestion.
+- `<base>_ingestion`, membre de `<base>_ecriture` : celui de l'ingestion ;
+- `<base>_traitements`, membre de `<base>_app` : celui qui enregistre les traitements (D-85),
+  créé seulement si son mot de passe est fourni.
 Les mots de passe viennent de variables d'environnement (`MUNINN_MDP_API`,
-`MUNINN_MDP_INGESTION`), alimentées par des secrets : jamais du dépôt, jamais d'un journal.
+`MUNINN_MDP_INGESTION`, `MUNINN_MDP_TRAITEMENTS`), alimentées par des secrets : jamais du dépôt,
+jamais d'un journal.
 L'exécution demande un rôle autorisé à créer des rôles (l'administrateur du serveur).
 """
 
@@ -27,11 +30,14 @@ DELAI_INGESTION = "15min"
 
 
 def mots_de_passe() -> dict[str, str]:
-    """Mots de passe des deux rôles ; refuse un mot de passe absent ou trop court."""
+    """Mots de passe des rôles ; refuse un mot de passe absent ou trop court. Celui du rôle des
+    traitements est facultatif : sans lui, ce rôle n'est ni créé ni modifié."""
     valeurs = {
         "api": os.environ.get("MUNINN_MDP_API", ""),
         "ingestion": os.environ.get("MUNINN_MDP_INGESTION", ""),
     }
+    if os.environ.get("MUNINN_MDP_TRAITEMENTS"):
+        valeurs["traitements"] = os.environ["MUNINN_MDP_TRAITEMENTS"]
     for nom, valeur in valeurs.items():
         if len(valeur) < LONGUEUR_MIN:
             raise RuntimeError(
@@ -60,6 +66,9 @@ def preparer_roles(url: str, mots: dict[str, str]) -> list[str]:
     roles = [(f"{base}_api", f"{base}_lecture", mots["api"], True, DELAI_API),
              (f"{base}_ingestion", f"{base}_ecriture", mots["ingestion"], False,
               DELAI_INGESTION)]  # fmt: skip
+    if "traitements" in mots:
+        # Écrit les traitements de l'API : des requêtes courtes, comme celles de l'API (D-85).
+        roles.append((f"{base}_traitements", f"{base}_app", mots["traitements"], False, DELAI_API))
     with psycopg.connect(url, autocommit=True) as conn:
         for role, groupe, mot, lecture_seule, delai in roles:
             existe = conn.execute("SELECT 1 FROM pg_roles WHERE rolname = %s", [role]).fetchone()

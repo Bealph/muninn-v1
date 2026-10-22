@@ -24,6 +24,7 @@ muninn-db = "muninn.db.migrer:main"
 muninn-ingestion = "muninn.ingestion.commande:main"
 muninn-donnees = "muninn.donnees:main"
 muninn-questions = "muninn.referentiels.demonstration:main"
+muninn-purge = "muninn.traitements.enregistrement:main"
 
 [dependency-groups]
 dev = [

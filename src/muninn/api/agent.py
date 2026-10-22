@@ -42,6 +42,7 @@ from muninn.extraction.paquet import charger_paquet
 from muninn.llm.fournisseur import FournisseurLLM
 from muninn.qualification.contrat import Categorie, MessageRecu, RegleServeur, TraceSansContenu
 from muninn.qualification.qualificateur import charger_paquet_qualification, traiter_appel
+from muninn.traitements.enregistrement import Enregistrement, enregistrer
 
 routeur = APIRouter(tags=["agent"])
 NumeroE164 = Annotated[str, Field(pattern=MOTIF_TELEPHONE.pattern)]
@@ -242,6 +243,11 @@ def extraire_texte(
 ) -> ReponseExtraction:
     """Extraction d'un brouillon de dossier depuis un texte (sans qualification)."""
     debut = time.perf_counter()
+
+    def refuser(code: str) -> None:
+        duree = round((time.perf_counter() - debut) * 1000)
+        enregistrer(Enregistrement(identifiant(request), "extraction", duree, code_refus=code))
+
     try:
         x = extraire_dossier(
             corps.text, charger_paquet(), fournisseur, referentiels, corps.trade,
@@ -249,13 +255,17 @@ def extraire_texte(
             request_id=identifiant(request),
         )  # fmt: skip
     except ContenuRefuse as refus:
+        refuser("content_refused")
         raise ErreurAPI(422, "content_refused") from refus
     except EntreeRefusee as refus:
         if refus.code == "entree_vide":
+            refuser("content_unprocessable")
             raise ErreurAPI(422, "content_unprocessable") from refus
+        refuser("too_long")
         detail = DetailErreur(field="body.text", issue="too_long")
         raise ErreurAPI(422, "validation_failed", [detail]) from refus
     latence = round((time.perf_counter() - debut) * 1000)
+    enregistrer(Enregistrement(identifiant(request), "extraction", latence, extraction=x))
     return ReponseExtraction(draft=x.brouillon, envelope=x.enveloppe, run=mesures(x, latence))
 
 
@@ -292,13 +302,26 @@ def executer_demo(
             texte, charger_paquet_qualification(), charger_paquet(), fournisseur, referentiels,
             metier, aujourd_hui(), numero, request_id=identifiant(request),  # type: ignore[arg-type]
         )  # fmt: skip
-    except ContenuRefuse as refus:
-        raise ErreurAPI(422, "content_refused") from refus
-    except EntreeRefusee as refus:
+    except (ContenuRefuse, EntreeRefusee) as refus:
+        code = "content_refused" if isinstance(refus, ContenuRefuse) else "too_long"
+        enregistrer(Enregistrement(
+            identifiant(request), "demo", round((time.perf_counter() - debut) * 1000),
+            scenario_id=scenario.id if scenario else None,
+            modele_simule=bool(scenario and scenario.modele_simule), code_refus=code,
+        ))  # fmt: skip
+        if isinstance(refus, ContenuRefuse):
+            raise ErreurAPI(422, "content_refused") from refus
         detail = DetailErreur(field="body.transcript", issue="too_long")
         raise ErreurAPI(422, "validation_failed", [detail]) from refus
     del texte
     latence = round((time.perf_counter() - debut) * 1000)
+    enregistrer(Enregistrement(
+        identifiant(request), "demo", latence,
+        scenario_id=scenario.id if scenario else None,
+        modele_simule=bool(scenario and scenario.modele_simule),
+        contenu_synthetique=scenario is not None,
+        traitement=t, garde_fous_message=sorted(str(g) for g in t.garde_fous),
+    ))  # fmt: skip
     q, x = t.qualification, t.extraction
     ecarts = verifier(scenario.groupe, scenario.id, scenario.attendu, t) if scenario else []
     gardes: list[str] = sorted(
