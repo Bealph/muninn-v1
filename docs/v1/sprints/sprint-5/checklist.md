@@ -85,7 +85,7 @@ Aucune nouvelle source de données externe : les référentiels du sprint 3 sont
 
 - [x] Route de correction et de validation : le serveur rejoue le contrôle ; état « brouillon » puis « validé » ; une ligne de correction par champ, sans la valeur. Preuve : `POST /v1/demo/runs/{draft_id}/review` (D-86), `src/muninn/traitements/revue.py`, `tests/test_revue_base.py`.
 - [x] Écran : corriger un champ, « Valider » ; SC-03 de bout en bout ; accessibilité contrôlée (axe-core). Preuve : formulaire « Corriger et valider » de l'écran « Agent », route `/agent/valider` ; parcours de la console et pages contrôlées par axe-core (`test_parcours_de_la_console`, `test_dossier_a_valider_accessible`). SC-03 avec le vrai modèle : à l'étape suivante, en production.
-- [ ] CA-5 vérifié sur Azure, 3 sur 3 ; « 93170 » absent de la table des corrections et des journaux.
+- [x] CA-5 vérifié sur Azure, 3 sur 3 ; « 93170 » absent de la table des corrections et des journaux. Preuve : `preuves/etape-2-ca-5.json` (révision `6e80aad`, 22 octobre 2026 : commune et code postal « incohérent » avant, « vérifié » après, 3 sur 3) ; `consulter-base.sh production --traitements` lancé par le porteur : 3 dossiers « valide », 3 corrections ; Log Analytics, 30 minutes : 0 ligne contenant « 93170 », 3 lignes `revue.fin` citant le seul nom du champ ; la colonne `champ` n'accepte que `^[a-z_.]{1,80}$`.
 
 ### Étape 3 : instrumenter (métriques et traces)
 

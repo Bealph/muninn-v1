@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-22T15:12:07+00:00",
+  "api": "https://ca-muninn-api-prod.graybeach-70019748.francecentral.azurecontainerapps.io",
+  "version_servie": {
+    "version": "0.1.0",
+    "git_sha": "6e80aad211101b76ea980d9070b1eb540678128b",
+    "environment": "production"
+  },
+  "bilan": "3/3",
+  "lignes": [
+    {
+      "execution": 1,
+      "request_id": "41f10510-b2d4-4f96-ab5a-af8cb08ab41c",
+      "draft_id": "34fed994-ca9b-43fb-ad72-e5b5bbf6e844",
+      "statut_revue": 200,
+      "conforme": true,
+      "ecarts": [],
+      "statuts_avant": {
+        "client.telephone": "not_checked",
+        "client.adresse.code_postal": "mismatch",
+        "client.adresse.commune": "mismatch"
+      },
+      "statuts_apres": {
+        "client.telephone": "not_checked",
+        "client.adresse.code_postal": "verified",
+        "client.adresse.commune": "verified"
+      }
+    },
+    {
+      "execution": 2,
+      "request_id": "310694f1-3ff6-45f7-8c87-4caf3d6c32d9",
+      "draft_id": "fcd3fe78-230f-438b-ae72-5692aa97c233",
+      "statut_revue": 200,
+      "conforme": true,
+      "ecarts": [],
+      "statuts_avant": {
+        "client.telephone": "not_checked",
+        "client.adresse.code_postal": "mismatch",
+        "client.adresse.commune": "mismatch"
+      },
+      "statuts_apres": {
+        "client.telephone": "not_checked",
+        "client.adresse.code_postal": "verified",
+        "client.adresse.commune": "verified"
+      }
+    },
+    {
+      "execution": 3,
+      "request_id": "e1f386bd-0d59-464e-9107-e1c3010d00a2",
+      "draft_id": "25154624-4169-49d1-abb3-2e837f28ac5d",
+      "statut_revue": 200,
+      "conforme": true,
+      "ecarts": [],
+      "statuts_avant": {
+        "client.telephone": "not_checked",
+        "client.adresse.code_postal": "mismatch",
+        "client.adresse.commune": "mismatch"
+      },
+      "statuts_apres": {
+        "client.telephone": "not_checked",
+        "client.adresse.code_postal": "verified",
+        "client.adresse.commune": "verified"
+      }
+    }
+  ]
+}
