@@ -12,7 +12,7 @@ import httpx
 import pytest
 
 from muninn.console.main import _graphique, pluriel
-from outils_qualite import DERNIER_ID, qualite, rendre_qualite
+from outils_qualite import DERNIER_ID, EPISODE, qualite, rendre_qualite
 
 
 class Ecran:
@@ -102,3 +102,46 @@ def test_pluriel_a_la_francaise() -> None:
     assert [pluriel(n, "dossier", "dossiers") for n in (0, 1, 2)] == [
         "0 dossier", "1 dossier", "2 dossiers"
     ]  # fmt: skip
+
+
+def test_etat_gris_dit_ce_qui_manque(ecran: Ecran) -> None:
+    html = ecran(qualite(total=5, dossiers=4, a_verifier=1, part_a_verifier=0.25, refus=0))
+    assert "4 dossiers sur la dernière heure, il en faut 20 pour juger" in html
+    assert "4 dossiers sur les 20 nécessaires" in html and "5 traitements sur les 20" in html
+
+
+def test_echeance_du_jugement_affichee_si_juge(ecran: Ecran) -> None:
+    juge = datetime.now(UTC).replace(hour=23, minute=45, second=0, microsecond=0)
+    html = ecran(qualite(juge=juge))
+    assert "l'état ne pourra plus être jugé après 23:45 UTC" in html
+    assert "Calculé le 23/10/2026 à 14:00 UTC" in html
+
+
+def test_historique_des_alertes(ecran: Ecran) -> None:
+    html = ecran(qualite(episodes=[EPISODE]))
+    assert "Alertes des dernières 24 heures" in html
+    assert "22/10 à 14:05 UTC" in html and "22/10 à 14:50 UTC" in html
+    assert "Dossiers à vérifier (AL-01)" in html and "45 % (10 sur 22)" in html
+    assert "Aucune alerte sur les dernières 24 heures" in ecran(qualite())
+
+
+def test_cartes_alignees_sur_les_alertes(ecran: Ecran) -> None:
+    html = ecran(qualite(secours=2, part_secours=0.08))
+    assert "Brouillons de secours" in html and "8 %" in html
+    assert "Nouveaux essais de l'IA" in html and "Erreurs du service" not in html
+
+
+def test_cout_du_mois_et_seuil_trace(ecran: Ecran) -> None:
+    html = ecran(qualite())
+    assert "Coût de l'IA sur le mois (10/2026)" in html and "1,2345 €" in html
+    assert "environ 1,66 € sur le mois, soit 3 % du budget Azure de 60 €" in html
+    assert "seuil : 20 %" in html
+
+
+def test_actualisation_deduite_d_un_appel_recent(ecran: Ecran) -> None:
+    recent = qualite()
+    recent["dernier_appel"]["recu_le"] = datetime.now(UTC).isoformat()
+    html = ecran(recent)
+    assert "location.reload" in html and "un appel a eu lieu il y a moins de 10 minutes" in html
+    # Un choix explicite l'emporte : décoché, pas d'actualisation.
+    assert "location.reload" not in ecran(recent, chemin="/qualite?auto=0")

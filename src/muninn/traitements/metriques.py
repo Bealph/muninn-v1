@@ -16,13 +16,15 @@ Signaux (D-83 ; phase 2, `03-observabilite.md`) :
 - une série par heure, pour les tendances.
 """
 
-from datetime import datetime
+import calendar
+from datetime import UTC, datetime
 from typing import Any
 
 from pydantic import BaseModel
 from sqlalchemy import Engine, text
 
 FENETRES_HEURES = (1, 24, 24 * 7, 24 * 30)
+BUDGET_MENSUEL_EUR = 60.0  # SLO-16 : budget Azure du projet, hébergement compris
 
 SYNTHESE = text("""
 WITH t AS (
@@ -136,6 +138,7 @@ class Metriques(BaseModel):
     secours: int
     relances: int
     taux_erreur: float | None
+    part_secours: float | None
     bornes: int
     a_verifier: int
     part_a_verifier: float | None
@@ -187,6 +190,7 @@ def calculer(m: Engine, heures: int) -> Metriques:
         refus=s["refus"], taux_refus=_part(s["refus"], s["total"]),
         secours=s["secours"], relances=s["relances"],
         taux_erreur=_part(s["secours"] + s["relances"], s["dossiers"]),
+        part_secours=_part(s["secours"], s["dossiers"]),
         bornes=s["bornes"], a_verifier=s["a_verifier"],
         part_a_verifier=_part(s["a_verifier"], s["dossiers"]), securite=s["securite"],
         non_controle=s["non_controle"], part_non_controle=_part(s["non_controle"], s["dossiers"]),
@@ -197,4 +201,39 @@ def calculer(m: Engine, heures: int) -> Metriques:
         corrections_par_champ=corrections, garde_fous=gardes,
         premier=s["premier"], dernier=s["dernier"],
         dernier_appel=DernierAppel(**d) if d else None, serie=serie,
+    )  # fmt: skip
+
+
+COUT_DU_MOIS = text("""
+SELECT coalesce(sum(cout_micro_eur), 0) AS total
+FROM app.traitements
+WHERE recu_le >= date_trunc('month', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'
+""")
+
+
+class CoutMois(BaseModel):
+    """Coût de l'IA pour les appels traités depuis le début du mois, et sa projection.
+
+    Le budget de 60 € (SLO-16) couvre tout le projet Azure, hébergement compris : la part affichée
+    n'est que celle de l'IA du service, sans les campagnes d'évaluation de la CI.
+    """
+
+    mois: str
+    total_eur: float
+    projection_eur: float
+    budget_eur: float
+    part_budget: float
+
+
+def cout_du_mois(m: Engine, maintenant: datetime | None = None) -> CoutMois:
+    """Coût du mois en cours, projeté au même rythme jusqu'à la fin du mois."""
+    t = maintenant or datetime.now(UTC)
+    with m.connect() as conn:
+        total = float(conn.execute(COUT_DU_MOIS).scalar() or 0) / 1e6
+    jours = calendar.monthrange(t.year, t.month)[1]
+    ecoule = (t - t.replace(day=1, hour=0, minute=0, second=0, microsecond=0)).total_seconds()
+    projection = total * jours * 86400 / ecoule if ecoule > 0 else total
+    return CoutMois(
+        mois=f"{t:%m/%Y}", total_eur=round(total, 4), projection_eur=round(projection, 2),
+        budget_eur=BUDGET_MENSUEL_EUR, part_budget=round(projection / BUDGET_MENSUEL_EUR, 4),
     )  # fmt: skip

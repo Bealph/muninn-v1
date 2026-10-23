@@ -58,16 +58,32 @@ seuls champs rendus pour le dernier appel. Le modèle simulé (scénario `P4-per
 
 Chaque état a un mot et un symbole (●, ▲, ○) : la couleur n'est jamais seule porteuse du sens.
 
-## 4. Choix faits pendant l'étape
+## 4. Choix et suite donnée par le porteur
 
-| Choix                                                                                  | Raison                                                                                                                                                                    | Décision attendue du porteur |
-| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
-| L'état se lit sur la dernière heure, quelle que soit la période                        | Fenêtre des alertes de D-83 ; sur 30 jours, une panne de l'heure en cours serait noyée                                                                                    | Valider ou défaire           |
-| Volume minimal de 20 pour AL-16 aussi                                                  | D-83 le fixe pour AL-01 et AL-04 ; un 95e centile sur trois appels n'a pas de sens                                                                                        | Valider ou défaire           |
-| AL-16 mesure le traitement entier (`app.traitements.duree_ms`), qualification comprise | Seule durée enregistrée ; plus longue que l'extraction de SLO-05, elle déclenche plus tôt, jamais plus tard                                                               | Valider ou défaire           |
-| « Erreurs du service » compte secours et nouveaux essais ; AL-04, les secours seuls    | Le chiffre décrit tout ce qui a mal tourné ; l'alerte suit la définition de D-83                                                                                          | Valider ou défaire           |
-| Pas de lien vers Application Insights ; l'identifiant est affiché                      | La console est publique : le lien mettrait l'identifiant de l'abonnement Azure dans la page, sans rien ouvrir pour un visiteur non connecté ; le classeur portera ce lien | Valider ou défaire           |
-| Actualisation automatique désactivée par défaut                                        | Une page qui se recharge pendant la lecture gêne ; on l'active pour la dérive simulée (D-84)                                                                              | Valider ou défaire           |
+Le 23 octobre 2026, le porteur a relu les six choix et retenu quatre améliorations ; il a laissé
+l'orchestrateur ajouter ce qui manquait.
+
+| Choix initial                                                     | Suite                                                                                                                          |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| L'état se lit sur la dernière heure, quelle que soit la période   | Gardé ; le bandeau dit en plus jusqu'à quand l'état reste jugé sans nouvel appel, et l'heure du calcul                         |
+| Volume minimal de 20, AL-16 compris                               | Gardé ; l'état gris dit combien de dossiers il y a et combien il en faut, chaque contrôle donne son volume                     |
+| AL-16 mesure le traitement entier                                 | Remplacé, en deux temps : migration 0004 (colonne `duree_extraction_ms`), puis AL-16 sur l'extraction seule (SLO-05)           |
+| « Erreurs du service » mêlait secours et nouveaux essais          | Remplacé : une carte « Brouillons de secours » (celle d'AL-04) et une carte « Nouveaux essais de l'IA »                        |
+| Pas de lien vers Application Insights ; l'identifiant est affiché | Gardé ; le lien sera dans le classeur Azure Monitor                                                                            |
+| Actualisation désactivée par défaut                               | Remplacé : actualisation d'office si un appel a eu lieu il y a moins de 10 minutes (démonstration, rafale) ; décocher l'arrête |
+
+Ajouts de la seconde version :
+
+| Ajout                                | Contenu                                                                                                                                              |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Historique des alertes sur 24 heures | Les trois règles rejouées toutes les 5 minutes sur l'heure qui précède, à partir de la base ; une ligne par épisode : début, fin, pire valeur        |
+| Coût de l'IA sur le mois             | Total depuis le début du mois, projection au même rythme, part du budget Azure de 60 € (SLO-16), qui couvre aussi l'hébergement                      |
+| Part « à vérifier » par heure        | Second graphique, avec le seuil de 20 % tracé ; la légende rappelle que l'alerte se calcule sur l'heure glissante                                    |
+| Rafale de démonstration              | `eval/production/rafale.py --profil nominal` : 24 appels nominaux ; l'écran passe de « pas assez d'appels » à « aucun seuil dépassé » pour une heure |
+
+L'historique est une reconstitution, pas un journal : un épisode plus court que 5 minutes peut lui
+échapper, et une ligne purgée (30 jours) n'y figure plus. Les alertes notifiées par Azure Monitor
+relèvent de l'étape 5.
 
 ## 5. Écarts à TB-6
 
@@ -89,12 +105,17 @@ tests/test_console_qualite.py tests/test_accessibilite.py"` (Docker requis).
 | `tests/test_console_qualite.py` | Écran rendu dans chaque état avec une API simulée, période, actualisation, graphique, pluriels |
 | `tests/test_accessibilite.py`   | axe-core, WCAG 2.2 AA, dans les quatre états de l'écran                                        |
 
-Résultat du 23 octobre 2026 : 38 tests passés, aucun échec. En production (révision `9aa617b`),
-l'écran a été lu après un appel SC-01 : capture `preuves/etape-4-ecran-qualite-production.png`.
-Ce jour-là, la part « non contrôlé » (22 %) venait des deux appels SC-10 : commune ambiguë, que le
-serveur refuse de trancher (D-69). Le libellé de la carte a été précisé en conséquence. L'absence de débordement sur un écran
-de 390 px a été mesurée une fois à la main (largeur de la page égale à celle de l'écran), sans test
-automatique.
+Résultat du 23 octobre 2026 (première version) : 38 tests passés, aucun échec. Seconde version :
+`tests/test_etat_base.py` ajouté (échéance du jugement, historique retrouvant une alerte passée,
+coût du mois, sur une base réelle) ; suite complète, 503 tests passés.
+
+En production (révision `9aa617b`), l'écran a été lu après un appel SC-01 : capture
+`preuves/etape-4-ecran-qualite-production.png`. Ce jour-là, la part « non contrôlé » (22 %) venait
+des deux appels SC-10 : commune ambiguë, que le serveur refuse de trancher (D-69). Le libellé de
+la carte a été précisé en conséquence.
+
+L'absence de débordement sur un écran de 390 px a été mesurée une fois à la main (largeur de la
+page égale à celle de l'écran), sans test automatique.
 
 Relecture par un non-développeur : à faire (dernière case de l'étape 4). Une première relecture par
 l'agent `relecteur-technique-fr` a fait reformuler l'écran : codes d'alerte remplacés par leur

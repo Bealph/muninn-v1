@@ -56,6 +56,10 @@
   <section class="etat {{ e.niveau }}" aria-labelledby="titre-etat">
     <h2 id="titre-etat">{% if e.niveau == "ok" %}● {% elif e.niveau == "alerte" %}▲ {% else %}○ {% endif %}{{ e.titre }}</h2>
     <p>{{ e.phrase }}</p>
+    {% if e.juge_jusqu_a and e.niveau != "insuffisant" %}
+    <p class="aide">Sans nouvel appel, l'état ne pourra plus être jugé après {{ e.juge_jusqu_a|heure_lisible }}.</p>
+    {% endif %}
+    <p class="aide">Calculé le {{ q.calcule_le|date_lisible }}.</p>
   </section>
 
   <h2>Ce que Muninn surveille sur la dernière heure</h2>
@@ -69,12 +73,32 @@
       <tr>
         <th scope="row">{{ r.surveille }}<br><small class="aide">Si le seuil est dépassé : {{ r.explication }} ({{ r.code }})</small></th>
         <td data-intitule="Seuil">{{ r.seuil }}</td>
-        <td data-intitule="Maintenant">{{ r.valeur }}</td>
+        <td data-intitule="Maintenant">{{ r.valeur }}{% if r.niveau == "insuffisant" %}<br><small class="aide">{{ r.volume }} {{ r.unite_volume }} sur les {{ minimum }} nécessaires</small>{% endif %}</td>
         <td data-intitule="Verdict">{{ verdict(r.niveau) }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
+
+  <h2>Alertes des dernières 24 heures</h2>
+  {% if e.historique %}
+  <table>
+    <caption class="aide">Les contrôles rejoués toutes les 5 minutes sur l'heure qui précède.</caption>
+    <thead><tr><th scope="col">Début</th><th scope="col">Fin</th><th scope="col">Contrôle</th><th scope="col">Pire valeur</th></tr></thead>
+    <tbody>
+      {% for a in e.historique %}
+      <tr>
+        <td>{{ a.debut|heure_lisible }}</td>
+        <td>{% if a.en_cours %}en cours{% else %}{{ a.fin|heure_lisible }}{% endif %}</td>
+        <td>{{ a.court|capitalize }} ({{ a.code }})</td>
+        <td>{{ a.pire }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>Aucune alerte sur les dernières 24 heures.</p>
+  {% endif %}
   {% endif %}
 
   <form method="get" action="/qualite" class="periode" aria-label="Choix de la période">
@@ -86,10 +110,11 @@
         {% endfor %}
       </select>
     </div>
+    <input type="hidden" name="auto" value="0">
     <label class="case"><input type="checkbox" name="auto" value="1" {% if auto %}checked{% endif %}> Actualiser toutes les 30 secondes</label>
     <button type="submit">Afficher</button>
   </form>
-  <p class="aide">La période change les chiffres ci-dessous ; le bandeau et les contrôles portent toujours sur la dernière heure.</p>
+  <p class="aide">La période change les chiffres ci-dessous ; le bandeau et les contrôles portent toujours sur la dernière heure.{% if auto and auto_deduite %} Actualisation automatique activée : un appel a eu lieu il y a moins de 10 minutes.{% endif %}</p>
 
   {% if q %}
   <h2>Les chiffres sur {{ periodes[heures] }}</h2>
@@ -108,9 +133,14 @@
       <p>{{ q.a_verifier }} sur {{ pluriel(q.dossiers, "dossier", "dossiers") }} : Muninn a signalé un doute à l'artisan. Au-dessus de 20 % sur la dernière heure, l'écran passe en alerte.</p>
     </div>
     <div class="carte">
-      <h3>Erreurs du service</h3>
-      <p class="chiffre">{{ pct(q.taux_erreur) }}</p>
-      <p>{{ pluriel(q.secours, "brouillon de secours", "brouillons de secours") }} (dossier fait sans l'IA), {{ pluriel(q.relances, "nouvel essai", "nouveaux essais") }} après une réponse inexploitable de l'IA</p>
+      <h3>Brouillons de secours</h3>
+      <p class="chiffre">{{ pct(q.part_secours) }}</p>
+      <p>{{ q.secours }} sur {{ pluriel(q.dossiers, "dossier", "dossiers") }} faits sans l'IA, qui n'a pas répondu. Au-dessus de 5 % sur la dernière heure, l'écran passe en alerte.</p>
+    </div>
+    <div class="carte">
+      <h3>Nouveaux essais de l'IA</h3>
+      <p class="chiffre">{{ q.relances }}</p>
+      <p>{{ "dossier obtenu" if q.relances <= 1 else "dossiers obtenus" }} après un second essai, la première réponse de l'IA étant inexploitable</p>
     </div>
     <div class="carte">
       <h3>Adresse non contrôlée</h3>
@@ -139,6 +169,11 @@
     </div>
   </div>
 
+  {% set c = q.cout_mois %}
+  <h3>Coût de l'IA sur le mois ({{ c.mois }})</h3>
+  <p>{{ eur(c.total_eur) }} depuis le début du mois. À ce rythme, environ {{ ("%.2f"|format(c.projection_eur)).replace(".", ",") }} € sur le mois, soit {{ pct(c.part_budget) }} du budget Azure de {{ "%.0f"|format(c.budget_eur) }} € par mois.</p>
+  <p class="aide">Le budget couvre tout le projet, hébergement compris ; ce chiffre n'en est que la part de l'IA pour les appels traités.</p>
+
   {% if graphique %}
   <figure>
     <svg viewBox="0 0 600 130" width="100%" role="img" aria-labelledby="titre-graphique">
@@ -150,6 +185,18 @@
       <line x1="0" y1="125.5" x2="600" y2="125.5" stroke="#5b6470"/>
     </svg>
     <figcaption class="legende">Une barre par heure, du {{ graphique.debut }} au {{ graphique.fin }} (heure universelle, UTC) ; la plus haute compte {{ pluriel(graphique.haut, "appel", "appels") }}. Légende :<span style="background:#9db7dc"></span>appels traités<span style="background:#b5651d"></span>dont dossiers à vérifier</figcaption>
+  </figure>
+  <figure>
+    <svg viewBox="0 0 600 130" width="100%" role="img" aria-labelledby="titre-part">
+      <title id="titre-part">Part des dossiers à vérifier, heure par heure, sur {{ periodes[heures] }} ; la ligne marque le seuil de 20 %</title>
+      {% for b in graphique.barres %}{% if b.h_part is not none %}
+      <rect class="verifier" x="{{ b.x }}" y="{{ 125 - b.h_part }}" width="{{ b.w }}" height="{{ b.h_part }}"><title>{{ b.titre_part }}</title></rect>
+      {% endif %}{% endfor %}
+      <line x1="0" y1="101" x2="600" y2="101" stroke="#a31515" stroke-width="1.5" stroke-dasharray="6 4"/>
+      <text x="596" y="96" text-anchor="end" font-size="11" fill="#a31515">seuil : 20 %</text>
+      <line x1="0" y1="125.5" x2="600" y2="125.5" stroke="#5b6470"/>
+    </svg>
+    <figcaption class="legende">Part des dossiers à vérifier, heure par heure (100 % en haut). La ligne rouge marque le seuil de 20 % ; l'alerte, elle, se calcule sur l'heure glissante et demande 20 dossiers.</figcaption>
   </figure>
   {% endif %}
 

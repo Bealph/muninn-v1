@@ -17,9 +17,10 @@ import logging
 import os
 import time
 import uuid
+from collections.abc import Callable
 from datetime import UTC, datetime
 from functools import lru_cache
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel, ConfigDict, Field
@@ -47,9 +48,16 @@ from muninn.llm.fournisseur import FournisseurLLM
 from muninn.qualification.contrat import Categorie, MessageRecu, RegleServeur, TraceSansContenu
 from muninn.qualification.qualificateur import charger_paquet_qualification, traiter_appel
 from muninn.telemetrie import Etape, collecte, etape
+from muninn.traitements import etat as etat_service
 from muninn.traitements.enregistrement import Enregistrement, enregistrer, moteur
 from muninn.traitements.etat import EtatService, evaluer
-from muninn.traitements.metriques import FENETRES_HEURES, Metriques, calculer
+from muninn.traitements.metriques import (
+    FENETRES_HEURES,
+    CoutMois,
+    Metriques,
+    calculer,
+    cout_du_mois,
+)
 from muninn.traitements.revue import (
     CorrectionInvalide,
     DejaValide,
@@ -450,21 +458,29 @@ def reviser_demo(
 # Les métriques d'une fenêtre sont gardées 15 s : un rafraîchissement répété de l'écran « Qualité »
 # ne peut pas charger la base (la route est publique, comme la démonstration).
 CACHE_METRIQUES_S = 15.0
-_cache_metriques: dict[int, tuple[float, Metriques]] = {}
+_cache_metriques: dict[object, tuple[float, Any]] = {}
 
 
 class Qualite(Metriques):
-    """Les métriques de la fenêtre demandée, et l'état du service sur la dernière heure (D-83)."""
+    """Les métriques de la fenêtre demandée, l'état du service sur la dernière heure (D-83) avec
+    l'historique des alertes sur 24 heures, et le coût de l'IA du mois."""
 
     etat: EtatService
+    cout_mois: CoutMois
+    calcule_le: datetime
+
+
+def _garde(cle: object, calcul: Callable[[], Any]) -> Any:
+    garde = _cache_metriques.get(cle)
+    if garde and time.monotonic() - garde[0] < CACHE_METRIQUES_S:
+        return garde[1]
+    resultat = calcul()
+    _cache_metriques[cle] = (time.monotonic(), resultat)
+    return resultat
 
 
 def _metriques(m: Engine, heures: int) -> Metriques:
-    garde = _cache_metriques.get(heures)
-    if garde and time.monotonic() - garde[0] < CACHE_METRIQUES_S:
-        return garde[1]
-    resultat = calculer(m, heures)
-    _cache_metriques[heures] = (time.monotonic(), resultat)
+    resultat: Metriques = _garde(heures, lambda: calculer(m, heures))
     return resultat
 
 
@@ -490,7 +506,13 @@ def qualite(heures: int = 24) -> Qualite:
     try:
         periode = _metriques(m, heures)
         heure = _metriques(m, 1)
+        limite = _garde("juge_jusqu_a", lambda: etat_service.juge_jusqu_a(m))
+        episodes = _garde("historique", lambda: etat_service.historique(m))
+        cout = _garde("cout_mois", lambda: cout_du_mois(m))
     except SQLAlchemyError as erreur:
         logging.getLogger(__name__).warning("qualite.echec erreur=%s", type(erreur).__name__)
         raise ErreurAPI(503, "service_unavailable") from erreur
-    return Qualite(**periode.model_dump(), etat=evaluer(heure))
+    return Qualite(
+        **periode.model_dump(), etat=evaluer(heure, limite, episodes), cout_mois=cout,
+        calcule_le=datetime.now(UTC),
+    )  # fmt: skip

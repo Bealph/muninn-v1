@@ -17,6 +17,7 @@ from fastapi.templating import Jinja2Templates
 
 from muninn import __version__
 from muninn.core.config import get_settings
+from muninn.traitements.etat import MINIMUM
 
 app = FastAPI(title="Muninn console", version=__version__)
 gabarits = Jinja2Templates(directory=Path(__file__).parent / "templates")
@@ -34,6 +35,21 @@ def date_lisible(valeur: str) -> str:
 
 
 gabarits.env.filters["date_lisible"] = date_lisible
+
+
+def heure_lisible(valeur: str) -> str:
+    """« 14:45 UTC » pour un instant du jour même, sinon « 22/10 à 14:45 UTC »."""
+    try:
+        instant = datetime.fromisoformat(valeur).astimezone(UTC)
+    except (TypeError, ValueError):
+        return str(valeur)
+    if instant.date() == datetime.now(UTC).date():
+        return f"{instant:%H:%M} UTC"
+    return f"{instant:%d/%m à %H:%M} UTC"
+
+
+gabarits.env.filters["heure_lisible"] = heure_lisible
+gabarits.env.globals["minimum"] = MINIMUM
 
 # Champs que l'artisan peut corriger avant de valider (V-09, CA-5), dans l'ordre de l'écran.
 CHAMPS_CORRIGEABLES = (
@@ -582,12 +598,16 @@ def _graphique(
         p = par_heure.get(heure)
         if p is None or not p["total"]:
             continue
+        part = p["a_verifier"] / p["dossiers"] if p.get("dossiers") else None
         barres.append({
             "x": round(i * largeur, 2), "w": round(max(largeur * 0.85, 0.6), 2),
             "h_total": round(p["total"] / haut * 120, 1),
             "h_verifier": round(p["a_verifier"] / haut * 120, 1),
+            "h_part": None if part is None else round(part * 120, 1),
             "titre": f"{heure:%d/%m à %H:00} UTC : {pluriel(p['total'], 'appel', 'appels')}, "
             f"{pluriel(p['a_verifier'], 'dossier à vérifier', 'dossiers à vérifier')}",
+            "titre_part": "" if part is None else f"{heure:%d/%m à %H:00} UTC : "
+            f"{part * 100:.0f} % des dossiers à vérifier ({p['a_verifier']} sur {p['dossiers']})",
         })  # fmt: skip
     if not barres:
         return None
@@ -602,9 +622,12 @@ def qualite(
     request: Request,
     client: ClientAPI,
     heures: Annotated[int, Query()] = 24,
-    auto: Annotated[int, Query(ge=0, le=1)] = 0,
+    auto: Annotated[int | None, Query(ge=0, le=1)] = None,
 ) -> HTMLResponse:
-    """Écran « Qualité » : le service va-t-il bien ? puis les chiffres de la période choisie."""
+    """Écran « Qualité » : le service va-t-il bien ? puis les chiffres de la période choisie.
+
+    Sans choix explicite, l'actualisation toutes les 30 s s'active d'elle-même si un appel a eu
+    lieu il y a moins de 10 minutes : c'est le cas pendant une démonstration ou une rafale."""
     if heures not in PERIODES:
         heures = 24
     q, erreur = None, None
@@ -618,12 +641,21 @@ def qualite(
             erreur = f"Les chiffres sont indisponibles (erreur {reponse.status_code})."
     except (httpx.HTTPError, ValueError):
         erreur = "L'API est injoignable."
+    auto_deduite = auto is None
+    if auto is None:
+        dernier = (q or {}).get("dernier_appel")
+        recent = False
+        if dernier:
+            instant = datetime.fromisoformat(dernier["recu_le"])
+            recent = datetime.now(UTC) - instant < timedelta(minutes=10)
+        auto = 1 if recent else 0
     settings = get_settings()
     return gabarits.TemplateResponse(
         request,
         "qualite.html",
         {
             "page": "qualite", "q": q, "erreur": erreur, "heures": heures, "auto": auto,
+            "auto_deduite": auto_deduite,
             "periodes": PERIODES, "noms_champs": NOMS_CHAMPS,
             "noms_garde_fous": NOMS_GARDE_FOUS, "noms_issues": NOMS_ISSUES,
             "graphique": _graphique(q["serie"], heures) if q else None,

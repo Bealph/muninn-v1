@@ -12,7 +12,7 @@ from axe_playwright_python.sync_playwright import Axe
 from fastapi.testclient import TestClient
 from playwright.sync_api import Browser, sync_playwright
 
-from outils_qualite import qualite, rendre_qualite
+from outils_qualite import EPISODE, qualite, rendre_qualite
 
 # Règles WCAG 2.0, 2.1 et 2.2, niveaux A et AA (exigence de la phase 0, document 04),
 # plus les bonnes pratiques d'axe-core.
@@ -110,6 +110,7 @@ def test_dossier_a_valider_accessible(
     ("corps", "statut"),
     [
         pytest.param(qualite(), 200, id="tout-va-bien"),
+        pytest.param(qualite(episodes=[EPISODE]), 200, id="historique"),
         pytest.param(qualite(a_verifier=10, part_a_verifier=0.4), 200, id="alerte"),
         pytest.param(qualite(total=5, dossiers=4, refus=0), 200, id="pas-assez"),
         pytest.param(None, 503, id="base-indisponible"),

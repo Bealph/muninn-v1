@@ -12,7 +12,8 @@ def metriques(**valeurs: Any) -> Metriques:
     base: dict[str, Any] = {
         "fenetre_heures": 1, "total": 0, "dossiers": 0, "messages": 0, "traces": 0, "refus": 0,
         "taux_refus": None, "secours": 0, "relances": 0, "taux_erreur": None, "bornes": 0,
-        "a_verifier": 0, "part_a_verifier": None, "securite": 0, "non_controle": 0,
+        "part_secours": None, "a_verifier": 0, "part_a_verifier": None, "securite": 0,
+        "non_controle": 0,
         "part_non_controle": None, "latence_p50_ms": None, "latence_p95_ms": None,
         "cout_moyen_eur": 0.0, "cout_total_eur": 0.0, "dossiers_valides": 0,
         "champs_corriges": 0, "corrections_par_champ": [], "garde_fous": [], "premier": None,
@@ -32,6 +33,14 @@ def test_aucun_appel_pas_assez_pour_juger() -> None:
     e = evaluer(metriques())
     assert e.niveau == "insuffisant" and e.titre == "Pas assez d'appels pour juger"
     assert set(niveaux(metriques()).values()) == {"insuffisant"}
+
+
+def test_etat_gris_dit_combien_il_manque() -> None:
+    e = evaluer(metriques(total=14, dossiers=12, messages=2))
+    assert e.phrase.startswith("12 dossiers sur la dernière heure, il en faut 20 pour juger.")
+    assert [(r.volume, r.unite_volume) for r in e.regles] == [
+        (12, "dossiers"), (12, "dossiers"), (14, "traitements")
+    ]  # fmt: skip
 
 
 def test_service_nominal_tout_va_bien() -> None:
