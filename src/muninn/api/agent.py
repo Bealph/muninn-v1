@@ -23,6 +23,7 @@ from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel, ConfigDict, Field
+from sqlalchemy import Engine
 from sqlalchemy.exc import SQLAlchemyError
 
 from muninn.api.dependances import get_fournisseur, get_limiteur
@@ -47,6 +48,7 @@ from muninn.qualification.contrat import Categorie, MessageRecu, RegleServeur, T
 from muninn.qualification.qualificateur import charger_paquet_qualification, traiter_appel
 from muninn.telemetrie import Etape, collecte, etape
 from muninn.traitements.enregistrement import Enregistrement, enregistrer, moteur
+from muninn.traitements.etat import EtatService, evaluer
 from muninn.traitements.metriques import FENETRES_HEURES, Metriques, calculer
 from muninn.traitements.revue import (
     CorrectionInvalide,
@@ -451,28 +453,44 @@ CACHE_METRIQUES_S = 15.0
 _cache_metriques: dict[int, tuple[float, Metriques]] = {}
 
 
+class Qualite(Metriques):
+    """Les métriques de la fenêtre demandée, et l'état du service sur la dernière heure (D-83)."""
+
+    etat: EtatService
+
+
+def _metriques(m: Engine, heures: int) -> Metriques:
+    garde = _cache_metriques.get(heures)
+    if garde and time.monotonic() - garde[0] < CACHE_METRIQUES_S:
+        return garde[1]
+    resultat = calculer(m, heures)
+    _cache_metriques[heures] = (time.monotonic(), resultat)
+    return resultat
+
+
 @routeur.get(
     "/v1/demo/quality",
-    response_model=Metriques,
+    response_model=Qualite,
     responses={
         503: {"model": Erreur, "description": "Enregistrement des traitements indisponible"}
     },
 )
-def qualite(heures: int = 24) -> Metriques:
-    """Santé du service tirée de la base (V-10, TB-6) : sans contenu, modèle simulé exclu."""
+def qualite(heures: int = 24) -> Qualite:
+    """Santé du service tirée de la base (V-10, TB-6) : sans contenu, modèle simulé exclu.
+
+    L'état (vert, rouge, ou « pas assez d'appels ») se lit toujours sur la dernière heure, la
+    fenêtre des alertes, quelle que soit la période choisie pour les chiffres.
+    """
     if heures not in FENETRES_HEURES:
         detail = DetailErreur(field="query.heures", issue="not_allowed")
         raise ErreurAPI(422, "validation_failed", [detail])
     m = moteur()
     if m is None:
         raise ErreurAPI(503, "service_unavailable")
-    garde = _cache_metriques.get(heures)
-    if garde and time.monotonic() - garde[0] < CACHE_METRIQUES_S:
-        return garde[1]
     try:
-        resultat = calculer(m, heures)
+        periode = _metriques(m, heures)
+        heure = _metriques(m, 1)
     except SQLAlchemyError as erreur:
         logging.getLogger(__name__).warning("qualite.echec erreur=%s", type(erreur).__name__)
         raise ErreurAPI(503, "service_unavailable") from erreur
-    _cache_metriques[heures] = (time.monotonic(), resultat)
-    return resultat
+    return Qualite(**periode.model_dump(), etat=evaluer(heure))

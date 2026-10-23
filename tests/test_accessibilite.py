@@ -12,6 +12,8 @@ from axe_playwright_python.sync_playwright import Axe
 from fastapi.testclient import TestClient
 from playwright.sync_api import Browser, sync_playwright
 
+from outils_qualite import qualite, rendre_qualite
+
 # Règles WCAG 2.0, 2.1 et 2.2, niveaux A et AA (exigence de la phase 0, document 04),
 # plus les bonnes pratiques d'axe-core.
 REGLES = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa", "best-practice"]
@@ -101,4 +103,21 @@ def test_dossier_a_valider_accessible(
     page = client_console.post("/agent/executer", data={"mode": "scenario", "scenario_id": "SC-01"})
     assert page.status_code == 200 and "Valider le dossier" in page.text
     nombre, rapport = _violations(navigateur, page.text)
+    assert nombre == 0, rapport
+
+
+@pytest.mark.parametrize(
+    ("corps", "statut"),
+    [
+        pytest.param(qualite(), 200, id="tout-va-bien"),
+        pytest.param(qualite(a_verifier=10, part_a_verifier=0.4), 200, id="alerte"),
+        pytest.param(qualite(total=5, dossiers=4, refus=0), 200, id="pas-assez"),
+        pytest.param(None, 503, id="base-indisponible"),
+    ],
+)
+def test_ecran_qualite_accessible(
+    navigateur: Browser, corps: dict[str, object] | None, statut: int
+) -> None:
+    html, _ = rendre_qualite(corps, statut)
+    nombre, rapport = _violations(navigateur, html)
     assert nombre == 0, rapport

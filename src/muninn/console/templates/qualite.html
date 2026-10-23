@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block titre %}Muninn, qualité du service{% endblock %}
+{% macro pct(x) %}{% if x is none %}aucune mesure{% else %}{{ "%.0f"|format(x * 100) }} %{% endif %}{% endmacro %}
+{% macro sec(ms) %}{% if ms is none %}aucune mesure{% else %}{{ ("%.1f"|format(ms / 1000)).replace(".", ",") }} s{% endif %}{% endmacro %}
+{% macro eur(x) %}{{ ("%.4f"|format(x)).replace(".", ",") }} €{% endmacro %}
+{% macro verdict(niveau) %}{% if niveau == "ok" %}<span class="pastille ok">● Sous le seuil</span>{% elif niveau == "alerte" %}<span class="pastille alerte">▲ Seuil dépassé</span>{% else %}<span class="pastille insuffisant">○ Pas assez d'appels</span>{% endif %}{% endmacro %}
+{% block contenu %}
+  <style>
+    .etat { border-radius: .5rem; padding: 1rem 1.25rem; margin: 1rem 0; border: 2px solid; }
+    .etat h2 { margin: 0 0 .25rem; font-size: 1.5rem; }
+    .etat p { margin: 0; }
+    .etat.ok { background: #eef7f1; border-color: #1f6f3f; }
+    .etat.alerte { background: #fbefef; border-color: #a31515; }
+    .etat.insuffisant { background: #f3f4f6; border-color: #5b6470; }
+    .pastille { font-weight: 700; white-space: nowrap; }
+    .pastille.ok { color: #1f6f3f; }
+    .pastille.alerte { color: #a31515; }
+    .pastille.insuffisant { color: #4a5360; }
+    .cartes { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .75rem;
+              margin: .5rem 0 1rem; }
+    .carte { border: 1px solid #c8c8c8; border-radius: .5rem; padding: .6rem .8rem; }
+    .carte h3 { font-size: .95rem; margin: 0; color: #3a3a3a; }
+    .carte .chiffre { font-size: 1.6rem; font-weight: 700; margin: .1rem 0; }
+    .carte p { margin: 0; color: #4a4a4a; font-size: .92rem; }
+    .periode { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; align-items: end; }
+    .periode label { margin-top: 0; }
+    .periode select { width: auto; }
+    .periode .case { display: flex; gap: .4rem; align-items: center; font-weight: 400; }
+    .periode .case input { width: auto; }
+    .periode button { margin-top: 0; }
+    figure { margin: .5rem 0 1rem; }
+    figcaption { color: #4a4a4a; font-size: .92rem; }
+    svg .total { fill: #9db7dc; }
+    svg .verifier { fill: #b5651d; }
+    /* Écran étroit : chaque règle devient un bloc, chaque cellule annonce son intitulé. */
+    @media (max-width: 40rem) {
+      .regles thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+      .regles tr, .regles th, .regles td { display: block; width: auto; }
+      .regles tr { border: 1px solid #c8c8c8; margin-bottom: .75rem; }
+      .regles th, .regles td { border: 0; }
+      .regles td::before { content: attr(data-intitule) " : "; font-weight: 600; }
+    }
+    .legende span { display: inline-block; width: .9rem; height: .9rem; vertical-align: middle;
+                    margin: 0 .3rem 0 .8rem; }
+  </style>
+
+  <h1>Qualité du service</h1>
+  <p>Cette page dit si Muninn fonctionne bien, d'après les appels qu'il a traités (ici, des appels
+    de démonstration). Elle ne montre aucun contenu d'appel : seulement des nombres, des noms de
+    champs et, pour le dernier appel, un identifiant technique.</p>
+
+  {% if erreur %}
+  <div class="erreur" role="alert"><p>{{ erreur }}</p></div>
+  {% else %}
+  {% set e = q.etat %}
+  <section class="etat {{ e.niveau }}" aria-labelledby="titre-etat">
+    <h2 id="titre-etat">{% if e.niveau == "ok" %}● {% elif e.niveau == "alerte" %}▲ {% else %}○ {% endif %}{{ e.titre }}</h2>
+    <p>{{ e.phrase }}</p>
+  </section>
+
+  <h2>Ce que Muninn surveille sur la dernière heure</h2>
+  <table class="regles">
+    <caption class="aide">Chaque ligne est un contrôle : si la valeur dépasse le seuil, le bandeau du haut passe au rouge.</caption>
+    <thead>
+      <tr><th scope="col">Ce qui est surveillé</th><th scope="col">Seuil</th><th scope="col">Maintenant</th><th scope="col">Verdict</th></tr>
+    </thead>
+    <tbody>
+      {% for r in e.regles %}
+      <tr>
+        <th scope="row">{{ r.surveille }}<br><small class="aide">Si le seuil est dépassé : {{ r.explication }} ({{ r.code }})</small></th>
+        <td data-intitule="Seuil">{{ r.seuil }}</td>
+        <td data-intitule="Maintenant">{{ r.valeur }}</td>
+        <td data-intitule="Verdict">{{ verdict(r.niveau) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
+  <form method="get" action="/qualite" class="periode" aria-label="Choix de la période">
+    <div>
+      <label for="heures">Chiffres sur</label>
+      <select id="heures" name="heures">
+        {% for h, nom in periodes.items() %}
+        <option value="{{ h }}" {% if h == heures %}selected{% endif %}>{{ nom }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <label class="case"><input type="checkbox" name="auto" value="1" {% if auto %}checked{% endif %}> Actualiser toutes les 30 secondes</label>
+    <button type="submit">Afficher</button>
+  </form>
+  <p class="aide">La période change les chiffres ci-dessous ; le bandeau et les contrôles portent toujours sur la dernière heure.</p>
+
+  {% if q %}
+  <h2>Les chiffres sur {{ periodes[heures] }}</h2>
+  {% if q.total == 0 %}
+  <p>Aucun appel traité sur cette période.</p>
+  {% else %}
+  <div class="cartes">
+    <div class="carte">
+      <h3>Appels reçus</h3>
+      <p class="chiffre">{{ q.total }}</p>
+      <p>{{ pluriel(q.dossiers, "dossier", "dossiers") }}, {{ pluriel(q.messages, "message", "messages") }}, {{ pluriel(q.refus, "appel écarté", "appels écartés") }}</p>
+    </div>
+    <div class="carte">
+      <h3>Dossiers à vérifier par l'artisan</h3>
+      <p class="chiffre">{{ pct(q.part_a_verifier) }}</p>
+      <p>{{ q.a_verifier }} sur {{ pluriel(q.dossiers, "dossier", "dossiers") }} : Muninn a signalé un doute à l'artisan. Au-dessus de 20 % sur la dernière heure, l'écran passe en alerte.</p>
+    </div>
+    <div class="carte">
+      <h3>Erreurs du service</h3>
+      <p class="chiffre">{{ pct(q.taux_erreur) }}</p>
+      <p>{{ pluriel(q.secours, "brouillon de secours", "brouillons de secours") }} (dossier fait sans l'IA), {{ pluriel(q.relances, "nouvel essai", "nouveaux essais") }} après une réponse inexploitable de l'IA</p>
+    </div>
+    <div class="carte">
+      <h3>Adresse non contrôlée</h3>
+      <p class="chiffre">{{ pct(q.part_non_controle) }}</p>
+      <p>{{ pluriel(q.non_controle, "dossier", "dossiers") }} dont l'adresse n'a pas pu être vérifiée dans la liste officielle des communes ; l'artisan doit la relire</p>
+    </div>
+    <div class="carte">
+      <h3>Temps pour préparer un dossier</h3>
+      <p class="chiffre">{{ sec(q.latence_p50_ms) }}</p>
+      <p>la moitié des appels sont traités en moins de {{ sec(q.latence_p50_ms) }} ; 95 sur 100 en moins de {{ sec(q.latence_p95_ms) }}</p>
+    </div>
+    <div class="carte">
+      <h3>Coût de l'IA</h3>
+      <p class="chiffre">{{ eur(q.cout_moyen_eur) }}</p>
+      <p>par appel en moyenne ; {{ eur(q.cout_total_eur) }} sur la période</p>
+    </div>
+    <div class="carte">
+      <h3>Appels écartés</h3>
+      <p class="chiffre">{{ pct(q.taux_refus) }}</p>
+      <p>écartés par Muninn avant tout traitement (contenu interdit, texte trop long)</p>
+    </div>
+    <div class="carte">
+      <h3>Acceptés par l'artisan</h3>
+      <p class="chiffre">{{ q.dossiers_valides }}</p>
+      <p>{{ "dossier relu et accepté" if q.dossiers_valides <= 1 else "dossiers relus et acceptés" }} par l'artisan ; {{ pluriel(q.champs_corriges, "champ corrigé", "champs corrigés") }} par lui avant d'accepter</p>
+    </div>
+  </div>
+
+  {% if graphique %}
+  <figure>
+    <svg viewBox="0 0 600 130" width="100%" role="img" aria-labelledby="titre-graphique">
+      <title id="titre-graphique">Appels traités par heure, et dossiers à vérifier, sur {{ periodes[heures] }}, du {{ graphique.debut }} au {{ graphique.fin }}, heure universelle ; au plus {{ pluriel(graphique.haut, 'appel', 'appels') }} dans une heure</title>
+      {% for b in graphique.barres %}
+      <rect class="total" x="{{ b.x }}" y="{{ 125 - b.h_total }}" width="{{ b.w }}" height="{{ b.h_total }}"><title>{{ b.titre }}</title></rect>
+      <rect class="verifier" x="{{ b.x }}" y="{{ 125 - b.h_verifier }}" width="{{ b.w }}" height="{{ b.h_verifier }}"><title>{{ b.titre }}</title></rect>
+      {% endfor %}
+      <line x1="0" y1="125.5" x2="600" y2="125.5" stroke="#5b6470"/>
+    </svg>
+    <figcaption class="legende">Une barre par heure, du {{ graphique.debut }} au {{ graphique.fin }} (heure universelle, UTC) ; la plus haute compte {{ pluriel(graphique.haut, "appel", "appels") }}. Légende :<span style="background:#9db7dc"></span>appels traités<span style="background:#b5651d"></span>dont dossiers à vérifier</figcaption>
+  </figure>
+  {% endif %}
+
+  <h3>Champs corrigés par l'artisan</h3>
+  <p class="aide">Plus un champ revient, moins Muninn le comprend bien.</p>
+  {% if q.corrections_par_champ %}
+  <table>
+    <thead><tr><th scope="col">Champ</th><th scope="col">Corrections</th></tr></thead>
+    <tbody>
+      {% for c in q.corrections_par_champ %}
+      <tr><td>{{ noms_champs.get(c.nom, c.nom) }}</td><td>{{ c.nombre }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>Aucune correction sur la période.</p>
+  {% endif %}
+
+  <h3>Protections qui sont intervenues</h3>
+  <p class="aide">Muninn a corrigé de lui-même : c'est le signe que la protection fonctionne.</p>
+  {% if q.garde_fous %}
+  <table>
+    <thead><tr><th scope="col">Protection</th><th scope="col">Nombre de fois</th></tr></thead>
+    <tbody>
+      {% for g in q.garde_fous %}
+      <tr><td>{{ noms_garde_fous.get(g.nom, g.nom) }}</td><td>{{ g.nombre }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>Aucune protection n'est intervenue sur la période.</p>
+  {% endif %}
+  {% endif %}
+
+  {% if q.dernier_appel %}
+  {% set d = q.dernier_appel %}
+  <h3>Dernier appel</h3>
+  <dl>
+    <dt>Reçu le</dt><dd>{{ d.recu_le|date_lisible }}</dd>
+    <dt>Exemple joué</dt><dd>{{ d.scenario_id or "texte saisi librement" }}</dd>
+    <dt>Résultat</dt><dd>{{ noms_issues.get(d.issue, d.issue) }}</dd>
+    <dt>Durée</dt><dd>{{ sec(d.duree_ms) }}</dd>
+    <dt>Identifiant</dt><dd>{{ d.request_id }}</dd>
+  </dl>
+  <p class="aide">L'identifiant permet à l'exploitant de retrouver cet appel dans les journaux techniques du service.</p>
+  {% endif %}
+  {% endif %}
+
+  <h2>Version du logiciel</h2>
+  <p class="aide">Utile à l'exploitant pour savoir quelle version a produit ces chiffres.</p>
+  <dl>
+    <dt>API</dt><dd>{{ api.version }} ({{ api.git_sha[:7] }})</dd>
+    <dt>Console</dt><dd>{{ console.version }} ({{ console.git_sha[:7] }})</dd>
+    <dt>Environnement</dt><dd>{{ api.environment }}</dd>
+  </dl>
+
+  {% if auto %}
+  <script>setTimeout(function () { window.location.reload(); }, 30000);</script>
+  {% endif %}
+{% endblock %}

@@ -5,7 +5,7 @@ La console ne parle qu'à l'API, jamais directement au LLM.
 
 import json
 from collections.abc import Callable, Iterator
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Annotated, Any
 from urllib.parse import quote
@@ -523,3 +523,111 @@ def agent_lot(
         "arret": arret,
     }
     return _page_agent(request, client, lot=lot, messages=recus)
+
+
+# Écran « Qualité » (sprint 5, étape 4 ; V-10, TB-6) : l'état du service en mots, puis les
+# chiffres d'une période, tirés de la base par l'API. Aucun contenu d'appel : des nombres, des
+# codes et des noms de champs, rendus en français pour un lecteur non développeur.
+PERIODES = {1: "la dernière heure", 24: "les dernières 24 heures", 168: "les 7 derniers jours",
+            720: "les 30 derniers jours"}  # fmt: skip
+NOMS_CHAMPS = {
+    "client.nom": "Nom du client",
+    "client.prenom": "Prénom du client",
+    "client.telephone": "Téléphone du client",
+    "client.adresse.rue": "Rue",
+    "client.adresse.code_postal": "Code postal",
+    "client.adresse.commune": "Commune",
+    "demande.objet_court": "Objet de la demande",
+    "demande.urgence": "Urgence",
+}
+NOMS_GARDE_FOUS = {
+    "gaz": "Odeur de gaz : orientation vers les secours",
+    "sante": "Danger pour la santé : orientation vers les secours",
+    "invention": "Information que l'appelant n'a pas donnée, retirée du dossier",
+    "detournement": "Tentative de manipuler l'assistant, bloquée",
+    "fuite": "Consigne interne de l'assistant qui allait apparaître, retirée",
+    "hors_role": "Réponse sans rapport avec le dépannage, retirée",
+}
+NOMS_ISSUES = {"dossier": "un dossier", "message": "un message pour l'artisan",
+               "trace": "un appel sans contenu (numéro et heure seulement)",
+               "refus": "un appel écarté avant traitement"}  # fmt: skip
+
+
+def pluriel(n: int, singulier: str, pluriel_: str) -> str:
+    """« 1 dossier », « 3 dossiers », « 0 dossier » : accord du nom au nombre, en français."""
+    return f"{n} {singulier if n <= 1 else pluriel_}"
+
+
+gabarits.env.globals["pluriel"] = pluriel
+
+
+def _graphique(
+    serie: list[dict[str, Any]], heures: int, maintenant: datetime | None = None
+) -> dict[str, Any] | None:
+    """Barres par heure (appels traités, dont « à vérifier »), sur toute la période : une heure
+    sans appel garde sa place, pour que la largeur dise le temps. SVG simple, sans script."""
+    if not serie:
+        return None
+    fin = (maintenant or datetime.now(UTC)).replace(minute=0, second=0, microsecond=0)
+    debut = fin - timedelta(hours=heures - 1)
+    par_heure = {datetime.fromisoformat(p["heure"]).astimezone(UTC): p for p in serie}
+    par_heure = {h: p for h, p in par_heure.items() if debut <= h <= fin}
+    if not par_heure:
+        return None
+    haut = max(p["total"] for p in par_heure.values()) or 1
+    largeur = 600 / heures
+    barres = []
+    for i in range(heures):
+        heure = debut + timedelta(hours=i)
+        p = par_heure.get(heure)
+        if p is None or not p["total"]:
+            continue
+        barres.append({
+            "x": round(i * largeur, 2), "w": round(max(largeur * 0.85, 0.6), 2),
+            "h_total": round(p["total"] / haut * 120, 1),
+            "h_verifier": round(p["a_verifier"] / haut * 120, 1),
+            "titre": f"{heure:%d/%m à %H:00} UTC : {pluriel(p['total'], 'appel', 'appels')}, "
+            f"{pluriel(p['a_verifier'], 'dossier à vérifier', 'dossiers à vérifier')}",
+        })  # fmt: skip
+    if not barres:
+        return None
+    return {
+        "barres": barres, "haut": haut,
+        "debut": f"{debut:%d/%m à %H:00}", "fin": f"{fin:%d/%m à %H:59}",
+    }  # fmt: skip
+
+
+@app.get("/qualite", response_class=HTMLResponse)
+def qualite(
+    request: Request,
+    client: ClientAPI,
+    heures: Annotated[int, Query()] = 24,
+    auto: Annotated[int, Query(ge=0, le=1)] = 0,
+) -> HTMLResponse:
+    """Écran « Qualité » : le service va-t-il bien ? puis les chiffres de la période choisie."""
+    if heures not in PERIODES:
+        heures = 24
+    q, erreur = None, None
+    try:
+        reponse = client.get("/v1/demo/quality", params={"heures": heures})
+        if reponse.status_code == 200:
+            q = reponse.json()
+        elif reponse.status_code == 503:
+            erreur = "Les chiffres sont indisponibles : la base des traitements ne répond pas."
+        else:
+            erreur = f"Les chiffres sont indisponibles (erreur {reponse.status_code})."
+    except (httpx.HTTPError, ValueError):
+        erreur = "L'API est injoignable."
+    settings = get_settings()
+    return gabarits.TemplateResponse(
+        request,
+        "qualite.html",
+        {
+            "page": "qualite", "q": q, "erreur": erreur, "heures": heures, "auto": auto,
+            "periodes": PERIODES, "noms_champs": NOMS_CHAMPS,
+            "noms_garde_fous": NOMS_GARDE_FOUS, "noms_issues": NOMS_ISSUES,
+            "graphique": _graphique(q["serie"], heures) if q else None,
+            "api": _version_api(client),
+            "console": {"version": __version__, "git_sha": settings.git_sha},
+        },
+    )  # fmt: skip

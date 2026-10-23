@@ -26,9 +26,10 @@ MDP = {"api": "api-" + "a" * 28, "ingestion": "ingestion-" + "b" * 22,
        "traitements": "traitements-" + "c" * 20}  # fmt: skip
 
 # (issue, statut, a_verifier, duree_ms, cout, garde_fous, simule, il_y_a_heures, code_refus)
+# Le premier dossier a une commune « non contrôlée » (référentiel injoignable).
 LIGNES = [
     ("dossier", "complete", False, 1000, 4000, [], False, 1, None),
-    ("dossier", "complete", True, 2000, 4000, ["gaz"], False, 1, None),
+    ("dossier", "complete", True, 2000, 4000, ["gaz"], False, 0, None),
     ("dossier", "fallback_no_llm", True, 3000, 0, [], False, 2, None),
     ("dossier", "partial_after_retry", False, 4000, 5000, ["invention", "gaz"], False, 2, None),
     ("message", None, None, 500, 1000, [], False, 3, None),
@@ -43,14 +44,17 @@ def base() -> Iterator[str]:
     with base_migree() as nom:
         roles.preparer_roles(url_postgres(nom), MDP)
         with psycopg.connect(url_postgres(nom), autocommit=True) as conn:
-            for issue, statut, av, duree, cout, gf, simule, heures, refus in LIGNES:
+            for i, (issue, statut, av, duree, cout, gf, simule, heures, refus) in enumerate(LIGNES):
                 conn.execute(
-                    "INSERT INTO app.traitements (request_id, recu_le, route, modele_simule,"
-                    " issue, code_refus, statut, a_verifier, garde_fous, duree_ms, cout_micro_eur)"
-                    " VALUES (%s, now() - make_interval(hours => %s), 'demo', %s, %s, %s, %s, %s,"
-                    " %s, %s, %s)",
-                    [str(uuid.uuid4()), heures, simule, issue, refus, statut, av, gf, duree, cout],
-                )
+                    "INSERT INTO app.traitements (request_id, recu_le, route, scenario_id,"
+                    " modele_simule, issue, code_refus, statut, a_verifier, garde_fous, duree_ms,"
+                    " cout_micro_eur, commune_statut)"
+                    " VALUES (%s, now() - make_interval(hours => %s, mins => 30), 'demo', %s, %s,"
+                    " %s, %s, %s, %s, %s, %s, %s, %s)",
+                    [str(uuid.uuid4()), heures, f"SC-{i:02d}", simule,
+                     issue, refus, statut, av, gf, duree, cout,
+                     "not_checked" if i == 0 else "verified"],
+                )  # fmt: skip
             rid = str(uuid.uuid4())
             draft = str(uuid.uuid4())
             conn.execute(
@@ -99,6 +103,18 @@ def test_metriques_sur_24_heures(actifs: str) -> None:
     }  # fmt: skip
     assert (r.dossiers_valides, r.champs_corriges) == (1, 3)
     assert sum(p.total for p in r.serie) == 7
+    # Un dossier sur cinq dont la commune n'a pas pu être contrôlée.
+    assert (r.non_controle, r.part_non_controle) == (1, round(1 / 5, 4))
+
+
+def test_dernier_appel_sans_contenu(actifs: str) -> None:
+    m = enregistrement.moteur()
+    assert m is not None
+    # Le traitement du dossier validé, inséré à l'instant sans scénario, est le plus récent.
+    d = calculer(m, 24).dernier_appel
+    assert d is not None
+    assert (d.scenario_id, d.issue, d.duree_ms) == (None, "dossier", 1500)
+    assert set(d.model_dump()) == {"request_id", "scenario_id", "issue", "duree_ms", "recu_le"}
 
 
 def test_la_fenetre_d_une_semaine_inclut_le_traitement_ancien(actifs: str) -> None:
@@ -111,5 +127,9 @@ def test_route_qualite(actifs: str, client_api: TestClient) -> None:
     r = client_api.get("/v1/demo/quality", params={"heures": 24})
     assert r.status_code == 200, r.text
     assert r.json()["total"] == 7 and r.json()["part_a_verifier"] == 0.4
+    # L'état se lit sur la dernière heure, quelle que soit la période : trop peu d'appels.
+    etat = r.json()["etat"]
+    assert etat["fenetre_heures"] == 1 and etat["niveau"] == "insuffisant"
+    assert [g["code"] for g in etat["regles"]] == ["AL-01", "AL-04", "AL-16"]
     mauvais = client_api.get("/v1/demo/quality", params={"heures": 5})
     assert mauvais.status_code == 422 and mauvais.json()["code"] == "validation_failed"

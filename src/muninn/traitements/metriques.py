@@ -10,6 +10,9 @@ Signaux (D-83 ; phase 2, `03-observabilite.md`) :
 - latence (médiane et 95e centile) et coût ;
 - part « à vérifier » parmi les dossiers (AL-01) ;
 - garde-fous déclenchés, borne d'outils, corrections par champ, dossiers validés ;
+- part des dossiers dont la commune ou le code postal n'a pas pu être contrôlé (« non contrôlé »,
+  référentiels injoignables : SLO-10) ;
+- le dernier appel (identifiant opaque, scénario, issue, durée), pour retrouver sa trace (TB-6) ;
 - une série par heure, pour les tendances.
 """
 
@@ -37,6 +40,9 @@ SELECT
     count(*) FILTER (WHERE borne)                                    AS bornes,
     count(*) FILTER (WHERE issue = 'dossier' AND a_verifier)         AS a_verifier,
     count(*) FILTER (WHERE urgence = 'securite')                     AS securite,
+    count(*) FILTER (WHERE issue = 'dossier' AND 'not_checked' IN (commune_statut,
+                                                                  code_postal_statut))
+                                                                     AS non_controle,
     percentile_cont(0.5) WITHIN GROUP (ORDER BY duree_ms)
         FILTER (WHERE issue <> 'refus')                              AS latence_p50,
     percentile_cont(0.95) WITHIN GROUP (ORDER BY duree_ms)
@@ -46,6 +52,13 @@ SELECT
     min(recu_le)                                                     AS premier,
     max(recu_le)                                                     AS dernier
 FROM t
+""")
+
+DERNIER = text("""
+SELECT request_id, scenario_id, issue, duree_ms, recu_le
+FROM app.traitements
+WHERE recu_le >= now() - make_interval(hours => :heures) AND NOT modele_simule
+ORDER BY recu_le DESC LIMIT 1
 """)
 
 GARDE_FOUS = text("""
@@ -100,6 +113,16 @@ class Point(BaseModel):
     latence_p95_ms: int | None
 
 
+class DernierAppel(BaseModel):
+    """Le dernier appel de la fenêtre : de quoi retrouver sa trace, sans rien de son contenu."""
+
+    request_id: str
+    scenario_id: str | None
+    issue: str
+    duree_ms: int
+    recu_le: datetime
+
+
 class Metriques(BaseModel):
     """Santé du service sur la fenêtre ; aucune donnée de l'appel."""
 
@@ -117,6 +140,8 @@ class Metriques(BaseModel):
     a_verifier: int
     part_a_verifier: float | None
     securite: int
+    non_controle: int
+    part_non_controle: float | None
     latence_p50_ms: int | None
     latence_p95_ms: int | None
     cout_moyen_eur: float
@@ -127,6 +152,7 @@ class Metriques(BaseModel):
     garde_fous: list[Compte]
     premier: datetime | None
     dernier: datetime | None
+    dernier_appel: DernierAppel | None
     serie: list[Point]
 
 
@@ -146,6 +172,7 @@ def calculer(m: Engine, heures: int) -> Metriques:
         gardes = [Compte(**r) for r in conn.execute(GARDE_FOUS, p).mappings()]
         corrections = [Compte(**r) for r in conn.execute(CORRECTIONS, p).mappings()]
         v = conn.execute(VALIDES, p).mappings().one()
+        d = conn.execute(DERNIER, p).mappings().one_or_none()
         serie = [
             Point(
                 heure=r["heure"], total=r["total"], dossiers=r["dossiers"],
@@ -162,10 +189,12 @@ def calculer(m: Engine, heures: int) -> Metriques:
         taux_erreur=_part(s["secours"] + s["relances"], s["dossiers"]),
         bornes=s["bornes"], a_verifier=s["a_verifier"],
         part_a_verifier=_part(s["a_verifier"], s["dossiers"]), securite=s["securite"],
+        non_controle=s["non_controle"], part_non_controle=_part(s["non_controle"], s["dossiers"]),
         latence_p50_ms=_entier(s["latence_p50"]), latence_p95_ms=_entier(s["latence_p95"]),
         cout_moyen_eur=round(float(s["cout_moyen"]) / 1e6, 6),
         cout_total_eur=round(float(s["cout_total"]) / 1e6, 6),
         dossiers_valides=v["valides"], champs_corriges=int(v["champs_corriges"]),
         corrections_par_champ=corrections, garde_fous=gardes,
-        premier=s["premier"], dernier=s["dernier"], serie=serie,
+        premier=s["premier"], dernier=s["dernier"],
+        dernier_appel=DernierAppel(**d) if d else None, serie=serie,
     )  # fmt: skip
