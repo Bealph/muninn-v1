@@ -34,3 +34,46 @@ az_tenace() {
     sleep "$((REESSAI_PAUSE_S * essai))"
   done
 }
+
+# Nouvelle révision d'une application après `az containerapp update` (INC-07).
+#
+# La réponse de `update` peut porter un `latestRevisionName` périmé : le 23 octobre 2026, elle a
+# rendu la révision en service au lieu de celle qui venait d'être créée, et le script a contrôlé
+# puis basculé l'ancienne. Le nom n'est donc jamais pris dans cette réponse : il est relu sur
+# l'application jusqu'à ce que la révision la plus récente diffère de la révision en service et,
+# si une condition est donnée, qu'elle la vérifie (condition JMESPath sur la révision, qui doit
+# valoir vrai : image livrée, variable posée…).
+#
+# `nouvelle_revision <application> <révision en service> [condition]` : rend le nom, ou échoue
+# après REVISION_ESSAIS lectures espacées de REVISION_PAUSE_S secondes, sans rien basculer.
+# Relancer un script après un tel échec est sans risque : la révision déjà créée est retrouvée.
+
+REVISION_ESSAIS="${REVISION_ESSAIS:-24}"
+REVISION_PAUSE_S="${REVISION_PAUSE_S:-5}"
+
+# `revision_conforme <application> <révision> <condition>` : vrai si la révision vérifie la
+# condition JMESPath. Sert aussi à rendre un script relançable : rien à faire si la révision en
+# service porte déjà la modification.
+revision_conforme() {
+  local verdict
+  verdict=$(az_tenace containerapp revision show -g "$GROUPE" -n "$1" --revision "$2" \
+    --query "$3" -o tsv) || return 1
+  [ "${verdict,,}" = "true" ]
+}
+
+nouvelle_revision() {
+  local app="$1" en_service="$2" condition="${3:-}" essai nom
+  for ((essai = 1; essai <= REVISION_ESSAIS; essai++)); do
+    nom=$(az_tenace containerapp show -g "$GROUPE" -n "$app" \
+      --query properties.latestRevisionName -o tsv)
+    if [ -n "$nom" ] && [ "$nom" != "$en_service" ]; then
+      if [ -z "$condition" ] || revision_conforme "$app" "$nom" "$condition"; then
+        printf '%s\n' "$nom"
+        return 0
+      fi
+    fi
+    if [ "$essai" -lt "$REVISION_ESSAIS" ]; then sleep "$REVISION_PAUSE_S"; fi
+  done
+  echo "Aucune nouvelle révision conforme pour $app (en service : $en_service)" >&2
+  return 1
+}

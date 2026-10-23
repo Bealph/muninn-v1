@@ -10,7 +10,8 @@
 #      comme deployer.sh, la nouvelle révision ne reçoit le trafic qu'après un contrôle ;
 #   4. contrôle : un appel de démonstration ; ses traces arrivent dans Application Insights en
 #      quelques minutes (délai d'ingestion).
-# Un seul composant pour les deux environnements : chaque trace porte `deployment.environment.name`.
+# Un seul composant pour les deux environnements : le rôle de chaque trace (`cloud_RoleName`) les
+# sépare, `preproduction.muninn-api` ou `production.muninn-api` (muninn.telemetrie.ressource).
 #
 # Coût (vérifié le 23 octobre 2026, API officielle des prix de Microsoft) : l'ingestion d'un
 # composant lié à un espace est facturée par l'espace, 5 Go gratuits par mois puis 2,43 € par Go ;
@@ -24,6 +25,7 @@ source "$(dirname "$0")/parametres.sh"
 source "$(dirname "$0")/reessai.sh"
 
 COMPOSANT="appi-muninn"
+AVEC_TRACES="length(properties.template.containers[0].env[?name=='APPLICATIONINSIGHTS_CONNECTION_STRING']) > \`0\`"
 if [ "$#" -gt 0 ]; then environnements=("$@"); else environnements=("${ENVIRONNEMENTS_APP[@]}"); fi
 
 attendre() {
@@ -61,22 +63,28 @@ for env in "${environnements[@]}"; do
   echo "3/4 API $api : chaîne de connexion et révision contrôlée"
   precedente=$(az_tenace containerapp revision list -g "$GROUPE" -n "$api" \
     --query "[?properties.trafficWeight==\`100\`].name | [0]" -o tsv)
-  az_tenace containerapp ingress traffic set -g "$GROUPE" -n "$api" \
-    --revision-weight "$precedente=100" --only-show-errors -o none
-  az_tenace containerapp secret set -g "$GROUPE" -n "$api" --only-show-errors -o none \
-    --secrets "appinsights-connection-string=$connexion"
-  nouvelle=$(az_tenace containerapp update -g "$GROUPE" -n "$api" --only-show-errors \
-    --set-env-vars APPLICATIONINSIGHTS_CONNECTION_STRING=secretref:appinsights-connection-string \
-    --query properties.latestRevisionName -o tsv)
-  fqdn=$(az_tenace containerapp revision show -g "$GROUPE" -n "$api" --revision "$nouvelle" \
-    --query properties.fqdn -o tsv)
-  if ! attendre "https://$fqdn/health"; then
-    echo "Contrôle échoué : le trafic reste sur $precedente" >&2
-    exit 1
+  if revision_conforme "$api" "$precedente" "$AVEC_TRACES"; then
+    # Déjà en place, par exemple après une livraison qui a repris la variable : rien à changer.
+    echo "   déjà en place sur $precedente"
+  else
+    az_tenace containerapp ingress traffic set -g "$GROUPE" -n "$api" \
+      --revision-weight "$precedente=100" --only-show-errors -o none
+    az_tenace containerapp secret set -g "$GROUPE" -n "$api" --only-show-errors -o none \
+      --secrets "appinsights-connection-string=$connexion"
+    az_tenace containerapp update -g "$GROUPE" -n "$api" --only-show-errors -o none \
+      --set-env-vars APPLICATIONINSIGHTS_CONNECTION_STRING=secretref:appinsights-connection-string
+    # Nom relu sur l'application, jamais pris dans la réponse de `update` (INC-07).
+    nouvelle=$(nouvelle_revision "$api" "$precedente" "$AVEC_TRACES")
+    fqdn=$(az_tenace containerapp revision show -g "$GROUPE" -n "$api" --revision "$nouvelle" \
+      --query properties.fqdn -o tsv)
+    if ! attendre "https://$fqdn/health"; then
+      echo "Contrôle échoué : le trafic reste sur $precedente" >&2
+      exit 1
+    fi
+    az_tenace containerapp ingress traffic set -g "$GROUPE" -n "$api" \
+      --revision-weight "$nouvelle=100" --only-show-errors -o none
+    echo "   trafic : 100 % sur $nouvelle (précédente conservée : $precedente)"
   fi
-  az_tenace containerapp ingress traffic set -g "$GROUPE" -n "$api" \
-    --revision-weight "$nouvelle=100" --only-show-errors -o none
-  echo "   trafic : 100 % sur $nouvelle (précédente conservée : $precedente)"
 
   echo "4/4 Contrôle : un appel de démonstration (SC-01)"
   public=$(az_tenace containerapp show -g "$GROUPE" -n "$api" \

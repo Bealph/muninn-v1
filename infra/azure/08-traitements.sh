@@ -80,9 +80,11 @@ for env in "${environnements[@]}"; do
   az_tenace containerapp secret set -g "$GROUPE" -n "$api" --only-show-errors -o none \
     --secrets "database-url-traitements=postgresql://${base}_traitements:$mdp@$hote:5432/$base?sslmode=require"
   unset mdp
-  nouvelle=$(az_tenace containerapp update -g "$GROUPE" -n "$api" --only-show-errors \
-    --set-env-vars DATABASE_URL_TRAITEMENTS=secretref:database-url-traitements \
-    --query properties.latestRevisionName -o tsv)
+  az_tenace containerapp update -g "$GROUPE" -n "$api" --only-show-errors -o none \
+    --set-env-vars DATABASE_URL_TRAITEMENTS=secretref:database-url-traitements
+  # Nom relu sur l'application, jamais pris dans la réponse de `update` (INC-07).
+  nouvelle=$(nouvelle_revision "$api" "$precedente" \
+    "length(properties.template.containers[0].env[?name=='DATABASE_URL_TRAITEMENTS']) > \`0\`")
   fqdn=$(az_tenace containerapp revision show -g "$GROUPE" -n "$api" --revision "$nouvelle" \
     --query properties.fqdn -o tsv)
   if ! attendre "https://$fqdn/health"; then

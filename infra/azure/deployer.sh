@@ -57,14 +57,12 @@ livrer() { # application, fonction de contrôle
   az_tenace containerapp ingress traffic set -g "$GROUPE" -n "$app" \
     --revision-weight "$precedente=100" --only-show-errors -o none
 
-  # 2. Nouvelle révision.
-  nouvelle=$(az_tenace containerapp update -g "$GROUPE" -n "$app" --image "$image" \
-    --set-env-vars GIT_SHA="$sha" --only-show-errors \
-    --query properties.latestRevisionName -o tsv)
-  if [ "$nouvelle" = "$precedente" ]; then
-    echo "Aucune nouvelle révision créée pour $app" >&2
-    return 1
-  fi
+  # 2. Nouvelle révision. Son nom est relu sur l'application, jamais pris dans la réponse de
+  #    `update`, qui peut être périmée (INC-07) ; elle doit porter l'image livrée.
+  az_tenace containerapp update -g "$GROUPE" -n "$app" --image "$image" \
+    --set-env-vars GIT_SHA="$sha" --only-show-errors -o none
+  nouvelle=$(nouvelle_revision "$app" "$precedente" \
+    "properties.template.containers[0].image == '$image'") || return 1
   fqdn=$(az_tenace containerapp revision show -g "$GROUPE" -n "$app" --revision "$nouvelle" \
     --query properties.fqdn -o tsv)
   echo "   nouvelle révision $nouvelle"

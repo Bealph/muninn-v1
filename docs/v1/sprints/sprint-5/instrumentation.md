@@ -44,6 +44,16 @@ jetons, coût…) et un texte n'est gardé que si c'est un code court sans espac
 traces dans un exportateur en mémoire et le vérifie. Le fournisseur de traces est propre au module :
 Langfuse garde le sien.
 
+Les deux environnements partagent le composant `appi-muninn`. Le champ `cloud_RoleName` les
+distingue : `preproduction.muninn-api` ou `production.muninn-api`. Application Insights forme ce
+champ à partir de `service.namespace` et de `service.name`, et ignore
+`deployment.environment.name` : l'environnement est donc porté par `service.namespace`. Toutes
+les étapes d'un appel s'affichent dans Application Insights comme des dépendances
+(`dependencies`) d'une même opération (`operation_Id`).
+
+Vérifié le 23 octobre 2026 sur l'appel de contrôle de la préproduction : 5 étapes, toutes rattachées
+à la même opération. Les attributs se limitent à des codes et à des nombres.
+
 `telemetrie.py` entre dans l'empreinte de l'évaluation : le module est importé par l'agent, une
 modification relance donc V-08 en CI (test de garde existant).
 

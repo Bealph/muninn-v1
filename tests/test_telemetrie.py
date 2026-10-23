@@ -76,3 +76,12 @@ def test_les_traces_ne_portent_aucun_contenu(
             assert cle in telemetrie.ATTRIBUTS_AUTORISES, cle
             if isinstance(valeur, str):
                 assert CODE.fullmatch(valeur), (cle, valeur)
+
+
+def test_l_environnement_separe_les_traces(monkeypatch: pytest.MonkeyPatch) -> None:
+    # Application Insights forme le rôle avec l'espace de noms et le nom du service.
+    monkeypatch.setenv("ENVIRONMENT", "production")
+    attributs = telemetrie.ressource().attributes
+    assert (attributs["service.namespace"], attributs["service.name"]) == (
+        "production", "muninn-api"
+    )  # fmt: skip

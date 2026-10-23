@@ -69,6 +69,23 @@ def filtrer(attributs: dict[str, object]) -> dict[str, str | int | float | bool]
     return gardes
 
 
+def ressource() -> Resource:
+    """Identité du service dans les traces.
+
+    Application Insights ne reprend pas `deployment.environment.name` : son rôle (`cloud_RoleName`)
+    vaut `service.namespace` + « . » + `service.name` (exportateur, `_utils._get_cloud_role`).
+    L'environnement est donc posé en espace de noms : `production.muninn-api`, par exemple ;
+    c'est ce qui sépare la préproduction de la production dans le composant partagé.
+    """
+    environnement = os.environ.get("ENVIRONMENT", "local")
+    return Resource.create({
+        "service.name": "muninn-api",
+        "service.namespace": environnement,
+        "service.version": os.environ.get("GIT_SHA", "local"),
+        "deployment.environment.name": environnement,
+    })  # fmt: skip
+
+
 @lru_cache
 def traceur() -> Tracer | None:
     """Le traceur vers Application Insights, ou rien sans chaîne de connexion."""
@@ -80,14 +97,9 @@ def traceur() -> Tracer | None:
         AzureMonitorTraceExporter,
     )
 
-    ressource = Resource.create({
-        "service.name": "muninn-api",
-        "service.version": os.environ.get("GIT_SHA", "local"),
-        "deployment.environment.name": os.environ.get("ENVIRONMENT", "local"),
-    })  # fmt: skip
     # L'exportateur exige l'échantillonneur d'Application Insights (page du paquet) ;
     # tout est gardé.
-    fournisseur = TracerProvider(resource=ressource, sampler=ApplicationInsightsSampler(1.0))
+    fournisseur = TracerProvider(resource=ressource(), sampler=ApplicationInsightsSampler(1.0))
     fournisseur.add_span_processor(
         BatchSpanProcessor(AzureMonitorTraceExporter(connection_string=connexion))
     )

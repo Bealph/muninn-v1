@@ -18,6 +18,7 @@
 
 set -euo pipefail
 source "$(dirname "$0")/parametres.sh"
+source "$(dirname "$0")/reessai.sh"
 : "${LANGFUSE_PUBLIC_KEY:?Définir LANGFUSE_PUBLIC_KEY (sans l'afficher) avant de lancer le script.}"
 : "${LANGFUSE_SECRET_KEY:?Définir LANGFUSE_SECRET_KEY (sans l'afficher) avant de lancer le script.}"
 : "${LANGFUSE_EVAL_PUBLIC_KEY:?Définir LANGFUSE_EVAL_PUBLIC_KEY (projet d'évaluation).}"
@@ -52,10 +53,12 @@ for env in "${ENVIRONNEMENTS_APP[@]}"; do
     --revision-weight "$precedente=100" --only-show-errors -o none
   az containerapp secret set -g "$GROUPE" -n "$api" --only-show-errors -o none \
     --secrets "langfuse-public-key=$LANGFUSE_PUBLIC_KEY" "langfuse-secret-key=$LANGFUSE_SECRET_KEY"
-  nouvelle=$(az containerapp update -g "$GROUPE" -n "$api" --only-show-errors \
+  az containerapp update -g "$GROUPE" -n "$api" --only-show-errors -o none \
     --set-env-vars LANGFUSE_PUBLIC_KEY=secretref:langfuse-public-key \
-      LANGFUSE_SECRET_KEY=secretref:langfuse-secret-key LANGFUSE_BASE_URL="$URL_LANGFUSE" \
-    --query properties.latestRevisionName -o tsv)
+      LANGFUSE_SECRET_KEY=secretref:langfuse-secret-key LANGFUSE_BASE_URL="$URL_LANGFUSE"
+  # Nom relu sur l'application, jamais pris dans la réponse de `update` (INC-07).
+  nouvelle=$(nouvelle_revision "$api" "$precedente" \
+    "length(properties.template.containers[0].env[?name=='LANGFUSE_BASE_URL']) > \`0\`")
   fqdn=$(az containerapp revision show -g "$GROUPE" -n "$api" --revision "$nouvelle" \
     --query properties.fqdn -o tsv)
   if ! attendre "https://$fqdn/health"; then
