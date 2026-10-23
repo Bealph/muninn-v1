@@ -10,8 +10,8 @@ Signaux (D-83 ; phase 2, `03-observabilite.md`) :
 - latence (médiane et 95e centile) et coût ;
 - part « à vérifier » parmi les dossiers (AL-01) ;
 - garde-fous déclenchés, borne d'outils, corrections par champ, dossiers validés ;
-- part des dossiers dont la commune ou le code postal n'a pas pu être contrôlé (« non contrôlé »,
-  référentiels injoignables : SLO-10) ;
+- part des dossiers dont la commune ou le code postal n'a pas pu être contrôlé (« non contrôlé ») :
+  commune ambiguë que le serveur refuse de trancher (D-69), ou référentiels injoignables (SLO-10) ;
 - le dernier appel (identifiant opaque, scénario, issue, durée), pour retrouver sa trace (TB-6) ;
 - une série par heure, pour les tendances.
 """

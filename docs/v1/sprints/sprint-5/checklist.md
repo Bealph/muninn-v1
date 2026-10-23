@@ -96,7 +96,7 @@ Aucune nouvelle source de données externe : les référentiels du sprint 3 sont
 
 ### Étape 4 : le tableau de bord (V-10)
 
-- [ ] Écran « Qualité » : état du service en mots et en couleurs, puis les chiffres (latence, coût, refus, erreurs, part « à vérifier », corrections) ; période choisie ; aucune donnée personnelle.
+- [x] Écran « Qualité » : état du service en mots et en couleurs, puis les chiffres (latence, coût, refus, erreurs, part « à vérifier », corrections) ; période choisie ; aucune donnée personnelle. Preuve : `preuves/etape-4-ecran-qualite-production.png`, console de production, révision `9aa617b`, 23 octobre 2026, 12:37 UTC (9 appels sur 24 heures, état « pas assez d'appels pour juger »). Note : `ecran-qualite.md` (six choix à valider par le porteur, section 4). PR 183.
 - [ ] Classeur Azure Monitor (Workbook) : vue technique des traces, des journaux et des alertes, pour l'exploitant ; créé par un script relu, versionné.
 - [ ] Relu par un non-développeur : ce qu'il comprend seul est consigné ; les points flous sont corrigés.
 

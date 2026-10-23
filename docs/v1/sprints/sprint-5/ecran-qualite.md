@@ -89,7 +89,10 @@ tests/test_console_qualite.py tests/test_accessibilite.py"` (Docker requis).
 | `tests/test_console_qualite.py` | Écran rendu dans chaque état avec une API simulée, période, actualisation, graphique, pluriels |
 | `tests/test_accessibilite.py`   | axe-core, WCAG 2.2 AA, dans les quatre états de l'écran                                        |
 
-Résultat du 23 octobre 2026 : 38 tests passés, aucun échec. L'absence de débordement sur un écran
+Résultat du 23 octobre 2026 : 38 tests passés, aucun échec. En production (révision `9aa617b`),
+l'écran a été lu après un appel SC-01 : capture `preuves/etape-4-ecran-qualite-production.png`.
+Ce jour-là, la part « non contrôlé » (22 %) venait des deux appels SC-10 : commune ambiguë, que le
+serveur refuse de trancher (D-69). Le libellé de la carte a été précisé en conséquence. L'absence de débordement sur un écran
 de 390 px a été mesurée une fois à la main (largeur de la page égale à celle de l'écran), sans test
 automatique.
 
