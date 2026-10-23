@@ -1,0 +1,139 @@
+{
+  "date": "2026-10-23T10:24:01+00:00",
+  "composant": "appi-muninn",
+  "scenario": "SC-10",
+  "bilan": "2/2",
+  "tolerance_duree_ms": 5,
+  "lignes": [
+    {
+      "environnement": "preproduction",
+      "request_id": "7bbc4059-2330-4b0d-b18c-b49888ed08d0",
+      "operation_id": "be596540712a26236876ce35b0a6e0fc",
+      "conforme": true,
+      "ecarts": [],
+      "arbre": {
+        "controle_entree": "appel",
+        "qualification": "appel",
+        "outil": "agent",
+        "agent": "appel",
+        "controles_serveur": "appel",
+        "appel": null
+      },
+      "roles": [
+        "preproduction.muninn-api"
+      ],
+      "durees": {
+        "appel": {
+          "steps_ms": 4311,
+          "trace_ms": 4311
+        },
+        "controle_entree": {
+          "steps_ms": 2,
+          "trace_ms": 2
+        },
+        "qualification": {
+          "steps_ms": 907,
+          "trace_ms": 907
+        },
+        "agent": {
+          "steps_ms": 2760,
+          "trace_ms": 2760
+        },
+        "outil": {
+          "steps_ms": 176,
+          "trace_ms": 176
+        },
+        "controles_serveur": {
+          "steps_ms": 120,
+          "trace_ms": 120
+        }
+      },
+      "attributs_vus": [
+        "muninn.a_verifier",
+        "muninn.borne",
+        "muninn.categorie",
+        "muninn.cout_micro_eur",
+        "muninn.garde_fous",
+        "muninn.issue",
+        "muninn.jetons",
+        "muninn.motifs",
+        "muninn.outil",
+        "muninn.outils",
+        "muninn.regle",
+        "muninn.request_id",
+        "muninn.resultat",
+        "muninn.route",
+        "muninn.scenario_id",
+        "muninn.securite",
+        "muninn.statut",
+        "muninn.tentatives"
+      ],
+      "git_sha": "8d48d0e70fa27c51ba3e16b59df1c4e923ff641d"
+    },
+    {
+      "environnement": "production",
+      "request_id": "fe664903-63e1-4052-bc46-8a99622960db",
+      "operation_id": "4412f32757c30e919ed83aefc33f0de0",
+      "conforme": true,
+      "ecarts": [],
+      "arbre": {
+        "controle_entree": "appel",
+        "qualification": "appel",
+        "outil": "agent",
+        "agent": "appel",
+        "controles_serveur": "appel",
+        "appel": null
+      },
+      "roles": [
+        "production.muninn-api"
+      ],
+      "durees": {
+        "appel": {
+          "steps_ms": 3766,
+          "trace_ms": 3766
+        },
+        "controle_entree": {
+          "steps_ms": 2,
+          "trace_ms": 2
+        },
+        "qualification": {
+          "steps_ms": 805,
+          "trace_ms": 805
+        },
+        "agent": {
+          "steps_ms": 2324,
+          "trace_ms": 2324
+        },
+        "outil": {
+          "steps_ms": 152,
+          "trace_ms": 152
+        },
+        "controles_serveur": {
+          "steps_ms": 117,
+          "trace_ms": 116
+        }
+      },
+      "attributs_vus": [
+        "muninn.a_verifier",
+        "muninn.borne",
+        "muninn.categorie",
+        "muninn.cout_micro_eur",
+        "muninn.garde_fous",
+        "muninn.issue",
+        "muninn.jetons",
+        "muninn.motifs",
+        "muninn.outil",
+        "muninn.outils",
+        "muninn.regle",
+        "muninn.request_id",
+        "muninn.resultat",
+        "muninn.route",
+        "muninn.scenario_id",
+        "muninn.securite",
+        "muninn.statut",
+        "muninn.tentatives"
+      ],
+      "git_sha": "8d48d0e70fa27c51ba3e16b59df1c4e923ff641d"
+    }
+  ]
+}
