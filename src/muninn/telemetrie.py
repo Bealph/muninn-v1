@@ -7,9 +7,10 @@ Un même mécanisme, `etape(nom, **attributs)`, sert à deux choses :
    l'écran « Démonstration » (`collecte()`).
 
 Aucun contenu dans un signal (OB-1) : les attributs passent par une liste blanche (OB-2) ; une
-valeur texte n'est gardée que si c'est un code court (`[a-z0-9_.-]`, 40 caractères au plus).
+valeur texte n'est gardée que si c'est un code court (`[a-z0-9_.,-]`, 80 caractères au plus).
 Le fournisseur de traces est propre au module, jamais enregistré comme fournisseur global :
-Langfuse garde le sien (V-13).
+Langfuse garde le sien (V-13). Le contexte global non plus n'est pas partagé : la parenté des
+étapes suit sa propre variable de contexte (voir `_ouvrir`).
 """
 
 import atexit
@@ -23,10 +24,12 @@ from contextvars import ContextVar
 from dataclasses import dataclass, field
 from functools import lru_cache
 
+from opentelemetry import context as otel_context
+from opentelemetry import trace as otel_trace
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.trace import Status, StatusCode, Tracer
+from opentelemetry.trace import Span, Status, StatusCode, Tracer
 
 journal = logging.getLogger(__name__)
 
@@ -53,6 +56,7 @@ class Etape:
 
 _collecte: ContextVar[tuple[float, list[Etape]] | None] = ContextVar("collecte", default=None)
 _niveau: ContextVar[int] = ContextVar("niveau", default=0)
+_span: ContextVar[Span | None] = ContextVar("span", default=None)
 
 
 def filtrer(attributs: dict[str, object]) -> dict[str, str | int | float | bool]:
@@ -118,16 +122,34 @@ def collecte() -> Iterator[list[Etape]]:
         _collecte.reset(jeton)
 
 
+def _ouvrir(t: Tracer, nom: str, debut_ns: int) -> Span | None:
+    """Ouvre le span d'une étape, enfant de l'étape en cours ou racine.
+
+    Le contexte OpenTelemetry global n'est ni lu ni modifié : Langfuse y place ses observations,
+    et une étape qui s'y rattacherait aurait pour parent un span absent d'Application Insights
+    (arbre cassé), tandis que les observations de Langfuse deviendraient filles des étapes (V-13).
+    """
+    try:
+        parent = _span.get()
+        vide = otel_context.Context()
+        ctx = otel_trace.set_span_in_context(parent, vide) if parent is not None else vide
+        return t.start_span(nom, context=ctx, start_time=debut_ns)
+    except Exception as erreur:  # noqa: BLE001 : une trace ne fait jamais échouer un appel
+        journal.warning("telemetrie.echec erreur=%s", type(erreur).__name__)
+        return None
+
+
 @contextmanager
 def etape(nom: str, **attributs: object) -> Iterator[dict[str, object]]:
     """Une étape mesurée ; le bloc peut compléter ses attributs par le dictionnaire rendu."""
     complements: dict[str, object] = {}
     debut = time.perf_counter()
+    debut_ns = time.time_ns()
     niveau = _niveau.get()
     jeton_niveau = _niveau.set(niveau + 1)
     t = traceur()
-    span_ctx = t.start_as_current_span(nom) if t is not None else None
-    span = span_ctx.__enter__() if span_ctx is not None else None
+    span = _ouvrir(t, nom, debut_ns) if t is not None else None
+    jeton_span = _span.set(span) if span is not None else None
     statut = "ok"
     try:
         yield complements
@@ -136,14 +158,16 @@ def etape(nom: str, **attributs: object) -> Iterator[dict[str, object]]:
         raise
     finally:
         _niveau.reset(jeton_niveau)
+        if jeton_span is not None:
+            _span.reset(jeton_span)
         gardes = filtrer(attributs | complements)
         statut = str(complements.get("statut_etape", statut))
-        if span is not None and span_ctx is not None:
+        if span is not None:
             try:
                 span.set_attributes(gardes)
                 if statut == "erreur":
                     span.set_status(Status(StatusCode.ERROR))
-                span_ctx.__exit__(None, None, None)
+                span.end()
             except Exception as erreur:  # noqa: BLE001 : une trace ne fait jamais échouer un appel
                 journal.warning("telemetrie.echec erreur=%s", type(erreur).__name__)
         actif = _collecte.get()

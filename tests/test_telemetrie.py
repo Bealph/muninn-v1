@@ -70,6 +70,10 @@ def test_les_traces_ne_portent_aucun_contenu(
     assert {"appel", "controle_entree", "qualification", "agent", "controles_serveur"} <= noms
     racine = next(s for s in spans if s.name == "appel")
     assert all(s.context.trace_id == racine.context.trace_id for s in spans)
+    # Arbre complet : chaque étape a pour parent une étape exportée, la racine n'en a pas.
+    ids = {s.context.span_id for s in spans}
+    assert racine.parent is None
+    assert all(s.parent is not None and s.parent.span_id in ids for s in spans if s is not racine)
     # Un attribut texte est un code sans espace : il ne peut pas reprendre un passage de l'appel.
     for s in spans:
         for cle, valeur in (s.attributes or {}).items():
@@ -85,3 +89,25 @@ def test_l_environnement_separe_les_traces(monkeypatch: pytest.MonkeyPatch) -> N
     assert (attributs["service.namespace"], attributs["service.name"]) == (
         "production", "muninn-api"
     )  # fmt: skip
+
+
+def test_les_etapes_ignorent_le_contexte_global(traces: InMemorySpanExporter) -> None:
+    # Langfuse place ses observations dans le contexte global (V-13) : une étape ne s'y rattache
+    # pas, et une observation de Langfuse ne devient pas fille d'une étape.
+    exportateur = InMemorySpanExporter()
+    autre = TracerProvider()
+    autre.add_span_processor(SimpleSpanProcessor(exportateur))
+    langfuse = autre.get_tracer("langfuse")
+    with telemetrie.etape("appel"), langfuse.start_as_current_span("observation"):
+        with telemetrie.etape("agent"), langfuse.start_as_current_span("generation"):
+            with telemetrie.etape("outil"):
+                pass
+    nos = {s.name: s for s in traces.get_finished_spans()}
+    leurs = {s.name: s for s in exportateur.get_finished_spans()}
+    assert nos["appel"].parent is None
+    assert nos["agent"].parent is not None and nos["outil"].parent is not None
+    assert nos["agent"].parent.span_id == nos["appel"].context.span_id
+    assert nos["outil"].parent.span_id == nos["agent"].context.span_id
+    assert leurs["observation"].parent is None
+    assert leurs["generation"].parent is not None
+    assert leurs["generation"].parent.span_id == leurs["observation"].context.span_id

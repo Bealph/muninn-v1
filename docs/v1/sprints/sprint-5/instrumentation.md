@@ -51,8 +51,12 @@ champ à partir de `service.namespace` et de `service.name`, et ignore
 les étapes d'un appel s'affichent dans Application Insights comme des dépendances
 (`dependencies`) d'une même opération (`operation_Id`).
 
-Vérifié le 23 octobre 2026 sur l'appel de contrôle de la préproduction : 5 étapes, toutes rattachées
-à la même opération. Les attributs se limitent à des codes et à des nombres.
+La parenté des étapes suit sa propre variable de contexte. Le contexte OpenTelemetry global, où
+Langfuse place ses observations, n'est ni lu ni modifié. Le 23 octobre 2026, les premières traces
+réelles ont montré pourquoi : les étapes s'y rattachaient. Dans Application Insights, elles
+pointaient alors vers des parents absents, ce qui cassait l'arbre d'un appel, et les observations
+de Langfuse devenaient filles des étapes, contrairement à V-13. Un test simule désormais une
+observation de Langfuse ouverte au milieu d'un appel.
 
 `telemetrie.py` entre dans l'empreinte de l'évaluation : le module est importé par l'agent, une
 modification relance donc V-08 en CI (test de garde existant).
