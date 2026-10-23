@@ -58,8 +58,11 @@ programme Windows, ne lit pas `/tmp`.
   paramètres déclarés pour chaque usage, requêtes d'un appel gardées contre un identifiant vide
   (sans garde, `Log_s has ""` rendrait tout le journal), modèle stable et ASCII.
 
-Ce qui reste à voir à l'écran, après le déploiement par le porteur : l'affichage réel des
-tableaux et des paramètres dans le portail.
+Déploiement par le porteur le 23 octobre 2026, 16:04 UTC : `10-classeur.sh`, validation puis
+création du classeur `71e28fe0-f97a-54ea-a0e9-2efb76e9bd8d`. Relu ensuite en lecture seule :
+nom « Muninn, exploitation », `kind` « shared », France Central, étiquette `projet=muninn`,
+source `log-muninn` ; contenu relu par l'API REST (`canFetchContent=true`), identique à celui que
+construit le dépôt (14 éléments). L'affichage dans le portail reste à regarder par le porteur.
 
 ## 4. Ce que le classeur a déjà révélé
 
@@ -69,6 +72,12 @@ tableaux et des paramètres dans le portail.
 24 heures. Les traces arrivaient malgré tout (réponses 200). Corrigé dans la même PR : le
 fournisseur de traces est passé à l'exportateur, et le journal HTTP d'Azure est relevé au niveau
 WARNING (`src/muninn/telemetrie.py`, test `test_exportateur_relie_a_notre_fournisseur_et_journal_http_muet`).
+
+Vérifié après la livraison (révision `d9c2f81`, un appel SC-01 à 16:01 UTC) : 5 étapes reçues,
+aucune erreur de l'exportateur, aucune ligne du journal HTTP. Reste, à chaque démarrage d'une
+révision, deux lignes du journal HTTP pour le jeton de l'identité managée, émises avant le premier
+appel qui relève le niveau du journal : dette mineure, non corrigée (toucher `telemetrie.py`
+relance l'évaluation V-08).
 
 Observation non traitée : la table `AppDependencies` est conservée 90 jours, contre 30 pour le
 reste de l'espace. La facturation de cette rétention n'a pas été vérifiée.
