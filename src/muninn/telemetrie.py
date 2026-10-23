@@ -104,9 +104,16 @@ def traceur() -> Tracer | None:
     # L'exportateur exige l'échantillonneur d'Application Insights (page du paquet) ;
     # tout est gardé.
     fournisseur = TracerProvider(resource=ressource(), sampler=ApplicationInsightsSampler(1.0))
-    fournisseur.add_span_processor(
-        BatchSpanProcessor(AzureMonitorTraceExporter(connection_string=connexion))
+    # Le fournisseur est passé à l'exportateur : sans lui, il cherche le fournisseur global,
+    # que ce module n'enregistre pas (V-13), et journalise une erreur à chaque envoi
+    # (« Failed to derive Resource from Tracer Provider », 44 fois le 23 octobre 2026).
+    exportateur = AzureMonitorTraceExporter(
+        connection_string=connexion, tracer_provider=fournisseur
     )
+    fournisseur.add_span_processor(BatchSpanProcessor(exportateur))
+    # Le client HTTP d'Azure journalise chaque envoi, en-têtes compris, au niveau INFO : 23 % des
+    # octets des journaux de l'application le 23 octobre, pour aucune information utile.
+    logging.getLogger("azure.core.pipeline.policies.http_logging_policy").setLevel(logging.WARNING)
     atexit.register(fournisseur.shutdown)
     return fournisseur.get_tracer("muninn")
 

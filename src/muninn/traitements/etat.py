@@ -42,6 +42,7 @@ class Regle(BaseModel):
     explication: str
     volume: int
     unite_volume: str
+    unite_volume_singulier: str
 
 
 class Episode(BaseModel):
@@ -90,6 +91,13 @@ def _niveau(volume: int, valeur: float | None, seuil: float) -> Niveau:
     return "alerte" if valeur > seuil else "ok"
 
 
+def _compte(n: int, total: int, part: float | None) -> str:
+    """« 25 % (5 sur 20) » ; sous le volume minimal, les seuls nombres : un pourcentage sur un
+    dossier (« 100 % ») alarme sans rien dire."""
+    nombre = f"{n} sur {total} dossier{'s' if total > 1 else ''}"
+    return nombre if total < MINIMUM else f"{_pourcent(part)} ({n} sur {total})"
+
+
 def regles(x: Mesure) -> list[Regle]:
     """Les trois règles de D-83 jugées sur une mesure."""
     part = x.a_verifier / x.dossiers if x.dossiers else None
@@ -99,32 +107,33 @@ def regles(x: Mesure) -> list[Regle]:
             code="AL-01", surveille="Dossiers à vérifier par l'artisan",
             court="dossiers à vérifier",
             seuil=f"au plus 20 %, sur {MINIMUM} dossiers au moins",
-            valeur=f"{_pourcent(part)} ({x.a_verifier} sur {x.dossiers})",
+            valeur=_compte(x.a_verifier, x.dossiers, part),
             niveau=_niveau(x.dossiers, part, 0.20),
             explication="Muninn signale plus de doutes que prévu : appels peu clairs, "
             "communes de même nom, ou IA moins fiable.",
-            volume=x.dossiers, unite_volume="dossiers",
+            volume=x.dossiers, unite_volume="dossiers", unite_volume_singulier="dossier",
         ),
         Regle(
             code="AL-04", surveille="Brouillons de secours (l'IA n'a pas répondu)",
             court="brouillons de secours",
             seuil=f"au plus 5 %, sur {MINIMUM} dossiers au moins",
-            valeur=f"{_pourcent(secours)} ({x.secours} sur {x.dossiers})",
+            valeur=_compte(x.secours, x.dossiers, secours),
             niveau=_niveau(x.dossiers, secours, 0.05),
-            explication="L'IA ne répond plus : les dossiers sont préparés sans elle, et "
+            explication="L'IA ne répond plus : les dossiers sont préparés sans elle, donc "
             "moins complets.",
-            volume=x.dossiers, unite_volume="dossiers",
+            volume=x.dossiers, unite_volume="dossiers", unite_volume_singulier="dossier",
         ),
         Regle(
             code="AL-16",
-            surveille="Temps de préparation du dossier par l'IA (95 sur 100 plus rapides)",
-            court="temps de préparation",
+            surveille="Temps de travail de l'IA sur un dossier (95 dossiers sur 100)",
+            court="temps de travail de l'IA",
             seuil=f"au plus 20 s, sur {MINIMUM} dossiers au moins",
             valeur=_secondes(x.p95_ms),
             niveau=_niveau(x.extractions, None if x.p95_ms is None else x.p95_ms / 1000, 20),
-            explication="L'artisan attend son dossier plus de 20 s dans plus d'un cas sur "
-            "vingt.",
+            explication="L'IA met plus de 20 s à remplir un dossier, plus d'une fois sur "
+            "vingt : l'artisan attend.",
             volume=x.extractions, unite_volume="dossiers mesurés",
+            unite_volume_singulier="dossier mesuré",
         ),
     ]  # fmt: skip
 
@@ -144,20 +153,27 @@ def evaluer(
 
     alertes = [r for r in rs if r.niveau == "alerte"]
     if alertes:
-        noms = ", ".join(f"{r.court} ({r.code})" for r in alertes)
+        noms = ", ".join(r.court for r in alertes)
         return etat(
             "alerte", "Alerte",
-            f"Seuil dépassé sur la dernière heure : {noms}. Prévenir l'exploitant de Muninn : "
-            "il suit la procédure prévue pour cette alerte.",
+            f"Seuil dépassé sur les 60 dernières minutes : {noms}. Prévenir la personne qui "
+            "gère Muninn : elle suit la procédure prévue pour cette alerte.",
         )  # fmt: skip
     non_jugees = [r for r in rs if r.niveau == "insuffisant"]
     if len(non_jugees) == len(rs):
+        recu = f"{m.dossiers} dossier{'s' if m.dossiers > 1 else ''}"
+        if not historique:
+            return etat(
+                "insuffisant", "Aucun problème détecté depuis 24 heures",
+                f"Trop peu d'appels dans les 60 dernières minutes ({recu}, il en faut "
+                f"{MINIMUM}) pour un contrôle complet. Rien à faire.",
+            )  # fmt: skip
         return etat(
             "insuffisant", "Pas assez d'appels pour juger",
-            f"{m.dossiers} dossier{'s' if m.dossiers > 1 else ''} sur la dernière heure, il en "
-            f"faut {MINIMUM} pour juger. Les chiffres ci-dessous restent exacts.",
+            f"{recu} dans les 60 dernières minutes, il en faut {MINIMUM} pour juger. Une "
+            "alerte a eu lieu dans les 24 heures : voir plus bas.",
         )  # fmt: skip
-    phrase = "Aucun seuil dépassé sur la dernière heure."
+    phrase = "Aucun seuil dépassé sur les 60 dernières minutes. Rien à faire."
     if non_jugees:
         phrase += " Non jugé faute d'appels : " + ", ".join(r.court for r in non_jugees) + "."
     return etat("ok", "Aucun seuil dépassé", phrase)

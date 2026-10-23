@@ -121,6 +121,32 @@ la carte a été précisé en conséquence.
 L'absence de débordement sur un écran de 390 px a été mesurée une fois à la main (largeur de la
 page égale à celle de l'écran), sans test automatique.
 
-Relecture par un non-développeur : à faire (dernière case de l'étape 4). Une première relecture par
-l'agent `relecteur-technique-fr` a fait reformuler l'écran : codes d'alerte remplacés par leur
-sens, jargon des protections traduit, action à suivre dite en clair.
+## 7. Relecture par un non-développeur
+
+Deux relectures, le 23 octobre 2026 :
+
+1. L'agent `relecteur-technique-fr`, sur le gabarit et les libellés : codes d'alerte remplacés par
+   leur sens, jargon des protections traduit, action à suivre dite en clair.
+2. **Relecture simulée**, à la demande du porteur, qui a jugé sans importance l'identité du lecteur
+   pourvu qu'il ne soit pas développeur : un agent a joué un artisan plombier sans connaissance
+   informatique, devant la seule capture de l'écran de production (révision `f4681c5`), sans le
+   code ni la documentation. Ce n'est pas une personne réelle.
+
+Ce que le lecteur a compris seul : « Aucune alerte sur les dernières 24 heures », les champs
+corrigés, le coût de l'IA, les appels écartés. Ce qui l'a gêné, et ce qui a été corrigé :
+
+| Constat du lecteur                                                                       | Correction                                                                                                                 |
+| ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| « Pas assez d'appels pour juger » : aucun verdict, rien sur quoi faire                   | Sans alerte sur 24 heures : « Aucun problème détecté depuis 24 heures… Rien à faire »                                      |
+| « 100 % » à côté de « au plus 20 % », sur un seul dossier : alarme                       | Sous 20 dossiers, les nombres seuls (« 1 sur 1 dossier »), sans pourcentage                                                |
+| Des barres au-dessus de la ligne rouge, et pourtant « aucune alerte »                    | Les heures de moins de 20 dossiers sont grisées et la légende le dit                                                       |
+| Heures en « UTC » : est-ce l'heure de chez moi ?                                         | Heure de Paris partout, dite comme telle                                                                                   |
+| Codes AL-xx, identifiant, version, « exploitant » mêlés au reste                         | Repliés dans « Détails pour le support technique » ; le bandeau dit « la personne qui gère Muninn »                        |
+| Deux temps (3,3 s et 1,7 s) sous des libellés presque identiques                         | « Temps pour préparer un dossier » (fin de l'appel au dossier prêt) et « Temps de travail de l'IA »                        |
+| « heure glissante », « inexploitable », « injoignable », « budget Azure », « 0 message » | « 60 dernières minutes », « inutilisable », « momentanément indisponible », « budget mensuel du projet », message expliqué |
+| « Information que l'appelant n'a pas donnée » : l'IA invente-t-elle ?                    | « Information non dite par le client, retirée avant l'envoi du dossier »                                                   |
+| « appels de démonstration » : sont-ce mes vrais clients ?                                | « des appels de démonstration joués par l'équipe, pas de vrais clients »                                                   |
+| « 1 dossiers mesurés »                                                                   | Accord au singulier                                                                                                        |
+
+Restent ouverts : un numéro à appeler en cas d'alerte (pas de contact défini pour la V1) et la
+question « qui paie les 60 € » (le budget est celui du projet de certification).

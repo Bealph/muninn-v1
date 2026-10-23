@@ -6,6 +6,7 @@ import pytest
 
 from muninn.traitements.etat import evaluer
 from muninn.traitements.metriques import Metriques
+from outils_qualite import EPISODE
 
 
 def metriques(**valeurs: Any) -> Metriques:
@@ -34,14 +35,27 @@ def niveaux(m: Metriques) -> dict[str, str]:
 
 
 def test_aucun_appel_pas_assez_pour_juger() -> None:
+    # Sans alerte sur 24 heures : un verdict lisible, rien à faire.
     e = evaluer(metriques())
-    assert e.niveau == "insuffisant" and e.titre == "Pas assez d'appels pour juger"
+    assert e.niveau == "insuffisant" and e.titre == "Aucun problème détecté depuis 24 heures"
+    assert e.phrase.endswith("Rien à faire.")
     assert set(niveaux(metriques()).values()) == {"insuffisant"}
+    # Avec une alerte dans les 24 heures, l'écran ne rassure pas à tort.
+    e = evaluer(metriques(), historique=[EPISODE])
+    assert e.titre == "Pas assez d'appels pour juger" and "voir plus bas" in e.phrase
+
+
+def test_pas_de_pourcentage_sous_le_volume_minimal() -> None:
+    # « 100 % » sur un dossier alarme sans rien dire : les seuls nombres.
+    r = evaluer(metriques(total=1, dossiers=1, a_verifier=1)).regles[0]
+    assert r.valeur == "1 sur 1 dossier"
+    r = evaluer(metriques(total=20, dossiers=20, a_verifier=5)).regles[0]
+    assert r.valeur == "25 % (5 sur 20)"
 
 
 def test_etat_gris_dit_combien_il_manque() -> None:
     e = evaluer(metriques(total=14, dossiers=12, messages=2))
-    assert e.phrase.startswith("12 dossiers sur la dernière heure, il en faut 20 pour juger.")
+    assert "(12 dossiers, il en faut 20) pour un contrôle complet" in e.phrase
     assert [(r.volume, r.unite_volume) for r in e.regles] == [
         (12, "dossiers"), (12, "dossiers"), (12, "dossiers mesurés")
     ]  # fmt: skip
@@ -96,8 +110,9 @@ def test_alerte_nomme_les_regles_depassees() -> None:
     m = metriques(total=20, dossiers=20, a_verifier=10, secours=5, latence_p95_ms=5000)
     e = evaluer(m)
     assert e.niveau == "alerte"
-    assert "dossiers à vérifier (AL-01), brouillons de secours (AL-04)" in e.phrase
-    assert "AL-16" not in e.phrase and "Prévenir l'exploitant" in e.phrase
+    assert "dossiers à vérifier, brouillons de secours." in e.phrase
+    assert "temps de travail" not in e.phrase and "AL-" not in e.phrase
+    assert "Prévenir la personne qui gère Muninn" in e.phrase
 
 
 def test_regle_non_jugee_dite_meme_si_rien_ne_depasse() -> None:
@@ -106,4 +121,4 @@ def test_regle_non_jugee_dite_meme_si_rien_ne_depasse() -> None:
     m = metriques(total=25, dossiers=25, a_verifier=1, latence_p95_ms=5000, extractions=15)
     e = evaluer(m)
     assert e.niveau == "ok"
-    assert e.phrase.endswith("Non jugé faute d'appels : temps de préparation.")
+    assert e.phrase.endswith("Non jugé faute d'appels : temps de travail de l'IA.")

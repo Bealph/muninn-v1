@@ -5,10 +5,11 @@ La console ne parle qu'à l'API, jamais directement au LLM.
 
 import json
 from collections.abc import Callable, Iterator
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, datetime, timedelta, tzinfo
 from pathlib import Path
 from typing import Annotated, Any
 from urllib.parse import quote
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import httpx
 from fastapi import Depends, FastAPI, Form, Query, Request
@@ -37,18 +38,35 @@ def date_lisible(valeur: str) -> str:
 gabarits.env.filters["date_lisible"] = date_lisible
 
 
-def heure_lisible(valeur: str) -> str:
-    """« 14:45 UTC » pour un instant du jour même, sinon « 22/10 à 14:45 UTC »."""
+def _paris() -> tzinfo:
+    """Le fuseau de Paris ; UTC si la base des fuseaux manque (l'image en a une)."""
     try:
-        instant = datetime.fromisoformat(valeur).astimezone(UTC)
+        return ZoneInfo("Europe/Paris")
+    except ZoneInfoNotFoundError:
+        return UTC
+
+
+def heure_lisible(valeur: str) -> str:
+    """En heure de Paris : « 14:45 » pour un instant du jour même, sinon « 22/10 à 14:45 »."""
+    try:
+        instant = datetime.fromisoformat(valeur).astimezone(_paris())
     except (TypeError, ValueError):
         return str(valeur)
-    if instant.date() == datetime.now(UTC).date():
-        return f"{instant:%H:%M} UTC"
-    return f"{instant:%d/%m à %H:%M} UTC"
+    if instant.date() == datetime.now(_paris()).date():
+        return f"{instant:%H:%M}"
+    return f"{instant:%d/%m à %H:%M}"
+
+
+def date_paris(valeur: str) -> str:
+    """« 23/10/2026 à 17:11 », en heure de Paris."""
+    try:
+        return f"{datetime.fromisoformat(valeur).astimezone(_paris()):%d/%m/%Y à %H:%M}"
+    except (TypeError, ValueError):
+        return str(valeur)
 
 
 gabarits.env.filters["heure_lisible"] = heure_lisible
+gabarits.env.filters["date_paris"] = date_paris
 gabarits.env.globals["minimum"] = MINIMUM
 
 # Champs que l'artisan peut corriger avant de valider (V-09, CA-5), dans l'ordre de l'écran.
@@ -559,7 +577,7 @@ NOMS_CHAMPS = {
 NOMS_GARDE_FOUS = {
     "gaz": "Odeur de gaz : orientation vers les secours",
     "sante": "Danger pour la santé : orientation vers les secours",
-    "invention": "Information que l'appelant n'a pas donnée, retirée du dossier",
+    "invention": "Information non dite par le client, retirée avant l'envoi du dossier",
     "detournement": "Tentative de manipuler l'assistant, bloquée",
     "fuite": "Consigne interne de l'assistant qui allait apparaître, retirée",
     "hors_role": "Réponse sans rapport avec le dépannage, retirée",
@@ -585,6 +603,7 @@ def _graphique(
     if not serie:
         return None
     fin = (maintenant or datetime.now(UTC)).replace(minute=0, second=0, microsecond=0)
+    paris = _paris()
     debut = fin - timedelta(hours=heures - 1)
     par_heure = {datetime.fromisoformat(p["heure"]).astimezone(UTC): p for p in serie}
     par_heure = {h: p for h, p in par_heure.items() if debut <= h <= fin}
@@ -599,21 +618,25 @@ def _graphique(
         if p is None or not p["total"]:
             continue
         part = p["a_verifier"] / p["dossiers"] if p.get("dossiers") else None
+        locale = heure.astimezone(paris)
         barres.append({
             "x": round(i * largeur, 2), "w": round(max(largeur * 0.85, 0.6), 2),
             "h_total": round(p["total"] / haut * 120, 1),
             "h_verifier": round(p["a_verifier"] / haut * 120, 1),
             "h_part": None if part is None else round(part * 120, 1),
-            "titre": f"{heure:%d/%m à %H:00} UTC : {pluriel(p['total'], 'appel', 'appels')}, "
+            "faible": (p.get("dossiers") or 0) < MINIMUM,
+            "titre": f"{locale:%d/%m à %H:00} : {pluriel(p['total'], 'appel', 'appels')}, "
             f"{pluriel(p['a_verifier'], 'dossier à vérifier', 'dossiers à vérifier')}",
-            "titre_part": "" if part is None else f"{heure:%d/%m à %H:00} UTC : "
-            f"{part * 100:.0f} % des dossiers à vérifier ({p['a_verifier']} sur {p['dossiers']})",
+            "titre_part": "" if part is None else f"{locale:%d/%m à %H:00} : "
+            f"{part * 100:.0f} % des dossiers à vérifier ({p['a_verifier']} sur {p['dossiers']})"
+            + (" ; trop peu de dossiers pour conclure" if p["dossiers"] < MINIMUM else ""),
         })  # fmt: skip
     if not barres:
         return None
     return {
         "barres": barres, "haut": haut,
-        "debut": f"{debut:%d/%m à %H:00}", "fin": f"{fin:%d/%m à %H:59}",
+        "debut": f"{debut.astimezone(paris):%d/%m à %H:00}",
+        "fin": f"{fin.astimezone(paris):%d/%m à %H:59}",
     }  # fmt: skip
 
 

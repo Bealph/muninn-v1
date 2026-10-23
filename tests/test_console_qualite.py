@@ -11,7 +11,7 @@ from typing import Any
 import httpx
 import pytest
 
-from muninn.console.main import _graphique, pluriel
+from muninn.console.main import _graphique, heure_lisible, pluriel
 from outils_qualite import DERNIER_ID, EPISODE, qualite, rendre_qualite
 
 
@@ -50,12 +50,12 @@ def test_alerte_en_rouge_avec_la_regle(ecran: Ecran) -> None:
     html = ecran(qualite(a_verifier=10, part_a_verifier=0.4))
     assert 'class="etat alerte"' in html and "Alerte" in html
     assert "AL-01" in html and "Seuil dépassé" in html
-    assert "Prévenir l'exploitant" in html
+    assert "Prévenir la personne qui gère Muninn" in html
 
 
 def test_pas_assez_d_appels(ecran: Ecran) -> None:
     html = ecran(qualite(total=5, dossiers=4, a_verifier=3, part_a_verifier=0.75, refus=0))
-    assert 'class="etat insuffisant"' in html and "Pas assez d'appels pour juger" in html
+    assert 'class="etat insuffisant"' in html and "Aucun problème détecté depuis 24 heures" in html
     # Les trois quarts « à vérifier », mais sur 4 dossiers : pas d'alerte.
     assert "Seuil dépassé" not in html
 
@@ -94,7 +94,8 @@ def test_graphique_garde_la_place_des_heures_creuses() -> None:
     # est ignorée, y compris pour l'échelle (la plus haute barre compte 4 appels).
     assert [b["x"] for b in g["barres"]] == [450.0, 575.0]
     assert g["haut"] == 4
-    assert (g["debut"], g["fin"]) == ("22/10 à 11:00", "23/10 à 10:59")
+    # Heure de Paris : UTC+2 le 23 octobre 2026 (heure d'été).
+    assert (g["debut"], g["fin"]) == ("22/10 à 13:00", "23/10 à 12:59")
     assert _graphique(serie[2:], 24, maintenant) is None
 
 
@@ -106,22 +107,23 @@ def test_pluriel_a_la_francaise() -> None:
 
 def test_etat_gris_dit_ce_qui_manque(ecran: Ecran) -> None:
     html = ecran(qualite(total=5, dossiers=4, a_verifier=1, part_a_verifier=0.25, refus=0))
-    assert "4 dossiers sur la dernière heure, il en faut 20 pour juger" in html
+    assert "(4 dossiers, il en faut 20) pour un contrôle complet" in html
     assert "4 dossiers sur les 20 nécessaires" in html and "4 dossiers mesurés sur les 20" in html
 
 
 def test_echeance_du_jugement_affichee_si_juge(ecran: Ecran) -> None:
     juge = datetime.now(UTC).replace(hour=23, minute=45, second=0, microsecond=0)
     html = ecran(qualite(juge=juge))
-    assert "l'état ne pourra plus être jugé après 23:45 UTC" in html
-    assert "Calculé le 23/10/2026 à 14:00 UTC" in html
+    attendu = heure_lisible(juge.isoformat())  # date ajoutée si ce n'est plus le jour même
+    assert f"l'état ne pourra plus être jugé après {attendu} (heure de Paris)" in html
+    assert "Calculé le 23/10/2026 à 16:00 (heure de Paris)" in html
 
 
 def test_historique_des_alertes(ecran: Ecran) -> None:
     html = ecran(qualite(episodes=[EPISODE]))
     assert "Alertes des dernières 24 heures" in html
-    assert "22/10 à 14:05 UTC" in html and "22/10 à 14:50 UTC" in html
-    assert "Dossiers à vérifier (AL-01)" in html and "45 % (10 sur 22)" in html
+    assert "22/10 à 16:05" in html and "22/10 à 16:50" in html  # heure de Paris
+    assert "<td>Dossiers à vérifier</td>" in html and "45 % (10 sur 22)" in html
     assert "Aucune alerte sur les dernières 24 heures" in ecran(qualite())
 
 
@@ -134,7 +136,7 @@ def test_cartes_alignees_sur_les_alertes(ecran: Ecran) -> None:
 def test_cout_du_mois_et_seuil_trace(ecran: Ecran) -> None:
     html = ecran(qualite())
     assert "Coût de l'IA sur le mois (10/2026)" in html and "1,2345 €" in html
-    assert "environ 1,66 € sur le mois, soit 3 % du budget Azure de 60 €" in html
+    assert "environ 1,66 € sur le mois, soit 3 % du budget mensuel du projet (60 €)" in html
     assert "seuil : 20 %" in html
 
 
@@ -145,3 +147,26 @@ def test_actualisation_deduite_d_un_appel_recent(ecran: Ecran) -> None:
     assert "location.reload" in html and "un appel a eu lieu il y a moins de 10 minutes" in html
     # Un choix explicite l'emporte : décoché, pas d'actualisation.
     assert "location.reload" not in ecran(recent, chemin="/qualite?auto=0")
+
+
+def test_volume_accorde_au_singulier(ecran: Ecran) -> None:
+    html = ecran(qualite(total=1, dossiers=1, messages=0, a_verifier=0, part_a_verifier=0.0,
+                         refus=0))  # fmt: skip
+    assert "1 dossier mesuré sur les 20 nécessaires" in html and "1 dossiers" not in html
+
+
+def test_details_techniques_replies_et_sans_jargon_en_tete(ecran: Ecran) -> None:
+    html = ecran(qualite(a_verifier=10, part_a_verifier=0.4))
+    tete, _, technique = html.partition('<details class="technique">')
+    # Identifiants, version et codes d'alerte : seulement dans le bloc replié.
+    for terme in ("AL-01", DERNIER_ID, "abc1234", "UTC"):
+        assert terme not in tete, terme
+    assert "AL-01 : dossiers à vérifier" in technique and DERNIER_ID in technique
+    # Sous 20 dossiers, une heure est grisée sur le graphique de la part à vérifier.
+    assert 'class="faible"' in html
+
+
+def test_heure_de_paris() -> None:
+    # 23 octobre 2026, heure d'été (UTC+2) ; 26 octobre, heure d'hiver (UTC+1).
+    assert heure_lisible("2026-10-23T14:05:00+00:00").endswith("16:05")
+    assert heure_lisible("2026-10-26T14:05:00+00:00") == "26/10 à 15:05"

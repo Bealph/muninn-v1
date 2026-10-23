@@ -3,6 +3,7 @@
 Les traces sont captées par un exportateur en mémoire : aucun envoi vers Azure.
 """
 
+import logging
 import re
 from collections.abc import Iterator
 
@@ -111,3 +112,28 @@ def test_les_etapes_ignorent_le_contexte_global(traces: InMemorySpanExporter) ->
     assert leurs["observation"].parent is None
     assert leurs["generation"].parent is not None
     assert leurs["generation"].parent.span_id == leurs["observation"].context.span_id
+
+
+def test_exportateur_relie_a_notre_fournisseur_et_journal_http_muet(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # Chaîne de connexion factice : rien n'est envoyé pendant le test (aucun span n'est créé).
+    monkeypatch.setenv(
+        "APPLICATIONINSIGHTS_CONNECTION_STRING",
+        "InstrumentationKey=00000000-0000-0000-0000-000000000000;"
+        "IngestionEndpoint=https://exemple.invalid/",
+    )
+    monkeypatch.setenv("APPLICATIONINSIGHTS_STATSBEAT_DISABLED_ALL", "true")
+    telemetrie.traceur.cache_clear()
+    try:
+        t = telemetrie.traceur()
+        assert t is not None
+        processeur = t.span_processor._span_processors[0]  # type: ignore[attr-defined]
+        lie = processeur.span_exporter._tracer_provider
+        # Sans ce lien, l'exportateur cherche le fournisseur global et journalise une erreur.
+        assert isinstance(lie, TracerProvider)
+        assert lie._active_span_processor is t.span_processor  # type: ignore[attr-defined]
+        journal_http = logging.getLogger("azure.core.pipeline.policies.http_logging_policy")
+        assert journal_http.getEffectiveLevel() >= logging.WARNING
+    finally:
+        telemetrie.traceur.cache_clear()

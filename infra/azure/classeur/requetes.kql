@@ -1,0 +1,64 @@
+// Requêtes du classeur Azure Monitor de Muninn (sprint 5, étape 4 ; TB-1, TB-2, TB-3).
+// Portée : l'espace Log Analytics `log-muninn`, où `appi-muninn` écrit ses traces (AppDependencies).
+// Paramètres du classeur : {Environnement} (production ou preproduction), {Requete} (request_id).
+// Chaque bloc commence par une ligne « // == nom » ; 10-classeur.sh les place dans le classeur.
+
+// == etapes
+// Durée de chaque étape d'un appel sur 24 heures : médiane, 95e centile, nombre, échecs.
+AppDependencies
+| where TimeGenerated > ago(24h) and AppRoleName == strcat("{Environnement}", ".muninn-api")
+| summarize appels = count(), echecs = countif(Success == false),
+            mediane_ms = percentile(DurationMs, 50), p95_ms = percentile(DurationMs, 95)
+          by etape = Name
+| order by p95_ms desc
+
+// == heures
+// Appels par heure sur 24 heures, avec le 95e centile de la durée d'un appel.
+AppDependencies
+| where TimeGenerated > ago(24h) and AppRoleName == strcat("{Environnement}", ".muninn-api")
+| where Name == "appel"
+| summarize appels = count(), echecs = countif(Success == false),
+            p95_ms = percentile(DurationMs, 95) by heure = bin(TimeGenerated, 1h)
+| order by heure desc
+
+// == anomalies
+// Lignes de journal d'avertissement ou d'erreur de l'API et de la console, sur 24 heures.
+ContainerAppConsoleLogs_CL
+| where TimeGenerated > ago(24h)
+| where ContainerAppName_s endswith iff("{Environnement}" == "production", "-prod", "-preprod")
+| where Log_s has_any ("WARNING", "ERROR", "Traceback", ".echec", "CRITICAL")
+| project TimeGenerated, application = ContainerAppName_s, revision = RevisionName_s,
+          ligne = substring(Log_s, 0, 300)
+| order by TimeGenerated desc
+| take 100
+
+// == revisions
+// Événements des révisions (création, démarrage, arrêt, échec de sonde), sur 24 heures.
+ContainerAppSystemLogs_CL
+| where TimeGenerated > ago(24h)
+| where ContainerAppName_s endswith iff("{Environnement}" == "production", "-prod", "-preprod")
+| project TimeGenerated, application = ContainerAppName_s, revision = RevisionName_s,
+          type = Type_s, raison = Reason_s, message = substring(Log_s, 0, 200)
+| order by TimeGenerated desc
+| take 100
+
+// == appel
+// Les étapes d'un appel, retrouvé par son identifiant (affiché par l'écran « Qualité »).
+let operation = toscalar(
+    AppDependencies
+    | where "{Requete}" != "" and TimeGenerated > ago(30d) and Name == "appel"
+    | where tostring(Properties["muninn.request_id"]) == "{Requete}"
+    | project OperationId | take 1);
+AppDependencies
+| where TimeGenerated > ago(30d) and OperationId == operation
+| extend parent = ParentId
+| project TimeGenerated, etape = Name, duree_ms = DurationMs, reussi = Success,
+          attributs = Properties, Id, parent
+| order by TimeGenerated asc
+
+// == journaux_appel
+// Les lignes de journal du même appel : elles portent son request_id, jamais son contenu.
+ContainerAppConsoleLogs_CL
+| where "{Requete}" != "" and TimeGenerated > ago(30d) and Log_s has "{Requete}"
+| project TimeGenerated, application = ContainerAppName_s, ligne = substring(Log_s, 0, 300)
+| order by TimeGenerated asc

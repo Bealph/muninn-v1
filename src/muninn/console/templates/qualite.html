@@ -32,6 +32,10 @@
     figcaption { color: #4a4a4a; font-size: .92rem; }
     svg .total { fill: #9db7dc; }
     svg .verifier { fill: #b5651d; }
+    svg .faible { fill: #b9bec5; }
+    details.technique { margin-top: 1.5rem; border: 1px solid #c8c8c8; border-radius: .5rem;
+                        padding: .5rem 1rem; }
+    details.technique summary { font-weight: 700; cursor: pointer; }
     /* Écran étroit : chaque règle devient un bloc, chaque cellule annonce son intitulé. */
     @media (max-width: 40rem) {
       .regles thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
@@ -45,8 +49,8 @@
   </style>
 
   <h1>Qualité du service</h1>
-  <p>Cette page dit si Muninn fonctionne bien, d'après les appels qu'il a traités (ici, des appels
-    de démonstration). Elle ne montre aucun contenu d'appel : seulement des nombres, des noms de
+  <p>Cette page dit si Muninn fonctionne bien, d'après les appels qu'il a traités (pour l'instant,
+    des appels de démonstration joués par l'équipe, pas de vrais clients). Elle ne montre aucun contenu d'appel : seulement des nombres, des noms de
     champs et, pour le dernier appel, un identifiant technique.</p>
 
   {% if erreur %}
@@ -57,9 +61,9 @@
     <h2 id="titre-etat">{% if e.niveau == "ok" %}● {% elif e.niveau == "alerte" %}▲ {% else %}○ {% endif %}{{ e.titre }}</h2>
     <p>{{ e.phrase }}</p>
     {% if e.juge_jusqu_a and e.niveau != "insuffisant" %}
-    <p class="aide">Sans nouvel appel, l'état ne pourra plus être jugé après {{ e.juge_jusqu_a|heure_lisible }}.</p>
+    <p class="aide">Sans nouvel appel, l'état ne pourra plus être jugé après {{ e.juge_jusqu_a|heure_lisible }} (heure de Paris).</p>
     {% endif %}
-    <p class="aide">Calculé le {{ q.calcule_le|date_lisible }}.</p>
+    <p class="aide">Calculé le {{ q.calcule_le|date_paris }} (heure de Paris).</p>
   </section>
 
   <h2>Ce que Muninn surveille sur la dernière heure</h2>
@@ -71,9 +75,9 @@
     <tbody>
       {% for r in e.regles %}
       <tr>
-        <th scope="row">{{ r.surveille }}<br><small class="aide">Si le seuil est dépassé : {{ r.explication }} ({{ r.code }})</small></th>
+        <th scope="row">{{ r.surveille }}<br><small class="aide">Si le seuil est dépassé : {{ r.explication }}</small></th>
         <td data-intitule="Seuil">{{ r.seuil }}</td>
-        <td data-intitule="Maintenant">{{ r.valeur }}{% if r.niveau == "insuffisant" %}<br><small class="aide">{{ r.volume }} {{ r.unite_volume }} sur les {{ minimum }} nécessaires</small>{% endif %}</td>
+        <td data-intitule="Maintenant">{{ r.valeur }}{% if r.niveau == "insuffisant" %}<br><small class="aide">{{ pluriel(r.volume, r.unite_volume_singulier, r.unite_volume) }} sur les {{ minimum }} nécessaires</small>{% endif %}</td>
         <td data-intitule="Verdict">{{ verdict(r.niveau) }}</td>
       </tr>
       {% endfor %}
@@ -83,14 +87,14 @@
   <h2>Alertes des dernières 24 heures</h2>
   {% if e.historique %}
   <table>
-    <caption class="aide">Les contrôles rejoués toutes les 5 minutes sur l'heure qui précède.</caption>
+    <caption class="aide">Les contrôles rejoués toutes les 5 minutes sur les 60 minutes qui précèdent ; heures de Paris.</caption>
     <thead><tr><th scope="col">Début</th><th scope="col">Fin</th><th scope="col">Contrôle</th><th scope="col">Pire valeur</th></tr></thead>
     <tbody>
       {% for a in e.historique %}
       <tr>
         <td>{{ a.debut|heure_lisible }}</td>
         <td>{% if a.en_cours %}en cours{% else %}{{ a.fin|heure_lisible }}{% endif %}</td>
-        <td>{{ a.court|capitalize }} ({{ a.code }})</td>
+        <td>{{ a.court|capitalize }}</td>
         <td>{{ a.pire }}</td>
       </tr>
       {% endfor %}
@@ -125,7 +129,7 @@
     <div class="carte">
       <h3>Appels reçus</h3>
       <p class="chiffre">{{ q.total }}</p>
-      <p>{{ pluriel(q.dossiers, "dossier", "dossiers") }}, {{ pluriel(q.messages, "message", "messages") }}, {{ pluriel(q.refus, "appel écarté", "appels écartés") }}</p>
+      <p>{{ pluriel(q.dossiers, "dossier", "dossiers") }}, {{ pluriel(q.messages, "message", "messages") }} (appel d'un fournisseur ou d'un proche, sans dossier), {{ pluriel(q.refus, "appel écarté", "appels écartés") }}</p>
     </div>
     <div class="carte">
       <h3>Dossiers à vérifier par l'artisan</h3>
@@ -140,17 +144,17 @@
     <div class="carte">
       <h3>Nouveaux essais de l'IA</h3>
       <p class="chiffre">{{ q.relances }}</p>
-      <p>{{ "dossier obtenu" if q.relances <= 1 else "dossiers obtenus" }} après un second essai, la première réponse de l'IA étant inexploitable</p>
+      <p>{{ "dossier obtenu" if q.relances <= 1 else "dossiers obtenus" }} après un second essai, la première réponse de l'IA étant inutilisable</p>
     </div>
     <div class="carte">
       <h3>Adresse non contrôlée</h3>
       <p class="chiffre">{{ pct(q.part_non_controle) }}</p>
-      <p>{{ pluriel(q.non_controle, "dossier", "dossiers") }} dont l'adresse n'a pas pu être vérifiée (plusieurs communes du même nom, ou liste officielle injoignable) ; l'artisan doit la relire</p>
+      <p>{{ pluriel(q.non_controle, "dossier", "dossiers") }} dont l'adresse n'a pas pu être vérifiée (plusieurs communes du même nom, ou liste officielle momentanément indisponible) ; l'artisan doit la relire</p>
     </div>
     <div class="carte">
       <h3>Temps pour préparer un dossier</h3>
       <p class="chiffre">{{ sec(q.latence_p50_ms) }}</p>
-      <p>la moitié des appels sont traités en moins de {{ sec(q.latence_p50_ms) }} ; 95 sur 100 en moins de {{ sec(q.latence_p95_ms) }}{% if q.extractions %}, dont la préparation par l'IA : 95 sur 100 en moins de {{ sec(q.extraction_p95_ms) }}{% endif %}</p>
+      <p>entre la fin de l'appel et le dossier prêt : la moitié des dossiers en moins de {{ sec(q.latence_p50_ms) }}, 95 sur 100 en moins de {{ sec(q.latence_p95_ms) }}</p>
     </div>
     <div class="carte">
       <h3>Coût de l'IA</h3>
@@ -165,38 +169,38 @@
     <div class="carte">
       <h3>Acceptés par l'artisan</h3>
       <p class="chiffre">{{ q.dossiers_valides }}</p>
-      <p>{{ "dossier relu et accepté" if q.dossiers_valides <= 1 else "dossiers relus et acceptés" }} par l'artisan ; {{ pluriel(q.champs_corriges, "champ corrigé", "champs corrigés") }} par lui avant d'accepter</p>
+      <p>sur {{ pluriel(q.dossiers, "dossier", "dossiers") }} reçus, {{ "relu et accepté" if q.dossiers_valides <= 1 else "relus et acceptés" }} par l'artisan dans la console ; {{ pluriel(q.champs_corriges, "champ corrigé", "champs corrigés") }} par lui avant d'accepter</p>
     </div>
   </div>
 
   {% set c = q.cout_mois %}
   <h3>Coût de l'IA sur le mois ({{ c.mois }})</h3>
-  <p>{{ eur(c.total_eur) }} depuis le début du mois{% if c.depuis %} (mesuré depuis le {{ c.depuis|heure_lisible }}){% endif %}. À ce rythme, environ {{ ("%.2f"|format(c.projection_eur)).replace(".", ",") }} € sur le mois, soit {{ pct(c.part_budget) }} du budget Azure de {{ "%.0f"|format(c.budget_eur) }} € par mois.</p>
+  <p>{{ eur(c.total_eur) }} depuis le début du mois{% if c.depuis %} (mesuré depuis le {{ c.depuis|date_paris }}){% endif %}. À ce rythme, environ {{ ("%.2f"|format(c.projection_eur)).replace(".", ",") }} € sur le mois, soit {{ pct(c.part_budget) }} du budget mensuel du projet ({{ "%.0f"|format(c.budget_eur) }} €).</p>
   <p class="aide">Le budget couvre tout le projet, hébergement compris ; ce chiffre n'en est que la part de l'IA pour les appels traités.</p>
 
   {% if graphique %}
   <figure>
     <svg viewBox="0 0 600 130" width="100%" role="img" aria-labelledby="titre-graphique">
-      <title id="titre-graphique">Appels traités par heure, et dossiers à vérifier, sur {{ periodes[heures] }}, du {{ graphique.debut }} au {{ graphique.fin }}, heure universelle ; au plus {{ pluriel(graphique.haut, 'appel', 'appels') }} dans une heure</title>
+      <title id="titre-graphique">Appels traités par heure, et dossiers à vérifier, sur {{ periodes[heures] }}, du {{ graphique.debut }} au {{ graphique.fin }}, heure de Paris ; au plus {{ pluriel(graphique.haut, 'appel', 'appels') }} dans une heure</title>
       {% for b in graphique.barres %}
       <rect class="total" x="{{ b.x }}" y="{{ 125 - b.h_total }}" width="{{ b.w }}" height="{{ b.h_total }}"><title>{{ b.titre }}</title></rect>
       <rect class="verifier" x="{{ b.x }}" y="{{ 125 - b.h_verifier }}" width="{{ b.w }}" height="{{ b.h_verifier }}"><title>{{ b.titre }}</title></rect>
       {% endfor %}
       <line x1="0" y1="125.5" x2="600" y2="125.5" stroke="#5b6470"/>
     </svg>
-    <figcaption class="legende">Une barre par heure, du {{ graphique.debut }} au {{ graphique.fin }} (heure universelle, UTC) ; la plus haute compte {{ pluriel(graphique.haut, "appel", "appels") }}. Légende :<span style="background:#9db7dc"></span>appels traités<span style="background:#b5651d"></span>dont dossiers à vérifier</figcaption>
+    <figcaption class="legende">Une barre par heure, du {{ graphique.debut }} au {{ graphique.fin }} (heure de Paris) ; la plus haute compte {{ pluriel(graphique.haut, "appel", "appels") }}. Légende :<span style="background:#9db7dc"></span>appels traités<span style="background:#b5651d"></span>dont dossiers à vérifier</figcaption>
   </figure>
   <figure>
     <svg viewBox="0 0 600 130" width="100%" role="img" aria-labelledby="titre-part">
       <title id="titre-part">Part des dossiers à vérifier, heure par heure, sur {{ periodes[heures] }} ; la ligne marque le seuil de 20 %</title>
       {% for b in graphique.barres %}{% if b.h_part is not none %}
-      <rect class="verifier" x="{{ b.x }}" y="{{ 125 - b.h_part }}" width="{{ b.w }}" height="{{ b.h_part }}"><title>{{ b.titre_part }}</title></rect>
+      <rect class="{{ 'faible' if b.faible else 'verifier' }}" x="{{ b.x }}" y="{{ 125 - b.h_part }}" width="{{ b.w }}" height="{{ b.h_part }}"><title>{{ b.titre_part }}</title></rect>
       {% endif %}{% endfor %}
       <line x1="0" y1="101" x2="600" y2="101" stroke="#a31515" stroke-width="1.5" stroke-dasharray="6 4"/>
       <text x="596" y="96" text-anchor="end" font-size="11" fill="#a31515">seuil : 20 %</text>
       <line x1="0" y1="125.5" x2="600" y2="125.5" stroke="#5b6470"/>
     </svg>
-    <figcaption class="legende">Part des dossiers à vérifier, heure par heure (100 % en haut). La ligne rouge marque le seuil de 20 % ; l'alerte, elle, se calcule sur l'heure glissante et demande 20 dossiers.</figcaption>
+    <figcaption class="legende">Part des dossiers à vérifier, heure par heure (100 % en haut). La ligne rouge marque le seuil de 20 %. En gris, les heures de moins de 20 dossiers : trop peu pour conclure, elles ne déclenchent pas d'alerte.<span style="background:#b5651d"></span>assez de dossiers<span style="background:#b9bec5"></span>trop peu de dossiers</figcaption>
   </figure>
   {% endif %}
 
@@ -230,28 +234,35 @@
   <p>Aucune protection n'est intervenue sur la période.</p>
   {% endif %}
   {% endif %}
+  {% endif %}
 
-  {% if q.dernier_appel %}
+  <details class="technique">
+    <summary>Détails pour le support technique</summary>
+  {% if q and q.dernier_appel %}
   {% set d = q.dernier_appel %}
   <h3>Dernier appel</h3>
   <dl>
-    <dt>Reçu le</dt><dd>{{ d.recu_le|date_lisible }}</dd>
+    <dt>Reçu le</dt><dd>{{ d.recu_le|date_paris }} (heure de Paris)</dd>
     <dt>Exemple joué</dt><dd>{{ d.scenario_id or "texte saisi librement" }}</dd>
     <dt>Résultat</dt><dd>{{ noms_issues.get(d.issue, d.issue) }}</dd>
-    <dt>Durée</dt><dd>{{ sec(d.duree_ms) }}</dd>
+    <dt>Temps de préparation</dt><dd>{{ sec(d.duree_ms) }}</dd>
     <dt>Identifiant</dt><dd>{{ d.request_id }}</dd>
   </dl>
-  <p class="aide">L'identifiant permet à l'exploitant de retrouver cet appel dans les journaux techniques du service.</p>
+  <p class="aide">L'identifiant permet de retrouver cet appel dans les journaux techniques du service (classeur Azure Monitor, paramètre « Requete »).</p>
   {% endif %}
+  {% if q %}
+  <h3>Codes des contrôles</h3>
+  <p>{% for r in q.etat.regles %}{{ r.code }} : {{ r.court }}{% if not loop.last %} ; {% endif %}{% endfor %} (décision D-83).</p>
   {% endif %}
 
-  <h2>Version du logiciel</h2>
+  <h3>Version du logiciel</h3>
   <p class="aide">Utile à l'exploitant pour savoir quelle version a produit ces chiffres.</p>
   <dl>
     <dt>API</dt><dd>{{ api.version }} ({{ api.git_sha[:7] }})</dd>
     <dt>Console</dt><dd>{{ console.version }} ({{ console.git_sha[:7] }})</dd>
     <dt>Environnement</dt><dd>{{ api.environment }}</dd>
   </dl>
+  </details>
 
   {% if auto %}
   <script>setTimeout(function () { window.location.reload(); }, 30000);</script>
