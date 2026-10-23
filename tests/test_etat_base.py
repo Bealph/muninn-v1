@@ -33,9 +33,9 @@ def _rafale(conn: psycopg.Connection, debut_min: int, a_verifier: int) -> None:
     for i in range(22):
         conn.execute(
             "INSERT INTO app.traitements (request_id, recu_le, route, scenario_id, issue,"
-            " statut, a_verifier, duree_ms, cout_micro_eur)"
+            " statut, a_verifier, duree_ms, duree_extraction_ms, cout_micro_eur)"
             " VALUES (%s, now() - make_interval(secs => %s), 'demo', 'SC-01', 'dossier',"
-            " 'complete', %s, 3000, 5000)",
+            " 'complete', %s, 3000, 2500, 5000)",
             [str(uuid.uuid4()), debut_min * 60 - i * 90, i < a_verifier],
         )
 
@@ -98,5 +98,21 @@ def test_cout_du_mois_et_projection(moteur_essai: Engine) -> None:
     debut_mois = maintenant.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     attendu = 0.22 if maintenant - timedelta(hours=3) > debut_mois else c.total_eur
     assert c.total_eur == pytest.approx(attendu)
-    assert c.projection_eur >= c.total_eur
     assert c.budget_eur == 60.0 and c.mois == f"{maintenant:%m/%Y}"
+    # Le rythme se mesure depuis le premier traitement (il y a 2 h 40), pas depuis le 1er du mois.
+    if c.depuis and c.depuis > debut_mois:
+        assert maintenant - c.depuis == pytest.approx(
+            timedelta(minutes=160), abs=timedelta(minutes=1)
+        )
+        fin_mois = (debut_mois + timedelta(days=32)).replace(day=1)
+        rythme = c.total_eur / (maintenant - c.depuis).total_seconds()
+        attendue = c.total_eur + rythme * (fin_mois - maintenant).total_seconds()
+        assert c.projection_eur == pytest.approx(attendue, abs=0.01)
+
+
+def test_al16_sur_la_duree_de_l_extraction(moteur_essai: Engine) -> None:
+    from muninn.traitements.metriques import calculer
+
+    m = calculer(moteur_essai, 1)
+    # 22 dossiers de la seconde rafale : extraction de 2,5 s, traitement entier de 3 s.
+    assert (m.extractions, m.extraction_p95_ms, m.latence_p95_ms) == (22, 2500, 3000)

@@ -56,6 +56,10 @@ def test_un_appel_de_demonstration_est_enregistre_sans_contenu(
     assert e.scenario_id == "SC-01" and e.code_refus is None
     valeurs = ligne(e)
     assert valeurs["issue"] == "dossier" and valeurs["categorie"] is not None
+    # L'extraction a sa propre durée, comprise dans celle du traitement entier (AL-16, SLO-05).
+    extraction, total = valeurs["duree_extraction_ms"], valeurs["duree_ms"]
+    assert isinstance(extraction, int) and isinstance(total, int)
+    assert 0 <= extraction <= total
     # Aucune valeur de la ligne ne reprend un passage de l'appel : des codes sans espace, des
     # nombres et des booléens seulement.
     for nom, v in valeurs.items():

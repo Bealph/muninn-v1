@@ -108,17 +108,19 @@ def ligne(e: Enregistrement) -> dict[str, object]:
         + (agent.jetons_entree + agent.jetons_sortie if agent else 0),
         "cout_micro_eur": (q.cout_micro_eur if q else 0) + (agent.cout_micro_eur if agent else 0),
         "duree_ms": e.duree_ms,
+        "duree_extraction_ms": x.duree_ms if x else None,
     }
 
 
 INSERER_TRAITEMENT = text(
-    "INSERT INTO app.traitements (request_id, route, scenario_id, modele_simule, issue, code_refus,"
-    " categorie, regle, securite, statut, a_verifier, motifs, garde_fous, outils, borne,"
-    " tentatives, urgence, urgence_serveur, commune_statut, code_postal_statut, jetons,"
-    " cout_micro_eur, duree_ms) VALUES (:request_id, :route, :scenario_id, :modele_simule, :issue,"
+    "INSERT INTO app.traitements (request_id, route, scenario_id, modele_simule, issue,"
+    " code_refus, categorie, regle, securite, statut, a_verifier, motifs, garde_fous, outils,"
+    " borne, tentatives, urgence, urgence_serveur, commune_statut, code_postal_statut, jetons,"
+    " cout_micro_eur, duree_ms, duree_extraction_ms)"
+    " VALUES (:request_id, :route, :scenario_id, :modele_simule, :issue,"
     " :code_refus, :categorie, :regle, :securite, :statut, :a_verifier, :motifs, :garde_fous,"
     " :outils, :borne, :tentatives, :urgence, :urgence_serveur, :commune_statut,"
-    " :code_postal_statut, :jetons, :cout_micro_eur, :duree_ms)"
+    " :code_postal_statut, :jetons, :cout_micro_eur, :duree_ms, :duree_extraction_ms)"
 )
 INSERER_DOSSIER = text(
     "INSERT INTO app.dossiers (draft_id, request_id, brouillon, enveloppe)"

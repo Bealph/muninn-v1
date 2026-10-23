@@ -4,9 +4,9 @@ et 5 ; D-83, TB-6).
 Trois règles, calculées par l'application sur une fenêtre glissante d'une heure :
 - AL-01 : part des dossiers « à vérifier » au-dessus de 20 %, sur 20 dossiers au moins (SLO-09) ;
 - AL-04 : brouillons de secours (modèle injoignable) au-dessus de 5 %, sur 20 dossiers au moins ;
-- AL-16 : durée d'un traitement, 95e centile au-dessus de 20 s, sur 20 traitements au moins.
-  La durée mesurée est celle du traitement entier (qualification comprise), plus longue que celle
-  de la seule extraction visée par SLO-05 : la règle se déclenche donc plus tôt, jamais plus tard.
+- AL-16 : durée de l'extraction, 95e centile au-dessus de 20 s, sur 20 extractions au moins
+  (SLO-05). La durée enregistrée depuis la migration 0004 ; un traitement plus ancien, sans elle,
+  n'est pas compté.
 
 Sous le volume minimal, une règle ne conclut pas : « pas assez d'appels pour juger ». Un taux sur
 trois appels ne dit rien, et une alerte qui s'allume au premier dossier ambigu serait ignorée.
@@ -72,7 +72,7 @@ class Mesure:
     dossiers: int
     a_verifier: int
     secours: int
-    traitements: int
+    extractions: int
     p95_ms: int | None
 
 
@@ -117,14 +117,14 @@ def regles(x: Mesure) -> list[Regle]:
         ),
         Regle(
             code="AL-16",
-            surveille="Temps pour préparer un dossier (95 appels sur 100 plus rapides)",
+            surveille="Temps de préparation du dossier par l'IA (95 sur 100 plus rapides)",
             court="temps de préparation",
-            seuil=f"au plus 20 s, sur {MINIMUM} traitements au moins",
+            seuil=f"au plus 20 s, sur {MINIMUM} dossiers au moins",
             valeur=_secondes(x.p95_ms),
-            niveau=_niveau(x.traitements, None if x.p95_ms is None else x.p95_ms / 1000, 20),
+            niveau=_niveau(x.extractions, None if x.p95_ms is None else x.p95_ms / 1000, 20),
             explication="L'artisan attend son dossier plus de 20 s dans plus d'un cas sur "
             "vingt.",
-            volume=x.traitements, unite_volume="traitements",
+            volume=x.extractions, unite_volume="dossiers mesurés",
         ),
     ]  # fmt: skip
 
@@ -133,7 +133,7 @@ def evaluer(
     m: Metriques, juge_jusqu_a: datetime | None = None, historique: list[Episode] | None = None
 ) -> EtatService:
     """Le verdict des trois règles sur les métriques `m` (fenêtre d'une heure attendue)."""
-    rs = regles(Mesure(m.dossiers, m.a_verifier, m.secours, m.total - m.refus, m.latence_p95_ms))
+    rs = regles(Mesure(m.dossiers, m.a_verifier, m.secours, m.extractions, m.extraction_p95_ms))
 
     def etat(niveau: Niveau, titre: str, phrase: str) -> EtatService:
         return EtatService(
@@ -184,9 +184,8 @@ SELECT p.t,
        count(tr.*) FILTER (WHERE tr.issue = 'dossier')                       AS dossiers,
        count(tr.*) FILTER (WHERE tr.issue = 'dossier' AND tr.a_verifier)     AS a_verifier,
        count(tr.*) FILTER (WHERE tr.statut = 'fallback_no_llm')              AS secours,
-       count(tr.*) FILTER (WHERE tr.issue <> 'refus')                        AS traitements,
-       percentile_cont(0.95) WITHIN GROUP (ORDER BY tr.duree_ms)
-           FILTER (WHERE tr.issue <> 'refus')                                AS p95
+       count(tr.duree_extraction_ms)                                         AS extractions,
+       percentile_cont(0.95) WITHIN GROUP (ORDER BY tr.duree_extraction_ms)  AS p95
 FROM points p
 LEFT JOIN app.traitements tr
        ON tr.recu_le > p.t - interval '1 hour' AND tr.recu_le <= p.t AND NOT tr.modele_simule
@@ -208,7 +207,7 @@ def historique(m: Engine) -> list[Episode]:
     ouverts: dict[str, tuple[Episode, float]] = {}
     for i, p in enumerate(points):
         p95 = None if p["p95"] is None else round(float(p["p95"]))
-        mesure = Mesure(p["dossiers"], p["a_verifier"], p["secours"], p["traitements"], p95)
+        mesure = Mesure(p["dossiers"], p["a_verifier"], p["secours"], p["extractions"], p95)
         dernier = i == len(points) - 1
         for r in regles(mesure):
             if r.niveau == "alerte":

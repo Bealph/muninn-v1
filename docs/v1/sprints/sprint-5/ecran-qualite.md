@@ -43,11 +43,11 @@ seuls champs rendus pour le dernier appel. Le modèle simulé (scénario `P4-per
 
 ## 3. L'état du service
 
-| Règle | Ce qui est surveillé                           | Seuil        | Volume minimal |
-| ----- | ---------------------------------------------- | ------------ | -------------- |
-| AL-01 | Part des dossiers « à vérifier »               | au plus 20 % | 20 dossiers    |
-| AL-04 | Brouillons de secours (l'IA n'a pas répondu)   | au plus 5 %  | 20 dossiers    |
-| AL-16 | Temps de préparation d'un dossier, 95e centile | au plus 20 s | 20 traitements |
+| Règle | Ce qui est surveillé                                               | Seuil        | Volume minimal      |
+| ----- | ------------------------------------------------------------------ | ------------ | ------------------- |
+| AL-01 | Part des dossiers « à vérifier »                                   | au plus 20 % | 20 dossiers         |
+| AL-04 | Brouillons de secours (l'IA n'a pas répondu)                       | au plus 5 %  | 20 dossiers         |
+| AL-16 | Temps de préparation du dossier par l'IA (extraction), 95e centile | au plus 20 s | 20 dossiers mesurés |
 
 | Situation                                            | Bandeau                                                      |
 | ---------------------------------------------------- | ------------------------------------------------------------ |
@@ -63,14 +63,14 @@ Chaque état a un mot et un symbole (●, ▲, ○) : la couleur n'est jamais se
 Le 23 octobre 2026, le porteur a relu les six choix et retenu quatre améliorations ; il a laissé
 l'orchestrateur ajouter ce qui manquait.
 
-| Choix initial                                                     | Suite                                                                                                                          |
-| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| L'état se lit sur la dernière heure, quelle que soit la période   | Gardé ; le bandeau dit en plus jusqu'à quand l'état reste jugé sans nouvel appel, et l'heure du calcul                         |
-| Volume minimal de 20, AL-16 compris                               | Gardé ; l'état gris dit combien de dossiers il y a et combien il en faut, chaque contrôle donne son volume                     |
-| AL-16 mesure le traitement entier                                 | Remplacé, en deux temps : migration 0004 (colonne `duree_extraction_ms`), puis AL-16 sur l'extraction seule (SLO-05)           |
-| « Erreurs du service » mêlait secours et nouveaux essais          | Remplacé : une carte « Brouillons de secours » (celle d'AL-04) et une carte « Nouveaux essais de l'IA »                        |
-| Pas de lien vers Application Insights ; l'identifiant est affiché | Gardé ; le lien sera dans le classeur Azure Monitor                                                                            |
-| Actualisation désactivée par défaut                               | Remplacé : actualisation d'office si un appel a eu lieu il y a moins de 10 minutes (démonstration, rafale) ; décocher l'arrête |
+| Choix initial                                                     | Suite                                                                                                                                                               |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| L'état se lit sur la dernière heure, quelle que soit la période   | Gardé ; le bandeau dit en plus jusqu'à quand l'état reste jugé sans nouvel appel, et l'heure du calcul                                                              |
+| Volume minimal de 20, AL-16 compris                               | Gardé ; l'état gris dit combien de dossiers il y a et combien il en faut, chaque contrôle donne son volume                                                          |
+| AL-16 mesurait le traitement entier                               | Remplacé : migration 0004 (colonne `duree_extraction_ms`), puis AL-16 sur l'extraction seule (SLO-05) ; un traitement antérieur, sans cette durée, n'est pas compté |
+| « Erreurs du service » mêlait secours et nouveaux essais          | Remplacé : une carte « Brouillons de secours » (celle d'AL-04) et une carte « Nouveaux essais de l'IA »                                                             |
+| Pas de lien vers Application Insights ; l'identifiant est affiché | Gardé ; le lien sera dans le classeur Azure Monitor                                                                                                                 |
+| Actualisation désactivée par défaut                               | Remplacé : actualisation d'office si un appel a eu lieu il y a moins de 10 minutes (démonstration, rafale) ; décocher l'arrête                                      |
 
 Ajouts de la seconde version :
 
@@ -80,6 +80,10 @@ Ajouts de la seconde version :
 | Coût de l'IA sur le mois             | Total depuis le début du mois, projection au même rythme, part du budget Azure de 60 € (SLO-16), qui couvre aussi l'hébergement                      |
 | Part « à vérifier » par heure        | Second graphique, avec le seuil de 20 % tracé ; la légende rappelle que l'alerte se calcule sur l'heure glissante                                    |
 | Rafale de démonstration              | `eval/production/rafale.py --profil nominal` : 24 appels nominaux ; l'écran passe de « pas assez d'appels » à « aucun seuil dépassé » pour une heure |
+
+La projection du coût se mesure depuis le premier traitement enregistré du mois, pas depuis le 1er :
+le 23 octobre, avec des traitements enregistrés depuis le 22, la division par 23 jours donnait
+0,21 € au lieu d'un rythme réel bien supérieur. Il faut une heure de mesure au moins.
 
 L'historique est une reconstitution, pas un journal : un épisode plus court que 5 minutes peut lui
 échapper, et une ligne purgée (30 jours) n'y figure plus. Les alertes notifiées par Azure Monitor

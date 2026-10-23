@@ -150,7 +150,7 @@
     <div class="carte">
       <h3>Temps pour préparer un dossier</h3>
       <p class="chiffre">{{ sec(q.latence_p50_ms) }}</p>
-      <p>la moitié des appels sont traités en moins de {{ sec(q.latence_p50_ms) }} ; 95 sur 100 en moins de {{ sec(q.latence_p95_ms) }}</p>
+      <p>la moitié des appels sont traités en moins de {{ sec(q.latence_p50_ms) }} ; 95 sur 100 en moins de {{ sec(q.latence_p95_ms) }}{% if q.extractions %}, dont la préparation par l'IA : 95 sur 100 en moins de {{ sec(q.extraction_p95_ms) }}{% endif %}</p>
     </div>
     <div class="carte">
       <h3>Coût de l'IA</h3>
@@ -171,7 +171,7 @@
 
   {% set c = q.cout_mois %}
   <h3>Coût de l'IA sur le mois ({{ c.mois }})</h3>
-  <p>{{ eur(c.total_eur) }} depuis le début du mois. À ce rythme, environ {{ ("%.2f"|format(c.projection_eur)).replace(".", ",") }} € sur le mois, soit {{ pct(c.part_budget) }} du budget Azure de {{ "%.0f"|format(c.budget_eur) }} € par mois.</p>
+  <p>{{ eur(c.total_eur) }} depuis le début du mois{% if c.depuis %} (mesuré depuis le {{ c.depuis|heure_lisible }}){% endif %}. À ce rythme, environ {{ ("%.2f"|format(c.projection_eur)).replace(".", ",") }} € sur le mois, soit {{ pct(c.part_budget) }} du budget Azure de {{ "%.0f"|format(c.budget_eur) }} € par mois.</p>
   <p class="aide">Le budget couvre tout le projet, hébergement compris ; ce chiffre n'en est que la part de l'IA pour les appels traités.</p>
 
   {% if graphique %}

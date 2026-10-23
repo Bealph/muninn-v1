@@ -37,6 +37,7 @@ def qualite(
         "bornes": 0, "a_verifier": 3, "part_a_verifier": 0.12, "securite": 1,
         "non_controle": 1, "part_non_controle": 0.04, "latence_p50_ms": 2710,
         "latence_p95_ms": 5671, "cout_moyen_eur": 0.003232, "cout_total_eur": 0.0969,
+        "extraction_p50_ms": 1900, "extraction_p95_ms": 3800,
         "dossiers_valides": 3, "champs_corriges": 4,
         "corrections_par_champ": [Compte(nom="client.adresse.code_postal", nombre=3),
                                   Compte(nom="client.nom", nombre=1)],
@@ -52,10 +53,12 @@ def qualite(
                         a_verifier=h, refus=0, secours=0, latence_p95_ms=5000)
                   for h in (0, 1, 4)],
     }  # fmt: skip
+    valeurs.setdefault("extractions", valeurs.get("dossiers", base["dossiers"]))
     m = Metriques(**(base | valeurs))
     heure = Metriques(**(base | valeurs | {"fenetre_heures": 1}))
-    cout = CoutMois(mois="10/2026", total_eur=1.2345, projection_eur=1.66, budget_eur=60.0,
-                    part_budget=0.0277)  # fmt: skip
+    depuis = datetime(2026, 10, 22, 9, 15, tzinfo=UTC)
+    cout = CoutMois(mois="10/2026", depuis=depuis, total_eur=1.2345, projection_eur=1.66,
+                    budget_eur=60.0, part_budget=0.0277)  # fmt: skip
     return Qualite(
         **m.model_dump(),
         etat=evaluer(heure, juge, episodes),

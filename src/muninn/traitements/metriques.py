@@ -17,7 +17,7 @@ Signaux (D-83 ; phase 2, `03-observabilite.md`) :
 """
 
 import calendar
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 from pydantic import BaseModel
@@ -49,6 +49,9 @@ SELECT
         FILTER (WHERE issue <> 'refus')                              AS latence_p50,
     percentile_cont(0.95) WITHIN GROUP (ORDER BY duree_ms)
         FILTER (WHERE issue <> 'refus')                              AS latence_p95,
+    count(duree_extraction_ms)                                       AS extractions,
+    percentile_cont(0.5) WITHIN GROUP (ORDER BY duree_extraction_ms)  AS extraction_p50,
+    percentile_cont(0.95) WITHIN GROUP (ORDER BY duree_extraction_ms) AS extraction_p95,
     coalesce(avg(cout_micro_eur) FILTER (WHERE issue <> 'refus'), 0) AS cout_moyen,
     coalesce(sum(cout_micro_eur), 0)                                 AS cout_total,
     min(recu_le)                                                     AS premier,
@@ -147,6 +150,9 @@ class Metriques(BaseModel):
     part_non_controle: float | None
     latence_p50_ms: int | None
     latence_p95_ms: int | None
+    extractions: int
+    extraction_p50_ms: int | None
+    extraction_p95_ms: int | None
     cout_moyen_eur: float
     cout_total_eur: float
     dossiers_valides: int
@@ -195,6 +201,8 @@ def calculer(m: Engine, heures: int) -> Metriques:
         part_a_verifier=_part(s["a_verifier"], s["dossiers"]), securite=s["securite"],
         non_controle=s["non_controle"], part_non_controle=_part(s["non_controle"], s["dossiers"]),
         latence_p50_ms=_entier(s["latence_p50"]), latence_p95_ms=_entier(s["latence_p95"]),
+        extractions=s["extractions"], extraction_p50_ms=_entier(s["extraction_p50"]),
+        extraction_p95_ms=_entier(s["extraction_p95"]),
         cout_moyen_eur=round(float(s["cout_moyen"]) / 1e6, 6),
         cout_total_eur=round(float(s["cout_total"]) / 1e6, 6),
         dossiers_valides=v["valides"], champs_corriges=int(v["champs_corriges"]),
@@ -205,7 +213,7 @@ def calculer(m: Engine, heures: int) -> Metriques:
 
 
 COUT_DU_MOIS = text("""
-SELECT coalesce(sum(cout_micro_eur), 0) AS total
+SELECT coalesce(sum(cout_micro_eur), 0) AS total, min(recu_le) AS premier
 FROM app.traitements
 WHERE recu_le >= date_trunc('month', now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'
 """)
@@ -219,6 +227,7 @@ class CoutMois(BaseModel):
     """
 
     mois: str
+    depuis: datetime | None
     total_eur: float
     projection_eur: float
     budget_eur: float
@@ -226,14 +235,24 @@ class CoutMois(BaseModel):
 
 
 def cout_du_mois(m: Engine, maintenant: datetime | None = None) -> CoutMois:
-    """Coût du mois en cours, projeté au même rythme jusqu'à la fin du mois."""
+    """Coût du mois en cours, projeté au même rythme jusqu'à la fin du mois.
+
+    Le rythme se mesure depuis le premier traitement du mois, pas depuis le 1er : un service
+    ouvert en cours de mois serait sinon projeté trop bas. Il faut une heure de mesure au moins.
+    """
     t = maintenant or datetime.now(UTC)
     with m.connect() as conn:
-        total = float(conn.execute(COUT_DU_MOIS).scalar() or 0) / 1e6
-    jours = calendar.monthrange(t.year, t.month)[1]
-    ecoule = (t - t.replace(day=1, hour=0, minute=0, second=0, microsecond=0)).total_seconds()
-    projection = total * jours * 86400 / ecoule if ecoule > 0 else total
+        ligne = conn.execute(COUT_DU_MOIS).mappings().one()
+    total = float(ligne["total"] or 0) / 1e6
+    premier: datetime | None = ligne["premier"]
+    debut_mois = t.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    fin_mois = debut_mois + timedelta(days=calendar.monthrange(t.year, t.month)[1])
+    depuis = max(debut_mois, premier) if premier else debut_mois
+    mesure_s = (t - depuis).total_seconds()
+    restant_s = (fin_mois - t).total_seconds()
+    projection = total + total * restant_s / mesure_s if mesure_s >= 3600 else total
     return CoutMois(
-        mois=f"{t:%m/%Y}", total_eur=round(total, 4), projection_eur=round(projection, 2),
+        mois=f"{t:%m/%Y}", depuis=premier, total_eur=round(total, 4),
+        projection_eur=round(projection, 2),
         budget_eur=BUDGET_MENSUEL_EUR, part_budget=round(projection / BUDGET_MENSUEL_EUR, 4),
     )  # fmt: skip

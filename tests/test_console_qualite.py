@@ -107,7 +107,7 @@ def test_pluriel_a_la_francaise() -> None:
 def test_etat_gris_dit_ce_qui_manque(ecran: Ecran) -> None:
     html = ecran(qualite(total=5, dossiers=4, a_verifier=1, part_a_verifier=0.25, refus=0))
     assert "4 dossiers sur la dernière heure, il en faut 20 pour juger" in html
-    assert "4 dossiers sur les 20 nécessaires" in html and "5 traitements sur les 20" in html
+    assert "4 dossiers sur les 20 nécessaires" in html and "4 dossiers mesurés sur les 20" in html
 
 
 def test_echeance_du_jugement_affichee_si_juge(ecran: Ecran) -> None:

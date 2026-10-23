@@ -166,6 +166,7 @@ class Extraction:
     brouillon: DossierDraft
     enveloppe: Enveloppe
     agent: ResultatAgent | None
+    duree_ms: int | None = None  # extraction seule, contrôle d'entrée compris (SLO-05, AL-16)
 
 
 MESSAGE_REFUS_CONTENU = (
@@ -837,6 +838,7 @@ def extraire_dossier(
     finally:
         del transcription, controle  # plus aucune référence locale au texte reçu (R3)
     controles = brouillon.checks
+    duree_ms = round((time.perf_counter() - debut) * 1000)
     journal.info(
         "extraction.fin request_id=%s draft_id=%s statut=%s a_verifier=%s motifs=%s garde_fous=%s "
         "motifs_entree=%s commune=%s code_postal=%s urgence=%s urgence_serveur=%s candidates=%s "
@@ -856,6 +858,6 @@ def extraire_dossier(
         len(resultat.appels_outils),
         resultat.jetons_entree + resultat.jetons_sortie,
         resultat.cout_micro_eur,
-        round((time.perf_counter() - debut) * 1000),
+        duree_ms,
     )
-    return Extraction(brouillon=brouillon, enveloppe=enveloppe, agent=resultat)
+    return Extraction(brouillon=brouillon, enveloppe=enveloppe, agent=resultat, duree_ms=duree_ms)

@@ -15,11 +15,15 @@ def metriques(**valeurs: Any) -> Metriques:
         "part_secours": None, "a_verifier": 0, "part_a_verifier": None, "securite": 0,
         "non_controle": 0,
         "part_non_controle": None, "latence_p50_ms": None, "latence_p95_ms": None,
+        "extraction_p50_ms": None,
         "cout_moyen_eur": 0.0, "cout_total_eur": 0.0, "dossiers_valides": 0,
         "champs_corriges": 0, "corrections_par_champ": [], "garde_fous": [], "premier": None,
         "dernier": None, "dernier_appel": None, "serie": [],
     }  # fmt: skip
     base |= valeurs
+    # Par défaut, chaque dossier a sa durée d'extraction, égale à `latence_p95_ms` au 95e centile.
+    base.setdefault("extractions", base["dossiers"])
+    base.setdefault("extraction_p95_ms", base["latence_p95_ms"])
     if base["dossiers"]:
         base["part_a_verifier"] = base["a_verifier"] / base["dossiers"]
     return Metriques(**base)
@@ -39,7 +43,7 @@ def test_etat_gris_dit_combien_il_manque() -> None:
     e = evaluer(metriques(total=14, dossiers=12, messages=2))
     assert e.phrase.startswith("12 dossiers sur la dernière heure, il en faut 20 pour juger.")
     assert [(r.volume, r.unite_volume) for r in e.regles] == [
-        (12, "dossiers"), (12, "dossiers"), (14, "traitements")
+        (12, "dossiers"), (12, "dossiers"), (12, "dossiers mesurés")
     ]  # fmt: skip
 
 
@@ -78,9 +82,14 @@ def test_al16_duree_au_95e_centile(p95: int, attendu: str) -> None:
     assert niveaux(m)["AL-16"] == attendu
 
 
-def test_al16_les_refus_ne_comptent_pas_dans_le_volume() -> None:
+def test_al16_ne_compte_que_les_dossiers_mesures() -> None:
+    # Refus et messages n'ont pas d'extraction ; 15 dossiers ne suffisent pas.
     m = metriques(total=25, refus=10, dossiers=15, latence_p95_ms=30000)
     assert niveaux(m)["AL-16"] == "insuffisant"
+    # La durée de la qualification n'entre plus dans AL-16 : seul compte le 95e centile de
+    # l'extraction (SLO-05).
+    m = metriques(total=25, dossiers=25, latence_p95_ms=30000, extraction_p95_ms=8000)
+    assert niveaux(m)["AL-16"] == "ok"
 
 
 def test_alerte_nomme_les_regles_depassees() -> None:
@@ -92,11 +101,9 @@ def test_alerte_nomme_les_regles_depassees() -> None:
 
 
 def test_regle_non_jugee_dite_meme_si_rien_ne_depasse() -> None:
-    # 25 appels, dont 10 messages : AL-16 se juge (25 traitements), AL-01 et AL-04 non
-    # (15 dossiers seulement). L'écran le dit au lieu d'annoncer que tout est vérifié.
-    m = metriques(total=25, dossiers=15, messages=10, a_verifier=1, latence_p95_ms=5000)
+    # Juste après la migration 0004 : 25 dossiers, dont 15 seulement ont leur durée d'extraction.
+    # AL-01 et AL-04 se jugent, AL-16 non ; l'écran le dit au lieu d'annoncer que tout est vérifié.
+    m = metriques(total=25, dossiers=25, a_verifier=1, latence_p95_ms=5000, extractions=15)
     e = evaluer(m)
     assert e.niveau == "ok"
-    assert e.phrase.endswith(
-        "Non jugé faute d'appels : dossiers à vérifier, brouillons de secours."
-    )
+    assert e.phrase.endswith("Non jugé faute d'appels : temps de préparation.")
