@@ -57,6 +57,7 @@ from muninn.extraction.regles import calculer_champs_manquants, champs_a_verifie
 from muninn.extraction.sortie import appliquer
 from muninn.llm.fournisseur import FournisseurLLM
 from muninn.observabilite import tracer
+from muninn.telemetrie import etape
 
 journal = logging.getLogger(__name__)
 
@@ -796,25 +797,38 @@ def extraire_dossier(
         controle = controler(transcription)
         if controle.refus is not None:
             raise EntreeRefusee(controle.refus, controle.message_refus or "")
-        resultat = extraire(
-            controle.texte,
-            paquet,
-            fournisseur,
-            referentiels,
-            date_reference,
-            metier,
-            numero_presente,
-        )
-        brouillon, enveloppe = evaluer(
-            resultat,
-            controle.texte,
-            paquet,
-            referentiels,
-            metier,
-            numero_presente,
-            input_mode,
-            motifs_entree=tuple(controle.motifs),
-        )
+        with etape("agent") as c:
+            resultat = extraire(
+                controle.texte,
+                paquet,
+                fournisseur,
+                referentiels,
+                date_reference,
+                metier,
+                numero_presente,
+            )
+            c.update(
+                statut=resultat.statut, tentatives=resultat.tentatives,
+                outils=len(resultat.appels_outils), borne=resultat.borne_atteinte,
+                jetons=resultat.jetons_entree + resultat.jetons_sortie,
+                cout_micro_eur=resultat.cout_micro_eur,
+            )  # fmt: skip
+        with etape("controles_serveur") as c:
+            brouillon, enveloppe = evaluer(
+                resultat,
+                controle.texte,
+                paquet,
+                referentiels,
+                metier,
+                numero_presente,
+                input_mode,
+                motifs_entree=tuple(controle.motifs),
+            )
+            c.update(
+                a_verifier=enveloppe.a_verifier,
+                garde_fous=",".join(enveloppe.garde_fous) or "aucun",
+                motifs=",".join(enveloppe.motifs) or "aucun",
+            )  # fmt: skip
         motifs_entree = controle.motifs
     except (EntreeRefusee, ContenuRefuse) as refus:
         code = refus.code if isinstance(refus, EntreeRefusee) else "content_refused"

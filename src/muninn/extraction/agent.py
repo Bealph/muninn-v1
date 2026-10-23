@@ -42,6 +42,7 @@ from muninn.llm.fournisseur import (
     message_outil,
 )
 from muninn.observabilite import tracer
+from muninn.telemetrie import etape as etape_mesuree
 
 journal = logging.getLogger(__name__)
 
@@ -174,7 +175,10 @@ def extraire(
                             )
                         )
                         continue
-                    sortie_outil = executer_outil(referentiels, appel.nom, appel.arguments)
+                    nom_vu = appel.nom if appel.nom in NOMS_OUTILS else "outil_inconnu"
+                    with etape_mesuree("outil", outil=nom_vu) as c:
+                        sortie_outil = executer_outil(referentiels, appel.nom, appel.arguments)
+                        c["resultat"] = sortie_outil.statut
                     resultat.appels_outils.append(sortie_outil)
                     messages.append(message_outil(appel, sortie_outil.contenu))
                 avec_outils = not resultat.borne_atteinte

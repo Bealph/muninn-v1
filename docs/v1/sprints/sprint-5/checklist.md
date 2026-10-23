@@ -89,9 +89,9 @@ Aucune nouvelle source de données externe : les référentiels du sprint 3 sont
 
 ### Étape 3 : instrumenter (métriques et traces)
 
-- [ ] Métriques tirées de la base : latence, coût, taux d'erreur, taux de refus, part « à vérifier », garde-fous, borne, brouillons de secours, corrections par champ ; sans contenu.
+- [x] Métriques tirées de la base : latence, coût, taux d'erreur, taux de refus, part « à vérifier », garde-fous, borne, brouillons de secours, corrections par champ ; sans contenu. Preuve : `src/muninn/traitements/metriques.py`, route `GET /v1/demo/quality` (fenêtres 1 h, 24 h, 7 j, 30 j ; modèle simulé exclu ; résultat gardé 15 s), `tests/test_metriques_base.py`.
 - [ ] Traces OpenTelemetry du parcours principal (qualification, agent, outils, contrôles) vers Application Insights (D-40) ; attributs en liste blanche (OB-2) ; vérifiées sur une requête réelle.
-- [ ] L'API rend la liste chronologique des étapes d'un traitement, avec leur durée (reprise du sprint 4).
+- [x] L'API rend la liste chronologique des étapes d'un traitement, avec leur durée (reprise du sprint 4). Preuve : champ `steps` de `/v1/demo/runs` (appel, contrôle d'entrée, qualification, message, agent, chaque outil, contrôles du serveur), mesuré par `muninn.telemetrie.etape`, `tests/test_telemetrie.py`.
 
 ### Étape 4 : le tableau de bord (V-10)
 

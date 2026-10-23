@@ -45,7 +45,9 @@ from muninn.extraction.paquet import charger_paquet
 from muninn.llm.fournisseur import FournisseurLLM
 from muninn.qualification.contrat import Categorie, MessageRecu, RegleServeur, TraceSansContenu
 from muninn.qualification.qualificateur import charger_paquet_qualification, traiter_appel
+from muninn.telemetrie import Etape, collecte, etape
 from muninn.traitements.enregistrement import Enregistrement, enregistrer, moteur
+from muninn.traitements.metriques import FENETRES_HEURES, Metriques, calculer
 from muninn.traitements.revue import (
     CorrectionInvalide,
     DejaValide,
@@ -146,6 +148,21 @@ class Conformite(BaseModel):
     gaps: list[str]
 
 
+class EtapeVue(BaseModel):
+    """Une étape de l'appel, dans l'ordre, avec sa durée ; codes et nombres seulement."""
+
+    nom: str
+    debut_ms: int
+    duree_ms: int
+    statut: str
+    niveau: int
+    details: dict[str, str | int | float | bool]
+
+
+def etapes_vues(etapes: list[Etape]) -> list[EtapeVue]:
+    return [EtapeVue(**vars(e)) for e in sorted(etapes, key=lambda e: (e.debut_ms, e.niveau))]
+
+
 class ReponseDemo(BaseModel):
     """`DemoRunResponse` adapté à la V1 : la qualification et l'issue en plus ; pas de
     `field_diffs` (V-09) ; `expected` rappelle l'attendu du scénario, pour comparaison à l'œil."""
@@ -168,6 +185,8 @@ class ReponseDemo(BaseModel):
     latency_ms: int
     # Le dossier est enregistré : il peut être corrigé et validé (V-09, CA-5).
     review_available: bool = False
+    # Étapes de l'appel, dans l'ordre, avec leurs durées mesurées (écran « Démonstration »).
+    steps: list[EtapeVue] = Field(default_factory=list)
     plaintext_draft_notice: Literal["P-03"] = "P-03"
 
 
@@ -321,10 +340,15 @@ def executer_demo(
             raise ErreurAPI(422, "validation_failed", [detail])
         texte, metier, numero = corps.transcript, corps.trade, corps.caller_number
     try:
-        t = traiter_appel(
-            texte, charger_paquet_qualification(), charger_paquet(), fournisseur, referentiels,
-            metier, aujourd_hui(), numero, request_id=identifiant(request),  # type: ignore[arg-type]
-        )  # fmt: skip
+        with collecte() as etapes, etape(
+            "appel", route="demo", request_id=identifiant(request),
+            scenario_id=scenario.id if scenario else None,
+        ) as racine:  # fmt: skip
+            t = traiter_appel(
+                texte, charger_paquet_qualification(), charger_paquet(), fournisseur, referentiels,
+                metier, aujourd_hui(), numero, request_id=identifiant(request),  # type: ignore[arg-type]
+            )  # fmt: skip
+            racine["issue"] = "trace" if t.trace else "message" if t.message else "dossier"
     except (ContenuRefuse, EntreeRefusee) as refus:
         code = "content_refused" if isinstance(refus, ContenuRefuse) else "too_long"
         enregistrer(Enregistrement(
@@ -377,6 +401,7 @@ def executer_demo(
         conformity=Conformite(compliant=not ecarts, gaps=ecarts) if scenario else None,
         latency_ms=latence,
         review_available=bool(stocke and scenario and x),
+        steps=etapes_vues(etapes),
     )
 
 
@@ -418,3 +443,36 @@ def reviser_demo(
         draft=r.brouillon, envelope=r.enveloppe, reviewed_at=r.valide_le,
         corrected_fields=r.champs,
     )  # fmt: skip
+
+
+# Les métriques d'une fenêtre sont gardées 15 s : un rafraîchissement répété de l'écran « Qualité »
+# ne peut pas charger la base (la route est publique, comme la démonstration).
+CACHE_METRIQUES_S = 15.0
+_cache_metriques: dict[int, tuple[float, Metriques]] = {}
+
+
+@routeur.get(
+    "/v1/demo/quality",
+    response_model=Metriques,
+    responses={
+        503: {"model": Erreur, "description": "Enregistrement des traitements indisponible"}
+    },
+)
+def qualite(heures: int = 24) -> Metriques:
+    """Santé du service tirée de la base (V-10, TB-6) : sans contenu, modèle simulé exclu."""
+    if heures not in FENETRES_HEURES:
+        detail = DetailErreur(field="query.heures", issue="not_allowed")
+        raise ErreurAPI(422, "validation_failed", [detail])
+    m = moteur()
+    if m is None:
+        raise ErreurAPI(503, "service_unavailable")
+    garde = _cache_metriques.get(heures)
+    if garde and time.monotonic() - garde[0] < CACHE_METRIQUES_S:
+        return garde[1]
+    try:
+        resultat = calculer(m, heures)
+    except SQLAlchemyError as erreur:
+        logging.getLogger(__name__).warning("qualite.echec erreur=%s", type(erreur).__name__)
+        raise ErreurAPI(503, "service_unavailable") from erreur
+    _cache_metriques[heures] = (time.monotonic(), resultat)
+    return resultat

@@ -58,6 +58,7 @@ from muninn.qualification.contrat import (
     SortieQualification,
     TraceSansContenu,
 )
+from muninn.telemetrie import etape
 
 journal = logging.getLogger(__name__)
 
@@ -263,7 +264,10 @@ def traiter_appel(
     """Qualifie l'appel, puis produit un dossier, un message ou une trace sans contenu."""
     controle = None
     try:
-        controle = controler(transcription)
+        with etape("controle_entree") as c:
+            controle = controler(transcription)
+            c["motifs"] = ",".join(controle.motifs) or "aucun"
+            c["code_refus"] = controle.refus
         if controle.refus == "entree_vide" or (
             controle.refus is None and sans_contenu(controle.texte)
         ):
@@ -278,20 +282,27 @@ def traiter_appel(
         elif controle.refus is not None:
             raise EntreeRefusee(controle.refus, controle.message_refus or "")
         else:
-            q = qualifier(
-                controle.texte,
-                paquet_qualification,
-                fournisseur,
-                date_reference,
-                metier,
-                numero_presente,
-                tuple(controle.motifs),
-            )
+            with etape("qualification") as c:
+                q = qualifier(
+                    controle.texte,
+                    paquet_qualification,
+                    fournisseur,
+                    date_reference,
+                    metier,
+                    numero_presente,
+                    tuple(controle.motifs),
+                )
+                c.update(
+                    categorie=q.categorie, regle=q.regle or "aucune", securite=q.securite,
+                    jetons=q.jetons_entree + q.jetons_sortie, cout_micro_eur=q.cout_micro_eur,
+                )  # fmt: skip
             traitement = Traitement(qualification=q)
             if q.categorie in CATEGORIES_MESSAGE:
-                traitement.message, traitement.garde_fous = construire_message(
-                    q, controle.texte, paquet_qualification, numero_presente, maintenant()
-                )
+                with etape("message") as c:
+                    traitement.message, traitement.garde_fous = construire_message(
+                        q, controle.texte, paquet_qualification, numero_presente, maintenant()
+                    )
+                    c["garde_fous"] = ",".join(sorted(traitement.garde_fous)) or "aucun"
             else:
                 x = extraire_dossier(
                     controle.texte,

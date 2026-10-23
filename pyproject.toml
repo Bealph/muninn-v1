@@ -17,6 +17,7 @@ dependencies = [
     "alembic>=1.13",
     "duckdb>=1.1",
     "langfuse==4.15.6",
+    "azure-monitor-opentelemetry-exporter==1.0.0b57",
 ]
 
 [project.scripts]

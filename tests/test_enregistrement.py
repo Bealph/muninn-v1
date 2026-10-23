@@ -82,3 +82,8 @@ def test_revue_sans_base_rend_503(client_api: TestClient) -> None:
         "/v1/demo/runs/00000000-0000-0000-0000-000000000000/review", json={"decision": "validated"}
     )
     assert r.status_code == 503 and r.json()["code"] == "service_unavailable"
+
+
+def test_qualite_sans_base_rend_503(client_api: TestClient) -> None:
+    r = client_api.get("/v1/demo/quality")
+    assert r.status_code == 503 and r.json()["code"] == "service_unavailable"

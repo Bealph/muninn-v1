@@ -1,0 +1,78 @@
+"""Traces du parcours principal et étapes d'un appel (sprint 5, étape 3 ; D-40, D-87).
+
+Les traces sont captées par un exportateur en mémoire : aucun envoi vers Azure.
+"""
+
+import re
+from collections.abc import Iterator
+
+import pytest
+from fastapi.testclient import TestClient
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import SimpleSpanProcessor
+from opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter
+
+from muninn import telemetrie
+
+CODE = re.compile(r"[A-Za-z0-9_.,\-]{1,80}")
+
+
+@pytest.fixture
+def traces(monkeypatch: pytest.MonkeyPatch) -> Iterator[InMemorySpanExporter]:
+    exportateur = InMemorySpanExporter()
+    fournisseur = TracerProvider()
+    fournisseur.add_span_processor(SimpleSpanProcessor(exportateur))
+    monkeypatch.setattr(telemetrie, "traceur", lambda: fournisseur.get_tracer("essai"))
+    yield exportateur
+    fournisseur.shutdown()
+
+
+def test_sans_chaine_de_connexion_aucun_traceur(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("APPLICATIONINSIGHTS_CONNECTION_STRING", raising=False)
+    telemetrie.traceur.cache_clear()
+    assert telemetrie.traceur() is None
+
+
+def test_liste_blanche_des_attributs() -> None:
+    gardes = telemetrie.filtrer({
+        "categorie": "demande_service", "outils": 2, "a_verifier": True,
+        "nom_client": "Martin", "statut": "Paul Martin, Montreuil", "motifs": "x" * 200,
+    })  # fmt: skip
+    assert gardes == {
+        "muninn.categorie": "demande_service", "muninn.outils": 2, "muninn.a_verifier": True
+    }  # fmt: skip
+
+
+def test_la_demo_rend_les_etapes_dans_l_ordre(client_api: TestClient) -> None:
+    r = client_api.post("/v1/demo/runs", json={"mode": "scenario", "scenario_id": "SC-01"})
+    assert r.status_code == 200, r.text
+    etapes = r.json()["steps"]
+    noms = [e["nom"] for e in etapes]
+    assert noms[0] == "appel"
+    for attendu in ("controle_entree", "qualification", "agent", "controles_serveur"):
+        assert attendu in noms
+    assert noms.index("controle_entree") < noms.index("qualification") < noms.index("agent")
+    assert noms.index("agent") < noms.index("controles_serveur")
+    debuts = [e["debut_ms"] for e in etapes]
+    assert debuts == sorted(debuts) and all(e["duree_ms"] >= 0 for e in etapes)
+    racine = etapes[0]
+    assert racine["niveau"] == 0 and racine["details"]["issue"] == "dossier"
+    assert all(e["niveau"] >= 1 for e in etapes[1:])
+
+
+def test_les_traces_ne_portent_aucun_contenu(
+    client_api: TestClient, traces: InMemorySpanExporter
+) -> None:
+    r = client_api.post("/v1/demo/runs", json={"mode": "scenario", "scenario_id": "SC-01"})
+    assert r.status_code == 200
+    spans = traces.get_finished_spans()
+    noms = {s.name for s in spans}
+    assert {"appel", "controle_entree", "qualification", "agent", "controles_serveur"} <= noms
+    racine = next(s for s in spans if s.name == "appel")
+    assert all(s.context.trace_id == racine.context.trace_id for s in spans)
+    # Un attribut texte est un code sans espace : il ne peut pas reprendre un passage de l'appel.
+    for s in spans:
+        for cle, valeur in (s.attributes or {}).items():
+            assert cle in telemetrie.ATTRIBUTS_AUTORISES, cle
+            if isinstance(valeur, str):
+                assert CODE.fullmatch(valeur), (cle, valeur)

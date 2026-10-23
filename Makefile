@@ -2,7 +2,7 @@
 # Shell POSIX requis : sous Windows, lancer depuis Git Bash. La CI appelle les mêmes cibles.
 
 .DEFAULT_GOAL := aide
-.PHONY: aide installer format lint types tests verifier base-demarrer base-arreter tests-base         migrer ingerer calibrer questions api console image
+.PHONY: aide installer format lint types tests verifier base-demarrer base-arreter tests-base tests-conteneur         migrer ingerer calibrer questions api console image
 
 # PostgreSQL 16 jetable pour le poste (identifiants d'essai, jamais ceux d'Azure).
 PG_CONTENEUR ?= muninn-pg-essai
@@ -45,6 +45,12 @@ base-arreter: ## Arrête le PostgreSQL local, ses données sont gardées
 
 tests-base: base-demarrer ## Tests, base comprise : aucun test de base n'est ignoré
 	TEST_DATABASE_URL=$(PG_URL)/postgres MUNINN_TESTS_BASE=obligatoire uv run pytest -ra
+
+# Le poste bloque désormais les extensions compilées non signées (SQLAlchemy, psycopg, DuckDB,
+# constaté le 23 octobre 2026) : la suite tourne alors dans un conteneur Linux, comme en CI. La base
+# est jointe par le réseau (host.docker.internal), pas en local : le mot de passe y est vérifié.
+tests-conteneur: base-demarrer ## Tests, base comprise, dans un conteneur Linux (même uv que la CI)
+	MSYS_NO_PATHCONV=1 docker run --rm -v "$$(pwd -W 2>/dev/null || pwd)":/app -w /app -v muninn-uv-cache:/root/.cache/uv -v muninn-pw-cache:/root/.cache/ms-playwright -e UV_PROJECT_ENVIRONMENT=/opt/venv -e UV_LINK_MODE=copy -e MUNINN_TESTS_BASE=obligatoire -e TEST_DATABASE_URL=postgresql://essai:essai-local@host.docker.internal:$(PG_PORT)/postgres python:3.12.10-slim-bookworm sh -c "pip install -q uv==0.12.5 && uv sync --frozen -q && uv run playwright install --with-deps chromium > /dev/null && uv run pytest -q -ra -p no:cacheprovider $(ARGS)"
 
 migrer: base-demarrer ## Applique les migrations à la base locale
 	DATABASE_URL=$(PG_URL)/$(BASE) uv run muninn-db upgrade

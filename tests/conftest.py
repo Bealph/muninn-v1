@@ -6,7 +6,7 @@ import httpx
 import pytest
 from fastapi.testclient import TestClient
 
-from muninn import observabilite
+from muninn import observabilite, telemetrie
 from muninn.api.limites import LimiteurDebit
 from muninn.api.main import app as api
 from muninn.api.main import get_fournisseur, get_limiteur
@@ -30,6 +30,7 @@ VARIABLES_MUNINN = (
     "LANGFUSE_EVAL_PUBLIC_KEY",
     "LANGFUSE_EVAL_SECRET_KEY",
     "DATABASE_URL_TRAITEMENTS",
+    "APPLICATIONINSIGHTS_CONNECTION_STRING",
 )
 
 
@@ -43,6 +44,7 @@ def configuration_isolee(monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
     get_limiteur.cache_clear()
     observabilite.client.cache_clear()
     enregistrement.moteur.cache_clear()
+    telemetrie.traceur.cache_clear()
     monkeypatch.setattr(observabilite, "_contenu_synthetique", False)
     yield
     get_settings.cache_clear()

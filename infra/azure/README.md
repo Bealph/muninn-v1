@@ -197,6 +197,15 @@ dans le secret `database-url-traitements` ; la nouvelle révision ne reçoit le 
 contrôle, comme une livraison. Le rôle n'écrit que dans le schéma `app` ; l'API garde son rôle en
 lecture seule pour les référentiels. Sans cette adresse, l'API traite les appels sans les enregistrer.
 
+## Traces vers Application Insights (sprint 5)
+
+`bash infra/azure/09-observabilite.sh [preproduction] [production]` crée le composant
+`appi-muninn`, lié à l'espace `log-muninn` et étiqueté pour le budget, puis donne sa chaîne de
+connexion à l'API de chaque environnement (secret `appinsights-connection-string`), avec une
+révision contrôlée (D-87). Sans cette chaîne, l'API ne trace rien vers Azure et n'échoue pas.
+Coût vérifié le 23 octobre 2026 : ingestion facturée par l'espace, 5 Go gratuits par mois, sous le
+plafond de 0,5 Go par jour de `log-muninn`.
+
 ## Consulter une base, en lecture seule
 
 `bash infra/azure/consulter-base.sh [production|preproduction] [--interactif] [--traitements]`
