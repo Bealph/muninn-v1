@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-26",
+  "deploiement": {
+    "script": "infra/azure/11-alertes.sh",
+    "lance_par": "porteur",
+    "what_if_premier": [
+      "Create ag-muninn",
+      "Create al04-muninn-modele"
+    ],
+    "what_if_relance": [
+      "Modify ag-muninn (adresse)",
+      "NoChange al04-muninn-modele"
+    ]
+  },
+  "regle": {
+    "nom": "al04-muninn-modele",
+    "active": true,
+    "evaluation": "PT15M",
+    "fenetre": "PT1H",
+    "severite": 2,
+    "groupe_actions": "ag-muninn",
+    "cout_mensuel_eur": 0.44
+  },
+  "essai_courriel": {
+    "commande": "az monitor action-group test-notifications create --alert-type logalertv2",
+    "premier_essai": "BadRequest : There are no valid receivers in the request (adresse venant d'être ajoutée)",
+    "apres_courriel_d_inscription": {
+      "envoye_utc": "2026-10-26T08:36:34Z",
+      "statut": "Succeeded",
+      "recu_par_le_porteur": "courriel « Delivery Confirmation : This is a sample log analytic alert from Azure Monitor Action Groups »"
+    }
+  },
+  "requete": {
+    "fichier": "infra/azure/alertes/al04.kql",
+    "espace_reel_7_jours": {
+      "extractions": 175,
+      "appels_modele": 507,
+      "echecs": 0,
+      "alerte": false
+    },
+    "seuils_fabriques": {
+      "5 % pile": "rien",
+      "10 %": "alerte",
+      "moins de 20": "rien",
+      "preproduction": "ignoree"
+    }
+  },
+  "adresse": "non consignée (donnée personnelle)"
+}

@@ -102,10 +102,10 @@ Aucune nouvelle source de données externe : les référentiels du sprint 3 sont
 
 ### Étape 5 : les alertes
 
-- [ ] Pour chaque signal clé : seuil argumenté, alerte, action documentée ; tableau dans `docs/exploitation.md`.
-- [ ] AL-01 calculée et affichée par l'application (part « à vérifier », 20 extractions au moins).
-- [ ] Une alerte Azure Monitor sur les journaux (D-40), avec son groupe d'actions ; créée par le porteur par un script relu (R10).
-- [ ] Dérive simulée : un moyen reproductible de la provoquer en production, sans données réelles ; alerte constatée.
+- [x] Pour chaque signal clé : seuil argumenté, alerte, action documentée ; tableau dans `docs/exploitation.md`. Preuve : `docs/exploitation.md`, section 1 (AL-01, AL-04, AL-16, budget : seuil, raison, alerte, action pas à pas, manière de la provoquer).
+- [x] AL-01 calculée et affichée par l'application (part « à vérifier », 20 extractions au moins). Preuve : `src/muninn/traitements/etat.py`, écran « Qualité » (étape 4, PR 183 à 187), `tests/test_etat.py` (20 % pile : sous le seuil ; 25 % : alerte ; moins de 20 dossiers : non jugé).
+- [x] Une alerte Azure Monitor sur les journaux (D-40), avec son groupe d'actions ; créée par le porteur par un script relu (R10). Preuve : `11-alertes.sh` lancé par le porteur le 26 octobre 2026 : règle `al04-muninn-modele` active (15 min, fenêtre 1 h), groupe `ag-muninn` ; courriel d'essai `Succeeded` à 08:36 UTC et reçu par le porteur, après le courriel d'inscription au groupe (`preuves/etape-5-al04.json`). Requête testée sur l'espace et aux seuils exacts.
+- [x] Dérive simulée : un moyen reproductible de la provoquer en production, sans données réelles ; alerte constatée. Preuve : `rafale.py --profil derive --nombre 22` (22 appels SC-10, 0,12 €) le 26 octobre 2026, 08:06 à 08:09 UTC, révision `d9c2f81` ; l'écran est passé de « Aucun problème détecté depuis 24 heures » à « Alerte », AL-01 à 100 % (22 sur 22), épisode dans l'historique : `preuves/etape-5-derive.json`, `preuves/etape-5-derive-ecran.png`.
 
 ### Étape 6 : la voix et l'écran « Démonstration » (V-12, CA-8)
 

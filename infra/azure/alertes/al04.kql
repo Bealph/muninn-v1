@@ -1,0 +1,15 @@
+// AL-04 (D-83) : erreurs du fournisseur du modèle et brouillons de secours au-dessus de 5 %.
+// Évaluée par Azure Monitor sur la fenêtre de la règle (1 heure), API de production. Ne rend une
+// ligne que si un taux dépasse 5 % sur un volume suffisant (20) : la règle alerte si au moins une
+// ligne est rendue. Aucune donnée d'appel : des statuts et des comptes.
+ContainerAppConsoleLogs_CL
+| where ContainerAppName_s == 'ca-muninn-api-prod'
+| where Log_s has_any ('extraction.fin', 'llm.etape', 'llm.echec')
+| extend statut = extract(@'extraction\.fin .*statut=(\w+)', 1, Log_s)
+| summarize extractions = countif(Log_s has 'extraction.fin'),
+            secours = countif(statut == 'fallback_no_llm'),
+            appels_modele = countif(Log_s has 'llm.etape' or Log_s has 'llm.echec'),
+            echecs_modele = countif(Log_s has 'llm.echec')
+| extend part_secours = iff(extractions > 0, todouble(secours) / extractions, 0.0),
+         part_echecs = iff(appels_modele > 0, todouble(echecs_modele) / appels_modele, 0.0)
+| where (extractions >= 20 and part_secours > 0.05) or (appels_modele >= 20 and part_echecs > 0.05)

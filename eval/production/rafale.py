@@ -52,7 +52,9 @@ def main() -> int:
             print(f"{i + 1:>2} {scenario} : HTTP {r.status_code}")
         else:
             run = r.json()
-            verifier = bool((run.get("draft") or {}).get("needs_review"))
+            # « À vérifier » au sens d'AL-01 : `envelope.a_verifier`. `draft.needs_review` dit
+            # seulement que l'extraction est incomplète (contrat), ce n'est pas la même chose.
+            verifier = bool((run.get("envelope") or {}).get("a_verifier"))
             dossiers += run.get("issue") == "dossier"
             a_verifier += verifier
             etapes = run.get("steps") or []

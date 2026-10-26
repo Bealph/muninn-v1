@@ -167,6 +167,7 @@ def test_details_techniques_replies_et_sans_jargon_en_tete(ecran: Ecran) -> None
 
 
 def test_heure_de_paris() -> None:
-    # 23 octobre 2026, heure d'été (UTC+2) ; 26 octobre, heure d'hiver (UTC+1).
-    assert heure_lisible("2026-10-23T14:05:00+00:00").endswith("16:05")
-    assert heure_lisible("2026-10-26T14:05:00+00:00") == "26/10 à 15:05"
+    # Dates fixes, jamais le jour même (sinon la date disparaît de l'affichage) : heure d'été
+    # (UTC+2) puis heure d'hiver (UTC+1).
+    assert heure_lisible("2026-07-14T14:05:00+00:00") == "14/07 à 16:05"
+    assert heure_lisible("2026-01-15T14:05:00+00:00") == "15/01 à 15:05"

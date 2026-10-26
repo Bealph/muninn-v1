@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-26T08:09:25.403667Z",
+  "version_servie": {
+    "version": "0.1.0",
+    "git_sha": "5601ca71908c5629a31fc5a670cf00100366c4fa",
+    "environment": "production"
+  },
+  "commande": "uv run python eval/production/rafale.py --profil derive --nombre 22",
+  "rafale": {
+    "debut_utc": "2026-10-26T08:05:58Z",
+    "fin_utc": "2026-10-26T08:08:49Z",
+    "appels": 22,
+    "scenario": "SC-10",
+    "echecs": 0,
+    "cout_modele_eur": 0.1205
+  },
+  "avant": {
+    "niveau": "insuffisant",
+    "titre": "Aucun problème détecté depuis 24 heures"
+  },
+  "apres": {
+    "niveau": "alerte",
+    "titre": "Alerte",
+    "phrase": "Seuil dépassé sur les 60 dernières minutes : dossiers à vérifier. Prévenir la personne qui gère Muninn : elle suit la procédure prévue pour cette alerte.",
+    "regles": [
+      {
+        "code": "AL-01",
+        "valeur": "100 % (22 sur 22)",
+        "niveau": "alerte",
+        "volume": 22
+      },
+      {
+        "code": "AL-04",
+        "valeur": "0 % (0 sur 22)",
+        "niveau": "ok",
+        "volume": 22
+      },
+      {
+        "code": "AL-16",
+        "valeur": "4,4 s",
+        "niveau": "ok",
+        "volume": 22
+      }
+    ],
+    "historique": [
+      {
+        "code": "AL-01",
+        "court": "dossiers à vérifier",
+        "debut": "2026-10-26T08:09:25.392838Z",
+        "fin": "2026-10-26T08:09:25.392838Z",
+        "en_cours": true,
+        "pire": "100 % (22 sur 22)"
+      }
+    ]
+  },
+  "chiffres_heure": {
+    "total": 22,
+    "dossiers": 22,
+    "a_verifier": 22,
+    "part_a_verifier": 1.0,
+    "secours": 0,
+    "extractions": 22,
+    "extraction_p95_ms": 4355
+  }
+}
