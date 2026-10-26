@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-26",
+  "executant": "le porteur, guide docs/exploitation.md seul, sans aide ; aucun blocage noté",
+  "version": "97c870c",
+  "depart": {
+    "api": "ca-muninn-api-prod--0000094",
+    "console": "ca-muninn-console-prod--0000090",
+    "heure_utc": "09:19:21"
+  },
+  "panne": {
+    "commande": "bash infra/azure/12-panne.sh production --provoquer",
+    "revision_fautive": "ca-muninn-api-prod--0000095",
+    "effet": "AZURE_AI_ENDPOINT=https://panne-simulee.invalid, 100 % du trafic"
+  },
+  "rafale": {
+    "debut_utc": "09:25:45",
+    "fin_utc": "09:28:21",
+    "appels": 20,
+    "dossiers": 20,
+    "a_verifier": 20,
+    "echecs_http": 0,
+    "duree_par_appel_ms": "25 à 31",
+    "cout_modele_eur": 0.0
+  },
+  "symptomes": {
+    "ecran_qualite": "Alerte : dossiers à vérifier, brouillons de secours",
+    "al04": {
+      "declenchee_utc": "09:33:42",
+      "courriel": "reçu par le porteur, « Fired:Sev2 … Muninn AL-04 »",
+      "delai_apres_fin_de_rafale": "5 min 21 s"
+    }
+  },
+  "retour_arriere": {
+    "commande": "gh workflow run retour-arriere -f environnement=production",
+    "run": 40301546928,
+    "lance_utc": "09:41:50",
+    "service_verifie_utc": "09:43:49",
+    "bascule_s": 61,
+    "verifie_s": 89,
+    "api": "ca-muninn-api-prod--0000094",
+    "console": "ca-muninn-console-prod--0000090 (inchangée)"
+  },
+  "ca6_partie2": {
+    "sc01_conforme_utc": "09:44:23",
+    "conformity": {
+      "compliant": true,
+      "gaps": []
+    },
+    "latence_ms": 3141,
+    "duree_depuis_retour_arriere": "2 min 33 s",
+    "seuil": "moins de 5 minutes",
+    "tenu": true
+  },
+  "reparation": {
+    "commande": "bash infra/azure/12-panne.sh production --reparer",
+    "revision": "ca-muninn-api-prod--0000096",
+    "point_acces": "FOUNDRY_ENDPOINT",
+    "sc01_utc": "09:47:07",
+    "conforme": true
+  },
+  "aucune_donnee_reelle": true
+}

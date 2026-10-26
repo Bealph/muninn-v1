@@ -123,12 +123,12 @@ Aucune nouvelle source de données externe : les référentiels du sprint 3 sont
 ### Étape 8 : la documentation d'exploitation
 
 - [x] `docs/exploitation.md` : prérequis, déployer, vérifier, diagnostiquer une panne type, faire un retour arrière, tableau des alertes et de leurs actions ; écrite pour un tiers. Relue le 26 octobre 2026 par un agent jouant l'évaluateur pair (lecture seule, sans aide) : 12 constats, tous traités, dont un défaut du retour arrière (une révision de configuration ne se défaisait pas), corrigé et testé (`tests/test_retour_arriere.py`).
-- [ ] Panne type simulable en production, sans risque pour les données. Prêt : `infra/azure/12-panne.sh <env> --provoquer|--reparer` (point d'accès du modèle mal configuré, brouillons de secours, AL-04). Reste : l'exercice réel par le porteur.
-- [ ] Test de la doc par un tiers, sans aide : chaque point où il bloque est consigné comme trou de la doc, puis corrigé.
+- [x] Panne type simulable en production, sans risque pour les données. Preuve : `12-panne.sh production --provoquer` le 26 octobre 2026 (révision `0000095`, point d'accès du modèle mal configuré) ; 20 appels, 20 brouillons de secours, aucun appel perdu, 0 € ; écran « Qualité » en alerte ; AL-04 reçue par courriel à 09:33:42 UTC ; réparation par `--reparer` (révision `0000096`) : `preuves/etape-8-exercice-panne.json`.
+- [x] Test de la doc par un tiers, sans aide : chaque point où il bloque est consigné comme trou de la doc, puis corrigé. Deux passes : (1) relecture par un agent jouant l'évaluateur pair, 12 constats corrigés, dont le retour arrière qui ne défaisait pas une révision de configuration ; (2) exercice réel par le porteur, qui n'a pas écrit le guide, avec le seul guide, sans aide : panne, diagnostic, retour arrière, réparation, aucun blocage noté. L'évaluateur pair le refera à l'évaluation.
 
 ### Étape 9 : le contrat personnel
 
-- [ ] CA-1 à CA-8 vérifiés sur la révision active d'Azure, 3 sur 3 ; CA-6 partie 2 démontrée (version dégradée, retour arrière, SC-01 en moins de 5 minutes) ; `contrat-personnel.md` à jour.
+- [ ] CA-1 à CA-8 vérifiés sur la révision active d'Azure, 3 sur 3 ; CA-6 partie 2 démontrée (version dégradée, retour arrière, SC-01 en moins de 5 minutes) ; `contrat-personnel.md` à jour. Fait le 26 octobre 2026 : CA-6 partie 2 démontrée (version dégradée `0000095`, retour arrière, SC-01 conforme en 2 min 33 s : `preuves/etape-8-exercice-panne.json`) ; reste CA-1 à CA-8 sur la révision active.
 
 ### Étape 10 : la démo des 10 minutes
 

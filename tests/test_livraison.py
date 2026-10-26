@@ -53,7 +53,14 @@ def lancer(
 
 
 @pytest.mark.parametrize(
-    "message", ["Too Many Requests(Ref A: x)", "Service Unavailable(<html>)", "(503) busy"]
+    "message",
+    [
+        "Too Many Requests(Ref A: x)",
+        "Service Unavailable(<html>)",
+        "(503) busy",
+        # INC-08 : message exact de la livraison du 26 octobre 2026.
+        "(ServerTimeout) The request timed out. Diagnostic information: timestamp '20261026T0908'",
+    ],
 )
 def test_erreur_passagere_reprise_puis_succes(tmp_path: Path, message: str) -> None:
     resultat, appels = lancer(tmp_path, echecs=2, message=message)
