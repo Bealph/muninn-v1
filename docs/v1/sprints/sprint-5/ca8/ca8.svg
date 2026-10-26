@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="titre">
+<title id="titre">CA-8 : la voix, mesurée sur la production (ca8)</title>
+<defs><marker id="pointe" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0f4d3a"/></marker><marker id="pointe-rouge" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d7192e"/></marker></defs>
+<rect width="1600" height="1000" fill="#ffffff"/>
+<g font-family="'Segoe UI', 'DejaVu Sans', Arial, sans-serif">
+<text x="60" y="62" font-size="16" fill="#2fbf71" text-anchor="start" font-weight="700" letter-spacing="3">MUNINN · CRITÈRES D'ACCEPTATION · V1</text>
+<text x="60" y="118" font-size="40" fill="#0f4d3a" text-anchor="start" font-weight="700">CA-8 : la voix, mesurée sur la production</text>
+<text x="1540" y="62" font-size="16" fill="#8a8f8c" text-anchor="end" font-weight="700">3 mesures · 21 parcours</text>
+<rect x="40" y="160" width="470" height="720" rx="12" fill="#eef4f1" stroke="#0f4d3a" stroke-width="2"/>
+<text x="275.0" y="190" font-size="17" fill="#0f4d3a" text-anchor="middle" font-weight="700">Ce que CA-8 exige</text>
+<rect x="70" y="215" width="410" height="100" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="275.0" y="260.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Appel synthétisé à deux voix</text>
+<text x="275.0" y="282.5" font-size="14" fill="#ffffff" text-anchor="middle">21 parcours · lecture testée à l'écran</text>
+<rect x="70" y="343" width="410" height="100" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="275.0" y="388.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Agent et appelant distingués</text>
+<text x="275.0" y="410.5" font-size="14" fill="#ffffff" text-anchor="middle">21 sur 21</text>
+<rect x="70" y="471" width="410" height="100" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="275.0" y="516.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">45 s au plus après l'appel (D-74)</text>
+<text x="275.0" y="538.5" font-size="14" fill="#ffffff" text-anchor="middle">de 3,9 à 17,4 s</text>
+<rect x="70" y="599" width="410" height="100" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="275.0" y="644.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Aucun audio sur disque (TC-10)</text>
+<text x="275.0" y="666.5" font-size="14" fill="#ffffff" text-anchor="middle">prouvé par les tests de l'API</text>
+<rect x="70" y="727" width="410" height="100" rx="8" fill="#d7192e" stroke="#d7192e" stroke-width="1"/>
+<text x="275.0" y="772.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Dossier de SC-01 = attendu de CA-1</text>
+<text x="275.0" y="794.5" font-size="14" fill="#ffffff" text-anchor="middle">téléphone manquant · 0 sur 3, 3 fois</text>
+<rect x="560" y="160" width="480" height="720" rx="12" fill="#eef4f1" stroke="#0f4d3a" stroke-width="2"/>
+<text x="800.0" y="190" font-size="17" fill="#0f4d3a" text-anchor="middle" font-weight="700">Pourquoi le téléphone manque</text>
+<rect x="590" y="215" width="420" height="100" rx="8" fill="#ffffff" stroke="#0f4d3a" stroke-width="2"/>
+<text x="800.0" y="260.5" font-size="19" fill="#0f4d3a" text-anchor="middle" font-weight="700">Dit par l'appelant</text>
+<text x="800.0" y="282.5" font-size="14" fill="#0f4d3a" text-anchor="middle">06 99 00 00 01 (tranche fictive, R9)</text>
+<rect x="590" y="343" width="420" height="100" rx="8" fill="#8a8f8c" stroke="#8a8f8c" stroke-width="1"/>
+<text x="800.0" y="388.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Voix Azure</text>
+<text x="800.0" y="410.5" font-size="14" fill="#ffffff" text-anchor="middle">3 façons de lire essayées, 2 fois</text>
+<polyline points="800,315 800,341" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="590" y="471" width="420" height="100" rx="8" fill="#8a8f8c" stroke="#8a8f8c" stroke-width="1"/>
+<text x="800.0" y="516.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Transcription Azure</text>
+<text x="800.0" y="538.5" font-size="14" fill="#ffffff" text-anchor="middle">06 99 00 000 01 · à chaque passage</text>
+<polyline points="800,443 800,469" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="590" y="599" width="420" height="100" rx="8" fill="#d7192e" stroke="#d7192e" stroke-width="1"/>
+<text x="800.0" y="644.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">11 chiffres</text>
+<text x="800.0" y="666.5" font-size="14" fill="#ffffff" text-anchor="middle">numéro invalide, non retenu</text>
+<polyline points="800,571 800,597" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="590" y="727" width="420" height="100" rx="8" fill="#0f4d3a" stroke="#2fbf71" stroke-width="4"/>
+<text x="800.0" y="772.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Dossier sans numéro dicté</text>
+<text x="800.0" y="794.5" font-size="14" fill="#ffffff" text-anchor="middle">rien d'inventé : comportement sûr</text>
+<polyline points="800,699 800,725" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="1090" y="160" width="470" height="460" rx="12" fill="#eef4f1" stroke="#0f4d3a" stroke-width="2"/>
+<text x="1325.0" y="190" font-size="17" fill="#0f4d3a" text-anchor="middle" font-weight="700">Écarté : ajuster le système au test</text>
+<rect x="1120" y="215" width="410" height="100" rx="8" fill="#ffffff" stroke="#0f4d3a" stroke-width="2"/>
+<text x="1325.0" y="260.5" font-size="19" fill="#0f4d3a" text-anchor="middle" font-weight="700">Réécrire « 000 » en « 00 »</text>
+<text x="1325.0" y="282.5" font-size="14" fill="#0f4d3a" text-anchor="middle">pour ce seul numéro</text>
+<rect x="1120" y="343" width="410" height="100" rx="8" fill="#ffffff" stroke="#0f4d3a" stroke-width="2"/>
+<text x="1325.0" y="388.5" font-size="19" fill="#0f4d3a" text-anchor="middle" font-weight="700">Souffler le numéro</text>
+<text x="1325.0" y="410.5" font-size="14" fill="#0f4d3a" text-anchor="middle">à la transcription</text>
+<rect x="1120" y="471" width="410" height="100" rx="8" fill="#ffffff" stroke="#0f4d3a" stroke-width="2"/>
+<text x="1325.0" y="516.5" font-size="19" fill="#0f4d3a" text-anchor="middle" font-weight="700">Changer le numéro</text>
+<text x="1325.0" y="538.5" font-size="14" fill="#0f4d3a" text-anchor="middle">impossible : tranche fictive (R9)</text>
+<rect x="1090" y="650" width="470" height="230" rx="8" fill="#0f4d3a" stroke="#2fbf71" stroke-width="4"/>
+<text x="1325.0" y="727.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Démonstration : 4 sur 4</text>
+<text x="1325.0" y="749.5" font-size="14" fill="#ffffff" text-anchor="middle">SC-Q4, SC-04, SC-Q1, SC-10</text>
+<text x="1325.0" y="771.5" font-size="14" fill="#ffffff" text-anchor="middle">conformes à l'attendu</text>
+<text x="1325.0" y="793.5" font-size="14" fill="#ffffff" text-anchor="middle">et transcription jugée fidèle</text>
+<text x="1325.0" y="815.5" font-size="14" fill="#ffffff" text-anchor="middle">(3e mesure, production 74b1e55)</text>
+<rect x="60" y="910" width="1480" height="56" rx="8" fill="#ffffff" stroke="#d7192e" stroke-width="2" stroke-dasharray="10 7"/>
+<text x="84" y="945" font-size="17" fill="#d7192e" text-anchor="start" font-weight="700">CA-8 : non atteint sur le téléphone. Limite de la transcription, mesurée, documentée (INC-09) et assumée.</text>
+</g>
+</svg>

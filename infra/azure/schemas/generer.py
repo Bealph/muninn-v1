@@ -25,6 +25,7 @@ README = DOSSIER.parent / "README.md"
 BLOC = re.compile(r"<!-- schema: ([a-z0-9-]+) -->\n```text\n(.*?)\n```", re.S)
 
 LARGEUR, HAUTEUR = 1600, 1000
+BANDEAU = "MUNINN · INFRASTRUCTURE AZURE · V1"
 POLICE = "'Segoe UI', 'DejaVu Sans', Arial, sans-serif"
 FONCE, VIF, FOND, GRIS, ROUGE, TEXTE = (
     "#0f4d3a",
@@ -51,13 +52,14 @@ def schemas(texte: str) -> dict[str, str]:
 class Planche:
     """Une planche SVG : en-tête, boîtes, groupes, flèches, notes."""
 
-    def __init__(self, numero: int, titre: str) -> None:
+    def __init__(
+        self, numero: int, titre: str, *, bandeau: str = BANDEAU, repere: str | None = None
+    ) -> None:
         self.elements: list[str] = []
         self.titre = titre
-        self.texte(60, 62, "MUNINN · INFRASTRUCTURE AZURE · V1", 16, VIF, gras=True,
-                   espacement=3)  # fmt: skip
+        self.texte(60, 62, bandeau, 16, VIF, gras=True, espacement=3)
         self.texte(60, 118, titre, 40, FONCE, gras=True)
-        self.texte(LARGEUR - 60, 62, f"{numero} / 5", 16, GRIS, gras=True, ancre="end")
+        self.texte(LARGEUR - 60, 62, repere or f"{numero} / 5", 16, GRIS, gras=True, ancre="end")
 
     def texte(
         self, x: float, y: float, contenu: str, taille: int, couleur: str, *, gras: bool = False,
