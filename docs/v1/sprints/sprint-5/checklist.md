@@ -128,7 +128,7 @@ Aucune nouvelle source de données externe : les référentiels du sprint 3 sont
 
 ### Étape 9 : le contrat personnel
 
-- [ ] CA-1 à CA-8 vérifiés sur la révision active d'Azure, 3 sur 3 ; CA-6 partie 2 démontrée (version dégradée, retour arrière, SC-01 en moins de 5 minutes) ; `contrat-personnel.md` à jour. Fait le 26 octobre 2026 : CA-6 partie 2 démontrée (version dégradée `0000095`, retour arrière, SC-01 conforme en 2 min 33 s : `preuves/etape-8-exercice-panne.json`) ; reste CA-1 à CA-8 sur la révision active.
+- [x] CA-1 à CA-8 vérifiés sur la révision active d'Azure, 3 sur 3 ; CA-6 partie 2 démontrée (version dégradée, retour arrière, SC-01 en moins de 5 minutes) ; `contrat-personnel.md` à jour. Fait le 26 octobre 2026 : CA-6 partie 2 démontrée (version dégradée `0000095`, retour arrière, SC-01 conforme en 2 min 33 s : `preuves/etape-8-exercice-panne.json`) ; CA-1 à CA-8 mesurés le 26 octobre sur la révision active `9dee403` (`contrat-personnel.md`) : contrat 6 sur 6 tenu, CA-7 tenu, CA-8 non atteint sur le téléphone (INC-09).
 
 ### Étape 10 : la démo des 10 minutes
 

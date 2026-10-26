@@ -1,5 +1,8 @@
 # Contrat personnel : état critère par critère
 
+> État au 21 octobre 2026, gardé pour l'historique. État en vigueur : `../sprint-5/contrat-personnel.md`
+> (fin du sprint 5, 26 octobre 2026).
+
 Étape 12 de la checklist du sprint 4 (critère du pair P5). État au **21 octobre 2026**, révision de
 production `ca-muninn-api-prod--0000066` (`git_sha` 4151621, même code que 8e2dd5d) ; CA-1, CA-3 et
 CA-4 vérifiés de nouveau sur la révision qui porte D-80 (`git_sha` f0efe3e).
