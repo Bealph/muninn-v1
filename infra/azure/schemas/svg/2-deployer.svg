@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="titre">
+<title id="titre">Livraison dans un environnement : deployer.sh &lt;env&gt; &lt;sha&gt; (2-deployer)</title>
+<defs><marker id="pointe" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0f4d3a"/></marker><marker id="pointe-rouge" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d7192e"/></marker></defs>
+<rect width="1600" height="1000" fill="#ffffff"/>
+<g font-family="'Segoe UI', 'DejaVu Sans', Arial, sans-serif">
+<text x="60" y="62" font-size="16" fill="#2fbf71" text-anchor="start" font-weight="700" letter-spacing="3">MUNINN · INFRASTRUCTURE AZURE · V1</text>
+<text x="60" y="118" font-size="40" fill="#0f4d3a" text-anchor="start" font-weight="700">Livraison dans un environnement : deployer.sh &lt;env&gt; &lt;sha&gt;</text>
+<text x="1540" y="62" font-size="16" fill="#8a8f8c" text-anchor="end" font-weight="700">2 / 5</text>
+<text x="60" y="170" font-size="14" fill="#1f6b4f" text-anchor="start" font-style="italic">Pour ca-muninn-api-&lt;env&gt;, puis pour ca-muninn-console-&lt;env&gt;</text>
+<rect x="60" y="200" width="260" height="80" rx="8" fill="#8a8f8c" stroke="#8a8f8c" stroke-width="1"/>
+<text x="190.0" y="235.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">rien à livrer</text>
+<text x="190.0" y="257.5" font-size="14" fill="#ffffff" text-anchor="middle">pas une erreur (INC-03)</text>
+<rect x="60" y="360" width="260" height="120" rx="8" fill="#ffffff" stroke="#0f4d3a" stroke-width="2"/>
+<text x="190.0" y="415.5" font-size="19" fill="#0f4d3a" text-anchor="middle" font-weight="700">0. image &lt;sha&gt;</text>
+<text x="190.0" y="437.5" font-size="14" fill="#0f4d3a" text-anchor="middle">déjà en service ?</text>
+<polyline points="190,360 190,282" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<text x="210" y="325" font-size="14" fill="#1f6b4f" text-anchor="start" font-style="italic">oui</text>
+<polyline points="320,420 378,420" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<text x="349" y="400" font-size="14" fill="#1f6b4f" text-anchor="middle" font-style="italic">non</text>
+<rect x="380" y="360" width="260" height="120" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="510.0" y="404.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">1. trafic figé</text>
+<text x="510.0" y="426.5" font-size="14" fill="#ffffff" text-anchor="middle">100 % sur la révision</text>
+<text x="510.0" y="448.5" font-size="14" fill="#ffffff" text-anchor="middle">en service</text>
+<polyline points="640,420 698,420" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="700" y="360" width="300" height="120" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="850.0" y="404.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">2. nouvelle révision</text>
+<text x="850.0" y="426.5" font-size="14" fill="#ffffff" text-anchor="middle">update --image &lt;sha&gt; · 0 %</text>
+<text x="850.0" y="448.5" font-size="14" fill="#ffffff" text-anchor="middle">nom relu (INC-07)</text>
+<polyline points="1000,420 1058,420" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="1060" y="340" width="300" height="160" rx="8" fill="#0f4d3a" stroke="#2fbf71" stroke-width="4"/>
+<text x="1210.0" y="393.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">3. contrôle à son adresse</text>
+<text x="1210.0" y="415.5" font-size="14" fill="#ffffff" text-anchor="middle">API : /health · /version</text>
+<text x="1210.0" y="437.5" font-size="14" fill="#ffffff" text-anchor="middle">POST /llm/essai (modèle A)</text>
+<text x="1210.0" y="459.5" font-size="14" fill="#ffffff" text-anchor="middle">console : /health · SHA affiché</text>
+<polyline points="1360,420 1398,420" fill="none" stroke="#d7192e" stroke-width="3" marker-end="url(#pointe-rouge)"/>
+<text x="1380" y="398" font-size="14" fill="#d7192e" text-anchor="middle" font-style="italic">échec</text>
+<rect x="1400" y="360" width="160" height="120" rx="8" fill="#d7192e" stroke="#d7192e" stroke-width="1"/>
+<text x="1480.0" y="393.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">échec</text>
+<text x="1480.0" y="415.5" font-size="14" fill="#ffffff" text-anchor="middle">trafic laissé sur</text>
+<text x="1480.0" y="437.5" font-size="14" fill="#ffffff" text-anchor="middle">la précédente</text>
+<text x="1480.0" y="459.5" font-size="14" fill="#ffffff" text-anchor="middle">arrêt</text>
+<polyline points="1210,500 1210,568" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<text x="1230" y="540" font-size="14" fill="#1f6b4f" text-anchor="start" font-style="italic">ok</text>
+<rect x="1060" y="570" width="300" height="110" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="1210.0" y="609.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">4. bascule 100 %</text>
+<text x="1210.0" y="631.5" font-size="14" fill="#ffffff" text-anchor="middle">précédente active à 0 %</text>
+<text x="1210.0" y="653.5" font-size="14" fill="#ffffff" text-anchor="middle">(retour arrière possible)</text>
+<rect x="60" y="720" width="1480" height="160" rx="12" fill="#eef4f1" stroke="#0f4d3a" stroke-width="2"/>
+<text x="800.0" y="750" font-size="17" fill="#0f4d3a" text-anchor="middle" font-weight="700">Puis, les deux applications livrées</text>
+<rect x="90" y="775" width="680" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="430.0" y="810.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">job-muninn-donnees-&lt;env&gt;</text>
+<text x="430.0" y="832.5" font-size="14" fill="#ffffff" text-anchor="middle">image &lt;sha&gt;, si la tâche existe</text>
+<rect x="830" y="775" width="680" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="1170.0" y="810.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">contrôle final</text>
+<text x="1170.0" y="832.5" font-size="14" fill="#ffffff" text-anchor="middle">/health des adresses publiques · /version = &lt;sha&gt;</text>
+<rect x="60" y="910" width="1480" height="56" rx="8" fill="#ffffff" stroke="#d7192e" stroke-width="2" stroke-dasharray="10 7"/>
+<text x="84" y="945" font-size="17" fill="#d7192e" text-anchor="start" font-weight="700">Un contrôle en échec arrête la livraison : la production n'est jamais touchée si la préproduction échoue.</text>
+</g>
+</svg>

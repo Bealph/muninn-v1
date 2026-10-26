@@ -1,16 +1,22 @@
 # Architecture technique et choix d'outils de Muninn
 
-**Version :** 1.1
-**Date :** 12 octobre 2026
+**Version :** 1.2
+**Date :** 26 octobre 2026 (v1.2) ; 12 octobre 2026 (v1.1)
 **Historique :** la v1.1 applique la relecture indépendante, s'aligne sur `05-chaine-llmops.md`
 (staging, étiquette de version, évaluation par empreinte, minutes) et intègre D-27 à D-33 ainsi
-que la lecture des fournisseurs de l'abonnement du 12 octobre 2026 (Redis en conteneur).
+que la lecture des fournisseurs de l'abonnement du 12 octobre 2026 (Redis en conteneur). La v1.2
+(26 octobre 2026) aligne les sections 7.1 et 7.3 sur la chaîne livrée en V1 et liste ses écarts
+avec la cible initiale. **Avertissement :** seules ces deux sections décrivent la V1 livrée ; les
+sections 2 à 6, 7.2 et 8 à 11 décrivent la cible de la phase 2 et n'ont pas été révisées (la V1
+n'a ni réseau virtuel, ni base en accès privé, ni Redis : applications en entrée externe, serveur
+PostgreSQL ouvert aux services Azure, d'après `infra/azure/01-socle.sh` et `03-applications.sh`).
+Pour l'infrastructure réelle, `infra/azure/README.md` fait foi.
 **Phase :** 2 (industrialisation)
 **Statut :** proposition, à valider par le porteur
 **Compétence principale servie :** C15 (cadre technique : architecture, outils, méthodes) ;
 préparation de C10 (interface accessible), C18 et C19 (intégration et livraison continues)
 **Documents liés :** passation back-end (document interne au porteur, hors dépôt) ;
-`docs/decisions.md` (D-01 à D-33) ; phase 0 : `01-user-stories.md`, `02-flux-de-donnees.md`,
+`docs/decisions.md` (D-01 à D-88) ; phase 0 : `01-user-stories.md`, `02-flux-de-donnees.md`,
 `04-accessibilite-utilisabilite.md` ; phase 1 : `02-modele-de-donnees.md`,
 `03-acces-et-exposition.md`, `04-verification-exactitude.md`, `06-big-data-externalise.md` ;
 phase 2 : `01-besoin-de-production.md`, `02-plan-de-tests.md`, `03-observabilite.md`,
@@ -394,30 +400,55 @@ La voie 1 est préférée : aucun mot de passe à gérer. La voie 2 est prête e
 
 ### 7.1 Vue d'ensemble
 
-Le détail des étapes LLMOps (évaluation, versionnage des paquets d'extraction, retour arrière)
-est dans `05-chaine-llmops.md`, qui fait foi ; le contenu des tests est dans
-`02-plan-de-tests.md`. Ce tableau donne la forme de la chaîne.
+Cette section décrit la chaîne **livrée en V1**, d'après la configuration versionnée, qui fait
+foi (`.github/workflows/ci.yml`, `donnees.yml`, `retour-arriere.yml`, `infra/azure/deployer.sh`),
+relue le 26 octobre 2026. Les schémas en boîtes de `infra/azure/README.md`, section « Schémas »
+(images dans `infra/azure/schemas/`), en sont une lecture datée du même jour. Le contenu des tests est dans
+`02-plan-de-tests.md`. La cible initiale, décrite par `05-chaine-llmops.md` (étapes E5 à E8),
+n'est pas celle de la V1 ; les écarts sont listés plus bas.
 
-| Déclencheur                                    | Travaux                                                                                                                                                                                                                                                         | Environnement touché |
-| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| Pull request                                   | ruff, mypy strict, tests unitaires et de conformité, recherche de secrets, analyse des dépendances, axe-core sur la console ; évaluation si l'**empreinte d'évaluation** n'a pas d'attestation (`05-chaine-llmops.md`, section 5.2) ; contrôle requis `verdict` | Aucun                |
-| Fusion sur `main`                              | Image étiquetée par le SHA, migration additive par job, révision candidate, extraction de contrôle synthétique                                                                                                                                                  | Staging              |
-| Étiquette Git de version, posée par le porteur | Vérification que la même image a passé le staging, révision à 0 % du trafic, test de fumée, canari, bascule                                                                                                                                                     | Production           |
-| Lancement manuel `retour-arriere`              | Trafic rendu à la révision précédente                                                                                                                                                                                                                           | Production           |
+| Déclencheur                                   | Travaux                                                                                                                                                                                                                                                                                                                                         | Environnement touché                                                                                                    |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Pull request vers `main`                      | `lint` (ruff, format, mypy strict) ; `tests` (PostgreSQL 16 de test, axe-core dans Chromium) ; `build` (image et test de fumée : santé, SHA livré, migrations et commandes embarquées) ; `secrets` (gitleaks sur tout l'historique) ; `evaluation` si l'empreinte du paquet d'extraction diffère de celle de `main` ; contrôle requis `verdict` | Aucun environnement livré ; le modèle est appelé (environnement GitHub `evaluation`, 1 € au plus) si l'empreinte change |
+| Fusion sur `main`                             | Mêmes contrôles (l'évaluation s'y déclare « non requise » : l'empreinte est celle de `main`), puis job `preproduction` : image `crmuninn.azurecr.io/muninn:<sha>` construite et poussée, `deployer.sh preproduction <sha>` ; si vert, job `production` : même image, `deployer.sh production <sha>`                                             | Préproduction, puis production                                                                                          |
+| Workflow manuel `retour-arriere`              | Trafic de l'API et de la console rendu à une révision antérieure (la précédente, ou celle d'un commit donné), contrôle de l'adresse publique                                                                                                                                                                                                    | Celui choisi                                                                                                            |
+| Workflow manuel `donnees`                     | Tâche `job-muninn-donnees-<env>` (migrations, rôles, ingestion), puis jeu de questions de démonstration contre l'API publique                                                                                                                                                                                                                   | Celui choisi                                                                                                            |
+| Planification de la tâche (le 3 du mois, UTC) | Tâche des données seule, sans le jeu de questions : 3 h en préproduction, 4 h en production (`05-donnees.sh`)                                                                                                                                                                                                                                   | Les deux                                                                                                                |
+
+`deployer.sh` livre l'API puis la console. Pour chacune : une image déjà en service est ignorée
+sans erreur (INC-03) ; sinon, trafic figé sur la révision en service,
+nouvelle révision sans trafic, contrôle à sa propre adresse (santé et SHA ; pour l'API, un appel
+réel au modèle A), puis bascule de 100 % du trafic. Si un contrôle échoue, le trafic reste sur la
+révision précédente et la livraison s'arrête : la production n'est jamais touchée quand la
+préproduction échoue. La livraison ne migre pas la base : après une livraison qui change le
+schéma, lancer le workflow `donnees` dans chaque environnement, sinon la nouvelle version tourne sur
+l'ancien schéma jusqu'au 3 du mois. Les trois workflows d'un même environnement partagent un verrou
+(`livraison-<env>`) : ils ne tournent jamais en même temps.
 
 L'évaluation n'est pas déclenchée par les chemins modifiés, mais par l'empreinte : condensat de
-tout ce qui peut changer une réponse évaluée. Une PR de documentation ne paie rien ; une PR qui
-touche le prompt paie tout.
+tout ce qui peut changer une réponse évaluée, comparé à celui de `main`. Une PR de documentation ne
+paie rien ; une PR qui touche le prompt paie tout, sous un plafond de 1 € (D-64).
 
-**Staging.** Pour le 29 octobre, le staging est une révision étiquetée de l'environnement unique,
-à 0 % du trafic, testée sur son adresse dédiée (`05-chaine-llmops.md`, section 6.1). Ce raccourci
-partage la base ; il est acceptable tant que les migrations sont additives et les données
-synthétiques. Pour le 12 novembre, un staging distinct est proposé sous la forme la moins chère :
-une seconde base sur le même serveur PostgreSQL (aucun calcul de plus, stockage compris dans les
-32 Go) et un second jeu de quatre applications à zéro réplique minimale, actives seulement
-pendant le contrôle de staging. Calcul [H] : 25 fusions par mois (rythme du document 05) × 10
-minutes actives × 4 applications × 0,25 vCPU = 15 000 vCPU-s × 0,0000211 € = 0,32 €, plus
-30 000 Gio-s × 0,00000264 € = 0,08 €, soit **0,40 € par mois**.
+**Préproduction.** Ce n'est pas une révision étiquetée de l'environnement de production : c'est un
+environnement à part entière, avec ses propres applications (`ca-muninn-api-preprod`,
+`ca-muninn-console-preprod`), sa base `muninn_preprod` sur le même serveur PostgreSQL et sa tâche
+des données (`01-socle.sh`, `03-applications.sh`, `05-donnees.sh`). Le chiffrage de la section 10.3
+n'a pas été revu pour cette forme ; le coût réel, préproduction comprise, est suivi par le budget
+`budget-muninn` (60 € par mois, `04-budget.sh`).
+
+**Écarts avec la cible initiale (`05-chaine-llmops.md`).**
+
+| Cible initiale                                                       | V1 livrée                                                                                                                                                     |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mise en production sur étiquette Git de version posée par le porteur | Mise en production automatique après la préproduction, sur toute fusion dans `main` dont le `verdict` est vert ; l'approbation humaine est la fusion de la PR |
+| Révision à 0 % du trafic, test de fumée, canari, puis bascule        | Révision à 0 %, contrôle à son adresse, puis bascule de 100 % du trafic ; pas de canari                                                                       |
+| Migration additive par un job à chaque livraison                     | Migrations faites par la tâche des données (`muninn-donnees`), lancée à la demande ou le 3 du mois ; la livraison ne migre pas                                |
+| Évaluation si l'empreinte n'a pas d'attestation                      | Évaluation si l'empreinte diffère de celle de `main`, ou à la demande                                                                                         |
+| Analyse des dépendances en PR                                        | Absente de la CI                                                                                                                                              |
+| Extraction de contrôle synthétique en staging (E6)                   | Absente ; le contrôle de livraison est un appel réel au modèle A (`/llm/essai`)                                                                               |
+| Release GitHub et rapport archivé (E8)                               | Absents                                                                                                                                                       |
+| Workflow `nocturne` (dérives, stabilité, dépendances)                | Absent                                                                                                                                                        |
+| Étiquette de PR `eval-complete`                                      | Absente ; l'évaluation complète se lance à la main (`workflow_dispatch` de `ci`)                                                                              |
 
 ### 7.2 Retour arrière
 
@@ -440,10 +471,11 @@ Le porteur est en GitHub Pro (D-31). Conséquences vérifiées ou héritées du 
   plateforme, ce que la démo d'E3 peut montrer ;
 - les environnements GitHub et leurs secrets sont disponibles en Pro ; les relecteurs obligatoires
   et les délais d'attente restent réservés aux dépôts publics, ou à Enterprise pour un dépôt privé
-  (documentation de GitHub). L'approbation humaine d'une mise en production est donc l'étiquette
-  Git de version, posée par le porteur ;
-- la fédération OIDC utilise des sujets exacts (branche `main`, étiquettes de version,
-  environnement), sans caractère générique.
+  (documentation de GitHub). En V1, l'approbation humaine d'une mise en production est la fusion
+  de la PR dans `main` par le porteur (section 7.1) ; l'étiquette Git de version n'est pas utilisée ;
+- la fédération OIDC utilise des sujets exacts, sans caractère générique : un par environnement
+  GitHub (`preproduction`, `production`, `evaluation`), sur le sujet « immuable » du dépôt
+  (`infra/azure/oidc-github.sh`, `06-evaluation.sh`).
 
 **Minutes.** Le forfait Pro inclut 3 000 minutes d'Actions par mois pour les dépôts privés
 (documentation de GitHub, facturation d'Actions). Le document 05 (section 3.7) estime la

@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="titre">
+<title id="titre">Chaîne de livraison : workflow ci (1-chaine-de-livraison)</title>
+<defs><marker id="pointe" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0f4d3a"/></marker><marker id="pointe-rouge" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d7192e"/></marker></defs>
+<rect width="1600" height="1000" fill="#ffffff"/>
+<g font-family="'Segoe UI', 'DejaVu Sans', Arial, sans-serif">
+<text x="60" y="62" font-size="16" fill="#2fbf71" text-anchor="start" font-weight="700" letter-spacing="3">MUNINN · INFRASTRUCTURE AZURE · V1</text>
+<text x="60" y="118" font-size="40" fill="#0f4d3a" text-anchor="start" font-weight="700">Chaîne de livraison : workflow ci</text>
+<text x="1540" y="62" font-size="16" fill="#8a8f8c" text-anchor="end" font-weight="700">1 / 5</text>
+<rect x="40" y="250" width="230" height="250" rx="12" fill="#eef4f1" stroke="#0f4d3a" stroke-width="2"/>
+<text x="155.0" y="280" font-size="17" fill="#0f4d3a" text-anchor="middle" font-weight="700">Déclencheurs</text>
+<rect x="65" y="300" width="180" height="70" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="155.0" y="330.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Pull request</text>
+<text x="155.0" y="352.5" font-size="14" fill="#ffffff" text-anchor="middle">vers main</text>
+<rect x="65" y="400" width="180" height="70" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="155.0" y="430.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Fusion sur main</text>
+<text x="155.0" y="452.5" font-size="14" fill="#ffffff" text-anchor="middle">(push)</text>
+<polyline points="270,375 318,375" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="320" y="160" width="800" height="750" rx="12" fill="#eef4f1" stroke="#0f4d3a" stroke-width="2"/>
+<text x="720.0" y="190" font-size="17" fill="#0f4d3a" text-anchor="middle" font-weight="700">GitHub Actions · workflow ci</text>
+<rect x="350" y="215" width="170" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="435.0" y="250.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">lint</text>
+<text x="435.0" y="272.5" font-size="14" fill="#ffffff" text-anchor="middle">ruff · mypy strict</text>
+<rect x="560" y="215" width="220" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="670.0" y="250.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">tests</text>
+<text x="670.0" y="272.5" font-size="14" fill="#ffffff" text-anchor="middle">PostgreSQL 16 · axe-core</text>
+<rect x="820" y="215" width="270" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="955.0" y="250.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">build</text>
+<text x="955.0" y="272.5" font-size="14" fill="#ffffff" text-anchor="middle">image + test de fumée</text>
+<polyline points="520,255 558,255" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<polyline points="780,255 818,255" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="350" y="340" width="430" height="110" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="565.0" y="379.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">evaluation</text>
+<text x="565.0" y="401.5" font-size="14" fill="#ffffff" text-anchor="middle">si l'empreinte du paquet change</text>
+<text x="565.0" y="423.5" font-size="14" fill="#ffffff" text-anchor="middle">OIDC id-muninn-evaluation · 1 € au plus</text>
+<rect x="820" y="340" width="270" height="110" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="955.0" y="379.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">secrets</text>
+<text x="955.0" y="401.5" font-size="14" fill="#ffffff" text-anchor="middle">gitleaks</text>
+<text x="955.0" y="423.5" font-size="14" fill="#ffffff" text-anchor="middle">tout l'historique</text>
+<polyline points="670,295 670,338" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<polyline points="565,450 565,480 640,480 640,498" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<polyline points="955,450 955,480 800,480 800,498" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<polyline points="1090,255 1105,255 1105,550 882,550" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="560" y="500" width="320" height="100" rx="8" fill="#0f4d3a" stroke="#2fbf71" stroke-width="4"/>
+<text x="720.0" y="534.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">verdict</text>
+<text x="720.0" y="556.5" font-size="14" fill="#ffffff" text-anchor="middle">attend lint, tests, build,</text>
+<text x="720.0" y="578.5" font-size="14" fill="#ffffff" text-anchor="middle">secrets et evaluation</text>
+<text x="1000" y="590" font-size="14" fill="#1f6b4f" text-anchor="middle" font-style="italic">PR : s'arrête ici</text>
+<rect x="350" y="640" width="740" height="250" rx="12" fill="#eef4f1" stroke="#0f4d3a" stroke-width="2" stroke-dasharray="10 7"/>
+<text x="720.0" y="670" font-size="17" fill="#0f4d3a" text-anchor="middle" font-weight="700">Livraison continue · push sur main seulement</text>
+<polyline points="720,600 720,620 362,620 362,780 373,780" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="375" y="700" width="320" height="160" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="535.0" y="753.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">preproduction</text>
+<text x="535.0" y="775.5" font-size="14" fill="#ffffff" text-anchor="middle">OIDC id-muninn-deploiement</text>
+<text x="535.0" y="797.5" font-size="14" fill="#ffffff" text-anchor="middle">image muninn:&lt;sha&gt; → crmuninn</text>
+<text x="535.0" y="819.5" font-size="14" fill="#ffffff" text-anchor="middle">deployer.sh preproduction &lt;sha&gt;</text>
+<rect x="760" y="700" width="305" height="160" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="912.5" y="764.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">production</text>
+<text x="912.5" y="786.5" font-size="14" fill="#ffffff" text-anchor="middle">même image, non reconstruite</text>
+<text x="912.5" y="808.5" font-size="14" fill="#ffffff" text-anchor="middle">deployer.sh production &lt;sha&gt;</text>
+<polyline points="695,780 758,780" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<text x="727" y="770" font-size="14" fill="#1f6b4f" text-anchor="middle" font-style="italic">si vert</text>
+<polyline points="1120,540 1150,540" fill="none" stroke="#0f4d3a" stroke-width="3"/>
+<polyline points="1150,250 1150,830" fill="none" stroke="#0f4d3a" stroke-width="3"/>
+<polyline points="1150,250 1178,250" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="1180" y="215" width="360" height="70" rx="8" fill="#8a8f8c" stroke="#8a8f8c" stroke-width="1"/>
+<text x="1360.0" y="245.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">crmuninn</text>
+<text x="1360.0" y="267.5" font-size="14" fill="#ffffff" text-anchor="middle">registre d'images</text>
+<polyline points="1150,340 1178,340" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="1180" y="305" width="360" height="70" rx="8" fill="#8a8f8c" stroke="#8a8f8c" stroke-width="1"/>
+<text x="1360.0" y="335.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Foundry · modèle</text>
+<text x="1360.0" y="357.5" font-size="14" fill="#ffffff" text-anchor="middle">appelé par evaluation</text>
+<polyline points="1150,430 1178,430" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="1180" y="395" width="360" height="70" rx="8" fill="#8a8f8c" stroke="#8a8f8c" stroke-width="1"/>
+<text x="1360.0" y="425.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Langfuse</text>
+<text x="1360.0" y="447.5" font-size="14" fill="#ffffff" text-anchor="middle">projet muninn-evaluation</text>
+<polyline points="1150,740 1178,740" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="1180" y="705" width="360" height="70" rx="8" fill="#8a8f8c" stroke="#8a8f8c" stroke-width="1"/>
+<text x="1360.0" y="735.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Container Apps</text>
+<text x="1360.0" y="757.5" font-size="14" fill="#ffffff" text-anchor="middle">préproduction</text>
+<polyline points="1150,830 1178,830" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="1180" y="795" width="360" height="70" rx="8" fill="#8a8f8c" stroke="#8a8f8c" stroke-width="1"/>
+<text x="1360.0" y="825.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Container Apps</text>
+<text x="1360.0" y="847.5" font-size="14" fill="#ffffff" text-anchor="middle">production</text>
+<rect x="60" y="925" width="1480" height="56" rx="8" fill="#ffffff" stroke="#d7192e" stroke-width="2" stroke-dasharray="10 7"/>
+<text x="84" y="960" font-size="17" fill="#d7192e" text-anchor="start" font-weight="700">À noter : ni étiquette de version ni canari ; la production suit la préproduction ; la livraison ne migre pas la base.</text>
+</g>
+</svg>

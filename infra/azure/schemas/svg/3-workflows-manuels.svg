@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="titre">
+<title id="titre">Workflows manuels et planification (3-workflows-manuels)</title>
+<defs><marker id="pointe" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0f4d3a"/></marker><marker id="pointe-rouge" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d7192e"/></marker></defs>
+<rect width="1600" height="1000" fill="#ffffff"/>
+<g font-family="'Segoe UI', 'DejaVu Sans', Arial, sans-serif">
+<text x="60" y="62" font-size="16" fill="#2fbf71" text-anchor="start" font-weight="700" letter-spacing="3">MUNINN · INFRASTRUCTURE AZURE · V1</text>
+<text x="60" y="118" font-size="40" fill="#0f4d3a" text-anchor="start" font-weight="700">Workflows manuels et planification</text>
+<text x="1540" y="62" font-size="16" fill="#8a8f8c" text-anchor="end" font-weight="700">3 / 5</text>
+<rect x="60" y="160" width="460" height="620" rx="12" fill="#eef4f1" stroke="#0f4d3a" stroke-width="2"/>
+<text x="290.0" y="190" font-size="17" fill="#0f4d3a" text-anchor="middle" font-weight="700">retour-arriere · workflow manuel</text>
+<rect x="100" y="215" width="380" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="290.0" y="250.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">entrées</text>
+<text x="290.0" y="272.5" font-size="14" fill="#ffffff" text-anchor="middle">environnement · sha (facultatif)</text>
+<rect x="100" y="325" width="380" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="290.0" y="360.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">cible de l'API</text>
+<text x="290.0" y="382.5" font-size="14" fill="#ffffff" text-anchor="middle">la révision précédente, ou ce commit</text>
+<polyline points="290,295 290,323" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="100" y="435" width="380" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="290.0" y="470.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">console</text>
+<text x="290.0" y="492.5" font-size="14" fill="#ffffff" text-anchor="middle">alignée sur le même commit</text>
+<polyline points="290,405 290,433" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="100" y="545" width="380" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="290.0" y="580.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">bascule</text>
+<text x="290.0" y="602.5" font-size="14" fill="#ffffff" text-anchor="middle">révision réactivée si besoin · 100 %</text>
+<polyline points="290,515 290,543" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="100" y="655" width="380" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="290.0" y="690.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">contrôle</text>
+<text x="290.0" y="712.5" font-size="14" fill="#ffffff" text-anchor="middle">/version · durée mesurée</text>
+<polyline points="290,625 290,653" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="570" y="160" width="460" height="620" rx="12" fill="#eef4f1" stroke="#0f4d3a" stroke-width="2"/>
+<text x="800.0" y="190" font-size="17" fill="#0f4d3a" text-anchor="middle" font-weight="700">donnees · workflow manuel</text>
+<rect x="610" y="215" width="380" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="800.0" y="250.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">entrée</text>
+<text x="800.0" y="272.5" font-size="14" fill="#ffffff" text-anchor="middle">environnement</text>
+<rect x="610" y="325" width="380" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="800.0" y="360.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">job-muninn-donnees-&lt;env&gt;</text>
+<text x="800.0" y="382.5" font-size="14" fill="#ffffff" text-anchor="middle">lancé, suivi jusqu'au terme</text>
+<polyline points="800,295 800,323" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="610" y="435" width="380" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="800.0" y="470.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">dans la tâche</text>
+<text x="800.0" y="492.5" font-size="14" fill="#ffffff" text-anchor="middle">migrations · rôles · ingestion</text>
+<polyline points="800,405 800,433" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="610" y="545" width="380" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="800.0" y="580.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">jeu de questions</text>
+<text x="800.0" y="602.5" font-size="14" fill="#ffffff" text-anchor="middle">contre l'API publique</text>
+<polyline points="800,515 800,543" fill="none" stroke="#0f4d3a" stroke-width="3" marker-end="url(#pointe)"/>
+<rect x="1080" y="160" width="460" height="620" rx="12" fill="#eef4f1" stroke="#0f4d3a" stroke-width="2" stroke-dasharray="10 7"/>
+<text x="1310.0" y="190" font-size="17" fill="#0f4d3a" text-anchor="middle" font-weight="700">Planification de la tâche (Azure)</text>
+<rect x="1120" y="215" width="380" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="1310.0" y="250.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">le 3 du mois</text>
+<text x="1310.0" y="272.5" font-size="14" fill="#ffffff" text-anchor="middle">3 h UTC en préproduction</text>
+<rect x="1120" y="325" width="380" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="1310.0" y="360.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">le 3 du mois</text>
+<text x="1310.0" y="382.5" font-size="14" fill="#ffffff" text-anchor="middle">4 h UTC en production</text>
+<rect x="1120" y="435" width="380" height="80" rx="8" fill="#0f4d3a" stroke="#0f4d3a" stroke-width="1"/>
+<text x="1310.0" y="470.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">tâche seule</text>
+<text x="1310.0" y="492.5" font-size="14" fill="#ffffff" text-anchor="middle">sans le jeu de questions</text>
+<rect x="60" y="810" width="970" height="80" rx="8" fill="#0f4d3a" stroke="#2fbf71" stroke-width="4"/>
+<text x="545.0" y="845.5" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">verrou livraison-&lt;env&gt;</text>
+<text x="545.0" y="867.5" font-size="14" fill="#ffffff" text-anchor="middle">partagé avec la livraison : jamais deux workflows en même temps</text>
+<rect x="60" y="915" width="1480" height="56" rx="8" fill="#ffffff" stroke="#d7192e" stroke-width="2" stroke-dasharray="10 7"/>
+<text x="84" y="950" font-size="17" fill="#d7192e" text-anchor="start" font-weight="700">Un retour arrière ne reconstruit aucune image et ne crée aucune révision : seul le trafic bascule.</text>
+</g>
+</svg>
