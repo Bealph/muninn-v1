@@ -27,6 +27,11 @@ MESSAGES = {
     "draft_not_found": "Dossier inconnu, ou purgé.",
     "conflict": "Ce dossier a déjà été validé.",
     "service_unavailable": "Le service est momentanément indisponible.",
+    # Voix simulée (étape 6, D-50).
+    "voice_unavailable": "Le service de voix est momentanément indisponible.",
+    "audio_too_large": "L'enregistrement dépasse la taille admise.",
+    "unsupported_media_type": "Type de contenu non pris en charge : audio/mpeg attendu.",
+    "request_timeout": "L'enregistrement n'a pas été reçu à temps.",
 }
 # Types d'erreur de Pydantic vers les codes fermés du contrat (§ 2.8, `details[].issue`).
 ISSUES = {

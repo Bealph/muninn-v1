@@ -28,6 +28,16 @@ class Settings(BaseSettings):
     azure_ai_model_b: str | None = None
     # Facultative : sans clé, l'authentification passe par Entra ID (identité managée ou az login).
     azure_ai_api_key: SecretStr | None = None
+    # Voix simulée (D-50, étape 6). « faux » : sans réseau, défaut des tests et de la CI. En Azure :
+    # synthèse par le point d'accès régional (jeton « aad#<ressource>#<jeton> »), transcription
+    # par le sous-domaine de la ressource (jeton Entra nu) ; vérifié le 26 octobre 2026.
+    voix_fournisseur: Literal["faux", "azure"] = "faux"
+    speech_region: str = "westeurope"
+    # Par exemple https://<nom>.cognitiveservices.azure.com
+    speech_endpoint: str | None = None
+    # Identifiant ARM de la ressource Foundry, requis par la synthèse en Entra.
+    speech_resource_id: str | None = None
+
     # Limite globale des appels au LLM (route publique, chaque appel est payant).
     llm_limite_minute: int = Field(default=10, ge=0)
     llm_limite_jour: int = Field(default=200, ge=0)

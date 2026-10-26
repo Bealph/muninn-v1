@@ -1,0 +1,868 @@
+{% extends "base.html" %}
+{% block titre %}Muninn, démonstration d'un appel{% endblock %}
+{% block contenu %}
+  <style>
+    /* Mise en scène de la maquette V0 : choix du scénario et phases en tête ; deux téléphones
+       reliés par le parcours de l'appel ; puis la chaîne de traitement, une étape à la fois.
+       Polices du système ; aucune ressource externe. */
+    body { max-width: 72rem; }
+    .demo { --fond: #eef2f4; --surface: #fff; --texte: #16212b; --discret: #4f5d6a; --trait: #c9d3da;
+            --accent: #0f6b76; --accent-doux: #dcf0f2; --alerte: #7a4100; --alerte-doux: #fbecd6;
+            --danger: #a3200f; --danger-doux: #fde4e1; --ok: #1d6b43; --ok-doux: #dff2e7;
+            --appareil: #0f1418; --ecran: #f7f9fa; --ecran-discret: #4f5d6a; --bulle-ai: #e4ecf0;
+            --bulle-moi: #0f6b76; --mono: ui-monospace, Consolas, monospace;
+            display: grid; gap: 1.1rem; }
+    .demo h2 { font-size: 1.15rem; margin: 0; }
+    .demo p { margin: 0; }
+    .aide-ecran { color: var(--discret); max-width: 70ch; }
+
+    .scenarios { border: 0; padding: 0; margin: 0; }
+    .scenarios legend { font-weight: 700; margin-bottom: .4rem; padding: 0; }
+    .scenarios .grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: .5rem; }
+    .sc { display: grid; grid-template-columns: auto 1fr; gap: 0 .5rem; margin: 0; font-weight: 400;
+          border: 1px solid var(--trait); border-radius: .6rem; padding: .6rem .75rem; background: var(--surface);
+          cursor: pointer; align-items: start; }
+    .sc input { width: auto; margin: .25rem 0 0; accent-color: var(--accent); }
+    .sc .k { font-family: var(--mono); font-size: .8rem; color: var(--discret); display: block; }
+    .sc .n { font-weight: 800; display: block; }
+    .sc .d { font-size: .85rem; color: var(--discret); display: block; line-height: 1.35; }
+    .sc:has(input:checked) { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: var(--accent-doux); }
+    .sc:has(input:focus-visible) { outline: 3px solid #1f5fbf; outline-offset: 2px; }
+    .scenarios:disabled .sc { cursor: default; opacity: .75; }
+
+    .commandes { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; }
+    .commandes button { margin: 0; font-weight: 700; border-radius: .5rem; border: 1px solid var(--trait);
+                        background: var(--surface); color: var(--texte); padding: .5rem 1rem; }
+    .commandes button.principal { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .commandes button:disabled { opacity: .55; cursor: default; }
+    .case { display: inline-flex; gap: .4rem; align-items: center; margin: 0; font-weight: 600; }
+    .case input { width: auto; margin: 0; accent-color: var(--accent); }
+
+    .phases { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .4rem; }
+    .phases li { border-radius: .5rem; padding: .45rem .65rem; background: var(--surface); border: 1px solid var(--trait); display: grid; min-width: 0; }
+    .phases .pn { font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--discret); }
+    .phases .pl { font-weight: 800; }
+    .phases .pe { font-size: .8rem; color: var(--discret); }
+    .phases li.fait { border-color: var(--accent); }
+    .phases li.en-cours { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .phases li.en-cours .pn, .phases li.en-cours .pe { color: #fff; }
+    .statut { color: var(--discret); min-height: 1.5em; }
+    .statut b { color: var(--texte); }
+    .alerte-api:empty { display: none; }
+    .alerte-api p + p { margin-top: .25rem; }
+
+    .scene { display: grid; grid-template-columns: 1fr 11rem 1fr; gap: .9rem; align-items: start; }
+    .colonne { display: grid; gap: .5rem; justify-items: center; min-width: 0; margin: 0; }
+    .colonne h2 { font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; color: var(--discret); text-align: center; }
+    .parcours { list-style: none; margin: 0; padding: 0; align-self: center; display: grid; }
+    .parcours li { display: grid; grid-template-columns: 1.4rem 1fr; gap: .5rem; align-items: start; font-size: .82rem; color: var(--discret); position: relative; padding-bottom: .9rem; }
+    .parcours li::before { content: ""; position: absolute; left: .62rem; top: 1.3rem; bottom: 0; width: 2px; background: var(--trait); }
+    .parcours li:last-child::before { display: none; }
+    .parcours .point { width: 1.4rem; height: 1.4rem; border-radius: 50%; border: 2px solid var(--trait); background: var(--surface); }
+    .parcours li.fait { color: var(--texte); }
+    .parcours li.fait .point { background: var(--accent); border-color: var(--accent); }
+    .parcours li.fait::before { background: var(--accent); }
+    .parcours li.en-cours { color: var(--texte); font-weight: 700; }
+    .parcours li.en-cours .point { border-color: var(--accent); box-shadow: 0 0 0 5px var(--accent-doux); }
+
+    .tel { box-sizing: border-box; width: min(19rem, 100%); height: 39rem; background: var(--appareil); border-radius: 2.75rem; padding: .75rem; box-shadow: 0 18px 40px rgba(10, 20, 30, .25); }
+    .tel.sonne { animation: vibre .5s ease-in-out infinite; }
+    @keyframes vibre { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-1.4deg); } 75% { transform: rotate(1.4deg); } }
+    .ecran { height: 100%; border-radius: 2.1rem; background: var(--ecran); color: var(--texte); overflow: hidden; display: grid; position: relative; }
+    .ecran.appelant { grid-template-rows: auto auto 1fr auto; }
+    .ecran.artisan { grid-template-rows: auto 1fr; }
+    .encoche { position: absolute; top: .5rem; left: 50%; transform: translateX(-50%); width: 5.75rem; height: 1.4rem; background: var(--appareil); border-radius: .75rem; z-index: 3; }
+    .barre-etat { display: flex; justify-content: space-between; padding: .6rem 1.5rem .25rem; font-size: .75rem; font-weight: 800; }
+    .entete-appel { text-align: center; padding: .6rem .9rem; border-bottom: 1px solid rgba(0, 0, 0, .08); display: grid; gap: .1rem; justify-items: center; }
+    .avatar { width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; background: var(--bulle-moi); margin-bottom: .2rem; }
+    .qui { font-weight: 700; font-size: 1rem; }
+    .sous { font-size: .8rem; color: var(--ecran-discret); font-variant-numeric: tabular-nums; }
+    .voix { display: flex; align-items: center; gap: .4rem; min-height: 1.2rem; font-size: .78rem; font-weight: 800; color: var(--bulle-moi); }
+    .voix .barres { display: inline-flex; gap: 2px; align-items: center; height: .9rem; }
+    .voix .barres i { width: 3px; height: 4px; background: currentColor; border-radius: 2px; }
+    .voix.active .barres i { animation: onde .9s ease-in-out infinite; }
+    .voix.active .barres i:nth-child(2) { animation-delay: .1s; } .voix.active .barres i:nth-child(3) { animation-delay: .2s; }
+    .voix.active .barres i:nth-child(4) { animation-delay: .3s; } .voix.active .barres i:nth-child(5) { animation-delay: .4s; }
+    @keyframes onde { 0%, 100% { height: 4px; } 50% { height: 14px; } }
+    .voix.muette { color: var(--ecran-discret); }
+    .conversation { overflow-y: auto; padding: .6rem .75rem .75rem; display: flex; flex-direction: column; gap: .5rem; }
+    .bulle { max-width: 86%; padding: .5rem .7rem; border-radius: 1rem; font-size: .86rem; line-height: 1.4; border: 2px solid transparent; }
+    .bulle .tag { display: block; font-size: .68rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; margin-bottom: .1rem; }
+    .bulle.ai { align-self: flex-start; background: var(--bulle-ai); border-bottom-left-radius: .3rem; }
+    .bulle.moi { align-self: flex-end; background: var(--bulle-moi); color: #fff; border-bottom-right-radius: .3rem; }
+    .bulle .reste { visibility: hidden; }
+    .bulle.parle { border-color: #16212b; box-shadow: 0 0 0 3px #f2b84b; }
+    .bulle.parle .tag::after { content: " · en cours"; }
+    .bulle.entre { animation: apparait .25s ease-out; }
+    @keyframes apparait { from { transform: translateY(6px) scale(.97); opacity: .3; } to { transform: none; opacity: 1; } }
+    .sys { align-self: center; font-size: .75rem; color: var(--ecran-discret); text-align: center; padding: .1rem .5rem; }
+    .barre-appel { display: flex; justify-content: space-around; padding: .6rem .9rem 1rem; border-top: 1px solid rgba(0, 0, 0, .08); }
+    .barre-appel span { width: 2.75rem; height: 2.75rem; border-radius: 50%; background: #e4ecf0; display: grid; place-items: center; color: #33424e; }
+    .barre-appel span.raccrocher { background: #c4291c; color: #fff; }
+    .barre-appel svg { width: 1.25rem; height: 1.25rem; }
+    .barre-appel.finie span { opacity: .4; }
+
+    .corps-artisan { padding: .75rem; display: grid; gap: .5rem; align-content: start; overflow-y: auto; }
+    .carte-tel { background: #fff; border-radius: .9rem; padding: .6rem .75rem; box-shadow: 0 1px 2px rgba(0, 0, 0, .1); display: grid; gap: .3rem; font-size: .82rem; }
+    .carte-tel h3 { margin: 0; font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ecran-discret); }
+    .grand { font-weight: 700; font-size: .95rem; line-height: 1.25; }
+    .compte { font-size: 2.75rem; font-weight: 700; text-align: center; font-variant-numeric: tabular-nums; }
+    .centre { text-align: center; }
+    .points span { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--bulle-moi); margin: 0 2px; animation: clignote 1s infinite; }
+    .points span:nth-child(2) { animation-delay: .15s; } .points span:nth-child(3) { animation-delay: .3s; }
+    @keyframes clignote { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+    .notif { background: #1b2730; color: #fff; border-radius: .9rem; padding: .55rem .75rem; font-size: .8rem; display: grid; gap: .05rem; }
+    .bandeau { border-radius: .75rem; padding: .5rem .7rem; font-size: .8rem; display: grid; gap: .1rem; }
+    .bandeau.alerte { background: var(--alerte-doux); color: #5c3100; }
+    .bandeau.danger { background: var(--danger-doux); color: #7a1509; }
+    .champ { display: grid; grid-template-columns: 5.2rem 1fr; gap: .4rem; font-size: .8rem; align-items: baseline; }
+    .champ > span:first-child { color: var(--ecran-discret); }
+    .prov { display: inline-block; font-size: .68rem; font-weight: 800; padding: 0 .45rem; border-radius: 999px; white-space: nowrap; margin-left: .15rem; }
+    .prov.neutre { background: #e4ecf0; color: #2b3944; }
+    .prov.ok { background: var(--ok-doux); color: #165536; }
+    .prov.vide { background: #eef1f3; color: #4f5d6a; }
+    .prov.alerte { background: var(--alerte-doux); color: #6b3900; }
+    .prov.danger { background: var(--danger-doux); color: #8a1a0d; }
+    .candidates { display: grid; gap: .3rem; margin: 0; padding: 0; list-style: none; }
+    .candidates li { border: 1px solid #c3d0d6; border-radius: .6rem; padding: .35rem .55rem; font-size: .8rem; }
+    .actions-tel { display: grid; gap: .35rem; margin: 0; padding: 0; list-style: none; }
+    .actions-tel li { text-align: center; font-size: .8rem; font-weight: 800; padding: .5rem; border-radius: .6rem; background: #0f6b76; color: #fff; }
+    .actions-tel li.danger { background: #a3200f; }
+    .onglets { display: flex; gap: .4rem; font-size: .75rem; font-weight: 800; }
+    .onglets span { padding: .2rem .6rem; border-radius: 999px; background: #e4ecf0; color: #2b3944; }
+    .onglets span.actif { background: #15202a; color: #fff; }
+
+    .chaine { background: var(--surface); border: 1px solid var(--trait); border-radius: .9rem; padding: 1rem; display: grid; gap: .9rem; }
+    .chaine-tete { display: flex; flex-wrap: wrap; gap: .4rem .9rem; align-items: baseline; justify-content: space-between; }
+    .rejoue { font-size: .75rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: #5c3100; background: var(--alerte-doux); padding: .1rem .55rem; border-radius: 999px; }
+    .piste { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); }
+    .piste li { position: relative; display: grid; justify-items: center; }
+    .piste li::before { content: ""; position: absolute; top: 1rem; left: -50%; width: 100%; height: 3px; background: var(--trait); }
+    .piste li:first-child::before { display: none; }
+    .piste li.fait::before, .piste li.en-cours::before { background: var(--accent); }
+    .noeud { margin: 0; background: none; border: 0; padding: 0 .15rem; display: grid; justify-items: center; gap: .3rem; color: var(--texte); position: relative; z-index: 1; }
+    .noeud .c { width: 2.1rem; height: 2.1rem; border-radius: 50%; border: 3px solid var(--trait); background: var(--surface); display: grid; place-items: center; font-weight: 700; font-size: .82rem; color: var(--discret); }
+    .noeud .l { font-size: .82rem; font-weight: 800; line-height: 1.2; text-align: center; }
+    .noeud .t { font-size: .75rem; color: var(--discret); font-variant-numeric: tabular-nums; }
+    .noeud .m { font-size: .72rem; font-weight: 800; }
+    .piste li.fait .c { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .piste li.fait.alerte .c { background: #a35a00; border-color: #a35a00; }
+    .piste li.fait.danger .c { background: var(--danger); border-color: var(--danger); }
+    .piste li.alerte .m { color: var(--alerte); }
+    .piste li.danger .m { color: var(--danger); }
+    .piste li.en-cours .c { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 0 6px var(--accent-doux); }
+    .piste li.choisi .l { text-decoration: underline; text-underline-offset: 3px; }
+    .panneau { border: 1px solid var(--trait); border-left: 4px solid var(--accent); border-radius: .6rem; padding: .75rem .9rem; display: grid; gap: .5rem; min-width: 0; }
+    .panneau.alerte { border-left-color: #a35a00; }
+    .panneau.danger { border-left-color: var(--danger); }
+    .panneau h3 { margin: 0; font-size: 1rem; display: flex; gap: .5rem; align-items: baseline; flex-wrap: wrap; }
+    .panneau h3 .k { font-family: var(--mono); font-weight: 400; color: var(--discret); font-size: .85rem; }
+    .panneau dl.kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: .4rem 1rem; margin: 0; }
+    .panneau dl.kv div { display: grid; min-width: 0; }
+    .panneau dl.kv dt { font-size: .75rem; letter-spacing: .04em; text-transform: uppercase; color: var(--discret); font-weight: 600; }
+    .panneau dl.kv dd { margin: 0; font-family: inherit; font-weight: 700; overflow-wrap: anywhere; }
+    .panneau ul { margin: 0; padding-left: 1.2rem; }
+    .chrono { display: grid; gap: .3rem; }
+    .chrono .jauge { position: relative; height: .6rem; border-radius: 999px; background: var(--trait); overflow: hidden; }
+    .chrono .jauge i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width .4s; }
+    .chrono .jauge i.depasse { background: var(--danger); }
+    .chrono .verdict { font-weight: 700; }
+    .chrono .detail { font-size: .88rem; color: var(--discret); }
+    .entendu summary { cursor: pointer; font-weight: 700; }
+    .entendu ol { margin: .5rem 0 0; padding-left: 1.4rem; }
+    .pied { font-size: .88rem; color: var(--discret); display: grid; gap: .25rem; }
+
+    @media (max-width: 58rem) {
+      .scene { grid-template-columns: minmax(0, 1fr); }
+      .parcours { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+      .parcours li { grid-template-columns: 1fr; justify-items: center; text-align: center; padding: 0 .2rem; font-size: .75rem; }
+      .parcours li::before { display: none; }
+      .phases { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 36rem) {
+      .parcours { display: none; }
+      .piste { grid-template-columns: 1fr; gap: .4rem; }
+      .piste li { justify-items: start; }
+      .piste li::before { display: none; }
+      .noeud { grid-template-columns: 2.1rem 1fr; justify-items: start; align-items: center; gap: .6rem; text-align: left; }
+      .noeud .l { text-align: left; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .tel.sonne, .points span, .voix.active .barres i, .bulle.entre { animation: none; }
+      .chrono .jauge i { transition: none; }
+    }
+    /* Case « Animation » décochée : plus rien ne bouge (WCAG 2.2.2). */
+    .demo.sans-anim .tel.sonne, .demo.sans-anim .points span, .demo.sans-anim .voix.active .barres i,
+    .demo.sans-anim .bulle.entre { animation: none; }
+    .demo.sans-anim .chrono .jauge i { transition: none; }
+    /* Régions défilantes : le contour de focus est tracé à l'intérieur, l'écran le rognerait. */
+    .conversation:focus-visible, .corps-artisan:focus-visible { outline: 3px solid #1f5fbf; outline-offset: -3px; }
+    .visuellement-cache { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+                          overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+  </style>
+
+  <div class="demo" id="demo">
+    <h1>Un appel manqué chez Karim Plomberie</h1>
+    <p class="aide-ecran">Karim est occupé et ne décroche pas. Après la sonnerie, Muninn prend l'appel ;
+      la conversation est jouée à deux voix de synthèse, puis l'enregistrement de l'appel est envoyé à
+      l'API, qui le transcrit et prépare pour Karim un dossier, ou un simple message. Tout ce qui
+      s'affiche après l'appel vient de la réponse de l'API. Données fictives (jeu synthétique).</p>
+
+    <fieldset class="scenarios" id="choix">
+      <legend>Scénario</legend>
+      <div class="grille">
+        {% for s in scenarios %}
+        <label class="sc">
+          <input type="radio" name="scenario" value="{{ s.id }}" {% if loop.first %}checked{% endif %}>
+          <span><span class="k">{{ s.id }}</span><span class="n">{{ s.nom }}</span><span class="d">{{ s.description }}</span></span>
+        </label>
+        {% endfor %}
+      </div>
+    </fieldset>
+
+    <div class="commandes" role="group" aria-label="Commandes">
+      <label class="case"><input type="checkbox" id="son" checked> Son</label>
+      <label class="case"><input type="checkbox" id="anim" checked> Animation</label>
+      <label class="case"><input type="checkbox" id="reel" checked> Sonnerie de 15 s</label>
+      <button class="principal" id="lancer" type="button">Lancer l'appel</button>
+      <button id="arreter" type="button" disabled>Arrêter</button>
+    </div>
+    <p class="aide-ecran">Sans son, les bulles avancent au rythme du texte ; l'enregistrement est quand
+      même envoyé à l'API. Sans la case « Sonnerie de 15 s », la sonnerie dure 3 s.</p>
+
+    <ol class="phases" id="phases" aria-label="Phases de l'appel">
+      <li><span class="pn">Phase 1</span><span class="pl">Sonnerie</span><span class="pe">à venir</span></li>
+      <li><span class="pn">Phase 2</span><span class="pl">Muninn en ligne</span><span class="pe">à venir</span></li>
+      <li><span class="pn">Phase 3</span><span class="pl">Traitement</span><span class="pe">à venir</span></li>
+      <li><span class="pn">Phase 4</span><span class="pl">Reçu par Karim</span><span class="pe">à venir</span></li>
+    </ol>
+    <p class="statut" id="statut" role="status" aria-live="polite">Choisir un scénario, puis « Lancer l'appel ».</p>
+    <div class="erreur alerte-api" id="erreur" role="alert"></div>
+
+    <div class="scene">
+      <section class="colonne" aria-labelledby="titre-appelant">
+        <h2 id="titre-appelant">Téléphone de l'appelant</h2>
+        <div class="tel" id="tel-appelant">
+          <div class="ecran appelant">
+            <div class="encoche" aria-hidden="true"></div>
+            <div class="barre-etat" aria-hidden="true"><span>10:42</span><span>4G</span></div>
+            <div class="entete-appel">
+              <div class="avatar" aria-hidden="true">KP</div>
+              <div class="qui">Karim Plomberie</div>
+              <div class="sous" id="ap-sous">Prêt à appeler</div>
+              <div class="voix muette" id="voix"><span class="barres" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span id="voix-lbl">Silence</span></div>
+            </div>
+            <div class="conversation" id="chat" role="region" aria-label="Conversation" tabindex="0"></div>
+            <div class="barre-appel finie" id="barre-appel" aria-hidden="true">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10v4h4l5 4V6L8 10H4z"/><path d="M16 9a4 4 0 0 1 0 6"/></svg></span>
+              <span><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="6" r="1.6"/><circle cx="12" cy="6" r="1.6"/><circle cx="18" cy="6" r="1.6"/><circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/><circle cx="12" cy="18" r="1.6"/></svg></span>
+              <span class="raccrocher"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 14.5c5-4.7 13-4.7 18 0l-2.4 2.4-3.3-1.6v-2.6a12 12 0 0 0-6.6 0v2.6l-3.3 1.6z"/></svg></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <ol class="parcours" id="parcours" aria-label="Parcours de l'appel">
+        <li><span class="point" aria-hidden="true"></span><span>L'appelant compose le numéro de Karim</span><span class="visuellement-cache etat"></span></li>
+        <li><span class="point" aria-hidden="true"></span><span>Le téléphone de Karim sonne</span><span class="visuellement-cache etat"></span></li>
+        <li><span class="point" aria-hidden="true"></span><span id="pc-renvoi">Pas de réponse : renvoi après 15 s (D-68)</span><span class="visuellement-cache etat"></span></li>
+        <li><span class="point" aria-hidden="true"></span><span>Muninn décroche et mène l'échange</span><span class="visuellement-cache etat"></span></li>
+        <li><span class="point" aria-hidden="true"></span><span>Muninn transcrit et prépare le résultat</span><span class="visuellement-cache etat"></span></li>
+        <li><span class="point" aria-hidden="true"></span><span>Karim le reçoit sur son téléphone</span><span class="visuellement-cache etat"></span></li>
+      </ol>
+
+      <section class="colonne" aria-labelledby="titre-artisan">
+        <h2 id="titre-artisan">Téléphone de Karim, l'artisan</h2>
+        <div class="tel" id="tel-artisan">
+          <div class="ecran artisan">
+            <div class="encoche" aria-hidden="true"></div>
+            <div class="barre-etat" aria-hidden="true"><span>10:43</span><span>5G</span></div>
+            <div class="corps-artisan" id="art" role="region" aria-label="Écran de Karim" tabindex="0"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="chaine" aria-labelledby="titre-chaine">
+      <div class="chaine-tete">
+        <h2 id="titre-chaine">Ce que fait Muninn après l'appel</h2>
+        <span class="rejoue">Rejoué après coup · durées mesurées par l'API</span>
+      </div>
+      <ol class="piste" id="piste" aria-label="Étapes du traitement"></ol>
+      <div class="panneau" id="panneau"><p>Le traitement commence quand l'appel se termine. Les étapes et leurs durées sont celles que rend l'API.</p></div>
+      <div class="chrono">
+        <div class="jauge" aria-hidden="true"><i id="jauge"></i></div>
+        <p class="verdict" id="chrono">CA-8 : le dossier doit être prêt {{ ca8_s }} s au plus après la fin de l'appel.</p>
+        <p class="detail" id="chrono-detail"></p>
+      </div>
+      <details class="entendu" id="entendu" hidden>
+        <summary>Ce que Muninn a entendu (transcription de l'enregistrement)</summary>
+        <ol id="entendu-liste"></ol>
+      </details>
+      <p id="conformite"></p>
+    </section>
+
+    <div class="pied">
+      <p id="voix-utilisees">Voix de synthèse Azure AI Speech, une pour Muninn et une pour l'appelant ; l'audio n'est conservé ni par la console ni par l'API (D-50).</p>
+      <p>L'animation de la chaîne rejoue après coup les durées mesurées par l'API, en accéléré ; le chronomètre CA-8 est mesuré par le navigateur, de la fin de l'appel joué à la réponse.</p>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    "use strict";
+    const CONFIG = {{ config | tojson }};
+    const $ = (id) => document.getElementById(id);
+    const chat = $("chat"), art = $("art"), piste = $("piste"), panneau = $("panneau");
+
+    // Construit un élément ; le texte passe toujours par des nœuds texte (jamais innerHTML).
+    function el(tag, attrs, ...enfants) {
+      const n = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs || {})) {
+        if (v === null || v === undefined || v === false) continue;
+        if (k === "class") n.className = v; else n.setAttribute(k, v === true ? "" : String(v));
+      }
+      for (const e of enfants.flat()) {
+        if (e === null || e === undefined || e === false) continue;
+        n.append(e instanceof Node ? e : String(e));
+      }
+      return n;
+    }
+    // Remplace le contenu ; `replaceChildren` écrirait « null » pour un enfant absent.
+    function remplacer(n, ...enfants) {
+      n.replaceChildren(...enfants.flat().filter((e) => e !== null && e !== undefined && e !== false));
+    }
+
+    class Arret extends Error {}
+    class ErreurAPI extends Error {
+      constructor(message, detail) { super(message); this.detail = detail || ""; }
+    }
+
+    let jeton = 0, contexte = null, oscillateurs = [], lecteur = null, minuteur = null, controleur = null;
+    let etapes = [], courante = -1, faite = false, choisie = -1;
+
+    const attendre = (ms, j) => new Promise((ok, ko) => setTimeout(() => (j === jeton ? ok() : ko(new Arret())), ms));
+    const verifier = (j) => { if (j !== jeton) throw new Arret(); };
+    const animation = () => $("anim").checked && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const scenario = () => (document.querySelector('input[name="scenario"]:checked') || {}).value || CONFIG.scenarios[0].id;
+    const virgule = (x, n) => x.toFixed(n).replace(".", ",");
+    const duree = (ms) => (ms < 1000 ? ms + " ms" : virgule(ms / 1000, 1) + " s");
+    const euros = (micro) => virgule(micro / 1e6, 4) + " €";
+    const valeur = (c) => (c && c.value !== null && c.value !== undefined && c.value !== "" ? String(c.value) : null);
+    function telephone(e164) {
+      if (!e164) return null;
+      if (/^\+33\d{9}$/.test(e164)) return ("0" + e164.slice(3)).replace(/(\d{2})(?=\d)/g, "$1 ");
+      return e164;
+    }
+
+    function statut(gras, texte) { $("statut").replaceChildren(el("b", {}, gras), texte ? " " + texte : ""); }
+    function erreur(message, detail) {
+      remplacer($("erreur"), el("p", {}, message), detail ? el("p", { class: "aide" }, detail) : null);
+    }
+    function phase(n) {
+      [...$("phases").children].forEach((li, k) => {
+        li.className = k < n ? "fait" : k === n ? "en-cours" : "";
+        li.querySelector(".pe").textContent = k < n ? "terminée" : k === n ? "en cours" : "à venir";
+        if (k === n) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current");
+      });
+    }
+    function parcours(n) {
+      [...$("parcours").children].forEach((li, k) => {
+        li.className = k < n ? "fait" : k === n ? "en-cours" : "";
+        li.querySelector(".etat").textContent = k < n ? " (terminée)" : "";
+        if (k === n) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current");
+      });
+    }
+    function voix(qui) {
+      $("voix").className = "voix " + (qui ? "active" : "muette");
+      $("voix-lbl").textContent = qui === "agent" ? "Muninn parle" : qui === "caller" ? "Vous parlez" : "Silence";
+    }
+
+    // Tonalité de retour d'appel française : 440 Hz, 1,5 s de son, 3,5 s de silence.
+    function sonnerie(secondes) {
+      if (!$("son").checked) return;
+      try {
+        contexte = contexte || new (window.AudioContext || window.webkitAudioContext)();
+        const t0 = contexte.currentTime + 0.05;
+        for (let t = 0; t < secondes; t += 5) {
+          const o = contexte.createOscillator(), g = contexte.createGain(), d = Math.min(1.5, secondes - t);
+          o.frequency.value = 440; o.connect(g); g.connect(contexte.destination);
+          g.gain.setValueAtTime(0, t0 + t); g.gain.linearRampToValueAtTime(0.08, t0 + t + 0.03);
+          g.gain.setValueAtTime(0.08, t0 + t + d); g.gain.linearRampToValueAtTime(0, t0 + t + d + 0.03);
+          o.start(t0 + t); o.stop(t0 + t + d + 0.1); oscillateurs.push(o);
+        }
+      } catch (e) { /* son indisponible : la démonstration continue sans */ }
+    }
+    function couperSon() {
+      oscillateurs.forEach((o) => { try { o.stop(); } catch (e) { /* déjà arrêté */ } });
+      oscillateurs = [];
+      if (lecteur) { try { lecteur.pause(); } catch (e) { /* rien */ } lecteur = null; }
+    }
+
+    // --- Téléphone de l'appelant : bulles, une par tour ---
+    // La conversation ne suit le dernier message que si l'utilisateur est déjà en bas : elle ne
+    // l'arrache pas à sa lecture s'il est remonté.
+    const presDuBas = () => chat.scrollHeight - chat.scrollTop - chat.clientHeight < 40;
+    function ajouter(n) { const suivre = presDuBas(); chat.append(n); if (suivre) chat.scrollTop = chat.scrollHeight; }
+    function sys(texte) { ajouter(el("div", { class: "sys" }, texte)); }
+    function bulle(tour) {
+      const agent = tour.speaker === "agent";
+      const fait = el("span", { class: "fait" }), reste = el("span", { class: "reste" }, tour.text);
+      // Le texte complet est exposé tout de suite ; l'affichage progressif est décoratif.
+      const b = el("div", { class: "bulle " + (agent ? "ai" : "moi") + (animation() ? " entre" : "") },
+        el("span", { class: "tag" }, agent ? "Muninn" : "Vous"),
+        el("span", { class: "visuellement-cache" }, " : " + tour.text),
+        el("span", { "aria-hidden": "true" }, fait, reste));
+      ajouter(b);
+      return { b, fait, reste, texte: tour.text };
+    }
+    function eclairer(x, part) {
+      const n = Math.round(x.texte.length * Math.max(0, Math.min(1, part)));
+      x.fait.textContent = x.texte.slice(0, n); x.reste.textContent = x.texte.slice(n);
+    }
+    // Joue l'extrait MP3 du tour ; sans son (ou si le navigateur refuse la lecture), le texte
+    // avance à son propre rythme.
+    function lire(tour, x, j) {
+      return new Promise((ok, ko) => {
+        let fini = false, audio = null, url = null;
+        const debut = performance.now(), parTexte = Math.max(1100, x.texte.length * 55);
+        const fin = () => {
+          if (fini) return;
+          fini = true; clearInterval(pas); clearTimeout(filet);
+          if (audio) { audio.pause(); }
+          if (url) URL.revokeObjectURL(url);
+          if (lecteur === audio) lecteur = null;
+          eclairer(x, 1);
+          j === jeton ? ok() : ko(new Arret());
+        };
+        const pas = setInterval(() => {
+          if (j !== jeton) return fin();
+          if (audio && isFinite(audio.duration) && audio.duration > 0) eclairer(x, audio.currentTime / audio.duration);
+          else if (!audio) { const p = (performance.now() - debut) / parTexte; eclairer(x, p); if (p >= 1) fin(); }
+        }, 70);
+        const filet = setTimeout(fin, 90000); // un extrait de 600 caractères dure moins d'une minute
+        if (!$("son").checked) return;
+        url = URL.createObjectURL(new Blob([tour.octets], { type: CONFIG.type_audio }));
+        audio = new Audio(url); lecteur = audio; audio.muted = !$("son").checked;
+        const repli = () => { audio = null; };
+        audio.onended = fin; audio.onerror = repli;
+        audio.play().catch(repli);
+      });
+    }
+
+    // --- Téléphone de Karim ---
+    function artisan(...enfants) { remplacer(art, ...enfants); art.scrollTop = 0; }
+    const points = () => el("div", { class: "points", "aria-hidden": "true" }, el("span"), el("span"), el("span"));
+    function artisanAuRepos() {
+      artisan(el("div", { class: "carte-tel centre" }, el("h3", {}, "Karim Plomberie"), el("div", {}, "Aucun appel en cours.")));
+    }
+    // Pendant la sonnerie, seul le nœud du compteur change ensuite, pas toute la région.
+    function artisanSonne(s) {
+      const compte = el("div", { class: "compte" }, String(s));
+      artisan(el("div", { class: "carte-tel centre" }, el("h3", {}, "Appel entrant"), el("div", { class: "grand" }, "Un client"), el("div", {}, "Karim ne décroche pas.")),
+        compte, el("div", { class: "centre sous" }, "secondes avant le renvoi vers Muninn"));
+      return compte;
+    }
+    function artisanInterrompu() {
+      artisan(el("div", { class: "carte-tel centre" }, el("h3", {}, "Karim Plomberie"), el("div", {}, "Appel interrompu.")));
+    }
+    function artisanEnLigne() {
+      artisan(el("div", { class: "notif" }, el("b", {}, "Appel manqué"), "Muninn a pris l'appel."),
+        el("div", { class: "carte-tel" }, el("h3", {}, "Muninn en ligne"), el("div", { class: "grand" }, "Conversation en cours"), points()));
+    }
+    function artisanTraitement() {
+      const compteur = el("div", { class: "sous" }, "depuis 0 s");
+      artisan(el("div", { class: "notif" }, el("b", {}, "Appel manqué"), "Muninn a pris l'appel."),
+        el("div", { class: "carte-tel" }, el("h3", {}, "Muninn"), el("div", { class: "grand" }, "Appel terminé · transcription et traitement"), compteur, points()));
+      return compteur;
+    }
+
+    const URGENCES = { securite: "sécurité", urgent: "urgent", normal: "normal", non_precise: "non précisée" };
+    const ORIGINES = { entendu: "entendu", deduit: "déduit", absent: "absent", corrige: "corrigé" };
+    const STATUTS_AGENT = { complete: "complet", partial_after_retry: "partiel après un nouvel essai", fallback_no_llm: "brouillon de secours" };
+    function badge(classe, texte) { return el("span", { class: "prov " + classe }, texte); }
+    function champ(nom, texte, marque) { return el("div", { class: "champ" }, el("span", {}, nom), el("span", {}, texte, marque ? " " : "", marque)); }
+    function marqueControle(controle, provenance, ambigue) {
+      const origine = provenance && ORIGINES[provenance.origine];
+      const avec = (t) => (origine && origine !== "absent" ? origine + ", " + t : t);
+      if (ambigue) return badge("alerte", avec("ambiguë"));
+      if (!controle) return origine ? badge("neutre", origine) : null;
+      if (controle.status === "verified") return badge("ok", avec("vérifié"));
+      if (controle.status === "mismatch") return badge("danger", avec("incohérent"));
+      if (controle.reason === "no_value") return badge("vide", "non dit");
+      return badge("alerte", avec("non contrôlé"));
+    }
+
+    function resultatDossier(r) {
+      const d = r.draft, e = r.envelope || { provenance: {}, candidates: [], motifs: [], a_verifier: false };
+      const prov = e.provenance || {}, checks = d.checks || {};
+      const securite = d.demande.urgence === "securite" || (r.guardrails || []).includes("gaz");
+      const nom = [valeur(d.client.prenom), valeur(d.client.nom)].filter(Boolean).join(" ");
+      const commune = valeur(d.client.adresse.commune), objet = valeur(d.demande.objet_court);
+      const ambigue = (e.motifs || []).includes("commune_ambigue") || (e.candidates || []).length > 1;
+      const tel = d.client.telephone || {};
+      const origineTel = { caller_id: "numéro affiché", spoken: "dicté" }[tel.origin];
+      const blocs = [
+        el("div", { class: "notif" }, el("b", {}, (securite ? "Urgence" : "Nouveau dossier") + " · Muninn"),
+          [nom, commune, objet].filter(Boolean).join(", ") || "Dossier sans nom ni objet"),
+      ];
+      if (securite) {
+        const premiere = (d.actions || [])[0];
+        blocs.push(el("div", { class: "bandeau danger" }, el("b", {}, "Sécurité d'abord"), premiere ? premiere.libelle : "Urgence de sécurité signalée."));
+      }
+      if (e.a_verifier) {
+        const motifs = (e.motifs || []).map((m) => CONFIG.motifs[m] || m).join(" ; ");
+        blocs.push(el("div", { class: "bandeau alerte" }, el("b", {}, "À vérifier"), motifs ? "Motifs : " + motifs + "." : "Relire avant de rappeler."));
+      }
+      blocs.push(el("div", { class: "carte-tel" }, el("h3", {}, "Dossier · " + d.demande.metier),
+        el("div", { class: "grand" }, objet || "Objet non dit"), valeur(d.demande.description) ? el("div", {}, valeur(d.demande.description)) : null));
+      const rue = valeur(d.client.adresse.rue), cp = valeur(d.client.adresse.code_postal);
+      blocs.push(el("div", { class: "carte-tel" },
+        champ("Client", nom || "non dit", nom ? null : badge("vide", "à demander")),
+        champ("Téléphone", telephone(valeur(tel)) || "non dit", origineTel ? badge("neutre", origineTel) : badge("vide", "à demander")),
+        champ("Rue", rue || "non dite", rue ? null : badge("vide", "non dite")),
+        champ("Code postal", cp || "non dit", marqueControle(checks["client.adresse.code_postal"], prov["client.adresse.code_postal"], false)),
+        champ("Commune", commune || "non dite", marqueControle(checks["client.adresse.commune"], prov["client.adresse.commune"], ambigue && !!commune)),
+        champ("Urgence", URGENCES[d.demande.urgence] || d.demande.urgence,
+          securite ? badge("danger", "sécurité") : prov["demande.urgence"] ? badge("neutre", ORIGINES[prov["demande.urgence"].origine] || prov["demande.urgence"].origine) : null),
+        (d.demande.disponibilites_client || []).length ? champ("Joignable", d.demande.disponibilites_client.join(" ; ")) : null));
+      if ((e.candidates || []).length) {
+        blocs.push(el("div", { class: "carte-tel" }, el("h3", {}, "Quelle commune ?"),
+          el("ul", { class: "candidates" }, e.candidates.map((c) =>
+            el("li", {}, el("b", {}, c.nom), " · département " + c.departement + " · " + (c.codes_postaux || []).join(", "))))));
+      }
+      if ((d.actions || []).length) {
+        blocs.push(el("ul", { class: "actions-tel", "aria-label": "Actions proposées à Karim" },
+          d.actions.map((a, k) => el("li", { class: securite && k === 0 ? "danger" : null }, a.libelle))));
+      }
+      return blocs;
+    }
+    function resultatMessage(r) {
+      const m = r.message, categorie = CONFIG.categories[m.categorie] || m.categorie;
+      const qui = [m.nom_appelant, m.societe].filter(Boolean).join(", ");
+      return [
+        el("div", { class: "notif" }, el("b", {}, "Nouveau message · " + categorie), qui || "Appelant non nommé"),
+        el("div", { class: "onglets", "aria-hidden": "true" }, el("span", {}, "Dossiers"), el("span", { class: "actif" }, "Messages")),
+        m.securite ? el("div", { class: "bandeau danger" }, el("b", {}, "Sécurité d'abord"), "L'appel signale une odeur de gaz.") : null,
+        el("div", { class: "carte-tel" }, el("h3", {}, "Message · " + categorie), el("div", { class: "grand" }, qui || "Appelant non nommé"), el("div", {}, m.message)),
+        el("div", { class: "carte-tel" },
+          champ("Rappel", m.rappel_souhaite ? "souhaité" : "non demandé"),
+          champ("Numéro", telephone(m.numero_rappel) || "masqué", m.numero_rappel ? badge("neutre", "numéro affiché") : badge("vide", "masqué")),
+          m.numero_dicte ? champ("Dicté", telephone(m.numero_dicte), badge("neutre", "dicté")) : null),
+        m.rappel_souhaite ? el("ul", { class: "actions-tel", "aria-label": "Actions proposées à Karim" }, el("li", {}, "Rappeler")) : null,
+      ];
+    }
+    function resultatTrace(r) {
+      return [
+        el("div", { class: "notif" }, el("b", {}, "Appel manqué · Muninn"), "Aucun contenu exploitable."),
+        el("div", { class: "carte-tel" }, el("h3", {}, "Appel sans contenu"),
+          champ("Numéro", telephone(r.trace.numero_presente) || "masqué")),
+      ];
+    }
+
+    // --- Chaîne de traitement : les étapes de la réponse, rejouées après coup ---
+    const CLES = {
+      motifs: "Motifs", code_refus: "Refus", categorie: "Catégorie", regle: "Règle du serveur",
+      securite: "Sécurité (gaz)", jetons: "Jetons", cout_micro_eur: "Coût", statut: "Statut",
+      tentatives: "Tentatives", outils: "Appels d'outils", borne: "Borne d'outils atteinte",
+      a_verifier: "À vérifier", garde_fous: "Garde-fous", outil: "Outil", resultat: "Résultat", issue: "Issue",
+      audio_octets: "Audio reçu", tours: "Tours entendus",
+    };
+    const CACHEES = new Set(["request_id", "route", "scenario_id"]);
+    const DESCRIPTIONS = {
+      transcription: "L'enregistrement de l'appel est transcrit, Muninn et l'appelant séparés (Azure AI Speech). L'audio n'est pas conservé (D-50).",
+      controle_entree: "Recherche de tentatives d'injection et de caractères suspects : la transcription reste une donnée, jamais une consigne (D-63).",
+      qualification: "L'appel est classé : demande de service, fournisseur, proche ou autre.",
+      message: "Un message pour Karim : qui appelle, comment rappeler, quoi transmettre.",
+      agent: "L'agent extrait le dossier et appelle ses outils (communes, termes du métier).",
+      controles_serveur: "Le serveur contrôle l'adresse dans les référentiels publics et applique les garde-fous de sortie.",
+    };
+    function liste(code, dico) {
+      return String(code).split(",").filter(Boolean).map((c) => (c === "aucun" ? "aucun" : dico[c] || c)).join(" ; ");
+    }
+    function texteDetail(cle, v) {
+      if (typeof v === "boolean") return v ? "oui" : "non";
+      if (cle === "cout_micro_eur") return euros(Number(v));
+      if (cle === "audio_octets") return virgule(Number(v) / 1024, 0) + " Ko";
+      if (cle === "motifs") return liste(v, CONFIG.motifs);
+      if (cle === "garde_fous") return liste(v, CONFIG.garde_fous);
+      if (cle === "categorie") return CONFIG.categories[v] || String(v);
+      if (cle === "statut") return STATUTS_AGENT[v] || String(v);
+      return String(v);
+    }
+    function gravite(s) {
+      const d = s.details || {}, gardes = String(d.garde_fous || "").split(",");
+      if (s.statut === "erreur" || d.securite === true || gardes.includes("gaz") || d.code_refus) return "danger";
+      if (d.a_verifier === true || d.borne === true || (d.motifs && d.motifs !== "aucun")) return "alerte";
+      return "";
+    }
+    const MARQUES = { danger: "! sécurité ou erreur", alerte: "▲ à vérifier" };
+    function preparerEtapes(steps) {
+      const tous = (steps || []).filter((s) => s.niveau >= 1);
+      const principales = tous.filter((s) => s.niveau === 1);
+      return principales.map((s) => ({
+        ...s,
+        gravite: gravite(s),
+        sous: tous.filter((o) => o.niveau > 1 && o.debut_ms >= s.debut_ms && o.debut_ms <= s.debut_ms + s.duree_ms),
+      }));
+    }
+    function construirePiste() {
+      piste.replaceChildren(); piste.style.setProperty("--n", Math.max(1, etapes.length));
+      etapes.forEach((s, i) => {
+        const nom = CONFIG.etapes[s.nom] || s.nom;
+        const bouton = el("button", { class: "noeud", type: "button", "aria-pressed": "false" },
+          el("span", { class: "c", "aria-hidden": "true" }, String(i + 1)), el("span", { class: "l" }, nom),
+          el("span", { class: "t" }, duree(s.duree_ms)), s.gravite ? el("span", { class: "m" }, MARQUES[s.gravite]) : null,
+          el("span", { class: "visuellement-cache etat" }));
+        bouton.addEventListener("click", () => { choisie = i; montrer(i); marquer(); });
+        piste.append(el("li", {}, bouton));
+      });
+    }
+    function marquer() {
+      [...piste.children].forEach((li, k) => {
+        const fait = k < courante || (faite && k === courante);
+        li.className = [fait ? "fait" : k === courante ? "en-cours" : "", etapes[k].gravite, k === choisie ? "choisi" : ""].filter(Boolean).join(" ");
+        li.querySelector("button").setAttribute("aria-pressed", String(k === choisie));
+        li.querySelector(".etat").textContent = fait ? " (terminée)" : "";
+        if (k === courante && !faite) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current");
+      });
+    }
+    function montrer(i) {
+      const s = etapes[i], nom = CONFIG.etapes[s.nom] || s.nom;
+      const kv = Object.entries(s.details || {}).filter(([k]) => !CACHEES.has(k)).map(([k, v]) =>
+        el("div", {}, el("dt", {}, CLES[k] || k), el("dd", {}, texteDetail(k, v))));
+      kv.unshift(el("div", {}, el("dt", {}, "Durée mesurée"), el("dd", {}, duree(s.duree_ms))));
+      if (s.statut !== "ok") kv.push(el("div", {}, el("dt", {}, "Statut de l'étape"), el("dd", {}, s.statut)));
+      panneau.className = "panneau" + (s.gravite ? " " + s.gravite : "");
+      remplacer(panneau,
+        el("h3", {}, el("span", { class: "k" }, (i + 1) + "/" + etapes.length), nom, s.gravite ? el("span", {}, "(" + MARQUES[s.gravite] + ")") : null),
+        DESCRIPTIONS[s.nom] ? el("p", {}, DESCRIPTIONS[s.nom]) : null,
+        el("dl", { class: "kv" }, kv),
+        s.sous.length ? el("ul", {}, s.sous.map((o) => el("li", {},
+          (CONFIG.etapes[o.nom] || o.nom) + (o.details && o.details.outil ? " " : ""),
+          o.details && o.details.outil ? el("code", {}, String(o.details.outil)) : null,
+          " : " + (o.details && o.details.resultat ? o.details.resultat + ", " : "") + duree(o.duree_ms)))) : null);
+    }
+    function etape(i, fin) { courante = i; faite = !!fin; choisie = i; marquer(); if (i >= 0) montrer(i); }
+
+    function chrono(secondes, r) {
+      const ok = secondes <= CONFIG.ca8_s, quoi = r.issue === "message" ? "Message prêt" : r.issue === "trace" ? "Trace prête" : "Dossier prêt";
+      const jauge = $("jauge");
+      jauge.style.width = Math.round(Math.min(1, secondes / CONFIG.ca8_s) * 100) + "%";
+      jauge.className = ok ? "" : "depasse";
+      $("chrono").textContent = quoi + " en " + virgule(secondes, 1) + " s après la fin de l'appel ; CA-8 : " + CONFIG.ca8_s + " s au plus, " + (ok ? "respecté." : "dépassé.");
+      const t = r.transcription;
+      $("chrono-detail").textContent = "Mesuré par le navigateur, de l'envoi de l'enregistrement à la réponse. Mesuré par l'API : " +
+        duree(r.latency_ms) + " en tout" + (t ? ", dont transcription " + duree(t.transcription_ms) + " pour " + virgule(t.audio_bytes / 1024, 0) + " Ko d'audio" : "") + ".";
+    }
+    function entendu(r) {
+      const t = r.transcription;
+      if (!t || !(t.turns || []).length) { $("entendu").hidden = true; return; }
+      $("entendu-liste").replaceChildren(...t.turns.map((x) => el("li", {}, el("b", {}, x.speaker === "agent" ? "Muninn : " : "Appelant : "), x.text)));
+      $("entendu").hidden = false;
+    }
+    function conformite(r) {
+      const c = r.conformity;
+      $("conformite").textContent = !c ? "" : c.compliant
+        ? "Scénario " + (r.scenario_id || "") + " : résultat conforme à l'attendu."
+        : "Scénario " + (r.scenario_id || "") + " : écarts avec l'attendu (" + c.gaps.join(", ") + ").";
+    }
+
+    async function afficher(r, secondes, j) {
+      etapes = preparerEtapes(r.steps); courante = -1; faite = false; choisie = -1;
+      construirePiste();
+      chrono(secondes, r); entendu(r); conformite(r);
+      if (!etapes.length) {
+        panneau.className = "panneau";
+        panneau.replaceChildren(el("p", {}, "L'API n'a rendu aucune étape mesurée."));
+      }
+      const total = etapes.reduce((s, e) => s + e.duree_ms, 0) || 1;
+      for (let i = 0; i < etapes.length; i++) {
+        etape(i);
+        // Accéléré : environ 5 s en tout, chaque étape en proportion de sa durée mesurée.
+        await attendre(animation() ? Math.max(450, Math.round((etapes[i].duree_ms / total) * 5000)) : 0, j);
+      }
+      if (etapes.length) etape(etapes.length - 1, true);
+      phase(3); parcours(5);
+      artisan(...(r.issue === "message" && r.message ? resultatMessage(r)
+        : r.issue === "trace" && r.trace ? resultatTrace(r)
+        : r.draft ? resultatDossier(r) : [el("div", { class: "carte-tel" }, "Aucun résultat rendu.")]));
+      await attendre(animation() ? 700 : 0, j);
+      phase(4); parcours(6);
+      statut("Reçu par Karim.", r.issue === "message" ? "Un message dans l'onglet « Messages »." : r.issue === "trace" ? "Une trace sans contenu." : "Le dossier est sur son téléphone.");
+    }
+
+    // --- Appels à la console (qui relaie à l'API) ---
+    function messageErreur(statutHttp, corps, quoi) {
+      const base = corps && typeof corps.message === "string" ? corps.message
+        : corps && typeof corps.detail === "string" ? corps.detail : "Erreur " + statutHttp + ".";
+      const detail = [
+        corps && corps.code ? "code " + corps.code : "statut " + statutHttp,
+        corps && corps.request_id ? "requête " + corps.request_id : null,
+        corps && corps.retry_after_s ? "réessayer dans " + corps.retry_after_s + " s" : null,
+      ].filter(Boolean).join(" ; ");
+      return new ErreurAPI(quoi + " : " + base, detail + ".");
+    }
+    async function appeler(url, options, quoi) {
+      let r;
+      try { r = await fetch(url, options); } catch (e) {
+        if (e && e.name === "AbortError") throw new Arret();
+        throw new ErreurAPI(quoi + " : la console ne répond pas.", "Vérifier la connexion, puis relancer.");
+      }
+      let corps = null;
+      try { corps = await r.json(); } catch (e) { corps = null; }
+      if (!r.ok) throw messageErreur(r.status, corps, quoi);
+      if (!corps) throw new ErreurAPI(quoi + " : réponse illisible de l'API.", "statut " + r.status + ".");
+      return corps;
+    }
+    function octets(base64) {
+      const brut = atob(base64), sortie = new Uint8Array(brut.length);
+      for (let k = 0; k < brut.length; k++) sortie[k] = brut.charCodeAt(k);
+      return sortie;
+    }
+    async function synthese(id, signal) {
+      const r = await appeler("/demonstration/synthese", {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ scenario_id: id }), signal,
+      }, "Synthèse des voix impossible");
+      if (!Array.isArray(r.turns) || !r.turns.length) throw new ErreurAPI("Synthèse des voix impossible : aucun tour rendu.", "");
+      const v = r.voices || {};
+      if (v.agent || v.caller) $("voix-utilisees").textContent = "Voix de synthèse Azure AI Speech : " + (v.agent || "?") + " pour Muninn, " + (v.caller || "?") + " pour l'appelant ; l'audio n'est conservé ni par la console ni par l'API (D-50).";
+      return r.turns.map((t) => ({ speaker: t.speaker, text: t.text, octets: octets(t.audio_base64) }));
+    }
+
+    function reinitialiser() {
+      chat.replaceChildren(); etapes = []; courante = -1; faite = false; choisie = -1;
+      piste.replaceChildren(); panneau.className = "panneau";
+      panneau.replaceChildren(el("p", {}, "Le traitement commence quand l'appel se termine. Les étapes et leurs durées sont celles que rend l'API."));
+      $("jauge").style.width = "0"; $("jauge").className = "";
+      $("chrono").textContent = "CA-8 : le dossier doit être prêt " + CONFIG.ca8_s + " s au plus après la fin de l'appel.";
+      $("chrono-detail").textContent = ""; $("entendu").hidden = true; $("conformite").textContent = "";
+      $("erreur").replaceChildren();
+      $("ap-sous").textContent = "Prêt à appeler"; voix(null); $("barre-appel").classList.add("finie");
+      [$("tel-appelant"), $("tel-artisan")].forEach((t) => t.classList.remove("sonne"));
+      phase(-1); parcours(-1); artisanAuRepos();
+    }
+    // Le bouton qui a le focus devient inactif : le focus passe à l'autre, jamais au corps de la
+    // page. À la fin, il ne revient à « Lancer » que s'il était sur « Arrêter » ou perdu.
+    function enCours(oui) {
+      const perdu = !document.activeElement || document.activeElement === document.body || document.activeElement === $("arreter");
+      $("lancer").disabled = oui; $("arreter").disabled = !oui; $("choix").disabled = oui;
+      if (oui) $("arreter").focus(); else if (perdu) $("lancer").focus();
+    }
+    // Fin d'un appel interrompu (arrêt ou erreur) : plus rien ne bouge ni ne sonne.
+    function interrompre() {
+      clearInterval(minuteur); couperSon(); enCours(false);
+      [$("tel-appelant"), $("tel-artisan")].forEach((t) => t.classList.remove("sonne"));
+      chat.querySelectorAll(".parle").forEach((b) => b.classList.remove("parle"));
+      voix(null); $("barre-appel").classList.add("finie"); artisanInterrompu();
+    }
+
+    async function jouer() {
+      const j = ++jeton, id = scenario();
+      couperSon(); clearInterval(minuteur); reinitialiser(); enCours(true);
+      controleur = new AbortController();
+      const signal = controleur.signal;
+      const secondes = $("reel").checked ? 15 : 3;
+      $("pc-renvoi").textContent = "Pas de réponse : renvoi après " + secondes + " s (D-68)";
+      // La synthèse est demandée pendant la sonnerie : son délai se fond dans l'attente.
+      let echec = null;
+      const voixPretes = synthese(id, signal);
+      voixPretes.catch((e) => { echec = e; });
+      try {
+        phase(0); parcours(1);
+        $("ap-sous").textContent = "Appel en cours…"; $("barre-appel").classList.remove("finie");
+        statut("Sonnerie.", "Le téléphone de Karim sonne ; il ne décroche pas.");
+        // La vibration suit la case « Animation » par la classe `.sans-anim` de l'écran.
+        $("tel-artisan").classList.add("sonne");
+        sonnerie(secondes);
+        const compte = artisanSonne(secondes);
+        for (let s = secondes; s > 0; s--) {
+          if (echec) throw echec;
+          compte.textContent = String(s); await attendre(1000, j);
+        }
+        $("tel-artisan").classList.remove("sonne"); couperSon();
+        parcours(2);
+        statut("Renvoi vers Muninn.", "Préparation des voix…");
+        const tours = await voixPretes; verifier(j);
+
+        phase(1); parcours(3);
+        statut("Muninn en ligne.", "La conversation se joue à deux voix.");
+        artisanEnLigne(); sys("Appel renvoyé vers Muninn après " + secondes + " s");
+        const debut = Date.now();
+        minuteur = setInterval(() => {
+          const s = Math.round((Date.now() - debut) / 1000);
+          $("ap-sous").textContent = "En ligne avec Muninn · " + Math.floor(s / 60) + " min " + String(s % 60).padStart(2, "0");
+        }, 500);
+        for (const tour of tours) {
+          const x = bulle(tour);
+          x.b.classList.add("parle"); voix(tour.speaker);
+          await lire(tour, x, j);
+          x.b.classList.remove("parle"); voix(null);
+          await attendre(250, j);
+        }
+        clearInterval(minuteur); sys("Appel terminé"); $("barre-appel").classList.add("finie");
+        $("ap-sous").textContent = "Appel terminé";
+
+        // CA-8 : le chronomètre part de la fin de l'appel joué, à l'envoi de l'enregistrement.
+        const t0 = performance.now();
+        phase(2); parcours(4);
+        statut("Traitement.", "L'enregistrement de l'appel est envoyé à l'API, qui le transcrit et le traite.");
+        const compteur = artisanTraitement();
+        minuteur = setInterval(() => { compteur.textContent = "depuis " + Math.floor((performance.now() - t0) / 1000) + " s"; }, 500);
+        const enregistrement = new Blob(tours.map((t) => t.octets), { type: CONFIG.type_audio });
+        const r = await appeler("/demonstration/appel?scenario_id=" + encodeURIComponent(id), {
+          method: "POST", headers: { "Content-Type": CONFIG.type_audio }, body: enregistrement, signal,
+        }, "Traitement de l'appel impossible");
+        const ecoule = (performance.now() - t0) / 1000;
+        clearInterval(minuteur); verifier(j);
+        statut("Traitement terminé.", "La chaîne rejoue les étapes mesurées par l'API.");
+        await afficher(r, ecoule, j);
+      } catch (e) {
+        if (e instanceof Arret || j !== jeton) return;
+        if (e instanceof ErreurAPI) erreur(e.message, e.detail);
+        else erreur("Erreur inattendue dans la page : " + (e && e.message ? e.message : String(e)));
+        interrompre(); $("ap-sous").textContent = "Appel interrompu";
+        statut("Démonstration interrompue.", "Le détail de l'erreur est affiché ci-dessous.");
+      } finally {
+        if (j === jeton) {
+          clearInterval(minuteur); couperSon(); enCours(false);
+          [$("tel-appelant"), $("tel-artisan")].forEach((t) => t.classList.remove("sonne"));
+          voix(null); $("lancer").textContent = "Rejouer l'appel";
+        }
+      }
+    }
+
+    function arreter() {
+      jeton++;
+      if (controleur) controleur.abort();
+      interrompre(); $("ap-sous").textContent = "Appel arrêté";
+      statut("Arrêté.", "« Lancer l'appel » rejoue la démonstration depuis la sonnerie.");
+    }
+
+    $("lancer").addEventListener("click", () => {
+      // Le navigateur n'autorise le son qu'après un geste de l'utilisateur.
+      try { contexte = contexte || new (window.AudioContext || window.webkitAudioContext)(); contexte.resume(); } catch (e) { /* sans son */ }
+      jouer();
+    });
+    $("arreter").addEventListener("click", arreter);
+    // Sans annonce : les flèches parcourent les scénarios, chacun serait lu à son passage.
+    document.querySelectorAll('input[name="scenario"]').forEach((r) => r.addEventListener("change", () => {
+      $("lancer").textContent = "Lancer l'appel"; reinitialiser();
+    }));
+    const synchroniserAnimation = () => $("demo").classList.toggle("sans-anim", !$("anim").checked);
+    $("anim").addEventListener("change", synchroniserAnimation);
+    // Couper le son coupe aussi la sonnerie et l'extrait en cours ; l'appel continue.
+    $("son").addEventListener("change", () => {
+      const avec = $("son").checked;
+      if (!avec) {
+        oscillateurs.forEach((o) => { try { o.stop(); } catch (e) { /* déjà arrêté */ } });
+        oscillateurs = [];
+      }
+      if (lecteur) lecteur.muted = !avec;
+    });
+    synchroniserAnimation();
+    reinitialiser();
+  })();
+  </script>
+{% endblock %}

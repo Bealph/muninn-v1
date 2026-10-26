@@ -7,6 +7,8 @@ import pytest
 from fastapi.testclient import TestClient
 
 from muninn import observabilite, telemetrie
+from muninn.api import voix as routes_voix
+from muninn.api.dependances import get_fournisseur_voix
 from muninn.api.limites import LimiteurDebit
 from muninn.api.main import app as api
 from muninn.api.main import get_fournisseur, get_limiteur
@@ -15,6 +17,7 @@ from muninn.console.main import get_client_api
 from muninn.core.config import Settings, get_settings
 from muninn.llm.fournisseur import FauxFournisseur
 from muninn.traitements import enregistrement
+from muninn.voix.faux import FauxFournisseurVoix
 
 VARIABLES_MUNINN = (
     "ENVIRONMENT",
@@ -31,6 +34,10 @@ VARIABLES_MUNINN = (
     "LANGFUSE_EVAL_SECRET_KEY",
     "DATABASE_URL_TRAITEMENTS",
     "APPLICATIONINSIGHTS_CONNECTION_STRING",
+    "VOIX_FOURNISSEUR",
+    "SPEECH_REGION",
+    "SPEECH_ENDPOINT",
+    "SPEECH_RESOURCE_ID",
 )
 
 
@@ -54,12 +61,15 @@ def configuration_isolee(monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
 
 @pytest.fixture(autouse=True)
 def faux_fournisseur() -> Iterator[None]:
-    """Faux fournisseur et limite neuve à chaque test : aucun test ne dépend d'un autre."""
+    """Faux fournisseurs et limite neuve à chaque test : aucun test ne dépend d'un autre."""
     api.dependency_overrides[get_fournisseur] = lambda: FauxFournisseur()
+    api.dependency_overrides[get_fournisseur_voix] = lambda: FauxFournisseurVoix()
     limiteur = LimiteurDebit([(60, 1000)])
     api.dependency_overrides[get_limiteur] = lambda: limiteur
+    routes_voix.syntheses.clear()
     yield
     api.dependency_overrides.clear()
+    routes_voix.syntheses.clear()
 
 
 @pytest.fixture

@@ -168,7 +168,8 @@ def test_relance_retrouve_la_revision_deja_creee(tmp_path: Path) -> None:
 
 
 @pytest.mark.parametrize(
-    "nom", ["deployer.sh", "07-langfuse.sh", "08-traitements.sh", "09-observabilite.sh"]
+    "nom",
+    ["deployer.sh", "07-langfuse.sh", "08-traitements.sh", "09-observabilite.sh", "13-voix.sh"],
 )
 def test_aucun_script_ne_lit_le_nom_dans_la_reponse_de_update(nom: str) -> None:
     script = (RACINE / "infra" / "azure" / nom).read_text(encoding="utf-8")

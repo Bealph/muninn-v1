@@ -30,7 +30,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from muninn.api.dependances import get_fournisseur, get_limiteur
 from muninn.api.erreurs import DetailErreur, Erreur, ErreurAPI, identifiant
 from muninn.api.limites import LimiteurDebit
-from muninn.demo import PERIMETRE, charger_scenarios, fournisseur_perimetre
+from muninn.demo import PERIMETRE, Scenario, charger_scenarios, fournisseur_perimetre
 from muninn.demo.verification import verifier
 from muninn.extraction.agent import ResultatAgent
 from muninn.extraction.contrat import MOTIF_TELEPHONE, DossierDraft, Metier
@@ -349,11 +349,39 @@ def executer_demo(
             detail = DetailErreur(field="body.transcript", issue="required")
             raise ErreurAPI(422, "validation_failed", [detail])
         texte, metier, numero = corps.transcript, corps.trade, corps.caller_number
+    return traiter_demo(
+        request, scenario, lambda: texte, metier, numero, fournisseur, referentiels, debut
+    )
+
+
+def traiter_demo(
+    request: Request,
+    scenario: Scenario | None,
+    obtenir_texte: Callable[[], str],
+    metier: str,
+    numero: str | None,
+    fournisseur: FournisseurLLM,
+    referentiels: Referentiels,
+    debut: float,
+    route: str = "demo",
+    champ_texte: str = "body.transcript",
+    synthetique: Callable[[], bool] | None = None,
+) -> ReponseDemo:
+    """Le traitement d'un appel de démonstration, commun au texte et à la voix (étape 6).
+
+    `obtenir_texte` est appelé dans l'étape racine « appel » : la voix y place sa transcription,
+    qui apparaît ainsi en tête des étapes. Une exception qu'il lève remonte telle quelle.
+    `route` ne sert qu'à la trace ; l'enregistrement en base reste celui d'une démonstration.
+    `champ_texte` désigne, dans une erreur 422, le champ d'où vient le texte refusé.
+    `synthetique` dit, après coup, si le contenu traité est bien celui du jeu synthétique ; par
+    défaut, tout scénario l'est. Un contenu qui ne l'est pas n'est ni stocké ni corrigeable (P-03).
+    """
     try:
         with collecte() as etapes, etape(
-            "appel", route="demo", request_id=identifiant(request),
+            "appel", route=route, request_id=identifiant(request),
             scenario_id=scenario.id if scenario else None,
         ) as racine:  # fmt: skip
+            texte = obtenir_texte()
             t = traiter_appel(
                 texte, charger_paquet_qualification(), charger_paquet(), fournisseur, referentiels,
                 metier, aujourd_hui(), numero, request_id=identifiant(request),  # type: ignore[arg-type]
@@ -368,15 +396,16 @@ def executer_demo(
         ))  # fmt: skip
         if isinstance(refus, ContenuRefuse):
             raise ErreurAPI(422, "content_refused") from refus
-        detail = DetailErreur(field="body.transcript", issue="too_long")
+        detail = DetailErreur(field=champ_texte, issue="too_long")
         raise ErreurAPI(422, "validation_failed", [detail]) from refus
     del texte
     latence = round((time.perf_counter() - debut) * 1000)
+    contenu_synthetique = scenario is not None and (synthetique is None or synthetique())
     stocke = enregistrer(Enregistrement(
         identifiant(request), "demo", latence,
         scenario_id=scenario.id if scenario else None,
         modele_simule=bool(scenario and scenario.modele_simule),
-        contenu_synthetique=scenario is not None,
+        contenu_synthetique=contenu_synthetique,
         traitement=t, garde_fous_message=sorted(str(g) for g in t.garde_fous),
     ))  # fmt: skip
     q, x = t.qualification, t.extraction
@@ -410,7 +439,7 @@ def executer_demo(
         expected=scenario.attendu if scenario else None,
         conformity=Conformite(compliant=not ecarts, gaps=ecarts) if scenario else None,
         latency_ms=latence,
-        review_available=bool(stocke and scenario and x),
+        review_available=bool(stocke and contenu_synthetique and x),
         steps=etapes_vues(etapes),
     )
 

@@ -38,6 +38,8 @@ ATTRIBUTS_AUTORISES = frozenset({
     "muninn.regle", "muninn.statut", "muninn.outil", "muninn.resultat", "muninn.a_verifier",
     "muninn.garde_fous", "muninn.motifs", "muninn.tentatives", "muninn.outils", "muninn.borne",
     "muninn.jetons", "muninn.cout_micro_eur", "muninn.securite", "muninn.code_refus",
+    # Transcription de la voix simulée (étape 6) : des nombres, jamais l'audio ni le texte.
+    "muninn.audio_octets", "muninn.tours",
 })  # fmt: skip
 MOTIF_CODE = re.compile(r"[a-z0-9_.,\-]{1,80}")
 

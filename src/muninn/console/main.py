@@ -3,6 +3,7 @@
 La console ne parle qu'à l'API, jamais directement au LLM.
 """
 
+import asyncio
 import json
 from collections.abc import Callable, Iterator
 from datetime import UTC, datetime, timedelta, tzinfo
@@ -13,12 +14,14 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import httpx
 from fastapi import Depends, FastAPI, Form, Query, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse, Response
 from fastapi.templating import Jinja2Templates
+from starlette.concurrency import run_in_threadpool
 
 from muninn import __version__
 from muninn.core.config import get_settings
 from muninn.traitements.etat import MINIMUM
+from muninn.voix.contrat import AUDIO_OCTETS_MAX, LECTURE_AUDIO_S, TYPE_AUDIO, DemandeSynthese
 
 app = FastAPI(title="Muninn console", version=__version__)
 gabarits = Jinja2Templates(directory=Path(__file__).parent / "templates")
@@ -686,3 +689,135 @@ def qualite(
             "console": {"version": __version__, "git_sha": settings.git_sha},
         },
     )  # fmt: skip
+
+
+# --- Écran « Démonstration » (sprint 5, étape 6 ; D-50, D-74, D-88, CA-8) ----------------------
+# Un appel joué à deux voix, de la sonnerie au dossier sur le téléphone de l'artisan, d'après la
+# maquette V0. La console relaie la synthèse et l'enregistrement de l'appel à l'API (ADR-09) ;
+# l'audio reste en mémoire (D-50) : corps lu par morceaux et borné, jamais `UploadFile`, qui
+# déborde sur un fichier temporaire au-delà de 1 Mo.
+
+# Synthèse d'un dialogue de 17 tours ; ou transcription puis traitement (CA-8 : 45 s au plus).
+DELAI_VOIX_S = 90.0
+CA8_S = 45
+SCENARIOS_DEMONSTRATION = (
+    {"id": "SC-Q4", "nom": "Demande ordinaire",
+     "description": "Chauffe-eau qui fuit ; l'appelant tente de faire classer l'appel comme "
+                    "personnel."},
+    {"id": "SC-04", "nom": "Odeur de gaz",
+     "description": "L'appelant sent le gaz dans sa cuisine : urgence de sécurité."},
+    {"id": "SC-Q1", "nom": "Un fournisseur",
+     "description": "Une livraison annoncée : un message pour Karim, pas un dossier."},
+    {"id": "SC-10", "nom": "Commune ambiguë",
+     "description": "« À Montreuil », sans autre indice : trois communes possibles."},
+)  # fmt: skip
+NOMS_ETAPES = {
+    "appel": "Appel complet",
+    "transcription": "Transcription",
+    "controle_entree": "Contrôle d'entrée",
+    "qualification": "Qualification",
+    "message": "Message",
+    "agent": "Agent",
+    "outil": "Outil",
+    "controles_serveur": "Contrôles du serveur",
+}
+# En-têtes de l'API rendus avec sa réponse : délai avant un nouvel essai, identifiant, cache.
+ENTETES_RELAYES = ("Retry-After", "X-Request-Id", "Cache-Control")
+
+
+def _refus(statut: int, code: str, message: str) -> JSONResponse:
+    """Une erreur de la console, au format des erreurs de l'API : code et message lisible."""
+    return JSONResponse({"code": code, "message": message}, status_code=statut)
+
+
+def _injoignable() -> JSONResponse:
+    return _refus(502, "api_unreachable", "L'API est injoignable.")
+
+
+def _relayer(reponse: httpx.Response) -> Response:
+    """La réponse de l'API telle quelle : statut, corps et type."""
+    entetes = {k: v for k in ENTETES_RELAYES if (v := reponse.headers.get(k))}
+    return Response(
+        reponse.content,
+        status_code=reponse.status_code,
+        media_type=reponse.headers.get("content-type", "application/json"),
+        headers=entetes,
+    )
+
+
+@app.get("/demonstration", response_class=HTMLResponse)
+def demonstration(request: Request) -> HTMLResponse:
+    """Écran « Démonstration » : un appel joué à deux voix, traité par l'API, reçu par Karim."""
+    config = {
+        "scenarios": SCENARIOS_DEMONSTRATION,
+        "type_audio": TYPE_AUDIO,
+        "ca8_s": CA8_S,
+        "etapes": NOMS_ETAPES,
+        "motifs": MOTIFS,
+        "garde_fous": GARDE_FOUS,
+        "categories": CATEGORIES,
+    }
+    return gabarits.TemplateResponse(
+        request,
+        "demonstration.html",
+        {"page": "demonstration", "scenarios": SCENARIOS_DEMONSTRATION, "config": config,
+         "ca8_s": CA8_S},
+    )  # fmt: skip
+
+
+@app.post("/demonstration/synthese")
+def demonstration_synthese(corps: DemandeSynthese, client: ClientAPI) -> Response:
+    """Relais vers `POST /v1/demo/voice/synthesis` : un extrait MP3 par tour du scénario."""
+    try:
+        reponse = client.post(
+            "/v1/demo/voice/synthesis", json=corps.model_dump(), timeout=DELAI_VOIX_S
+        )
+    except httpx.HTTPError:
+        return _injoignable()
+    return _relayer(reponse)
+
+
+@app.post("/demonstration/appel")
+async def demonstration_appel(
+    request: Request,
+    client: ClientAPI,
+    scenario_id: Annotated[str, Query(pattern=r"^[A-Za-z0-9-]{1,40}$")],
+) -> Response:
+    """Relais de l'enregistrement de l'appel joué vers `POST /v1/demo/voice/call`.
+
+    Le corps brut `audio/mpeg` est lu en mémoire, par morceaux, et refusé dès qu'il dépasse
+    `AUDIO_OCTETS_MAX` (413) : un corps sans longueur annoncée ne peut pas saturer la mémoire.
+    Un corps non reçu en `LECTURE_AUDIO_S` secondes est refusé (408), comme par l'API.
+    Un autre type est refusé (415). Rien n'est écrit sur disque ni journalisé."""
+    type_recu = request.headers.get("content-type", "").partition(";")[0].strip().lower()
+    if type_recu != TYPE_AUDIO:
+        return _refus(
+            415, "unsupported_media_type", "L'enregistrement de l'appel doit être en audio/mpeg."
+        )
+    trop = _refus(413, "audio_too_large", "L'enregistrement dépasse la taille admise.")
+    annonce = request.headers.get("content-length", "")
+    if annonce.isascii() and annonce.isdigit() and int(annonce) > AUDIO_OCTETS_MAX:
+        return trop
+    audio = bytearray()
+    try:
+        async with asyncio.timeout(LECTURE_AUDIO_S):
+            async for morceau in request.stream():
+                audio += morceau
+                if len(audio) > AUDIO_OCTETS_MAX:
+                    return trop
+    except TimeoutError:
+        return _refus(408, "request_timeout", "L'enregistrement n'a pas été reçu à temps.")
+    try:
+        reponse = await run_in_threadpool(
+            client.post,
+            "/v1/demo/voice/call",
+            params={"scenario_id": scenario_id},
+            content=bytes(audio),
+            headers={"Content-Type": TYPE_AUDIO},
+            timeout=DELAI_VOIX_S,
+        )
+    except httpx.HTTPError:
+        return _injoignable()
+    finally:
+        audio.clear()
+    return _relayer(reponse)

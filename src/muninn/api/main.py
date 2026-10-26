@@ -11,6 +11,7 @@ from muninn.api import erreurs
 from muninn.api.agent import routeur as routeur_agent
 from muninn.api.dependances import get_fournisseur, get_limiteur
 from muninn.api.limites import LimiteurDebit
+from muninn.api.voix import routeur as routeur_voix
 from muninn.core.config import get_settings
 from muninn.llm.fournisseur import ErreurFournisseur, FournisseurLLM
 from muninn.referentiels.routes import routeur as routeur_referentiels
@@ -21,6 +22,7 @@ journal = logging.getLogger(__name__)
 app = FastAPI(title="Muninn API", version=__version__)
 app.include_router(routeur_referentiels)
 app.include_router(routeur_agent)
+app.include_router(routeur_voix)
 erreurs.installer(app)
 
 __all__ = ["app", "get_fournisseur", "get_limiteur"]
