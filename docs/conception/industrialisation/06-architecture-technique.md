@@ -163,6 +163,8 @@ flowchart LR
   Js -->|"HTTPS"| Src
   Js -->|"Parquet"| Lake
   Js -->|"agrégats"| Pg
+  classDef externe fill:#8a8f8c,stroke:#8a8f8c,color:#ffffff
+  class Llm,Src externe
 ```
 
 La console appelle l'api par son contrat REST (`04-contrat-api.md`), comme le fera l'application
@@ -299,6 +301,8 @@ flowchart TB
   Wrk -.->|"identifiants opaques"| Rds
   Jobs -->|"HTTPS"| Pub
   Jobs -->|"Parquet, Entra"| Lake
+  classDef externe fill:#8a8f8c,stroke:#8a8f8c,color:#ffffff
+  class Llm,Pub externe
 ```
 
 ### 5.3 Réseau

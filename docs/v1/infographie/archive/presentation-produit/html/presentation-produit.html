@@ -6,23 +6,23 @@
 <title>Muninn en une page</title>
 <style>
   :root {
-    --encre: #1d2433;
-    --encre-douce: #4a5468;
-    --fond: #f7f4ee;
+    --encre: #14261f;
+    --encre-douce: #4f5a55;
+    --fond: #ffffff;
     --carte: #ffffff;
-    --nuit: #1f2a44;
-    --nuit-clair: #2f3d60;
-    --accent: #e8743b;
-    --accent-pale: #fde9dd;
-    --vert: #2e8b57;
+    --nuit: #0f4d3a;
+    --nuit-clair: #1f6b4f;
+    --accent: #1f8a52;
+    --accent-pale: #e3f4ea;
+    --vert: #1f6b4f;
     --vert-pale: #e3f3ea;
-    --bleu: #3a6ea5;
-    --bleu-pale: #e4eef8;
-    --ambre: #c98a16;
+    --bleu: #0f4d3a;
+    --bleu-pale: #eef4f1;
+    --ambre: #8a5a00;
     --ambre-pale: #fbf0d9;
-    --rouge: #c0392b;
-    --rouge-pale: #f9e3e0;
-    --trait: #d9d3c7;
+    --rouge: #d7192e;
+    --rouge-pale: #fbe9e9;
+    --trait: #c9dad2;
   }
   * { box-sizing: border-box; }
   body {
@@ -43,8 +43,8 @@
     gap: 30px;
   }
   header.titre h1 { margin: 0; font-size: 54px; letter-spacing: 1px; }
-  header.titre .slogan { font-size: 28px; color: #ffd2b8; margin-top: 4px; font-weight: 600; }
-  header.titre .sous { font-size: 19px; color: #c9d2e6; margin-top: 10px; }
+  header.titre .slogan { font-size: 28px; color: #cdebd9; margin-top: 4px; font-weight: 600; }
+  header.titre .sous { font-size: 19px; color: #c9dad2; margin-top: 10px; }
   h2 {
     font-size: 30px;
     margin: 44px 0 18px;
@@ -67,7 +67,7 @@
     border-radius: 18px;
     padding: 22px 24px;
   }
-  .carte-dessin { padding: 0; overflow: hidden; background: #fbf8f2; display: flex; align-items: center; }
+  .carte-dessin { padding: 0; overflow: hidden; background: #f6faf8; display: flex; align-items: center; }
   .faits { display: grid; gap: 14px; }
   .fait { display: flex; gap: 16px; align-items: flex-start; }
   .fait .pastille {
@@ -94,7 +94,7 @@
     background: var(--nuit); color: #fff;
     font-weight: 700; font-size: 16px; padding: 8px 14px;
   }
-  .case svg { display: block; width: 100%; height: 250px; background: #fbf8f2; }
+  .case svg { display: block; width: 100%; height: 250px; background: #f6faf8; }
   .case .legende { padding: 12px 14px 16px; font-size: 15.5px; color: var(--encre); }
   .case .legende em { color: var(--encre-douce); font-style: normal; }
   .agent { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 18px; }
@@ -115,12 +115,12 @@
   .chaine { display: flex; align-items: stretch; gap: 10px; }
   .etape {
     flex: 1; background: var(--nuit-clair); border-radius: 14px; padding: 14px 14px;
-    font-size: 15px; color: #e6ebf5;
+    font-size: 15px; color: #eef4f1;
   }
   .etape b { display: block; color: #fff; font-size: 16.5px; margin-bottom: 4px; }
-  .fleche { align-self: center; color: #ffd2b8; font-size: 26px; font-weight: 800; }
-  .v1 .note { margin-top: 16px; font-size: 15px; color: #c9d2e6; }
-  .v1 .note b { color: #ffd2b8; }
+  .fleche { align-self: center; color: #cdebd9; font-size: 26px; font-weight: 800; }
+  .v1 .note { margin-top: 16px; font-size: 15px; color: #c9dad2; }
+  .v1 .note b { color: #cdebd9; }
   footer { margin-top: 30px; font-size: 13.5px; color: var(--encre-douce); border-top: 1px solid var(--trait); padding-top: 14px; }
   .partie { margin: 54px 0 6px; padding: 22px 30px; border-radius: 18px; background: var(--accent); color: #fff; }
   .partie-num { font-size: 15px; text-transform: uppercase; letter-spacing: 2px; opacity: .9; }
@@ -139,21 +139,21 @@
   .bloc { border-radius: 12px; padding: 10px 12px; font-size: 14px; color: var(--encre-douce); }
   .bloc b { display: inline; color: var(--encre); font-size: 15px; }
   .bloc b + * , .bloc b { }
-  .b-src { background: #eef1f6; }
+  .b-src { background: #f3f8f5; }
   .b-data { background: var(--ambre-pale); }
   .b-api { background: var(--bleu-pale); }
   .b-ctrl { background: var(--vert-pale); }
   .b-ui { background: var(--accent-pale); }
-  .b-vig { background: #ece9f6; }
+  .b-vig { background: #eef4f1; }
   .bloc > b { display: block; margin-bottom: 3px; }
   .bloc > .pas + b { display: inline; }
   .mini { margin: 6px 0 0; padding-left: 18px; font-size: 13.5px; }
   .mini li { margin: 2px 0; }
   .mini i { color: var(--encre-douce); font-style: normal; font-size: 12px; background: rgba(0,0,0,.05); padding: 0 5px; border-radius: 4px; margin-left: 4px; }
   .cyl { align-self: center; text-align: center; background: var(--nuit); color: #fff; font-weight: 700; font-size: 13.5px; padding: 8px 18px; border-radius: 50% / 18%; min-width: 120px; }
-  .cyl small { font-weight: 400; color: #c9d2e6; }
+  .cyl small { font-weight: 400; color: #c9dad2; }
   .liaison { align-self: center; font-size: 30px; color: var(--accent); font-weight: 800; }
-  .agent-cadre { border: 2px dashed var(--nuit); border-radius: 14px; padding: 10px; background: #fbf8f2; }
+  .agent-cadre { border: 2px dashed var(--nuit); border-radius: 14px; padding: 10px; background: #f6faf8; }
   .agent-titre { font-weight: 800; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; }
   .agent-titre small { font-weight: 400; color: var(--encre-douce); margin-left: 6px; }
   .agent-ligne { display: flex; align-items: center; gap: 6px; }
@@ -180,9 +180,9 @@
   .pil-ci { flex: 1.7; background: var(--bleu-pale); }
   .pil-verdict { background: var(--accent-pale); }
   .pil-retour { background: var(--vert-pale); }
-  .pil-signal { background: #ece9f6; }
+  .pil-signal { background: #eef4f1; }
   .envs { display: grid; grid-template-columns: 1fr 1fr 1fr 1.6fr; gap: 10px; margin-top: 12px; }
-  .env { background: var(--nuit); color: #c9d2e6; border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+  .env { background: var(--nuit); color: #c9dad2; border-radius: 12px; padding: 10px 14px; font-size: 14px; }
   .env b { display: block; color: #fff; font-size: 15px; }
   .env-note { background: var(--nuit-clair); }
   .astuce { margin-top: 12px; background: var(--vert-pale); border-left: 6px solid var(--vert); border-radius: 14px; padding: 12px 18px; font-size: 15px; }
@@ -192,9 +192,9 @@
   .j-date { font-size: 12.5px; font-weight: 700; color: var(--accent); margin-bottom: 2px; }
   .j-sprint { background: var(--bleu-pale); }
   .j-incr { background: var(--vert-pale); }
-  .j-oral { background: var(--nuit); color: #c9d2e6; border-color: var(--nuit); }
+  .j-oral { background: var(--nuit); color: #c9dad2; border-color: var(--nuit); }
   .j-oral b { color: #fff; }
-  .j-oral .j-date { color: #ffd2b8; }
+  .j-oral .j-date { color: #cdebd9; }
   .frise-note { margin: 10px 0 14px; font-size: 14.5px; color: var(--encre-douce); }
   .criteres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .critere { background: #fff; border: 1px solid var(--trait); border-radius: 14px; padding: 12px 14px; font-size: 14.5px; color: var(--encre-douce); }
@@ -207,10 +207,10 @@
 
   <header class="titre">
     <svg width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="Logo : un corbeau">
-      <circle cx="60" cy="60" r="58" fill="#2f3d60"/>
-      <path d="M28 74 C34 52 52 40 70 42 C80 43 88 48 92 56 L104 58 L93 64 C92 76 82 88 66 90 C54 92 44 88 36 82 L22 92 L28 74 Z" fill="#0f1524"/>
-      <circle cx="80" cy="54" r="3.4" fill="#ffd2b8"/>
-      <path d="M50 66 C58 62 68 62 76 68" stroke="#3b4a70" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <circle cx="60" cy="60" r="58" fill="#1f6b4f"/>
+      <path d="M28 74 C34 52 52 40 70 42 C80 43 88 48 92 56 L104 58 L93 64 C92 76 82 88 66 90 C54 92 44 88 36 82 L22 92 L28 74 Z" fill="#0b2a20"/>
+      <circle cx="80" cy="54" r="3.4" fill="#cdebd9"/>
+      <path d="M50 66 C58 62 68 62 76 68" stroke="#1f6b4f" stroke-width="3" fill="none" stroke-linecap="round"/>
     </svg>
     <div>
       <h1>Muninn</h1>
@@ -229,43 +229,43 @@
   <div class="probleme">
     <div class="carte carte-dessin">
       <svg viewBox="0 0 430 330" width="100%" role="img" aria-label="Karim, plombier, est allongé sous un évier ; son téléphone sonne par terre et il ne peut pas décrocher.">
-        <rect width="430" height="330" fill="#fbf8f2"/>
-        <g stroke="#ece5d8" stroke-width="2">
+        <rect width="430" height="330" fill="#f6faf8"/>
+        <g stroke="#e6efea" stroke-width="2">
           <line x1="0" y1="60" x2="430" y2="60"/><line x1="0" y1="120" x2="430" y2="120"/><line x1="0" y1="180" x2="430" y2="180"/>
           <line x1="70" y1="0" x2="70" y2="230"/><line x1="140" y1="0" x2="140" y2="230"/><line x1="210" y1="0" x2="210" y2="230"/><line x1="280" y1="0" x2="280" y2="230"/><line x1="350" y1="0" x2="350" y2="230"/>
         </g>
-        <rect x="0" y="230" width="430" height="100" fill="#e9dfcd"/>
-        <rect x="200" y="70" width="210" height="18" rx="4" fill="#9aa5b1"/>
-        <rect x="210" y="88" width="190" height="142" rx="6" fill="#d6c3a5"/>
-        <rect x="222" y="100" width="80" height="118" rx="4" fill="#cdb894"/>
-        <rect x="308" y="100" width="80" height="118" rx="4" fill="#cdb894"/>
-        <path d="M265 130 L265 175 Q265 190 280 190 L300 190" stroke="#7b8794" stroke-width="10" fill="none" stroke-linecap="round"/>
-        <path d="M300 196 C296 204 296 210 300 212 C304 210 304 204 300 196 Z" fill="#5aa9e6"/>
-        <ellipse cx="300" cy="238" rx="34" ry="6" fill="#bfe0f7"/>
-        <ellipse cx="150" cy="262" rx="130" ry="10" fill="#d8cbb3"/>
-        <rect x="70" y="232" width="150" height="34" rx="16" fill="#2f5d8a"/>
-        <rect x="200" y="236" width="60" height="26" rx="12" fill="#2f5d8a"/>
-        <rect x="40" y="238" width="44" height="22" rx="9" fill="#3c2f2f"/>
-        <path d="M230 240 L262 200" stroke="#2f5d8a" stroke-width="16" stroke-linecap="round"/>
-        <circle cx="265" cy="196" r="9" fill="#e0ac7e"/>
-        <rect x="258" y="170" width="8" height="34" rx="3" fill="#8d99a6" transform="rotate(25 262 187)"/>
-        <circle cx="262" cy="248" r="17" fill="#e0ac7e"/>
-        <path d="M246 244 Q262 226 280 242 Z" fill="#e8743b"/>
+        <rect x="0" y="230" width="430" height="100" fill="#dce9e2"/>
+        <rect x="200" y="70" width="210" height="18" rx="4" fill="#9fa8a3"/>
+        <rect x="210" y="88" width="190" height="142" rx="6" fill="#bcd2c6"/>
+        <rect x="222" y="100" width="80" height="118" rx="4" fill="#b3cbbd"/>
+        <rect x="308" y="100" width="80" height="118" rx="4" fill="#b3cbbd"/>
+        <path d="M265 130 L265 175 Q265 190 280 190 L300 190" stroke="#6f7a75" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <path d="M300 196 C296 204 296 210 300 212 C304 210 304 204 300 196 Z" fill="#2fbf71"/>
+        <ellipse cx="300" cy="238" rx="34" ry="6" fill="#cfe6da"/>
+        <ellipse cx="150" cy="262" rx="130" ry="10" fill="#c9dad2"/>
+        <rect x="70" y="232" width="150" height="34" rx="16" fill="#0f4d3a"/>
+        <rect x="200" y="236" width="60" height="26" rx="12" fill="#0f4d3a"/>
+        <rect x="40" y="238" width="44" height="22" rx="9" fill="#2e4a40"/>
+        <path d="M230 240 L262 200" stroke="#0f4d3a" stroke-width="16" stroke-linecap="round"/>
+        <circle cx="265" cy="196" r="9" fill="#8cc7a6"/>
+        <rect x="258" y="170" width="8" height="34" rx="3" fill="#8a8f8c" transform="rotate(25 262 187)"/>
+        <circle cx="262" cy="248" r="17" fill="#8cc7a6"/>
+        <path d="M246 244 Q262 226 280 242 Z" fill="#1f8a52"/>
         <g transform="translate(60 160)">
-          <rect x="0" y="0" width="40" height="66" rx="8" fill="#1d2433"/>
-          <rect x="4" y="7" width="32" height="48" rx="4" fill="#ffd2b8"/>
-          <text x="20" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#c0392b">!</text>
-          <path d="M-14 6 Q-22 33 -14 60" stroke="#e8743b" stroke-width="4" fill="none" stroke-linecap="round"/>
-          <path d="M54 6 Q62 33 54 60" stroke="#e8743b" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <rect x="0" y="0" width="40" height="66" rx="8" fill="#14261f"/>
+          <rect x="4" y="7" width="32" height="48" rx="4" fill="#cdebd9"/>
+          <text x="20" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#d7192e">!</text>
+          <path d="M-14 6 Q-22 33 -14 60" stroke="#1f8a52" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M54 6 Q62 33 54 60" stroke="#1f8a52" stroke-width="4" fill="none" stroke-linecap="round"/>
         </g>
         <g>
-          <rect x="18" y="22" width="190" height="78" rx="16" fill="#fff" stroke="#1d2433" stroke-width="2"/>
-          <path d="M120 100 L132 124 L140 100 Z" fill="#fff" stroke="#1d2433" stroke-width="2"/>
+          <rect x="18" y="22" width="190" height="78" rx="16" fill="#fff" stroke="#14261f" stroke-width="2"/>
+          <path d="M120 100 L132 124 L140 100 Z" fill="#fff" stroke="#14261f" stroke-width="2"/>
           <rect x="118" y="96" width="24" height="6" fill="#fff"/>
-          <text x="113" y="54" text-anchor="middle" font-size="16" font-weight="700" fill="#1d2433">« Je ne peux pas</text>
-          <text x="113" y="76" text-anchor="middle" font-size="16" font-weight="700" fill="#1d2433">décrocher… »</text>
+          <text x="113" y="54" text-anchor="middle" font-size="16" font-weight="700" fill="#14261f">« Je ne peux pas</text>
+          <text x="113" y="76" text-anchor="middle" font-size="16" font-weight="700" fill="#14261f">décrocher… »</text>
         </g>
-        <text x="215" y="318" text-anchor="middle" font-size="15" fill="#4a5468">Karim, plombier-chauffagiste, travaille seul</text>
+        <text x="215" y="318" text-anchor="middle" font-size="15" fill="#4f5a55">Karim, plombier-chauffagiste, travaille seul</text>
       </svg>
     </div>
     <div class="carte">
@@ -287,22 +287,22 @@
     <div class="case">
       <div class="entete">1. Le client appelle</div>
       <svg viewBox="0 0 260 250" role="img" aria-label="Paul Martin, chez lui, appelle Karim : il a une fuite sous l'évier.">
-        <rect width="260" height="250" fill="#fbf8f2"/>
-        <rect x="0" y="190" width="260" height="60" fill="#e9dfcd"/>
-        <ellipse cx="190" cy="214" rx="50" ry="9" fill="#bfe0f7"/>
-        <rect x="60" y="120" width="70" height="80" rx="22" fill="#7a9e7e"/>
-        <rect x="68" y="190" width="22" height="30" rx="8" fill="#3c4a5c"/>
-        <rect x="100" y="190" width="22" height="30" rx="8" fill="#3c4a5c"/>
-        <circle cx="95" cy="98" r="26" fill="#c99470"/>
-        <path d="M70 92 Q95 62 121 92 Q110 80 95 80 Q80 80 70 92 Z" fill="#6b4f3a"/>
-        <circle cx="86" cy="98" r="2.6" fill="#1d2433"/><circle cx="104" cy="98" r="2.6" fill="#1d2433"/>
-        <path d="M88 110 Q95 106 102 110" stroke="#1d2433" stroke-width="2" fill="none"/>
-        <path d="M122 140 L124 104" stroke="#7a9e7e" stroke-width="14" stroke-linecap="round"/>
-        <rect x="116" y="84" width="14" height="26" rx="4" fill="#1d2433"/>
-        <rect x="134" y="20" width="118" height="92" rx="14" fill="#fff" stroke="#1d2433" stroke-width="2"/>
-        <path d="M140 104 L128 118 L152 106 Z" fill="#fff" stroke="#1d2433" stroke-width="2"/>
+        <rect width="260" height="250" fill="#f6faf8"/>
+        <rect x="0" y="190" width="260" height="60" fill="#dce9e2"/>
+        <ellipse cx="190" cy="214" rx="50" ry="9" fill="#cfe6da"/>
+        <rect x="60" y="120" width="70" height="80" rx="22" fill="#6f9a85"/>
+        <rect x="68" y="190" width="22" height="30" rx="8" fill="#2e4a40"/>
+        <rect x="100" y="190" width="22" height="30" rx="8" fill="#2e4a40"/>
+        <circle cx="95" cy="98" r="26" fill="#5fa883"/>
+        <path d="M70 92 Q95 62 121 92 Q110 80 95 80 Q80 80 70 92 Z" fill="#4f5a55"/>
+        <circle cx="86" cy="98" r="2.6" fill="#14261f"/><circle cx="104" cy="98" r="2.6" fill="#14261f"/>
+        <path d="M88 110 Q95 106 102 110" stroke="#14261f" stroke-width="2" fill="none"/>
+        <path d="M122 140 L124 104" stroke="#6f9a85" stroke-width="14" stroke-linecap="round"/>
+        <rect x="116" y="84" width="14" height="26" rx="4" fill="#14261f"/>
+        <rect x="134" y="20" width="118" height="92" rx="14" fill="#fff" stroke="#14261f" stroke-width="2"/>
+        <path d="M140 104 L128 118 L152 106 Z" fill="#fff" stroke="#14261f" stroke-width="2"/>
         <rect x="140" y="102" width="14" height="6" fill="#fff"/>
-        <text font-size="11.5" fill="#1d2433" font-weight="600">
+        <text font-size="11.5" fill="#14261f" font-weight="600">
           <tspan x="193" y="40" text-anchor="middle">« Fuite sous l'évier,</tspan>
           <tspan x="193" y="56" text-anchor="middle">c'est urgent !</tspan>
           <tspan x="193" y="72" text-anchor="middle">12 rue des Lilas,</tspan>
@@ -315,13 +315,13 @@
     <div class="case">
       <div class="entete">2. Muninn répond et s'annonce</div>
       <svg viewBox="0 0 260 250" role="img" aria-label="Un téléphone affiche la réponse de Muninn, qui s'annonce comme l'assistant automatique de Karim.">
-        <rect width="260" height="250" fill="#fbf8f2"/>
-        <rect x="70" y="14" width="120" height="222" rx="20" fill="#1d2433"/>
-        <rect x="78" y="30" width="104" height="190" rx="10" fill="#f2f4f8"/>
-        <rect x="78" y="30" width="104" height="26" rx="10" fill="#1f2a44"/>
+        <rect width="260" height="250" fill="#f6faf8"/>
+        <rect x="70" y="14" width="120" height="222" rx="20" fill="#14261f"/>
+        <rect x="78" y="30" width="104" height="190" rx="10" fill="#f3f8f5"/>
+        <rect x="78" y="30" width="104" height="26" rx="10" fill="#0f4d3a"/>
         <text x="130" y="48" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">Muninn</text>
-        <rect x="84" y="64" width="92" height="94" rx="8" fill="#e4eef8"/>
-        <text font-size="9.2" fill="#1d2433">
+        <rect x="84" y="64" width="92" height="94" rx="8" fill="#eef4f1"/>
+        <text font-size="9.2" fill="#14261f">
           <tspan x="90" y="78">Bonjour, vous êtes</tspan>
           <tspan x="90" y="90">en relation avec</tspan>
           <tspan x="90" y="102">l'assistant</tspan>
@@ -330,10 +330,10 @@
           <tspan x="90" y="140">Je prends votre</tspan>
           <tspan x="90" y="152">demande.</tspan>
         </text>
-        <rect x="104" y="166" width="72" height="40" rx="8" fill="#fde9dd"/>
-        <text font-size="9.2" fill="#1d2433"><tspan x="110" y="182">Fuite sous</tspan><tspan x="110" y="196">l'évier…</tspan></text>
-        <path d="M44 100 Q34 125 44 150" stroke="#e8743b" stroke-width="4" fill="none" stroke-linecap="round"/>
-        <path d="M216 100 Q226 125 216 150" stroke="#e8743b" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <rect x="104" y="166" width="72" height="40" rx="8" fill="#e3f4ea"/>
+        <text font-size="9.2" fill="#14261f"><tspan x="110" y="182">Fuite sous</tspan><tspan x="110" y="196">l'évier…</tspan></text>
+        <path d="M44 100 Q34 125 44 150" stroke="#1f8a52" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M216 100 Q226 125 216 150" stroke="#1f8a52" stroke-width="4" fill="none" stroke-linecap="round"/>
       </svg>
       <div class="legende">L'assistant dit d'emblée qu'il est automatique, puis recueille la demande. <em>Rien n'est enregistré à l'insu de personne.</em></div>
     </div>
@@ -341,21 +341,21 @@
     <div class="case">
       <div class="entete">3. L'agent vérifie</div>
       <svg viewBox="0 0 260 250" role="img" aria-label="Le corbeau Muninn consulte les référentiels : commune, code postal, terme métier ; un bouclier symbolise les garde-fous.">
-        <rect width="260" height="250" fill="#fbf8f2"/>
-        <path d="M30 150 C36 122 58 106 80 108 C92 109 102 115 106 124 L120 126 L107 133 C106 147 94 160 76 162 C62 164 50 158 42 152 L26 164 L30 150 Z" fill="#1f2a44"/>
-        <circle cx="94" cy="120" r="3" fill="#ffd2b8"/>
-        <circle cx="134" cy="98" r="20" fill="none" stroke="#3a6ea5" stroke-width="6"/>
-        <line x1="148" y1="113" x2="162" y2="128" stroke="#3a6ea5" stroke-width="7" stroke-linecap="round"/>
-        <rect x="160" y="20" width="92" height="44" rx="8" fill="#e4eef8" stroke="#3a6ea5" stroke-width="1.5"/>
-        <text font-size="9.5" fill="#1d2433"><tspan x="166" y="36" font-weight="700">Commune</tspan><tspan x="166" y="50">Montreuil 93100</tspan></text>
-        <text x="240" y="40" font-size="14" fill="#2e8b57" font-weight="800">✓</text>
-        <rect x="160" y="72" width="92" height="44" rx="8" fill="#e4eef8" stroke="#3a6ea5" stroke-width="1.5"/>
-        <text font-size="9.5" fill="#1d2433"><tspan x="166" y="88" font-weight="700">Terme métier</tspan><tspan x="166" y="102">fuite sous évier</tspan></text>
-        <text x="240" y="92" font-size="14" fill="#2e8b57" font-weight="800">✓</text>
-        <path d="M206 132 L238 144 L238 172 C238 192 222 204 206 210 C190 204 174 192 174 172 L174 144 Z" fill="#f9e3e0" stroke="#c0392b" stroke-width="3"/>
-        <text x="206" y="168" text-anchor="middle" font-size="9.5" fill="#c0392b" font-weight="700">Garde-</text>
-        <text x="206" y="181" text-anchor="middle" font-size="9.5" fill="#c0392b" font-weight="700">fous</text>
-        <text font-size="10.5" fill="#4a5468"><tspan x="16" y="200">Il ne remplace jamais</tspan><tspan x="16" y="215">ce qui a été dit : il complète,</tspan><tspan x="16" y="230">départage ou signale.</tspan></text>
+        <rect width="260" height="250" fill="#f6faf8"/>
+        <path d="M30 150 C36 122 58 106 80 108 C92 109 102 115 106 124 L120 126 L107 133 C106 147 94 160 76 162 C62 164 50 158 42 152 L26 164 L30 150 Z" fill="#0f4d3a"/>
+        <circle cx="94" cy="120" r="3" fill="#cdebd9"/>
+        <circle cx="134" cy="98" r="20" fill="none" stroke="#0f4d3a" stroke-width="6"/>
+        <line x1="148" y1="113" x2="162" y2="128" stroke="#0f4d3a" stroke-width="7" stroke-linecap="round"/>
+        <rect x="160" y="20" width="92" height="44" rx="8" fill="#eef4f1" stroke="#0f4d3a" stroke-width="1.5"/>
+        <text font-size="9.5" fill="#14261f"><tspan x="166" y="36" font-weight="700">Commune</tspan><tspan x="166" y="50">Montreuil 93100</tspan></text>
+        <text x="240" y="40" font-size="14" fill="#1f6b4f" font-weight="800">✓</text>
+        <rect x="160" y="72" width="92" height="44" rx="8" fill="#eef4f1" stroke="#0f4d3a" stroke-width="1.5"/>
+        <text font-size="9.5" fill="#14261f"><tspan x="166" y="88" font-weight="700">Terme métier</tspan><tspan x="166" y="102">fuite sous évier</tspan></text>
+        <text x="240" y="92" font-size="14" fill="#1f6b4f" font-weight="800">✓</text>
+        <path d="M206 132 L238 144 L238 172 C238 192 222 204 206 210 C190 204 174 192 174 172 L174 144 Z" fill="#fbe9e9" stroke="#d7192e" stroke-width="3"/>
+        <text x="206" y="168" text-anchor="middle" font-size="9.5" fill="#d7192e" font-weight="700">Garde-</text>
+        <text x="206" y="181" text-anchor="middle" font-size="9.5" fill="#d7192e" font-weight="700">fous</text>
+        <text font-size="10.5" fill="#4f5a55"><tspan x="16" y="200">Il ne remplace jamais</tspan><tspan x="16" y="215">ce qui a été dit : il complète,</tspan><tspan x="16" y="230">départage ou signale.</tspan></text>
       </svg>
       <div class="legende">L'agent confronte ce qu'il a compris aux <em>données officielles</em> (communes, codes postaux, lexique du métier). Le serveur recontrôle derrière lui.</div>
     </div>
@@ -363,28 +363,28 @@
     <div class="case">
       <div class="entete">4. Le dossier est prêt</div>
       <svg viewBox="0 0 260 250" role="img" aria-label="Pendant une pause, Karim lit sur son téléphone le dossier rangé et vérifié, et le valide d'un geste.">
-        <rect width="260" height="250" fill="#fbf8f2"/>
-        <rect x="20" y="132" width="66" height="96" rx="22" fill="#2f5d8a"/>
-        <circle cx="53" cy="108" r="24" fill="#e0ac7e"/>
-        <path d="M30 104 Q53 78 77 102 Z" fill="#e8743b"/>
-        <rect x="44" y="94" width="38" height="8" rx="3" fill="#e8743b"/>
-        <circle cx="46" cy="110" r="2.4" fill="#1d2433"/><circle cx="62" cy="110" r="2.4" fill="#1d2433"/>
-        <path d="M45 120 Q54 126 63 120" stroke="#1d2433" stroke-width="2" fill="none"/>
-        <path d="M80 160 L104 142" stroke="#2f5d8a" stroke-width="14" stroke-linecap="round"/>
-        <rect x="100" y="22" width="148" height="216" rx="18" fill="#1d2433"/>
+        <rect width="260" height="250" fill="#f6faf8"/>
+        <rect x="20" y="132" width="66" height="96" rx="22" fill="#0f4d3a"/>
+        <circle cx="53" cy="108" r="24" fill="#8cc7a6"/>
+        <path d="M30 104 Q53 78 77 102 Z" fill="#1f8a52"/>
+        <rect x="44" y="94" width="38" height="8" rx="3" fill="#1f8a52"/>
+        <circle cx="46" cy="110" r="2.4" fill="#14261f"/><circle cx="62" cy="110" r="2.4" fill="#14261f"/>
+        <path d="M45 120 Q54 126 63 120" stroke="#14261f" stroke-width="2" fill="none"/>
+        <path d="M80 160 L104 142" stroke="#0f4d3a" stroke-width="14" stroke-linecap="round"/>
+        <rect x="100" y="22" width="148" height="216" rx="18" fill="#14261f"/>
         <rect x="108" y="36" width="132" height="190" rx="10" fill="#ffffff"/>
-        <text x="174" y="54" text-anchor="middle" font-size="11" font-weight="800" fill="#1f2a44">Nouveau dossier</text>
-        <g font-size="9.6" fill="#1d2433">
+        <text x="174" y="54" text-anchor="middle" font-size="11" font-weight="800" fill="#0f4d3a">Nouveau dossier</text>
+        <g font-size="9.6" fill="#14261f">
           <text x="116" y="74" font-weight="700">Martin</text>
           <text x="116" y="88">Montreuil 93100</text>
-          <rect x="190" y="79" width="44" height="13" rx="6" fill="#e3f3ea"/><text x="212" y="89" text-anchor="middle" font-size="8.4" fill="#2e8b57" font-weight="700">vérifié</text>
+          <rect x="190" y="79" width="44" height="13" rx="6" fill="#e3f3ea"/><text x="212" y="89" text-anchor="middle" font-size="8.4" fill="#1f6b4f" font-weight="700">vérifié</text>
           <text x="116" y="104">Fuite sous l'évier</text>
           <text x="116" y="120">+33 6 99 00 00 01</text>
-          <rect x="116" y="128" width="50" height="14" rx="7" fill="#fde9dd"/><text x="141" y="138" text-anchor="middle" font-size="8.6" fill="#e8743b" font-weight="700">urgent</text>
-          <text x="116" y="160" font-size="8.6" fill="#4a5468">Transcription détruite</text>
-          <text x="116" y="172" font-size="8.6" fill="#4a5468">après extraction</text>
+          <rect x="116" y="128" width="50" height="14" rx="7" fill="#e3f4ea"/><text x="141" y="138" text-anchor="middle" font-size="8.6" fill="#1f8a52" font-weight="700">urgent</text>
+          <text x="116" y="160" font-size="8.6" fill="#4f5a55">Transcription détruite</text>
+          <text x="116" y="172" font-size="8.6" fill="#4f5a55">après extraction</text>
         </g>
-        <rect x="124" y="186" width="100" height="28" rx="14" fill="#2e8b57"/>
+        <rect x="124" y="186" width="100" height="28" rx="14" fill="#1f6b4f"/>
         <text x="174" y="205" text-anchor="middle" font-size="12" fill="#fff" font-weight="700">Valider</text>
       </svg>
       <div class="legende">Entre deux chantiers, Karim lit un dossier <em>rangé et vérifié</em>. Il corrige si besoin, puis valide en un geste.</div>
@@ -422,17 +422,17 @@
   <h2><span class="num">3</span>Ce que Muninn promet</h2>
   <div class="promesse">
     <div class="carte pilier">
-      <svg viewBox="0 0 74 74" aria-hidden="true"><circle cx="37" cy="37" r="35" fill="#fde9dd"/><path d="M24 22 h26 a4 4 0 0 1 4 4 v28 l-8 -6 l-8 6 l-8 -6 l-8 6 v-28 a4 4 0 0 1 4 -4 z" fill="#e8743b"/><path d="M28 34 l6 6 l12 -12" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg viewBox="0 0 74 74" aria-hidden="true"><circle cx="37" cy="37" r="35" fill="#e3f4ea"/><path d="M24 22 h26 a4 4 0 0 1 4 4 v28 l-8 -6 l-8 6 l-8 -6 l-8 6 v-28 a4 4 0 0 1 4 -4 z" fill="#1f8a52"/><path d="M28 34 l6 6 l12 -12" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <h3>Aucune demande perdue</h3>
       <p>Chaque appel manqué devient un dossier, même quand l'artisan ne peut pas décrocher.</p>
     </div>
     <div class="carte pilier">
-      <svg viewBox="0 0 74 74" aria-hidden="true"><circle cx="37" cy="37" r="35" fill="#e4eef8"/><rect x="20" y="18" width="34" height="40" rx="5" fill="#3a6ea5"/><rect x="26" y="26" width="22" height="4" rx="2" fill="#fff"/><rect x="26" y="34" width="22" height="4" rx="2" fill="#fff"/><rect x="26" y="42" width="14" height="4" rx="2" fill="#fff"/></svg>
+      <svg viewBox="0 0 74 74" aria-hidden="true"><circle cx="37" cy="37" r="35" fill="#eef4f1"/><rect x="20" y="18" width="34" height="40" rx="5" fill="#0f4d3a"/><rect x="26" y="26" width="22" height="4" rx="2" fill="#fff"/><rect x="26" y="34" width="22" height="4" rx="2" fill="#fff"/><rect x="26" y="42" width="14" height="4" rx="2" fill="#fff"/></svg>
       <h3>Zéro saisie</h3>
       <p>Nom, adresse, panne, urgence : tout est extrait, rangé et vérifié. L'artisan valide en un geste.</p>
     </div>
     <div class="carte pilier">
-      <svg viewBox="0 0 74 74" aria-hidden="true"><circle cx="37" cy="37" r="35" fill="#e3f3ea"/><rect x="22" y="32" width="30" height="24" rx="5" fill="#2e8b57"/><path d="M28 32 v-6 a9 9 0 0 1 18 0 v6" stroke="#2e8b57" stroke-width="5" fill="none"/><circle cx="37" cy="44" r="3.5" fill="#fff"/></svg>
+      <svg viewBox="0 0 74 74" aria-hidden="true"><circle cx="37" cy="37" r="35" fill="#e3f3ea"/><rect x="22" y="32" width="30" height="24" rx="5" fill="#1f6b4f"/><path d="M28 32 v-6 a9 9 0 0 1 18 0 v6" stroke="#1f6b4f" stroke-width="5" fill="none"/><circle cx="37" cy="44" r="3.5" fill="#fff"/></svg>
       <h3>Rien ne sort en clair</h3>
       <p>Les dossiers vivent chiffrés sur le téléphone ; l'audio et la transcription sont détruits après traitement.</p>
     </div>

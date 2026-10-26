@@ -188,6 +188,8 @@ flowchart LR
   Expl --- Console
   Console -->|"démo, synthétique"| Api
   Api -->|"SIREN, option, DP"| Sent
+  classDef externe fill:#8a8f8c,stroke:#8a8f8c,color:#ffffff
+  class Cpaas,Stt,Llm,Tts,Push,Sms,Op,Fact,Sgeo,Snum,Sfer,Slex,Smar,Sent externe
 ```
 
 Lecture des traits :

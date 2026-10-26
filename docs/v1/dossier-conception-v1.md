@@ -374,6 +374,8 @@ flowchart LR
   CTRL --> MET
   MET -->|"écran Qualité, alerte"| CON
   LLM -.->|"traces masquées"| LF["Langfuse, région UE"]
+  classDef externe fill:#8a8f8c,stroke:#8a8f8c,color:#ffffff
+  class GEO,FIC,WIK,WD,SIR,LLM,VOIX,LF externe
 ```
 
 ### 5.2 Pilotage : chaîne CI, environnements, signaux
@@ -413,6 +415,8 @@ flowchart LR
   NEW -.-> MET
   MET --> TB
   MET --> AL
+  classDef alerte fill:#d7192e,stroke:#d7192e,color:#ffffff
+  class AL alerte
 ```
 
 Le schéma montre la V1.0 telle que conçue le 13 octobre. Depuis le sprint 2 (D-43), le

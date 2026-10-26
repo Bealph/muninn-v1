@@ -977,6 +977,8 @@ flowchart LR
   Graf --> Expl
   Wb --> Expl
   Con --> Expl
+  classDef alerte fill:#d7192e,stroke:#d7192e,color:#ffffff
+  class Rules,Al alerte
 ```
 
 Lecture : les traits pleins portent des signaux filtrés ; les traits pointillés, des métadonnées

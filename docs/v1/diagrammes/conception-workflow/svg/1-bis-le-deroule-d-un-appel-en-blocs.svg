@@ -1,21 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1660" height="810" viewBox="0 0 1660 810" font-family="Arial, Helvetica, sans-serif" role="img" aria-labelledby="titre desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1660" height="810" viewBox="0 0 1660 810" font-family="'Segoe UI', 'DejaVu Sans', Arial, sans-serif" role="img" aria-labelledby="titre desc">
   <title id="titre">Muninn V1 : le déroulé d'un appel, en blocs</title>
   <desc id="desc">De l'appel manqué au rappel par l'artisan : conversation, contrôle d'entrée, qualification, agent outillé, contrôles du serveur, puis dossier, message ou sortie sans dossier ; référentiels publics, gouvernance des données, observabilité et évaluation.</desc>
   <defs>
     <marker id="fleche" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0,0 L10,5 L0,10 z" fill="#555"/>
+      <path d="M0,0 L10,5 L0,10 z" fill="#0f4d3a"/>
     </marker>
     <style>
-      .cadre { fill: #fff; stroke: #e07b2e; stroke-width: 1.6; }
-      .boite { fill: #fff; stroke: #e07b2e; stroke-width: 1.4; }
-      .panneau { fill: #fff; stroke: #e07b2e; stroke-width: 1.2; stroke-dasharray: 5 3; }
-      .titre { font-size: 19px; font-weight: 700; fill: #111; }
-      .stitre { font-size: 13.5px; font-weight: 700; fill: #111; }
-      .txt { font-size: 13px; fill: #222; }
-      .petit { font-size: 12px; fill: #222; }
-      .code { font-size: 10.4px; fill: #222; font-family: Consolas, "Courier New", monospace; }
-      .note { font-size: 12.5px; fill: #555; }
-      .trait { stroke: #555; stroke-width: 1.4; fill: none; marker-end: url(#fleche); }
+      .cadre { fill: #eef4f1; stroke: #0f4d3a; stroke-width: 2; rx: 10px; ry: 10px; }
+      .boite { fill: #0f4d3a; stroke: #0f4d3a; stroke-width: 1; rx: 8px; ry: 8px; }
+      .panneau { fill: #ffffff; stroke: #0f4d3a; stroke-width: 1.6; stroke-dasharray: 8 5; rx: 8px; ry: 8px; }
+      .titre { font-size: 19px; font-weight: 700; fill: #0f4d3a; }
+      .stitre { font-size: 13.5px; font-weight: 700; fill: #0f4d3a; }
+      .txt { font-size: 13px; fill: #0f4d3a; }
+      .petit { font-size: 12px; fill: #1f6b4f; }
+      .code { font-size: 9.6px; fill: #0f4d3a; font-family: Consolas, "DejaVu Sans Mono", monospace; }
+      .note { font-size: 12.5px; fill: #1f6b4f; font-style: italic; }
+      .sur-fonce { fill: #ffffff; }
+      .trait { stroke: #0f4d3a; stroke-width: 2; fill: none; marker-end: url(#fleche); }
     </style>
   </defs>
   <rect width="1660" height="810" fill="#fff"/>
@@ -24,16 +25,16 @@
   <text class="titre" x="24" y="32">Appel entrant</text>
   <rect class="cadre" x="20" y="46" width="200" height="420" rx="3"/>
   <rect class="boite" x="40" y="70" width="160" height="58" rx="3"/>
-  <text class="txt" x="120" y="104" text-anchor="middle">Appelant</text>
+  <text class="txt sur-fonce" x="120" y="104" text-anchor="middle">Appelant</text>
   <rect class="boite" x="40" y="168" width="160" height="58" rx="3"/>
-  <text class="txt" x="120" y="194" text-anchor="middle">Ligne de l'artisan</text>
-  <text class="petit" x="120" y="212" text-anchor="middle">elle sonne</text>
+  <text class="txt sur-fonce" x="120" y="194" text-anchor="middle">Ligne de l'artisan</text>
+  <text class="petit sur-fonce" x="120" y="212" text-anchor="middle">elle sonne</text>
   <rect class="boite" x="40" y="266" width="160" height="58" rx="3"/>
-  <text class="txt" x="120" y="292" text-anchor="middle">15 s sans réponse</text>
-  <text class="petit" x="120" y="310" text-anchor="middle">(D-68)</text>
+  <text class="txt sur-fonce" x="120" y="292" text-anchor="middle">15 s sans réponse</text>
+  <text class="petit sur-fonce" x="120" y="310" text-anchor="middle">(D-68)</text>
   <rect class="boite" x="40" y="364" width="160" height="58" rx="3"/>
-  <text class="txt" x="120" y="390" text-anchor="middle">Renvoi vers Muninn</text>
-  <text class="petit" x="120" y="408" text-anchor="middle">(simulé en V1)</text>
+  <text class="txt sur-fonce" x="120" y="390" text-anchor="middle">Renvoi vers Muninn</text>
+  <text class="petit sur-fonce" x="120" y="408" text-anchor="middle">(simulé en V1)</text>
   <path class="trait" d="M120,128 V166"/>
   <path class="trait" d="M120,226 V264"/>
   <path class="trait" d="M120,324 V362"/>
@@ -104,14 +105,14 @@
   <!-- Référentiels publics -->
   <rect class="cadre" x="570" y="418" width="640" height="96" rx="3"/>
   <rect class="boite" x="596" y="438" width="180" height="56" rx="3"/>
-  <text class="txt" x="686" y="462" text-anchor="middle">Communes</text>
-  <text class="petit" x="686" y="480" text-anchor="middle">(COG, API Géo)</text>
+  <text class="txt sur-fonce" x="686" y="462" text-anchor="middle">Communes</text>
+  <text class="petit sur-fonce" x="686" y="480" text-anchor="middle">(COG, API Géo)</text>
   <rect class="boite" x="800" y="438" width="180" height="56" rx="3"/>
-  <text class="txt" x="890" y="462" text-anchor="middle">Codes postaux</text>
-  <text class="petit" x="890" y="480" text-anchor="middle">(La Poste)</text>
+  <text class="txt sur-fonce" x="890" y="462" text-anchor="middle">Codes postaux</text>
+  <text class="petit sur-fonce" x="890" y="480" text-anchor="middle">(La Poste)</text>
   <rect class="boite" x="1004" y="438" width="180" height="56" rx="3"/>
-  <text class="txt" x="1094" y="462" text-anchor="middle">Lexique des métiers</text>
-  <text class="petit" x="1094" y="480" text-anchor="middle">(Wiktionnaire, Wikidata)</text>
+  <text class="txt sur-fonce" x="1094" y="462" text-anchor="middle">Lexique des métiers</text>
+  <text class="petit sur-fonce" x="1094" y="480" text-anchor="middle">(Wiktionnaire, Wikidata)</text>
   <text class="titre" x="890" y="540" text-anchor="middle">Référentiels publics, en lecture seule</text>
   <path class="trait" d="M968,360 V416"/>
   <path class="trait" d="M1124,360 V416"/>
@@ -120,23 +121,23 @@
   <text class="titre" x="1272" y="32">Dossier</text>
   <rect class="cadre" x="1268" y="46" width="360" height="176" rx="3"/>
   <rect class="boite" x="1292" y="64" width="312" height="42" rx="3"/>
-  <text class="txt" x="1448" y="90" text-anchor="middle">Dossier prêt, statuts et provenance</text>
+  <text class="txt sur-fonce" x="1448" y="90" text-anchor="middle">Dossier prêt, statuts et provenance</text>
   <rect class="boite" x="1292" y="116" width="312" height="42" rx="3"/>
-  <text class="txt" x="1448" y="142" text-anchor="middle">Dossier « à vérifier », motif donné</text>
+  <text class="txt sur-fonce" x="1448" y="142" text-anchor="middle">Dossier « à vérifier », motif donné</text>
   <rect class="boite" x="1292" y="168" width="312" height="42" rx="3"/>
-  <text class="txt" x="1448" y="194" text-anchor="middle">Urgence de sécurité en tête (gaz)</text>
+  <text class="txt sur-fonce" x="1448" y="194" text-anchor="middle">Urgence de sécurité en tête (gaz)</text>
 
   <text class="titre" x="1272" y="256">Message</text>
   <rect class="cadre" x="1268" y="270" width="360" height="76" rx="3"/>
   <rect class="boite" x="1292" y="287" width="312" height="42" rx="3"/>
-  <text class="txt" x="1448" y="313" text-anchor="middle">Fournisseur, proche : onglet « Messages »</text>
+  <text class="txt sur-fonce" x="1448" y="313" text-anchor="middle">Fournisseur, proche : onglet « Messages »</text>
 
   <text class="titre" x="1272" y="380">Sans dossier</text>
   <rect class="cadre" x="1268" y="394" width="360" height="124" rx="3"/>
   <rect class="boite" x="1292" y="411" width="312" height="42" rx="3"/>
-  <text class="txt" x="1448" y="437" text-anchor="middle">Trace sans contenu, numéro gardé</text>
+  <text class="txt sur-fonce" x="1448" y="437" text-anchor="middle">Trace sans contenu, numéro gardé</text>
   <rect class="boite" x="1292" y="463" width="312" height="42" rx="3"/>
-  <text class="txt" x="1448" y="489" text-anchor="middle">Refus à texte fixe, journalisé</text>
+  <text class="txt sur-fonce" x="1448" y="489" text-anchor="middle">Refus à texte fixe, journalisé</text>
 
   <path class="trait" d="M1210,210 H1236 V134 H1266"/>
   <path class="trait" d="M1236,210 V308 H1266"/>
@@ -146,13 +147,13 @@
   <text class="titre" x="1272" y="570">Artisan</text>
   <rect class="cadre" x="1268" y="584" width="360" height="160" rx="3"/>
   <rect class="boite" x="1292" y="602" width="312" height="38" rx="3"/>
-  <text class="txt" x="1448" y="626" text-anchor="middle">Relit et corrige si besoin</text>
+  <text class="txt sur-fonce" x="1448" y="626" text-anchor="middle">Relit et corrige si besoin</text>
   <rect class="boite" x="1292" y="648" width="312" height="38" rx="3"/>
-  <text class="txt" x="1448" y="672" text-anchor="middle">Valide (CA-5, sprint 5)</text>
+  <text class="txt sur-fonce" x="1448" y="672" text-anchor="middle">Valide (CA-5, sprint 5)</text>
   <rect class="boite" x="1292" y="694" width="312" height="38" rx="3"/>
-  <text class="txt" x="1448" y="718" text-anchor="middle">Rappelle le client, seul à fixer un rendez-vous</text>
+  <text class="txt sur-fonce" x="1448" y="718" text-anchor="middle">Rappelle le client, seul à fixer un rendez-vous</text>
   <path class="trait" d="M1628,134 H1646 V664 H1630"/>
-  <path d="M1628,308 H1646" stroke="#555" stroke-width="1.4" fill="none"/>
+  <path d="M1628,308 H1646" stroke="#0f4d3a" stroke-width="2" fill="none"/>
 
   <!-- Bandeaux du bas -->
   <rect class="cadre" x="20" y="584" width="520" height="104" rx="3"/>

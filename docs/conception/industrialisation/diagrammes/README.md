@@ -2,6 +2,8 @@
 
 Images générées depuis les blocs Mermaid des documents. Le document source fait foi.
 `svg/` pour l'écran, `png/` (double résolution, fond blanc) pour les livrables Word.
+Style commun à tous les diagrammes : `docs/theme-diagrammes.json` (vert foncé, services extérieurs
+en gris par la classe `externe`, alertes en rouge par la classe `alerte`).
 
 ## 03-observabilite
 

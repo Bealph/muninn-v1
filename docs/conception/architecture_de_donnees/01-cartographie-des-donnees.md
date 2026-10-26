@@ -172,6 +172,8 @@ flowchart LR
   S4 -->|"agrégation horaire sans compte"| P4
   A1 -->|"export à la demande"| X3
   E1 --> X1
+  classDef externe fill:#8a8f8c,stroke:#8a8f8c,color:#ffffff
+  class X1,X3 externe
 ```
 
 Lecture : la zone « Stocké lisible par le serveur » ne contient aucun contenu de dossier (R1). Le

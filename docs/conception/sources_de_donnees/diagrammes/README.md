@@ -2,6 +2,8 @@
 
 Images générées depuis les blocs Mermaid des documents. Le document source fait foi.
 `svg/` pour l'écran, `png/` (double résolution, fond blanc) pour les livrables Word.
+Style commun à tous les diagrammes : `docs/theme-diagrammes.json` (vert foncé, services extérieurs
+en gris par la classe `externe`, alertes en rouge par la classe `alerte`).
 
 ## 02-flux-de-donnees
 
@@ -28,6 +30,7 @@ Images générées depuis les blocs Mermaid des documents. Le document source fa
 | `stories/svg/00-carte-des-stories.svg` | 00-carte-des-stories |
 | `stories/svg/EP1-mise-en-service-ligne-renvoi-disponibilites.svg` | EP1-mise-en-service-ligne-renvoi-disponibilites |
 | `stories/svg/EP10-donnees-de-reference.svg` | EP10-donnees-de-reference |
+| `stories/svg/EP11-memoire-de-travail-de-l-artisan.svg` | EP11-memoire-de-travail-de-l-artisan |
 | `stories/svg/EP2-messagerie-intelligente.svg` | EP2-messagerie-intelligente |
 | `stories/svg/EP3-debrief-vocal-et-lexiques.svg` | EP3-debrief-vocal-et-lexiques |
 | `stories/svg/EP4-dossier-et-cle-humaine.svg` | EP4-dossier-et-cle-humaine |
