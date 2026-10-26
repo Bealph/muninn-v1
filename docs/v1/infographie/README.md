@@ -18,7 +18,10 @@ Chaque dossier de document contient :
 
 **À chaque fin de sprint**, les deux infographies reçoivent une section « Sprint N : travail
 attendu et évaluation par le pair » (rituel décrit dans `../sprints/README.md`). Sprint 2 : section
-9 de la fiche d'ingénierie, section 8 de la présentation produit ; sprint 3 : sections 10 et 9 ; sprint 4 : sections 11 et 10.
+9 de la fiche d'ingénierie, section 8 de la présentation produit ; sprint 3 : sections 10 et 9 ; sprint 4 : sections 11 et 10 ; sprint 5 : sections 12 et 11.
+
+Capture : Edge 155 ne démarre plus sans interface sur le poste ; `OUTILS_NODE` peut désigner un
+dossier Node dont `puppeteer-edge.json` vise Chrome (constaté le 26 octobre 2026).
 
 La fiche d'ingénierie affiche le schéma d'architecture du dossier V1
 (`../../diagrammes/dossier-conception-v1/`) : après une modification de ce schéma, régénérer la

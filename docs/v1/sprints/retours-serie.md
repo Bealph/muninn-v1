@@ -2,7 +2,8 @@
 
 Critère du pair du sprint 5 : « grille de retours tenue sur l'ensemble de la série ». Cette grille
 rassemble, sprint par sprint, les retours de l'évaluation par le pair et ce qu'ils sont devenus.
-Le détail de chaque retour est dans le journal du sprint (D-59).
+Le détail de chaque retour est dans le journal du sprint (D-59). État au 26 octobre 2026 : aucun
+retour du pair reçu sur la série ; la grille sera complétée le jour de chaque évaluation.
 
 | Sprint | Journal                                         | Retours reçus | Traités | Reportés | Écartés | État                                  |
 | ------ | ----------------------------------------------- | ------------- | ------- | -------- | ------- | ------------------------------------- |

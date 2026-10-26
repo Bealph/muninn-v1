@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-26T17:02:45+00:00",
+  "console": "https://ca-muninn-console-prod.graybeach-70019748.francecentral.azurecontainerapps.io",
+  "repetition": 1,
+  "nature": "répétition technique : écran joué par Chromium, sans discours",
+  "lignes": [
+    {
+      "scenario": "SC-04",
+      "sonnerie_s": 15,
+      "duree_ecran_s": 35.9,
+      "issue": "dossier",
+      "apres_fin_appel_s": 4.4,
+      "ca8_respecte": true,
+      "erreur_affichee": false,
+      "capture": "etape-10-repetition-1-SC-04.png"
+    },
+    {
+      "scenario": "SC-10",
+      "sonnerie_s": 15,
+      "duree_ecran_s": 34.2,
+      "issue": "dossier",
+      "apres_fin_appel_s": 4.9,
+      "ca8_respecte": true,
+      "erreur_affichee": false,
+      "capture": "etape-10-repetition-1-SC-10.png"
+    }
+  ]
+}

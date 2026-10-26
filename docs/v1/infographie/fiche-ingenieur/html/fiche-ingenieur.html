@@ -197,7 +197,7 @@
 </section>
 
 <section id="s-etat">
-  <h2><span class="n">8</span>État mesuré au 14 octobre 2026</h2>
+  <h2><span class="n">8</span>État mesuré du 14 au 26 octobre 2026</h2>
   <table>
     <tr><th>Mesure</th><th>Valeur</th><th>Source</th></tr>
     <tr><td>Sprint 2</td><td>11 étapes sur 11 ; critères du pair P1 à P5 prouvés</td><td><code>sprints/sprint-2/compte-rendu.md</code></td></tr>
@@ -206,7 +206,9 @@
     <tr><td>Retour arrière, jusqu'au service vérifié</td><td>36 à 66 s (4 bascules)</td><td><code>preuves/etape-8-retour-arriere.md</code></td></tr>
     <tr><td>Voix : synthèse et transcription</td><td>1,4 s et 2,1 s pour 22 s d'audio ; 2 locuteurs séparés sans erreur (un essai)</td><td>D-50</td></tr>
     <tr><td>Agent en production (21 octobre)</td><td>Extraction p50 2,7 s, p95 3,4 s ; 0,0037 € par extraction ; V-08 117/120</td><td><code>sprints/sprint-4/compte-rendu.md</code></td></tr>
-    <tr><td>Incidents</td><td>6, résolus et documentés (INC-05 et INC-06 trouvés le 21 octobre)</td><td>INC-01 à INC-06</td></tr>
+    <tr><td>Contrat sur la révision active (26 octobre)</td><td>CA-1 à CA-6 tenus, 6 sur 6 ; CA-7 24 sur 24 ; CA-8 non atteint sur le téléphone</td><td><code>sprints/sprint-5/contrat-personnel.md</code></td></tr>
+    <tr><td>Voix en production (26 octobre)</td><td>21 appels joués : locuteurs séparés 21 sur 21, dossier en 3,9 à 17,4 s après l'appel</td><td><code>sprints/sprint-5/ca8-soutenance.md</code></td></tr>
+    <tr><td>Incidents</td><td>10, résolus ou documentés (INC-09 : limite de la transcription, assumée)</td><td>INC-01 à INC-10</td></tr>
   </table>
   <p class="note">Peu d'exécutions : ce sont des ordres de grandeur, pas des engagements de service.</p>
 </section>
@@ -300,6 +302,37 @@
   2,7 s et p95 3,4 s en production, 0,0037 € par extraction ; détection des phrases hostiles 20 sur 20 ; 368 tests.
   Deux incidents de livraison, INC-05 et INC-06, résolus.</p>
 </section>
+
+<section id="s-sprint-5">
+  <h2><span class="n">12</span>Sprint 5 : travail attendu et évaluation par le pair</h2>
+  <p><b>Consigne, telle que donnée.</b> « Rendre le système pilotable et reprenable : métriques et traces, tableau de bord
+  lisible par un non-développeur, alertes à seuils argumentés chacune liée à une action, documentation d'exploitation
+  qu'un tiers peut suivre seul. Le sprint se termine par la répétition de la démonstration finale. »</p>
+  <p><b>Pour Muninn.</b> La vigie mesure la composante du sprint 4, livrée par la chaîne du sprint 2, sur les
+  référentiels du sprint 3 : écran « Qualité », trois alertes dont AL-04 envoyée par courriel, guide d'exploitation, et
+  un écran « Démonstration » qui joue un appel manqué à deux voix sur la vraie chaîne.</p>
+  <table>
+    <tr><th>Travail attendu</th><th>Ce qui est livré</th><th>État</th></tr>
+    <tr><td>Instrumenter</td><td>Métriques tirées de la base, sans contenu ; étapes d'un appel ; traces vers Application Insights</td><td class="fait">Fait</td></tr>
+    <tr><td>Tableau de bord</td><td>Écran « Qualité » : santé en mots et en couleurs, historique des alertes, coût du mois ; classeur Azure Monitor</td><td class="fait">Fait</td></tr>
+    <tr><td>Alertes</td><td>AL-01 et AL-16 calculées par l'application ; AL-04 par Azure Monitor, courriel en 5 min 21 s</td><td class="fait">Fait</td></tr>
+    <tr><td>Documentation d'exploitation</td><td><code>docs/exploitation.md</code>, suivi seul par le porteur : panne, retour arrière en 89 s</td><td class="fait">Fait</td></tr>
+    <tr><td>Durcir</td><td>CA-5 et CA-6 tenus ; CA-8 non atteint sur le téléphone (INC-09) ; deux reprises reportées après l'oral</td><td class="prop">Partiel</td></tr>
+    <tr><td>Répéter la démo</td><td>Démo de 10 minutes écrite ; deux répétitions techniques en production ; répétitions orales à faire</td><td class="prop">Partiel</td></tr>
+  </table>
+  <table>
+    <tr><th>Critère du pair</th><th>L'évaluateur constate</th><th>Démonstration en direct</th><th>Preuve de secours</th><th>Statut</th></tr>
+    <tr><td>P1. Dérive, alerte, action</td><td>AL-01 s'allume ; il suit l'action du guide</td><td>Écran « Qualité » après la dérive simulée (1 min 30)</td><td>Capture de la dérive ; exercice de panne</td><td class="fait">Prêt</td></tr>
+    <tr><td>P2. Tableau de bord compris</td><td>Il lit l'écran sans explication et répond à trois questions</td><td>Écran « Qualité » (1 min 30)</td><td>Capture de l'écran en production</td><td class="fait">Prêt</td></tr>
+    <tr><td>P3. Test de la doc</td><td>Déployer, diagnostiquer, retour arrière, seul</td><td>Guide d'exploitation, sur sa demande (15 min)</td><td>Exercice du porteur, sans blocage</td><td class="fait">Prêt</td></tr>
+    <tr><td>P4. Démo de 10 minutes, du réel</td><td>Voix, correction, alerte, livraison, CA-8 assumé</td><td>Sept séquences en production (10 min)</td><td>Répétitions techniques et captures</td><td class="prop">Partiel</td></tr>
+    <tr><td>P5. Grille de la série</td><td>Chaque retour des sprints 2 à 5, sa décision, son lien</td><td>Grille de la série (1 min)</td><td>La grille est la preuve</td><td class="fait">Prêt</td></tr>
+  </table>
+  <p class="note">Déroulé complet : <code>docs/v1/sprints/sprint-5/demonstration.md</code>. Contrat personnel sur la
+  révision active : 6 sur 6 (CA-1 à CA-6) ; CA-7 24 sur 24 ; CA-8 non atteint sur le téléphone, assumé. 700 tests ;
+  29 livraisons réussies depuis le 22 octobre. Incidents INC-07 à INC-10, résolus ou documentés.</p>
+</section>
+
 
 <footer>Dépôt <code>Bealph/Muninn</code>. Documents de référence : <code>docs/v1/dossier-conception-v1.md</code>,
 <code>docs/decisions.md</code>, <code>docs/conception/appels-et-voix/</code>. La fiche résume ; le dossier fait foi.</footer>

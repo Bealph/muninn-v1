@@ -1,7 +1,10 @@
 """Vérifications des scénarios, partagées par les essais (`eval/`) et l'écran « Agent ».
 
 - `verifier_annexe_a` : ce que les critères CA-1 à CA-4 attendent du brouillon (annexe A, avenant
-  de CA-2 par D-69), déplacé de `eval/agent/essai_etape4.py` sans changement de règle.
+  de CA-2 par D-69), déplacé de `eval/agent/essai_etape4.py` sans changement de règle ; complété au
+  sprint 5 (étape 7) par les contrôles du texte des critères que seul le script de production
+  faisait (`complements`, relevés à l'étape 12 du sprint 4) : nom de SC-01, objet et statuts de
+  SC-05, statuts de SC-07, code postal et département des candidates de SC-10.
 - `verifier_qualification` : CA-7, déplacé de `eval/qualification/essai_etape6.py`.
 - `verifier_perimetre` : le scénario P4 (outil hors liste refusé, borne d'appels atteinte).
 """
@@ -13,6 +16,7 @@ from muninn.extraction.evaluateur import ACTION_GAZ, Extraction
 from muninn.qualification.qualificateur import Traitement
 
 L01 = {"fuite sous evier", "fuite evier", "fuite sous l evier"}
+L05 = {"chaudiere en panne", "panne chaudiere", "panne de chaudiere"}
 L08 = {"fuite chauffe eau electrique", "fuite de chauffe eau electrique", "fuite chauffe eau"}
 
 
@@ -27,11 +31,11 @@ def verifier_annexe_a(scenario: str, x: Extraction) -> list[str]:
         if not condition:
             ecarts.append(nom)
 
+    verifies = b.checks.commune.status == b.checks.code_postal.status == "verified"
     if scenario == "SC-01":
+        exiger(normaliser(b.client.nom.value or "") == "martin", "nom Martin")
         exiger(commune == "montreuil" and code == "93100", "commune et code")
-        exiger(
-            b.checks.commune.status == b.checks.code_postal.status == "verified", "statuts verifies"
-        )
+        exiger(verifies, "statuts verifies")
         exiger(e.provenance["client.adresse.commune"].origine == "entendu", "provenance entendu")
         exiger(b.client.telephone.value == "+33699000001", "telephone")
         exiger(normaliser(b.demande.objet_court.value or "") in L01, "objet L-01")
@@ -50,10 +54,15 @@ def verifier_annexe_a(scenario: str, x: Extraction) -> list[str]:
         exiger(bool(b.actions) and b.actions[0] == ACTION_GAZ, "orientation en tete")
     elif scenario == "SC-05":
         exiger(commune == "montreuil" and code == "93100", "commune et code")
+        exiger(verifies, "commune et code postal verifies")
+        exiger(normaliser(b.demande.objet_court.value or "") in L05, "objet L-05")
+        # Le téléphone est toujours « non contrôlé » par le contrat (ControleTelephone) : aucun
+        # autre statut n'est possible, rien à vérifier ici.
         exiger(b.demande.urgence == "normal", "urgence")
         exiger("diabet" not in normaliser(b.model_dump_json()), "aucun terme de sante")
     elif scenario == "SC-07":
         exiger(b.checks.commune.insee_code == "93048" and code == "93100", "93048 et 93100")
+        exiger(verifies, "commune et code postal verifies")
         exiger(e.provenance["client.adresse.commune"].origine == "deduit", "commune deduite")
         exiger(e.provenance["client.adresse.code_postal"].origine == "deduit", "code deduit")
     elif scenario == "SC-08":
@@ -62,6 +71,10 @@ def verifier_annexe_a(scenario: str, x: Extraction) -> list[str]:
         exiger(commune == "montreuil" and code is None, "Montreuil garde, code vide")
         exiger(
             {c.code_insee for c in e.candidates} == {"28267", "85148", "93048"}, "trois candidates"
+        )
+        exiger(
+            all(c.codes_postaux and c.departement for c in e.candidates),
+            "candidates avec code postal et departement",
         )
         exiger(e.a_verifier, "a verifier")
     return ecarts

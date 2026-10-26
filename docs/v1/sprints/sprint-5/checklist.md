@@ -115,10 +115,10 @@ Aucune nouvelle source de données externe : les référentiels du sprint 3 sont
 
 ### Étape 7 : durcir
 
-- [ ] Dialogues de l'annexe A réécrits selon la trame v1.2 (consigne de sécurité dite par Muninn dans SC-04), relus par le porteur, figés ; critères et V-08 rejoués.
-- [ ] Contrôles du texte des critères reportés dans `muninn.demo.verification` (dette du sprint 4).
-- [ ] Rôle de l'identité de l'application limité à l'inférence, si le service le permet ; sinon dette documentée.
-- [ ] Retours des ateliers et des pairs traités, chacun avec sa décision.
+- [ ] Dialogues de l'annexe A réécrits selon la trame v1.2 (consigne de sécurité dite par Muninn dans SC-04), relus par le porteur, figés ; critères et V-08 rejoués. **Reporté après le premier oral** (décision du 26 octobre 2026, sous la délégation du porteur, réversible) : la réécriture demande la relecture du porteur et rejoue tous les critères, V-08 et CA-8 ; à deux jours du gel, elle invaliderait les mesures de l'étape 9, faites sur la révision active. Inscrit au suivi des tâches.
+- [x] Contrôles du texte des critères reportés dans `muninn.demo.verification` (dette du sprint 4). Preuve : nom de SC-01, objet L-05 de SC-05, commune et code postal vérifiés pour SC-05 et SC-07, code postal et département des candidates de SC-10 dans `verifier_annexe_a` ; `tests/test_verification.py` (une faute, un écart) ; compléments retirés de `eval/production/verifier_criteres.py`.
+- [ ] Rôle de l'identité de l'application limité à l'inférence, si le service le permet ; sinon dette documentée. Vérifié le 26 octobre 2026 : le service le permet avec trois rôles, dont un personnalisé (`role-identite.md`, sources Microsoft Learn) ; **reporté après le premier oral** (changement de droits en production, R10), plan d'essai écrit.
+- [x] Retours des ateliers et des pairs traités, chacun avec sa décision. État au 26 octobre 2026 : aucun retour du pair reçu sur la série (sprints 2 à 5 : `retours.md`, `../retours-serie.md`) ; retours de l'atelier n° 1 non consignés dans le dépôt par décision du porteur du 13 octobre 2026, présentés à l'oral (`../sprint-2/checklist.md`).
 
 ### Étape 8 : la documentation d'exploitation
 
@@ -132,12 +132,12 @@ Aucune nouvelle source de données externe : les référentiels du sprint 3 sont
 
 ### Étape 10 : la démo des 10 minutes
 
-- [ ] Scénario écrit : parcours principal, une livraison automatique, une alerte déclenchée ; minutage par séquence ; plan B si le direct échoue.
-- [ ] Au moins deux répétitions chronométrées, en production ; durées consignées ; tient en 10 minutes.
+- [x] Scénario écrit : parcours principal, une livraison automatique, une alerte déclenchée ; minutage par séquence ; plan B si le direct échoue. Preuve : `demonstration.md` (sept séquences, critères P1 à P5, plan B par séquence).
+- [ ] Au moins deux répétitions chronométrées, en production ; durées consignées ; tient en 10 minutes. Fait le 26 octobre 2026 : deux répétitions techniques en production (`eval/production/repetition_demo.py`, `preuves/etape-10-repetition-1.json` et `-2.json` : 33,9 à 36,3 s par appel joué, CA-8 respecté à l'écran). Reste : deux répétitions orales chronométrées par la personne qui présente (`demonstration.md`, § 5).
 
 ### Étape 11 : clôture (rituel de fin de sprint)
 
-- [ ] Checklist close ; compte rendu de sprint (C16) ; fiches d'incident s'il y en a (C21).
-- [ ] Déroulé de démonstration ; journal des retours ; grille de retours de la série complète.
-- [ ] Section « Sprint 5 » des deux infographies, rendus régénérés (navigateur de capture à vérifier : Edge 155 ne démarre plus sans interface).
-- [ ] Suivi des tâches et des compétences à jour ; journal de session (local).
+- [x] Checklist close ; compte rendu de sprint (C16) ; fiches d'incident s'il y en a (C21). Preuve : chaque case cochée avec sa preuve, ou ouverte avec sa décision écrite (étapes 7 et 10) ; `compte-rendu.md` ; INC-07 à INC-10.
+- [x] Déroulé de démonstration ; journal des retours ; grille de retours de la série complète. Preuve : `demonstration.md` (séquences, critères P1 à P5, plan B, répétitions) ; `retours.md` ; `../retours-serie.md` (état au 26 octobre : aucun retour reçu).
+- [x] Section « Sprint 5 » des deux infographies, rendus régénérés (navigateur de capture à vérifier : Edge 155 ne démarre plus sans interface). Preuve : section 12 de la fiche d'ingénierie, section 11 de la présentation archivée ; PDF, PNG et sections refaits avec Chrome (`../../infographie/README.md`).
+- [x] Suivi des tâches et des compétences à jour ; journal de session (local). Preuve : `docs/suivi/taches.md`, `docs/suivi/competences.md` ; journal du 26 octobre (local, hors dépôt).
