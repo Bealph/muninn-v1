@@ -60,6 +60,8 @@ def lancer(
         "(503) busy",
         # INC-08 : message exact de la livraison du 26 octobre 2026.
         "(ServerTimeout) The request timed out. Diagnostic information: timestamp '20261026T0908'",
+        # INC-10 : message exact de la livraison du 26 octobre 2026, 15:12 UTC.
+        "ERROR: Revision 'ca-muninn-console-prod--0000095' is not a valid revision name.",
     ],
 )
 def test_erreur_passagere_reprise_puis_succes(tmp_path: Path, message: str) -> None:

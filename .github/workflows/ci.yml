@@ -45,7 +45,9 @@ jobs:
   tests:
     needs: lint
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    # 2 à 3 minutes d'ordinaire ; l'installation des dépendances du navigateur par le miroir Ubuntu
+    # d'Azure a pris jusqu'à 13 minutes le 26 octobre 2026 (INC-10).
+    timeout-minutes: 30
     # PostgreSQL de test (sprint 3) : les tests de base y créent une base neuve, puis la suppriment.
     services:
       postgres:

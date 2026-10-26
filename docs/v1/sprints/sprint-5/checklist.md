@@ -111,7 +111,7 @@ Aucune nouvelle source de données externe : les référentiels du sprint 3 sont
 
 - [x] Synthèse à deux voix et transcription par Azure AI Speech (D-50), audio jamais écrit sur disque ; faux fournisseur pour les tests. Livré le 26 octobre (PR 193), réglages posés par `13-voix.sh`.
 - [x] Écran « Démonstration » selon la maquette validée : deux téléphones, sonnerie de 15 s, conversation jouée, chaîne animée depuis les étapes rendues par l'API (« rejoué ») ; quatre scénarios ; l'écran « Agent » est gardé. Livré le 26 octobre (PR 193), WCAG 2.2 AA après relecture.
-- [ ] CA-8 vérifié sur Azure selon l'avenant D-74, 3 sur 3. Première mesure du 26 octobre : 0 sur 3, durée conforme (6,5 à 9,2 s), téléphone mal transcrit ; limite documentée sans contournement (`incidents/INC-09-numero-dicte-mal-transcrit.md`).
+- [ ] CA-8 vérifié sur Azure selon l'avenant D-74, 3 sur 3. Troisième mesure du 26 octobre (`preuves/etape-6-ca8.json`, production `74b1e55`) : SC-01 0 sur 3, le téléphone dicté étant le seul écart (4,5 à 15 s pour 45 s permises) ; démonstration 4 sur 4. Limite de la transcription documentée sans contournement (`incidents/INC-09-numero-dicte-mal-transcrit.md`) ; mesures précédentes conservées.
 
 ### Étape 7 : durcir
 

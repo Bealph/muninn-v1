@@ -8,8 +8,12 @@
 # Le 26 octobre 2026, une livraison s'est arrêtée sur « (ServerTimeout) The request timed out »
 # (INC-08), autre erreur passagère d'Azure Resource Manager, ajoutée à la liste.
 #
+# Le même jour, une autre s'est arrêtée sur « Revision '…' is not a valid revision name » à la
+# lecture d'une révision qui existait, active et à 100 % du trafic (INC-10) : réponse incohérente
+# passagère, ajoutée aussi. Une erreur réelle de ce type échoue quand même, après les essais.
+#
 # `az_tenace <arguments de az>` : lance `az`, et sur une erreur passagère seulement (429, 503,
-# 504, ServerTimeout), recommence jusqu'à REESSAI_ESSAIS fois, avec une pause croissante
+# 504, ServerTimeout, révision dite invalide), recommence jusqu'à REESSAI_ESSAIS fois, avec une pause croissante
 # (REESSAI_PAUSE_S, puis le double, etc.). Toute autre erreur est rendue tout de suite, telle quelle. La sortie standard
 # de la commande réussie est rendue sans changement.
 
@@ -27,7 +31,7 @@ az_tenace() {
       if [ -n "$sortie" ]; then printf '%s\n' "$sortie"; fi
       return 0
     fi
-    if ! grep -qE "Too Many Requests|Service Unavailable|Gateway Timeout|ServerTimeout|\(429\)|\(503\)|\(504\)" "$erreur" ||
+    if ! grep -qE "Too Many Requests|Service Unavailable|Gateway Timeout|ServerTimeout|is not a valid revision name|\(429\)|\(503\)|\(504\)" "$erreur" ||
       [ "$essai" -eq "$REESSAI_ESSAIS" ]; then
       cat "$erreur" >&2
       rm -f "$erreur"

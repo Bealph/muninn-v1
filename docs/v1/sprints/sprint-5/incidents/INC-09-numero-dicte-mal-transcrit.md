@@ -59,6 +59,12 @@ une fidélité acceptée ; démonstration 3 sur 4. SC-Q1 reste refusé : la tran
 « 8h00 » au lieu de « 8h » du premier passage, et les minutes nulles comptaient comme des chiffres
 en trop. Les heures « 8h00 » sont désormais lues « 8 heures » (correctif suivant).
 
+## Troisième mesure
+
+Après la fusion de la PR 196, production `74b1e55`, le 26 octobre 2026 vers 15 h 20 UTC
+(`preuves/etape-6-ca8.json`) : SC-01 0 sur 3, le téléphone seul en écart, fidélité acceptée ;
+démonstration 4 sur 4 (SC-Q4, SC-04, SC-Q1, SC-10 conformes et jugés fidèles), de 4,5 à 15 s.
+
 ## Suite possible
 
 Mesurer un autre service de transcription, ou un modèle personnalisé de Speech, sur les numéros
