@@ -43,7 +43,11 @@ def mots(texte: str) -> list[str]:
     """Les mots d'un texte, en minuscules, sans accents ni ponctuation."""
     sans_accents = unicodedata.normalize("NFKD", texte.lower())
     simple = "".join(c for c in sans_accents if not unicodedata.combining(c))
-    simple = _HEURE.sub(lambda m: f"{m.group(1)} heures {m.group(2) or ''}", simple)
+    # « 8h », « 8h00 » et « 8h30 » : la transcription varie d'un passage à l'autre (constaté sur
+    # SC-Q1) ; les minutes nulles ne se disent pas dans les dialogues (« 8 heures »).
+    simple = _HEURE.sub(
+        lambda m: f"{m.group(1)} heures {'' if m.group(2) in (None, '00') else m.group(2)}", simple
+    )
     return re.findall(r"[a-z0-9]+", simple)
 
 

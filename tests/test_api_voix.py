@@ -531,11 +531,14 @@ def test_fidelite_refuse_un_chiffre_du_dialogue_repete_ou_deplace() -> None:
 # --- Assouplissements mesurés sur Azure le 26 octobre 2026 (preuve etape-6-ca8-premiere-mesure) ---
 
 
-def test_fidelite_lit_les_heures_comme_le_dialogue() -> None:
+@pytest.mark.parametrize(
+    "entendu", ["Entre 8h et 10h, ou à 14h30.", "Entre 8h00 et 10h00, ou à 14h30."]
+)
+def test_fidelite_lit_les_heures_comme_le_dialogue(entendu: str) -> None:
+    # Les deux formes ont été rendues par la transcription, sur deux passages de SC-Q1.
     dit = [Tour("caller", "Entre 8 heures et 10 heures, ou à 14 heures 30.")]
-    entendu = [Tour("caller", "Entre 8h et 10h, ou à 14h30.")]
-    assert fidelite(entendu, dit) == (1.0, 1.0, 0)
-    assert conforme_au_dialogue(entendu, dit)
+    assert fidelite([Tour("caller", entendu)], dit) == (1.0, 1.0, 0)
+    assert conforme_au_dialogue([Tour("caller", entendu)], dit)
 
 
 def test_fidelite_tolere_un_numero_bruite_a_sa_place() -> None:

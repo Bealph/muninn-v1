@@ -51,6 +51,14 @@ appel (un chiffre répété en plus ou en moins, comme « 000 » pour « 00 » ;
 refusé, à la suite de la revue de sécurité) ; cinq mots en trop sans chiffre au lieu de trois. Un
 nombre absent du dialogue reste refusé.
 
+## Deuxième mesure
+
+Après la fusion du correctif (PR 195), le 26 octobre 2026 vers 14 h 10 UTC
+(`preuves/etape-6-ca8-deuxieme-mesure.json`) : SC-01 0 sur 3, avec le téléphone pour seul écart et
+une fidélité acceptée ; démonstration 3 sur 4. SC-Q1 reste refusé : la transcription a rendu
+« 8h00 » au lieu de « 8h » du premier passage, et les minutes nulles comptaient comme des chiffres
+en trop. Les heures « 8h00 » sont désormais lues « 8 heures » (correctif suivant).
+
 ## Suite possible
 
 Mesurer un autre service de transcription, ou un modèle personnalisé de Speech, sur les numéros
