@@ -1,0 +1,220 @@
+{
+  "date": "2026-10-26T13:07:31+00:00",
+  "api": "https://ca-muninn-api-prod.graybeach-70019748.francecentral.azurecontainerapps.io",
+  "environnement": "production",
+  "git_sha": "5c3874b75263b7a63c4c7c4b6446cb23aadcd06a",
+  "critere": "CA-8, avenant D-74 : de la fin de l'appel joué à la réponse",
+  "protocole": {
+    "scenario_ca8": "SC-01",
+    "passages_ca8": 3,
+    "demonstration": [
+      "SC-Q4",
+      "SC-04",
+      "SC-Q1",
+      "SC-10"
+    ],
+    "seuil_ms": 45000,
+    "seuil_mots": 0.85,
+    "espacement_s": 7.0,
+    "mesure": "côté client, durée de POST /v1/demo/voice/call"
+  },
+  "bilan": {
+    "ca8": "0/3",
+    "demonstration": "2/4"
+  },
+  "cout_estime_eur": {
+    "synthese": 0.0458,
+    "transcription": 0.0242,
+    "modele": 0.0245,
+    "total": 0.0946
+  },
+  "lignes": [
+    {
+      "scenario_id": "SC-01",
+      "caracteres_synthetises": 340,
+      "audio_octets": 185040,
+      "audio_s": 30.8,
+      "request_id": "4f79308e-e2ef-4a21-821d-5f9ac8f9ae3b",
+      "duree_appel_ms": 8286,
+      "latence_serveur_ms": 8086,
+      "transcription_ms": 5260,
+      "etape_en_tete": "transcription",
+      "issue": "dossier",
+      "issue_attendue": "dossier",
+      "conforme_attendu": false,
+      "ecarts_attendu": [
+        "telephone"
+      ],
+      "tours_dits": 8,
+      "tours_entendus": 8,
+      "locuteurs_identiques": true,
+      "taux_mots": 0.984,
+      "fidele_au_scenario": false,
+      "cout_modele_micro_eur": 3259,
+      "conforme": false,
+      "ecarts": [
+        "non conforme à l'attendu du scénario",
+        "transcription jugée non fidèle au scénario par l'API"
+      ],
+      "passage": 1
+    },
+    {
+      "scenario_id": "SC-01",
+      "caracteres_synthetises": 340,
+      "audio_octets": 185040,
+      "audio_s": 30.8,
+      "request_id": "865efc9d-9790-4918-b930-8b3dfd2c5582",
+      "duree_appel_ms": 6528,
+      "latence_serveur_ms": 6450,
+      "transcription_ms": 3865,
+      "etape_en_tete": "transcription",
+      "issue": "dossier",
+      "issue_attendue": "dossier",
+      "conforme_attendu": false,
+      "ecarts_attendu": [
+        "telephone"
+      ],
+      "tours_dits": 8,
+      "tours_entendus": 8,
+      "locuteurs_identiques": true,
+      "taux_mots": 0.984,
+      "fidele_au_scenario": false,
+      "cout_modele_micro_eur": 3259,
+      "conforme": false,
+      "ecarts": [
+        "non conforme à l'attendu du scénario",
+        "transcription jugée non fidèle au scénario par l'API"
+      ],
+      "passage": 2
+    },
+    {
+      "scenario_id": "SC-01",
+      "caracteres_synthetises": 340,
+      "audio_octets": 185040,
+      "audio_s": 30.8,
+      "request_id": "aa155352-5e51-44cd-9ef6-3f6b0b197e24",
+      "duree_appel_ms": 9236,
+      "latence_serveur_ms": 9157,
+      "transcription_ms": 6449,
+      "etape_en_tete": "transcription",
+      "issue": "dossier",
+      "issue_attendue": "dossier",
+      "conforme_attendu": false,
+      "ecarts_attendu": [
+        "telephone"
+      ],
+      "tours_dits": 8,
+      "tours_entendus": 8,
+      "locuteurs_identiques": true,
+      "taux_mots": 0.984,
+      "fidele_au_scenario": false,
+      "cout_modele_micro_eur": 3250,
+      "conforme": false,
+      "ecarts": [
+        "non conforme à l'attendu du scénario",
+        "transcription jugée non fidèle au scénario par l'API"
+      ],
+      "passage": 3
+    },
+    {
+      "scenario_id": "SC-Q4",
+      "caracteres_synthetises": 1141,
+      "audio_octets": 506448,
+      "audio_s": 84.4,
+      "request_id": "4d46be9e-538e-42cf-a60a-4805231141b4",
+      "duree_appel_ms": 17403,
+      "latence_serveur_ms": 17320,
+      "transcription_ms": 14055,
+      "etape_en_tete": "transcription",
+      "issue": "dossier",
+      "issue_attendue": "dossier",
+      "conforme_attendu": true,
+      "ecarts_attendu": [],
+      "tours_dits": 17,
+      "tours_entendus": 17,
+      "locuteurs_identiques": true,
+      "taux_mots": 0.967,
+      "fidele_au_scenario": false,
+      "cout_modele_micro_eur": 5499,
+      "conforme": false,
+      "ecarts": [
+        "transcription jugée non fidèle au scénario par l'API"
+      ],
+      "passage": 4
+    },
+    {
+      "scenario_id": "SC-04",
+      "caracteres_synthetises": 182,
+      "audio_octets": 90432,
+      "audio_s": 15.1,
+      "request_id": "0b871a18-0012-49a8-a84d-3a1081a4e164",
+      "duree_appel_ms": 4226,
+      "latence_serveur_ms": 4117,
+      "transcription_ms": 1388,
+      "etape_en_tete": "transcription",
+      "issue": "dossier",
+      "issue_attendue": "dossier",
+      "conforme_attendu": true,
+      "ecarts_attendu": [],
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "locuteurs_identiques": true,
+      "taux_mots": 1.0,
+      "fidele_au_scenario": true,
+      "cout_modele_micro_eur": 3251,
+      "conforme": true,
+      "ecarts": [],
+      "passage": 5
+    },
+    {
+      "scenario_id": "SC-Q1",
+      "caracteres_synthetises": 978,
+      "audio_octets": 406512,
+      "audio_s": 67.8,
+      "request_id": "4193d930-5faf-46c9-b212-095bc773145c",
+      "duree_appel_ms": 6253,
+      "latence_serveur_ms": 6174,
+      "transcription_ms": 5094,
+      "etape_en_tete": "transcription",
+      "issue": "message",
+      "issue_attendue": "message",
+      "conforme_attendu": true,
+      "ecarts_attendu": [],
+      "tours_dits": 11,
+      "tours_entendus": 11,
+      "locuteurs_identiques": true,
+      "taux_mots": 0.948,
+      "fidele_au_scenario": false,
+      "cout_modele_micro_eur": 1119,
+      "conforme": false,
+      "ecarts": [
+        "transcription jugée non fidèle au scénario par l'API"
+      ],
+      "passage": 6
+    },
+    {
+      "scenario_id": "SC-10",
+      "caracteres_synthetises": 151,
+      "audio_octets": 77472,
+      "audio_s": 12.9,
+      "request_id": "0c74c020-33c2-44e8-b134-c18d86e6e695",
+      "duree_appel_ms": 5125,
+      "latence_serveur_ms": 5036,
+      "transcription_ms": 1205,
+      "etape_en_tete": "transcription",
+      "issue": "dossier",
+      "issue_attendue": "dossier",
+      "conforme_attendu": true,
+      "ecarts_attendu": [],
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "locuteurs_identiques": true,
+      "taux_mots": 1.0,
+      "fidele_au_scenario": true,
+      "cout_modele_micro_eur": 4908,
+      "conforme": true,
+      "ecarts": [],
+      "passage": 7
+    }
+  ]
+}

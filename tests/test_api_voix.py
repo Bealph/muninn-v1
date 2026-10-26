@@ -526,3 +526,54 @@ def test_fidelite_refuse_un_chiffre_du_dialogue_repete_ou_deplace() -> None:
     assert conforme_au_dialogue(dit, dit)
     assert not conforme_au_dialogue(repete, dit)
     assert not conforme_au_dialogue(deplace, dit)
+
+
+# --- Assouplissements mesurés sur Azure le 26 octobre 2026 (preuve etape-6-ca8-premiere-mesure) ---
+
+
+def test_fidelite_lit_les_heures_comme_le_dialogue() -> None:
+    dit = [Tour("caller", "Entre 8 heures et 10 heures, ou à 14 heures 30.")]
+    entendu = [Tour("caller", "Entre 8h et 10h, ou à 14h30.")]
+    assert fidelite(entendu, dit) == (1.0, 1.0, 0)
+    assert conforme_au_dialogue(entendu, dit)
+
+
+def test_fidelite_tolere_un_numero_bruite_a_sa_place() -> None:
+    # Constaté sur SC-01 : « 06 99 00 00 01 » dit, « 06 99 00 000 01 » entendu.
+    dit = decouper(charger_scenarios()["SC-01"].transcription)
+    assert any("06 99 00 00 01" in t.texte for t in dit)
+    entendu = [Tour(t.locuteur, t.texte.replace("06 99 00 00 01", "06 99 00 000 01")) for t in dit]
+    assert conforme_au_dialogue(entendu, dit)
+
+
+def test_fidelite_refuse_un_autre_nombre_a_la_place_du_numero() -> None:
+    # Même longueur, autres chiffres : ce n'est plus du bruit, c'est un autre numéro.
+    dit = decouper(charger_scenarios()["SC-01"].transcription)
+    entendu = [Tour(t.locuteur, t.texte.replace("06 99 00 00 01", "06 99 45 00 01")) for t in dit]
+    assert not conforme_au_dialogue(entendu, dit)
+
+
+def test_fidelite_tolere_cinq_mots_en_trop_sans_chiffre() -> None:
+    dialogue = decouper(charger_scenarios()["SC-Q4"].transcription)
+    homophones = {"rappel": "rappelle", "eau": "au", "coupée": "coupé", "récapitule": "classe"}
+    entendu = [
+        Tour(t.locuteur, " ".join(homophones.get(m, m) for m in t.texte.split())) for t in dialogue
+    ]
+    assert fidelite(entendu, dialogue)[2] <= MOTS_EN_TROP_MAX == 5
+    assert conforme_au_dialogue(entendu, dialogue)
+    ajout = [*entendu, Tour("caller", "Je suis Jean Paul Dupont de Lyon.")]
+    assert not conforme_au_dialogue(ajout, dialogue)
+
+
+def test_fidelite_refuse_un_chiffre_quelconque_ajoute() -> None:
+    # Revue de sécurité : « 99 » entendu « 799 » n'est pas une répétition, c'est un autre numéro.
+    dit = decouper(charger_scenarios()["SC-01"].transcription)
+    entendu = [Tour(t.locuteur, t.texte.replace("06 99 00 00 01", "06 799 00 00 01")) for t in dit]
+    assert not conforme_au_dialogue(entendu, dit)
+
+
+def test_fidelite_tolere_un_seul_groupe_bruite() -> None:
+    # Deux groupes bruités dans le même appel : refusé, même si chacun serait une répétition.
+    dit = decouper(charger_scenarios()["SC-01"].transcription)
+    entendu = [Tour(t.locuteur, t.texte.replace("06 99 00 00 01", "06 999 00 000 01")) for t in dit]
+    assert not conforme_au_dialogue(entendu, dit)
