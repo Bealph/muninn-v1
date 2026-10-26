@@ -122,8 +122,8 @@ Aucune nouvelle source de données externe : les référentiels du sprint 3 sont
 
 ### Étape 8 : la documentation d'exploitation
 
-- [ ] `docs/exploitation.md` : prérequis, déployer, vérifier, diagnostiquer une panne type, faire un retour arrière, tableau des alertes et de leurs actions ; écrite pour un tiers.
-- [ ] Panne type simulable en production, sans risque pour les données.
+- [x] `docs/exploitation.md` : prérequis, déployer, vérifier, diagnostiquer une panne type, faire un retour arrière, tableau des alertes et de leurs actions ; écrite pour un tiers. Relue le 26 octobre 2026 par un agent jouant l'évaluateur pair (lecture seule, sans aide) : 12 constats, tous traités, dont un défaut du retour arrière (une révision de configuration ne se défaisait pas), corrigé et testé (`tests/test_retour_arriere.py`).
+- [ ] Panne type simulable en production, sans risque pour les données. Prêt : `infra/azure/12-panne.sh <env> --provoquer|--reparer` (point d'accès du modèle mal configuré, brouillons de secours, AL-04). Reste : l'exercice réel par le porteur.
 - [ ] Test de la doc par un tiers, sans aide : chaque point où il bloque est consigné comme trou de la doc, puis corrigé.
 
 ### Étape 9 : le contrat personnel

@@ -4,8 +4,11 @@
 # reconstruite, aucune révision n'est créée : seul le trafic bascule.
 #
 # Usage : bash infra/azure/retour-arriere.sh <preproduction|production> [sha]
-#   sans sha : révision créée juste avant celle qui reçoit le trafic ;
-#   avec sha : révision la plus récente qui porte l'image de ce commit.
+#   sans sha : pour l'API, la révision créée juste avant celle qui reçoit le trafic ;
+#   avec sha : pour l'API, la plus récente qui porte ce commit, autre que celle en service ;
+#   la console suit le commit visé, et ne bouge pas si elle le sert déjà.
+# Une révision de configuration (même image, autre réglage : panne type, INC-07) se défait donc
+# comme une livraison.
 # Lancé par le workflow manuel « retour-arriere » ou par le porteur.
 
 set -euo pipefail
@@ -17,36 +20,57 @@ case "$env" in preproduction | production) ;; *) echo "Environnement inconnu : $
 
 contient() { [[ "$1" == *"$2"* ]]; }
 
-# Rend « révision<TAB>sha » de la cible pour une application.
-cible() {
-  local app="$1" en_service
-  en_service=$(az containerapp revision list -g "$GROUPE" -n "$app" \
-    --query "[?properties.trafficWeight==\`100\`].name | [0]" -o tsv)
-  # Révisions triées par date de création, une par ligne : « nom<TAB>sha ».
-  az containerapp revision list -g "$GROUPE" -n "$app" --all \
+# Révisions d'une application triées par date de création, une par ligne : « nom<TAB>sha ».
+revisions_de() {
+  az containerapp revision list -g "$GROUPE" -n "$1" --all \
     --query "sort_by(@, &properties.createdTime)[].[name, properties.template.containers[0].image]" -o tsv |
-    awk -F'\t' -v courante="$en_service" -v visee="$sha_cible" '
-      { n = split($2, morceaux, ":"); ligne = $1 "\t" morceaux[n] }
-      visee != "" { if (morceaux[n] == visee) trouvee = ligne; next }
-      $1 == courante { if (prec != "") print prec; exit }
-      { prec = ligne }
-      END { if (visee != "" && trouvee != "") print trouvee }'
+    awk -F'\t' '{ n = split($2, m, ":"); print $1 "\t" m[n] }'
+}
+
+en_service_de() {
+  az containerapp revision list -g "$GROUPE" -n "$1" \
+    --query "[?properties.trafficWeight==\`100\`].name | [0]" -o tsv
+}
+
+# Cible de l'API, « révision<TAB>sha ». Sans sha : la révision créée juste avant celle en service.
+# Avec sha : la plus récente qui porte ce commit, autre que celle en service ; une révision de
+# configuration (panne type, INC-07) porte la même image que la bonne : il faut revenir à la bonne,
+# pas rester sur celle qui sert déjà ce commit.
+cible_api() {
+  awk -F'\t' -v courante="$2" -v visee="$sha_cible" '
+    visee != "" { if ($2 == visee && $1 != courante) trouvee = $0; next }
+    $1 == courante { if (prec != "") print prec; exit }
+    { prec = $0 }
+    END { if (visee != "" && trouvee != "") print trouvee }' <<<"$1"
+}
+
+# Cible de la console pour le commit visé : la révision en service si elle le sert déjà (une panne de
+# configuration de l'API ne touche pas la console), sinon la plus récente qui le porte.
+cible_console() {
+  awk -F'\t' -v courante="$2" -v visee="$3" '
+    $2 == visee { if ($1 == courante) deja = $0; trouvee = $0 }
+    END { if (deja != "") print deja; else if (trouvee != "") print trouvee }' <<<"$1"
 }
 
 debut=$(date +%s)
 declare -A revisions shas
-for app in "$(app_api "$env")" "$(app_console "$env")"; do
-  rev="" sha=""
-  read -r rev sha < <(cible "$app") || true
-  if [ -z "$rev" ]; then
-    echo "Aucune révision antérieure à servir pour $app" >&2
-    exit 1
-  fi
-  revisions[$app]="$rev"
-  shas[$app]="$sha"
-done
 api=$(app_api "$env")
 console=$(app_console "$env")
+read -r rev sha < <(cible_api "$(revisions_de "$api")" "$(en_service_de "$api")") || true
+if [ -z "${rev:-}" ]; then
+  echo "Aucune révision antérieure à servir pour $api" >&2
+  exit 1
+fi
+revisions[$api]="$rev"
+shas[$api]="$sha"
+rev="" sha_console=""
+read -r rev sha_console < <(cible_console "$(revisions_de "$console")" "$(en_service_de "$console")" "${shas[$api]}") || true
+if [ -z "${rev:-}" ]; then
+  echo "Aucune révision de $console ne porte le commit ${shas[$api]}" >&2
+  exit 1
+fi
+revisions[$console]="$rev"
+shas[$console]="$sha_console"
 if [ "${shas[$api]}" != "${shas[$console]}" ]; then
   echo "L'API (${shas[$api]}) et la console (${shas[$console]}) ne visent pas le même commit" >&2
   exit 1
