@@ -23,6 +23,7 @@ from opentelemetry import trace as otel
 from opentelemetry.sdk.trace import TracerProvider
 
 from muninn.core.config import get_settings
+from muninn.telemetrie import ressource
 
 journal = logging.getLogger(__name__)
 P = ParamSpec("P")
@@ -50,7 +51,9 @@ def client() -> Any | None:
         base_url=s.langfuse_base_url,
         environment=s.environment,
         release=s.git_sha,
-        tracer_provider=TracerProvider(),  # isolé : jamais le fournisseur global
+        # Isolé : jamais le fournisseur global. La ressource est celle d'Application Insights :
+        # sans elle, Langfuse affiche `service.name = unknown_service` sur chaque observation.
+        tracer_provider=TracerProvider(resource=ressource()),
     )
 
 

@@ -11,6 +11,7 @@ from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter
 
 from muninn import observabilite
+from muninn.core.config import get_settings
 from muninn.extraction.evaluateur import extraire_dossier
 from muninn.extraction.paquet import charger_paquet
 from muninn.llm.fournisseur import FauxFournisseur, FournisseurAzure, RequeteChat, reponse_faux
@@ -59,6 +60,27 @@ def test_sans_cles_aucun_client() -> None:
     assert observabilite.client() is None
     with observabilite.observation("x") as obs:
         obs.maj(metadata={"a": 1}, entree="texte")  # ne fait rien, sans erreur
+
+
+def test_traceur_isole_porte_le_nom_du_service(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Sans ressource, Langfuse affichait `service.name = unknown_service` (27 octobre 2026)."""
+    import langfuse
+
+    recus: dict[str, Any] = {}
+    monkeypatch.setattr(langfuse, "Langfuse", lambda **kw: recus.update(kw) or object())
+    monkeypatch.setenv("LANGFUSE_PUBLIC_KEY", "cle-publique-de-test")
+    monkeypatch.setenv("LANGFUSE_SECRET_KEY", "cle-privee-de-test")
+    monkeypatch.setenv("ENVIRONMENT", "production")
+    get_settings.cache_clear()
+    observabilite.client.cache_clear()
+    try:
+        assert observabilite.client() is not None
+    finally:
+        get_settings.cache_clear()
+        observabilite.client.cache_clear()
+    attributs_ressource = recus["tracer_provider"].resource.attributes
+    assert attributs_ressource["service.name"] == "muninn-api"
+    assert attributs_ressource["service.namespace"] == "production"
 
 
 def test_extraction_tracee_sans_contenu(exportateur: InMemorySpanExporter) -> None:
