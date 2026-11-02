@@ -5,8 +5,11 @@ name: vigie
 
 on:
   schedule:
-    # Hors du début de l'heure, où GitHub retarde le plus les tâches planifiées.
-    - cron: "7,22,37,52 * * * *"
+    # Hors du début de l'heure, où GitHub retarde le plus les tâches planifiées. Expression
+    # modifiée le 2 novembre 2026 : la première, ajoutée à 09:07 UTC, n'avait déclenché aucune
+    # exécution en plus de deux heures ; la modifier doit amener GitHub à l'enregistrer de nouveau
+    # (pratique courante, non décrite dans la documentation de GitHub).
+    - cron: "4,19,34,49 * * * *"
   workflow_dispatch:
     inputs:
       essai:
