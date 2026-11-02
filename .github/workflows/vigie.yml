@@ -1,0 +1,72 @@
+# C20, détection automatique d'incident : toutes les 15 minutes, lit les alertes Azure Monitor
+# déclenchées sur le groupe de ressources et ouvre une issue « Incident » par alerte, une seule
+# fois. Identité id-muninn-vigie, lecture seule (infra/azure/14-vigie.sh) ; aucun secret.
+name: vigie
+
+on:
+  schedule:
+    # Hors du début de l'heure, où GitHub retarde le plus les tâches planifiées.
+    - cron: "7,22,37,52 * * * *"
+  workflow_dispatch:
+    inputs:
+      essai:
+        description: "Essai : afficher les issues sans les créer"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vigie
+  cancel-in-progress: false
+
+jobs:
+  vigie:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment: vigie
+    permissions:
+      contents: read
+      id-token: write
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Alertes déclenchées sur le groupe de ressources (dernières 24 h)
+        run: |
+          az rest --method get --output json \
+            --url "https://management.azure.com/subscriptions/${{ vars.AZURE_SUBSCRIPTION_ID }}/providers/Microsoft.AlertsManagement/alerts?api-version=2019-03-01&targetResourceGroup=adialloRG&monitorCondition=Fired&timeRange=1d" \
+            > alertes.json
+          echo "Alertes déclenchées : $(jq '.value | length' alertes.json)"
+
+      - name: Issues déjà ouvertes par la vigie
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue list --label incident --state all --limit 300 --json number,body > issues.json
+
+      - name: Choisir les issues à ouvrir
+        run: python3 infra/github/vigie.py alertes.json issues.json > a-ouvrir.json
+
+      - name: Ouvrir les issues
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ESSAI: ${{ github.event_name == 'workflow_dispatch' && inputs.essai }}
+        run: |
+          echo "Issues à ouvrir : $(jq 'length' a-ouvrir.json)"
+          if [ "$ESSAI" = "true" ]; then
+            jq -r '.[] | "--- \(.titre)\n\(.corps)"' a-ouvrir.json
+            exit 0
+          fi
+          gh label create incident --color B4541A \
+            --description "Incident ouvert par la vigie" 2>/dev/null || true
+          jq -c '.[]' a-ouvrir.json | while read -r issue; do
+            gh issue create --label incident \
+              --title "$(jq -r '.titre' <<< "$issue")" --body "$(jq -r '.corps' <<< "$issue")"
+          done

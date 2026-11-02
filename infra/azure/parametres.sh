@@ -24,6 +24,8 @@ IDENTITE_EXECUTION="id-muninn-execution"
 # Évaluation de l'agent en CI (D-64) : identité à part, un seul droit (appeler le modèle).
 IDENTITE_EVALUATION="id-muninn-evaluation"
 IDENTITE_DEPLOIEMENT="id-muninn-deploiement"
+# Vigie (C20) : identité à part, un seul droit (lire les alertes du groupe de ressources).
+IDENTITE_VIGIE="id-muninn-vigie"
 DEPOT_GITHUB="Bealph/Muninn"
 # Sujet OIDC « immuable » du dépôt (identifiants du compte et du dépôt) : voir oidc-github.sh.
 SUJET_OIDC_PREFIXE="repo:Bealph@60009382/Muninn@1415464389"
@@ -51,3 +53,5 @@ ROLE_CONTAINER_APPS_CONTRIBUTOR="358470bc-b998-42bd-ab17-a7e34c199c0f"
 # Container Apps Contributor ne donne aucun droit sur les tâches (actions containerApps/* seulement,
 # lu le 16 octobre 2026) : rôle dédié pour mettre à jour l'image d'une tâche et la lancer.
 ROLE_CONTAINER_APPS_JOBS_CONTRIBUTOR="4e3d2b60-56ae-4dc6-a233-09c8e5a82e68"
+# Monitoring Reader : lecture des alertes (Microsoft.AlertsManagement/alerts/read, par */read).
+ROLE_MONITORING_READER="43d0d8ad-25c7-4714-9337-8ba259a9fe05"

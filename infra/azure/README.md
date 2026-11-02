@@ -158,6 +158,7 @@ Images : [SVG](schemas/svg/3-workflows-manuels.svg), [PNG](schemas/png/3-workflo
 | 11-alertes   ag-muninn (courriel) et regle al04-muninn-modele (15 min, fenetre 1 h)        |
 | 12-panne     exercice : mauvais point d'acces sur une revision (--provoquer / --reparer)   |
 | 13-voix      VOIX_FOURNISSEUR=azure et SPEECH_* sur l'API, controle par une synthese reelle|
+| 14-vigie     id-muninn-vigie : Monitoring Reader seul ; OIDC environnement vigie (C20)     |
 +--------------------------------------------------------------------------------------------+
  Scripts 07, 08, 09, 12, 13 : meme patron que deployer.sh (trafic fige, revision controlee,
  bascule, precedente conservee).
