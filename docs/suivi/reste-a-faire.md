@@ -213,8 +213,10 @@ n'a été perdu, le retour arrière a suffi.
 - [ ] Fiche de l'exercice, au format INC : hypothèse, chronologie en UTC du premier échec à la
       prise en charge du 29 octobre (résolution à 11:03 sans courriel), ce que chaque outil a
       vu, suites données.
-- [ ] Fiche INC-11 : `unknown_service` dans les traces Langfuse, incident réel trouvé le
-      29 octobre, corrigé dans le code avec son test (PR n° 202).
+- [x] Fiche INC-11 : `unknown_service` dans les traces Langfuse, incident réel trouvé le
+      29 octobre, corrigé dans le code avec son test (PR n° 202) ; correctif constaté sur les
+      traces de production le 2 novembre
+      (`docs/v1/sprints/sprint-5/incidents/INC-11-service-inconnu-dans-langfuse.md`).
 
 ### C10, l'audit RGAA manuel
 
@@ -263,7 +265,7 @@ Cocher ici quand la preuve est dans le dépôt, puis cocher la case correspondan
 - [x] C19 · environnement de test (workflow et exécution, D-90)
 - [ ] C20 · détection automatique d'incident (workflow en service ; issue ouverte attendue)
 - [x] C21 · incident provoqué, résolu et documenté (exercice du 26 octobre, décision du porteur)
-- [ ] C21 · renfort : fiche de l'exercice et fiche INC-11
+- [ ] C21 · renfort : fiche de l'exercice (à faire) et fiche INC-11 (faite)
 - [ ] C10 · audit RGAA manuel (`docs/v1/accessibilite/`)
 
 Une fois les sept cases cochées : 61 sur 61. Les compétences concernées passent alors en
