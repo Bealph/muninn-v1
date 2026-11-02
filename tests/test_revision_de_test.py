@@ -223,3 +223,12 @@ def test_le_verdict_exige_la_revision_de_test_hors_de_main(
         [BASH or "bash", "-e", "-c", script], capture_output=True, check=False
     )
     assert (fin.returncode == 0) is vert
+
+
+def test_la_livraison_ne_depend_pas_du_job_de_test_ignore_sur_main() -> None:
+    """Sur main, « test » est ignoré ; sans condition explicite sur le résultat du job précédent,
+    GitHub ignore aussi la livraison (fusion de C19 non livrée le 2 novembre 2026)."""
+    preproduction = job("preproduction")
+    assert "!cancelled() && needs.verdict.result == 'success'" in preproduction
+    assert "github.ref == 'refs/heads/main'" in preproduction
+    assert "!cancelled() && needs.preproduction.result == 'success'" in job("production")

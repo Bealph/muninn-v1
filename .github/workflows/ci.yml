@@ -267,8 +267,13 @@ jobs:
 
   # Livraison continue (sprint 2, étape 6) : uniquement sur main, après un verdict vert.
   # Identité Azure sans secret (OIDC, identité managée id-muninn-deploiement, D-47).
+  # Conditions explicites sur le résultat du job précédent : sur main, le job « test » est ignoré,
+  # et GitHub ignore alors tous les jobs en aval, même après un verdict vert, si leur condition ne
+  # porte pas sur ce résultat (fusion de C19 non livrée le 2 novembre 2026).
   preproduction:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: >-
+      ${{ !cancelled() && needs.verdict.result == 'success'
+      && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     needs: verdict
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -306,6 +311,7 @@ jobs:
         run: bash infra/azure/deployer.sh preproduction "${GITHUB_SHA}"
 
   production:
+    if: ${{ !cancelled() && needs.preproduction.result == 'success' }}
     needs: preproduction
     runs-on: ubuntu-24.04
     timeout-minutes: 30
