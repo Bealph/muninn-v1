@@ -182,7 +182,9 @@ AL-01 et AL-16 s'affichent à l'écran. Il manque l'ouverture automatique d'une 
       ouverture de l'issue avec l'heure, la règle et la gravité (PR n° 203).
 - [x] Tester sur une alerte existante : essai du 2 novembre sur 30 jours, 1 alerte résolue lue,
       comme le compte propriétaire, aucune issue ouverte (PR n° 206).
-- [ ] Lors du prochain exercice de panne (renfort de C21) : une issue ouverte par AL-04.
+- [x] Lors du prochain exercice de panne (renfort de C21) : une issue ouverte par AL-04. Fait le
+      2 novembre : issue #210, une seule, sans doublon à la relance (INC-12). La vigie a été
+      lancée à la main : son lancement planifié reste à prouver.
 
 **Preuve attendue :** le workflow, et une issue ouverte automatiquement par une alerte.
 
@@ -210,9 +212,10 @@ n'a été perdu, le retour arrière a suffi.
 
 **Renfort recommandé (30 minutes chacun) :**
 
-- [ ] Fiche de l'exercice, au format INC : hypothèse, chronologie en UTC du premier échec à la
-      prise en charge du 29 octobre (résolution à 11:03 sans courriel), ce que chaque outil a
-      vu, suites données.
+- [x] Fiche de l'exercice, au format INC. Faite sur un nouvel exercice, le 2 novembre, plutôt
+      que de reconstituer celui du 26 octobre : attentes fixées d'avance (H1 à H5), chronologie en
+      UTC, ce que chaque outil a vu, écarts, suites
+      (`docs/v1/sprints/sprint-5/incidents/INC-12-exercice-de-panne-2-novembre.md`).
 - [x] Fiche INC-11 : `unknown_service` dans les traces Langfuse, incident réel trouvé le
       29 octobre, corrigé dans le code avec son test (PR n° 202) ; correctif constaté sur les
       traces de production le 2 novembre
@@ -263,9 +266,9 @@ Cocher ici quand la preuve est dans le dépôt, puis cocher la case correspondan
 - [ ] C7 · benchmark complet (`docs/v1/benchmark-services-ia/`)
 - [x] C8 · demande de zéro rétention tracée (D-89)
 - [x] C19 · environnement de test (workflow et exécution, D-90)
-- [ ] C20 · détection automatique d'incident (workflow en service ; issue ouverte attendue)
+- [ ] C20 · détection automatique d'incident (issue #210 ouverte par une alerte réelle ; lancement planifié à prouver)
 - [x] C21 · incident provoqué, résolu et documenté (exercice du 26 octobre, décision du porteur)
-- [ ] C21 · renfort : fiche de l'exercice (à faire) et fiche INC-11 (faite)
+- [x] C21 · renfort : fiche de l'exercice (INC-12) et fiche INC-11
 - [ ] C10 · audit RGAA manuel (`docs/v1/accessibilite/`)
 
 Une fois les sept cases cochées : 61 sur 61. Les compétences concernées passent alors en
