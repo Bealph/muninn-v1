@@ -159,15 +159,19 @@ def chaine_de_livraison() -> Planche:
     p.boite(820, 215, 270, 80, ["build", "image + test de fumée"])
     p.fleche((520, 255), (558, 255))
     p.fleche((780, 255), (818, 255))
-    p.boite(350, 340, 430, 110, ["evaluation", "si l'empreinte du paquet change",
-                                 "OIDC id-muninn-evaluation · 1 € au plus"])  # fmt: skip
-    p.boite(820, 340, 270, 110, ["secrets", "gitleaks", "tout l'historique"])
-    p.fleche((670, 295), (670, 338))
-    p.fleche((565, 450), (565, 480), (640, 480), (640, 498))
-    p.fleche((955, 450), (955, 480), (800, 480), (800, 498))
+    p.boite(350, 340, 260, 110, ["evaluation", "si l'empreinte change",
+                                 "id-muninn-evaluation", "1 € au plus"])  # fmt: skip
+    p.boite(640, 340, 190, 110, ["secrets", "gitleaks", "tout l'historique"])
+    p.boite(860, 340, 230, 110, ["test · hors de main", "image → crmuninntest",
+                                 "ca-muninn-api-test", "id-muninn-test"])  # fmt: skip
+    p.fleche((590, 295), (590, 338))
+    p.fleche((975, 295), (975, 338))
+    p.fleche((480, 450), (480, 480), (620, 480), (620, 498))
+    p.fleche((735, 450), (735, 498))
+    p.fleche((975, 450), (975, 480), (840, 480), (840, 498))
     p.fleche((1090, 255), (1105, 255), (1105, 550), (882, 550))
-    p.boite(560, 500, 320, 100, ["verdict", "attend lint, tests, build,",
-                                 "secrets et evaluation"], "vif")  # fmt: skip
+    p.boite(560, 500, 320, 100, ["verdict", "attend lint, tests, build, secrets,",
+                                 "evaluation et test (hors de main)"], "vif")  # fmt: skip
     p.etiquette(1000, 590, "PR : s'arrête ici", ancre="middle")
     p.groupe(350, 640, 740, 250, "Livraison continue · push sur main seulement", pointille=True)
     p.fleche((720, 600), (720, 620), (362, 620), (362, 780), (373, 780))
@@ -180,8 +184,9 @@ def chaine_de_livraison() -> Planche:
     p.etiquette(727, 770, "si vert")
     externes = [
         (215, ["crmuninn", "registre d'images"]),
-        (305, ["Foundry · modèle", "appelé par evaluation"]),
+        (305, ["Foundry · modèle", "evaluation · app. de test"]),
         (395, ["Langfuse", "projet muninn-evaluation"]),
+        (485, ["crmuninntest", "ca-muninn-api-test"]),
         (705, ["Container Apps", "préproduction"]),
         (795, ["Container Apps", "production"]),
     ]
@@ -289,7 +294,7 @@ def mise_en_place() -> Planche:
         p.boite(440, y, 340, h, lignes)
         y += h + 32
     p.fleche((810, 280), (848, 280))
-    p.groupe(850, 160, 710, 720, "Sprints 3 à 5")
+    p.groupe(850, 160, 710, 720, "Sprints 3 à 5, puis C20 et C19")
     suite = [
         (["05-donnees", "tâche des données", "API en rôle de lecture"], "fonce"),
         (["06-evaluation", "identité Foundry User seule", "OIDC evaluation"], "fonce"),
@@ -300,12 +305,15 @@ def mise_en_place() -> Planche:
         (["11-alertes", "AL-04 toutes les 15 min", "ag-muninn → courriel"], "fonce"),
         (["12-panne", "exercice d'exploitation", "--provoquer / --reparer"], "vif"),
         (["13-voix", "Azure AI Speech", "contrôle par une synthèse"], "vif"),
+        (["14-vigie", "Monitoring Reader seul", "OIDC vigie · issues Incident"], "fonce"),
+        (["15-test", "crmuninntest · app. de test", "id-muninn-test · AcrPush, AcrDelete"],
+         "fonce"),
     ]  # fmt: skip
     for i, (lignes, style) in enumerate(suite):
-        colonne, rang = divmod(i, 5)
-        p.boite(880 + colonne * 345, 215 + rang * 120, 315, 100, lignes, style)
-    p.boite(1225, 695, 315, 100, ["contour vert vif", "même séquence que deployer.sh",
-                                  "(révision contrôlée)"], "clair")  # fmt: skip
+        colonne, rang = divmod(i, 6)
+        p.boite(880 + colonne * 345, 210 + rang * 108, 315, 92, lignes, style)
+    p.boite(1225, 750, 315, 92, ["contour vert vif", "même séquence que deployer.sh",
+                                 "(révision contrôlée)"], "clair")  # fmt: skip
     p.note(910, "R10 : le porteur lance lui-même ces scripts ; tous sont relançables ;"
                 " aucun secret n'est écrit dans le dépôt.")  # fmt: skip
     return p

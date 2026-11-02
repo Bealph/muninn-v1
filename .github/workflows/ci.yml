@@ -1,7 +1,7 @@
 # Intégration continue (sprint 2, étape 4 ; V-03).
 # Sur chaque PR vers main et sur main : lint, puis tests, puis build de l'image ; recherche de
-# secrets en parallèle. Le job « verdict » résume le tout : c'est le seul contrôle requis par la
-# protection de main.
+# secrets en parallèle ; sur une PR, révision de test dans Azure (C19). Le job « verdict » résume
+# le tout : c'est le seul contrôle requis par la protection de main.
 # Actions épinglées par SHA ; aucune version publiée depuis moins de deux semaines.
 
 name: ci
@@ -193,9 +193,57 @@ jobs:
           { echo '```'; cat resume.txt 2>/dev/null || echo "aucun résumé"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
           cat rapports-evaluation/*.json 2>/dev/null || true
 
+  # Révision de test par PR (C19) : l'image de la PR tourne dans Azure, sur une application à part
+  # (ca-muninn-api-test), sans base ni secret, et y est contrôlée. Identité id-muninn-test
+  # (infra/azure/15-test.sh) : pousser dans le registre de test crmuninntest (et en effacer les
+  # anciennes images), mettre à jour cette application, sans pouvoir la supprimer ; la
+  # préproduction et la production lui sont fermées.
+  # Sur main, la livraison en préproduction tient ce rôle ; partout ailleurs (PR, lancement manuel
+  # sur une branche), le job tourne et le verdict l'exige.
+  # Barrière de qualité, pas de sécurité : sur une PR, c'est le ci.yml de la PR qui s'exécute ; seule
+  # la relecture avant fusion arrête un code malveillant. Les droits d'id-muninn-test en bornent
+  # l'effet à l'application et au registre de test.
+  test:
+    if: github.ref != 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    # Une seule PR à la fois sur l'application de test ; les suivantes attendent leur tour.
+    concurrency:
+      group: test-azure
+      queue: max
+    environment:
+      name: test
+      url: ${{ steps.test.outputs.url }}
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Extension containerapp (version épinglée)
+        run: az extension add --name containerapp --version "$CONTAINERAPP_VERSION" --allow-preview true --yes
+      - name: Contrôle des options az des scripts
+        run: python3 infra/azure/verifier-options.py infra/azure/*.sh
+      - name: Image de la PR, poussée dans le registre de test
+        run: |
+          image="crmuninntest.azurecr.io/muninn:${GITHUB_SHA}"
+          az acr login --name crmuninntest
+          docker build -f docker/Dockerfile --build-arg GIT_SHA="${GITHUB_SHA}" -t "$image" .
+          docker push "$image"
+      - id: test
+        name: Révision de test, contrôlée
+        run: bash infra/azure/tester-pr.sh "${GITHUB_SHA}"
+
   verdict:
     if: always()
-    needs: [lint, tests, build, secrets, evaluation]
+    needs: [lint, tests, build, secrets, evaluation, test]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -203,7 +251,14 @@ jobs:
         run: |
           echo "lint=${{ needs.lint.result }} tests=${{ needs.tests.result }}"
           echo "build=${{ needs.build.result }} secrets=${{ needs.secrets.result }}"
-          echo "evaluation=${{ needs.evaluation.result }}"
+          echo "evaluation=${{ needs.evaluation.result }} test=${{ needs.test.result }}"
+          # Révision de test (C19) : requise hors de main (PR ou lancement manuel sur une branche :
+          # sinon un lancement manuel rendrait un verdict vert sans elle) ; sur main, ignorée.
+          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            test "${{ needs.test.result }}" = "success"
+          else
+            test "${{ needs.test.result }}" = "skipped"
+          fi
           test "${{ needs.lint.result }}" = "success"
           test "${{ needs.evaluation.result }}" = "success"
           test "${{ needs.tests.result }}" = "success"

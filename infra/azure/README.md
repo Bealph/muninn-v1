@@ -39,19 +39,26 @@ alerte sur les erreurs du modèle (`docs/exploitation.md`, section 1).
 | +-----------+   | make tests            |   | utilisateur muninn, migrations,   |  |
 |                 +-----------------------+   | muninn-donnees, muninn-questions  |  |
 |                        |                    +-----------------------------------+  |
-|                        v                                                           |
+|                        v                                     | hors de main        |
 | +-----------------------------------------+ +-----------------------------------+  |
-| | evaluation (environnement evaluation)   | | secrets                           |  |
-| | empreinte du paquet != main, ou a la    | | gitleaks 8.21.2 (empreinte        |  |
-| | demande ; sinon « non requise »         | | verifiee), tout l'historique      |  |
-| | OIDC id-muninn-evaluation (Foundry User)| +-----------------------------------+  |
-| | Langfuse projet muninn-evaluation       |                                        |
-| | plafond 1 EUR (D-64)                    |                                        |
-| +-----------------------------------------+                                        |
-|                        \_____ lint, tests, build, secrets, evaluation ____/        |
+| | evaluation (environnement evaluation)   | | test (environnement test)         |  |
+| | empreinte du paquet != main, ou a la    | | hors de main ; image poussee dans |  |
+| | demande ; sinon « non requise »         | | crmuninntest, servie par          |  |
+| | OIDC id-muninn-evaluation (Foundry User)| | ca-muninn-api-test (sans base     |  |
+| | Langfuse projet muninn-evaluation       | | ni secret) ; /version, /health,   |  |
+| | plafond 1 EUR (D-64)                    | | modele A ; OIDC id-muninn-test ;  |  |
+| |                                         | | seul effacement : vieilles images |  |
+| +-----------------------------------------+ +-----------------------------------+  |
+|                                             +-----------------------------------+  |
+|                                             | secrets                           |  |
+|                                             | gitleaks 8.21.2 (empreinte        |  |
+|                                             | verifiee), tout l'historique      |  |
+|                                             +-----------------------------------+  |
+|              \_____ lint, tests, build, secrets, evaluation, test ____/            |
 |                                             v                                      |
 |                        +------------------------------------+                      |
-|                        | verdict : les 5 doivent reussir    |  <- PR : fin ici     |
+|                        | verdict : les 6 doivent reussir    |  <- PR : fin ici     |
+|                        | (test : ignore sur main)           |                      |
 |                        | (seul controle requis sur main)    |                      |
 |                        +------------------------------------+                      |
 |                                             | push sur main seulement              |
@@ -159,6 +166,9 @@ Images : [SVG](schemas/svg/3-workflows-manuels.svg), [PNG](schemas/png/3-workflo
 | 12-panne     exercice : mauvais point d'acces sur une revision (--provoquer / --reparer)   |
 | 13-voix      VOIX_FOURNISSEUR=azure et SPEECH_* sur l'API, controle par une synthese reelle|
 | 14-vigie     id-muninn-vigie : Monitoring Reader seul ; OIDC environnement vigie (C20)     |
+| 15-test      crmuninntest (Basic) ; ca-muninn-api-test (sans base ni secret,               |
+|              revision unique) ; id-muninn-test : role sans suppression d'application,      |
+|              AcrPush et AcrDelete sur le seul registre de test (C19)                       |
 +--------------------------------------------------------------------------------------------+
  Scripts 07, 08, 09, 12, 13 : meme patron que deployer.sh (trafic fige, revision controlee,
  bascule, precedente conservee).

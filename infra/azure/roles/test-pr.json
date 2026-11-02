@@ -1,0 +1,19 @@
+{
+  "Name": "Muninn test PR",
+  "IsCustom": true,
+  "Description": "Muninn C19 : mise a jour de l'image de l'application de test ca-muninn-api-test, rien d'autre. Aucune suppression.",
+  "Actions": [
+    "Microsoft.App/containerApps/read",
+    "Microsoft.App/containerApps/write",
+    "Microsoft.App/containerApps/revisions/read",
+    "Microsoft.App/containerApps/listSecrets/action",
+    "Microsoft.App/managedEnvironments/read",
+    "Microsoft.App/managedEnvironments/join/action",
+    "Microsoft.ManagedIdentity/userAssignedIdentities/read",
+    "Microsoft.ManagedIdentity/userAssignedIdentities/assign/action"
+  ],
+  "NotActions": [],
+  "DataActions": [],
+  "NotDataActions": [],
+  "AssignableScopes": ["__PORTEE__"]
+}

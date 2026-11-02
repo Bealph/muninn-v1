@@ -44,6 +44,15 @@ base_de_donnees() { echo "muninn_${1/production/prod}"; }
 # Tâche Container Apps des données de chaque environnement (D-58) : migrations, rôles, ingestion.
 tache_donnees() { echo "job-muninn-donnees-${1/production/prod}"; }
 
+# Révision de test par PR (C19) : une application à part, sans base ni secret, qui sert l'image
+# de la PR ; un registre à part, pour que le code d'une PR ne puisse jamais écraser une image de
+# crmuninn ; une identité à part, qui ne peut que pousser dans ce registre (et en effacer les
+# anciennes images) et mettre à jour cette application (infra/azure/15-test.sh).
+REGISTRE_TEST="crmuninntest"
+APP_TEST="ca-muninn-api-test"
+IDENTITE_TEST="id-muninn-test"
+ROLE_TEST="Muninn test PR"
+
 BUDGET_MENSUEL_EUR=60
 
 # Rôles désignés par leur identifiant, stable même si Microsoft renomme le rôle.
@@ -55,3 +64,7 @@ ROLE_CONTAINER_APPS_CONTRIBUTOR="358470bc-b998-42bd-ab17-a7e34c199c0f"
 ROLE_CONTAINER_APPS_JOBS_CONTRIBUTOR="4e3d2b60-56ae-4dc6-a233-09c8e5a82e68"
 # Monitoring Reader : lecture des alertes (Microsoft.AlertsManagement/alerts/read, par */read).
 ROLE_MONITORING_READER="43d0d8ad-25c7-4714-9337-8ba259a9fe05"
+# Registre (lus le 2 novembre 2026) : AcrPull tire, AcrPush tire et pousse, AcrDelete supprime.
+ROLE_ACR_PULL="7f951dda-4ed3-4680-a7ca-43fe172d538d"
+ROLE_ACR_PUSH="8311e382-0749-4cb8-b61a-304f252e45ec"
+ROLE_ACR_DELETE="c2f4ef07-c644-48eb-af81-4b1b4947fb11"
