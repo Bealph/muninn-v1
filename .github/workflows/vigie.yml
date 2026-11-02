@@ -13,6 +13,11 @@ on:
         description: "Essai : afficher les issues sans les créer"
         type: boolean
         default: true
+      periode:
+        description: "Essai seulement : 30d lit aussi les alertes résolues (preuve de visibilité)"
+        type: choice
+        options: [1d, 30d]
+        default: 1d
 
 permissions:
   contents: read
@@ -40,11 +45,21 @@ jobs:
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Alertes déclenchées sur le groupe de ressources (dernières 24 h)
+        env:
+          ESSAI: ${{ github.event_name == 'workflow_dispatch' && inputs.essai }}
+          PERIODE: ${{ inputs.periode }}
         run: |
+          # Par défaut : alertes déclenchées des dernières 24 h. En essai seulement, « 30d » lit
+          # aussi les alertes résolues, pour prouver que l'identité les voit ; vigie.py n'ouvre de
+          # toute façon d'issue que pour une alerte déclenchée.
+          filtre="monitorCondition=Fired&timeRange=1d"
+          if [ "$ESSAI" = "true" ] && [ "$PERIODE" = "30d" ]; then filtre="timeRange=30d"; fi
+          echo "Filtre : $filtre"
           az rest --method get --output json \
-            --url "https://management.azure.com/subscriptions/${{ vars.AZURE_SUBSCRIPTION_ID }}/providers/Microsoft.AlertsManagement/alerts?api-version=2019-03-01&targetResourceGroup=adialloRG&monitorCondition=Fired&timeRange=1d" \
+            --url "https://management.azure.com/subscriptions/${{ vars.AZURE_SUBSCRIPTION_ID }}/providers/Microsoft.AlertsManagement/alerts?api-version=2019-03-01&targetResourceGroup=adialloRG&$filtre" \
             > alertes.json
-          echo "Alertes déclenchées : $(jq '.value | length' alertes.json)"
+          echo "Alertes lues : $(jq '.value | length' alertes.json)"
+          echo "Par état : $(jq -c '[.value[].properties.essentials.monitorCondition] | group_by(.) | map({(.[0]): length}) | add // {}' alertes.json)"
 
       - name: Issues déjà ouvertes par la vigie
         env:

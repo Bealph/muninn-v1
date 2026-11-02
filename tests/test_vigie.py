@@ -114,3 +114,11 @@ def test_workflow_lecture_seule_et_actions_epinglees() -> None:
         if "uses:" in ligne:
             version = ligne.split("@", 1)[1].split()[0]
             assert len(version) == 40, ligne
+
+
+def test_la_periode_longue_est_reservee_a_l_essai() -> None:
+    """« 30d » lit aussi les alertes résolues : seulement pour prouver la visibilité, en essai."""
+    texte = WORKFLOW.read_text(encoding="utf-8")
+    assert 'filtre="monitorCondition=Fired&timeRange=1d"' in texte
+    assert 'if [ "$ESSAI" = "true" ] && [ "$PERIODE" = "30d" ]; then' in texte
+    assert "ESSAI: ${{ github.event_name == 'workflow_dispatch' && inputs.essai }}" in texte
