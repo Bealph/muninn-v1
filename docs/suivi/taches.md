@@ -135,6 +135,7 @@ Prochaines échéances : oral blanc le 13 novembre 2026, passage devant le jury 
 | 2026-11-03 | D-92 : Nunito et IBM Plex Mono partout ; console servant ses polices, générateur des livrables, supports d'oral convertis                                                                      | PR n° 216 ; livrables locaux                                                                                                         |
 | 2026-11-03 | D-91 (journaux après la soutenance) ; C7 : protocole du benchmark voix et téléphonie, programme de mesure                                                                                      | PR n° 217                                                                                                                            |
 | 2026-11-03 | C7 : mesure d'Azure AI Speech en production, relevés de quinze services, rapport relu trois fois ; C7 cochée (58 sur 61)                                                                       | `docs/v1/benchmark-services-ia/`                                                                                                     |
+| 2026-11-03 | C7 : vitrine de lecture du benchmark (réponse, grilles, mesure, couche « En clair » relue deux fois) ; charte commune aux deux vitrines ; D-93 ; règle des numéros français                    | `docs/v1/benchmark-services-ia/vitrine.html`, PR n° 219                                                                              |
 
 ## À faire
 

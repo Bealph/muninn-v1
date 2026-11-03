@@ -1,0 +1,158 @@
+/* Charte commune des vitrines de Muninn (veille, benchmark) : couleurs de la charte des livrets
+   E1 et E3, accordées à l'ivoire et à l'or ; Nunito pour tout, IBM Plex Mono pour le code (D-92).
+   Les styles propres à une vitrine restent dans son modèle. */
+:root {
+  /* Couleurs de Muninn (charte des livrets E1 et E3) : vert #0F4D3A, gris #4F5A55, vert pâle
+     #EEF4F1, filet #C9DAD2 ; accordées à l'ivoire et à l'or patiné choisis par le porteur. */
+  --fond: #f7f5f0; --surface: #ffffff; --encre: #12241d; --encre-2: #4f5a55; --trait: #d9ddd3;
+  --lien: #0f4d3a; --or: #a8844e; --or-texte: #7a5b28; --or-doux: #f3ecdd;
+  --accent-doux: #eef4f1; --sur-accent: #f7f5f0; --focus: #0f4d3a;
+  --ok: #2c6a4c; --ok-fond: #e5f0e9; --part: #8a4b12; --part-fond: #f7e6d6;
+  --non: #9b2c2c; --non-fond: #f8e5e2; --vue: #56625c;
+  --texte: "Nunito", "Segoe UI", system-ui, sans-serif;
+  --chasse: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --rayon: 10px; --rayon-petit: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --fond: #0b1d17; --surface: #112a21; --encre: #ede8de; --encre-2: #b3bfb8; --trait: #23392f;
+    --lien: #e2c68f; --or: #d4b278; --or-texte: #d4b278; --or-doux: #23281f;
+    --accent-doux: #163428; --sur-accent: #0b1d17; --focus: #d4b278;
+    --ok: #8fd1ae; --ok-fond: #15302a; --part: #f0a868; --part-fond: #3a2516;
+    --non: #f2a3a3; --non-fond: #3a1e26; --vue: #9fa9a3; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --fond: #0b1d17; --surface: #112a21; --encre: #ede8de; --encre-2: #b3bfb8; --trait: #23392f;
+  --lien: #e2c68f; --or: #d4b278; --or-texte: #d4b278; --or-doux: #23281f;
+  --accent-doux: #163428; --sur-accent: #0b1d17; --focus: #d4b278;
+  --ok: #8fd1ae; --ok-fond: #15302a; --part: #f0a868; --part-fond: #3a2516;
+  --non: #f2a3a3; --non-fond: #3a1e26; --vue: #9fa9a3; color-scheme: dark;
+}
+html { scroll-padding-top: 3.5rem; -webkit-text-size-adjust: 100%; }
+body { background: var(--fond); color: var(--encre); font: 400 1.0625rem/1.7 var(--texte); font-variant-numeric: lining-nums; margin: 0; }
+* { box-sizing: border-box; }
+a { color: var(--lien); text-underline-offset: 0.22em; text-decoration-thickness: 1px; text-decoration-color: var(--or); }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+code { font: 0.84em var(--chasse); background: var(--accent-doux); padding: 0.08em 0.35em; border-radius: 4px; overflow-wrap: anywhere; }
+h1, h2, h3 { line-height: 1.25; text-wrap: balance; margin: 0; font-weight: 700; }
+h1, h2 { letter-spacing: -0.01em; }
+p { text-wrap: pretty; }
+.cadre { max-width: 72rem; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.evitement { position: absolute; left: -9999px; }
+.evitement:focus { left: 16px; top: 16px; background: var(--surface); padding: 0.5rem 0.75rem; z-index: 20; }
+
+/* En-tête : sobre, un filet or en pied */
+.entete { border-bottom: 1px solid var(--or); }
+.entete .cadre { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 0.5rem 2rem; padding-block: 1.25rem 0; }
+.marque { display: grid; gap: 0.1rem; padding-bottom: 0.85rem; }
+.marque strong { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; }
+.fraicheur { font-size: 0.9rem; color: var(--encre-2); font-variant-numeric: tabular-nums; }
+.entete-actions { display: flex; flex-wrap: wrap; align-items: end; gap: 0.25rem 1rem; }
+.bascule-theme { margin-bottom: 0.35rem; border-radius: 999px; font-size: 0.9rem; padding: 0.3rem 0.9rem; min-height: 36px; }
+.bascule-theme[aria-pressed="true"] { background: var(--encre); color: var(--fond); border-color: var(--encre); }
+.onglets { display: flex; gap: 0.25rem; }
+.onglets a { display: inline-flex; align-items: center; padding: 0.5rem 0.95rem; min-height: 44px; color: var(--encre-2); text-decoration: none; font-weight: 700; border-bottom: 2px solid transparent; }
+.onglets a:hover { color: var(--encre); }
+.onglets a[aria-current="page"] { color: var(--encre); border-bottom-color: var(--or); }
+
+main { padding-block: 3rem 4.5rem; }
+.sur { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: var(--or-texte); }
+.chapo { color: var(--encre-2); max-width: 100%; margin: 0 0 1.5rem; }
+
+/* Sections du rapport : titre en marge, texte dans la colonne de lecture */
+.sections > section { margin-top: 4.5rem; display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 1fr); column-gap: 3rem; align-items: start; }
+.sections > section > * { grid-column: 2; min-width: 0; }
+.sections > section > h2 { grid-column: 1; grid-row: 1 / span 40; font-size: 1.3rem; margin-bottom: 0.75rem; padding-top: 0.9rem; border-top: 1px solid var(--or); }
+
+/* Ouverture du rapport */
+.titre-vue { font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.3rem); margin-bottom: 0.5rem; }
+.ouverture h1 { font-size: clamp(1.9rem, 1.3rem + 2.4vw, 2.9rem); max-width: 100%; margin-top: 0.6rem; line-height: 1.15; font-weight: 800; }
+.lead { font-size: 1.2rem; line-height: 1.65; max-width: 100%; margin: 1.25rem 0 0; }
+.lecture { display: inline-flex; margin-top: 1.5rem; border: 1px solid var(--encre-2); border-radius: 999px; padding: 3px; background: var(--surface); }
+.lecture label { position: relative; }
+.lecture input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.lecture span { display: block; padding: 0.3rem 0.95rem; border-radius: 999px; font-size: 0.92rem; font-weight: 600; min-height: 32px; }
+.lecture input:checked + span { background: var(--encre); color: var(--sur-accent); }
+.lecture input:focus-visible + span { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* Entonnoir : quatre chiffres reliés par des chevrons or */
+.entonnoir { list-style: none; padding: 1.75rem 0 0; margin: 2.75rem 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem 2.5rem; border-top: 1px solid var(--trait); }
+.entonnoir li { position: relative; display: grid; gap: 0.35rem; align-content: start; }
+.entonnoir li + li::before { content: ""; position: absolute; left: -1.6rem; top: 1.2rem; width: 0.6rem; height: 0.6rem; border-top: 1.5px solid var(--or); border-right: 1.5px solid var(--or); transform: rotate(45deg); }
+.entonnoir .nombre { font-size: clamp(2.4rem, 1.7rem + 2.2vw, 3.4rem); font-weight: 300; line-height: 1; font-variant-numeric: lining-nums tabular-nums; letter-spacing: -0.02em; }
+.entonnoir li:last-child .nombre { color: var(--or-texte); font-weight: 400; }
+.entonnoir .libelle { color: var(--encre-2); font-size: 0.95rem; line-height: 1.4; padding-top: 0.5rem; border-top: 1px solid var(--or); max-width: 14rem; }
+
+/* Recommandations : cartes légères */
+.recos { display: grid; gap: 1rem; }
+.reco { display: grid; grid-template-columns: 3rem minmax(0, 1fr); column-gap: 1rem; padding: 1.4rem 1.5rem 1.5rem; background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); }
+.reco .numero { font-size: 1.15rem; font-weight: 800; color: var(--or-texte); line-height: 1.5; font-variant-numeric: tabular-nums; }
+.reco .contenu { display: grid; gap: 0.75rem; min-width: 0; }
+.reco h3 { font-size: 1.15rem; line-height: 1.4; }
+.reco dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.4rem 1.25rem; font-size: 0.98rem; }
+.reco dt { color: var(--encre-2); font-size: 0.9rem; font-weight: 600; padding-top: 0.08rem; }
+.reco dd { margin: 0; min-width: 0; }
+.liens { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; font-size: 0.95rem; font-weight: 600; }
+.liens a { display: inline-block; min-height: 24px; }
+
+/* Fiches : tiroirs à filets fins */
+.fiches { border-top: 1px solid var(--trait); }
+.fiche { border-bottom: 1px solid var(--trait); }
+.fiche summary { cursor: pointer; padding: 0.9rem 0.25rem; display: flex; gap: 0.4rem 1rem; align-items: baseline; flex-wrap: wrap; list-style: none; min-height: 44px; border-radius: var(--rayon-petit); }
+.fiche summary:hover .intitule { color: var(--lien); }
+.fiche summary::-webkit-details-marker { display: none; }
+.fiche summary::before { content: ""; align-self: center; width: 0.45rem; height: 0.45rem; border-top: 1.5px solid var(--or); border-right: 1.5px solid var(--or); transform: rotate(45deg); margin-right: 0.2rem; transition: transform 0.15s; }
+.fiche[open] summary::before { transform: rotate(135deg); }
+.fiche .code { font-size: 0.85rem; font-weight: 700; color: var(--or-texte); font-variant-numeric: tabular-nums; }
+.fiche .intitule { font-weight: 700; flex: 1 1 18rem; min-width: 0; }
+.fiche .corps { padding: 0.2rem 0 1.75rem 1.4rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.1rem; max-width: 72ch; }
+.fiche h3 { margin: 0; font-size: 0.76rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--encre-2); }
+.fiche p { margin: 0.25rem 0 0; }
+.clair { background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); padding: 0.9rem 1.1rem; }
+.etat { font-size: 0.78rem; font-weight: 700; border-radius: 999px; padding: 0.12rem 0.65rem; white-space: nowrap; justify-self: start; }
+.etat.oui { color: var(--ok); background: var(--ok-fond); }
+.etat.partie { color: var(--part); background: var(--part-fond); }
+.etat.non { color: var(--non); background: var(--non-fond); }
+
+.liste { margin: 0; padding-left: 1.2rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.6rem; max-width: 72ch; }
+.liste li::marker { color: var(--or-texte); }
+p a, li a, dd a { overflow-wrap: anywhere; }
+.glossaire { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1.1rem 2.5rem; margin: 0; }
+.glossaire div { min-width: 0; }
+.glossaire dt { font-weight: 700; }
+.glossaire dd { margin: 0.15rem 0 0; color: var(--encre-2); }
+.defile { overflow-x: auto; background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); }
+table { border-collapse: collapse; width: 100%; font-size: 0.94rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--trait); vertical-align: top; }
+th { font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--encre-2); }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 700; color: var(--or-texte); white-space: nowrap; }
+
+button { font: inherit; font-size: 0.92rem; font-weight: 600; color: var(--encre); background: transparent; border: 1px solid var(--encre-2); border-radius: 999px; padding: 0.3rem 0.95rem; min-height: 36px; cursor: pointer; }
+button:hover { border-color: var(--or); }
+
+dialog { color: var(--encre); background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); max-width: min(32rem, calc(100% - 32px)); }
+dialog h2 { font-size: 1.25rem; }
+dialog::backdrop { background: rgb(11 29 23 / 0.5); }
+kbd { font: 0.85rem var(--chasse); border: 1px solid var(--encre-2); border-bottom-width: 2px; border-radius: 4px; padding: 0 0.35rem; }
+.pied { margin-top: 4.5rem; padding-top: 1rem; border-top: 1px solid var(--or); font-size: 0.88rem; color: var(--encre-2); max-width: 72ch; }
+
+@media (max-width: 900px) {
+  .sections > section { grid-template-columns: minmax(0, 1fr); }
+  .sections > section > h2 { grid-row: auto; }
+  .sections > section > * { grid-column: 1; }
+  .entonnoir { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .entonnoir li:nth-child(3)::before { display: none; }
+}
+@media (max-width: 720px) {
+  main { padding-block: 1.5rem 3rem; }
+  .sections > section { margin-top: 3.5rem; }
+  .reco { grid-template-columns: minmax(0, 1fr); padding: 1.1rem 1.1rem 1.25rem; }
+  .reco .numero { margin-bottom: 0.2rem; }
+  .reco dl { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
+  .reco dd { margin-bottom: 0.5rem; }
+  .fiche .corps { padding-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }

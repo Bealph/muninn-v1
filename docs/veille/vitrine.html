@@ -3,11 +3,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=IBM+Plex+Mono:wght@400&display=swap">
 <style>
-/* Direction : « Nuit et or ». Un cabinet de lecture calme : fond ivoire, encre bleu nuit, l'or
-   réservé aux filets, aux chiffres et aux marques de ce qui a été retenu, jamais en aplat sous du
-   texte. Nunito pour tout (titres et lecture), chiffres tabulaires ; IBM Plex Mono seulement pour
-   le code cité dans les fiches. Beaucoup d'air, des cartes légères à filet fin, arrondis
-   modérés, aucune ombre lourde ni dégradé. Les liens sont bleu nuit en clair, or en sombre. */
+/* Charte commune des vitrines de Muninn (veille, benchmark) : couleurs de la charte des livrets
+   E1 et E3, accordées à l'ivoire et à l'or ; Nunito pour tout, IBM Plex Mono pour le code (D-92).
+   Les styles propres à une vitrine restent dans son modèle. */
 :root {
   /* Couleurs de Muninn (charte des livrets E1 et E3) : vert #0F4D3A, gris #4F5A55, vert pâle
      #EEF4F1, filet #C9DAD2 ; accordées à l'ivoire et à l'or patiné choisis par le porteur. */
@@ -69,9 +67,9 @@ main { padding-block: 3rem 4.5rem; }
 .chapo { color: var(--encre-2); max-width: 100%; margin: 0 0 1.5rem; }
 
 /* Sections du rapport : titre en marge, texte dans la colonne de lecture */
-#vue-rapport > section { margin-top: 4.5rem; display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 1fr); column-gap: 3rem; align-items: start; }
-#vue-rapport > section > * { grid-column: 2; min-width: 0; }
-#vue-rapport > section > h2 { grid-column: 1; grid-row: 1 / span 40; font-size: 1.3rem; margin-bottom: 0.75rem; padding-top: 0.9rem; border-top: 1px solid var(--or); }
+.sections > section { margin-top: 4.5rem; display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 1fr); column-gap: 3rem; align-items: start; }
+.sections > section > * { grid-column: 2; min-width: 0; }
+.sections > section > h2 { grid-column: 1; grid-row: 1 / span 40; font-size: 1.3rem; margin-bottom: 0.75rem; padding-top: 0.9rem; border-top: 1px solid var(--or); }
 
 /* Ouverture du rapport */
 .titre-vue { font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.3rem); margin-bottom: 0.5rem; }
@@ -123,15 +121,6 @@ main { padding-block: 3rem 4.5rem; }
 .etat.partie { color: var(--part); background: var(--part-fond); }
 .etat.non { color: var(--non); background: var(--non-fond); }
 
-/* Couverture des thèmes : barre fine bleu nuit, part des fiches en or */
-.couverture { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.8rem; }
-.couverture li { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) 13rem; gap: 0.25rem 1rem; align-items: center; }
-.barre { height: 0.45rem; background: var(--accent-doux); border-radius: 999px; overflow: hidden; }
-.barre span { display: flex; justify-content: flex-end; height: 100%; background: var(--encre-2); border-radius: 999px; }
-.barre i { display: block; height: 100%; background: var(--or); }
-.couverture .chiffres { font-size: 0.92rem; color: var(--encre-2); font-variant-numeric: tabular-nums; text-align: right; }
-.couverture .vide .chiffres { color: var(--part); font-weight: 700; }
-
 .liste { margin: 0; padding-left: 1.2rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.6rem; max-width: 72ch; }
 .liste li::marker { color: var(--or-texte); }
 p a, li a, dd a { overflow-wrap: anywhere; }
@@ -145,6 +134,43 @@ th, td { text-align: left; padding: 0.6rem 0.9rem; border-bottom: 1px solid var(
 th { font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--encre-2); }
 tr:last-child td { border-bottom: 0; }
 td:first-child { font-weight: 700; color: var(--or-texte); white-space: nowrap; }
+
+button { font: inherit; font-size: 0.92rem; font-weight: 600; color: var(--encre); background: transparent; border: 1px solid var(--encre-2); border-radius: 999px; padding: 0.3rem 0.95rem; min-height: 36px; cursor: pointer; }
+button:hover { border-color: var(--or); }
+
+dialog { color: var(--encre); background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); max-width: min(32rem, calc(100% - 32px)); }
+dialog h2 { font-size: 1.25rem; }
+dialog::backdrop { background: rgb(11 29 23 / 0.5); }
+kbd { font: 0.85rem var(--chasse); border: 1px solid var(--encre-2); border-bottom-width: 2px; border-radius: 4px; padding: 0 0.35rem; }
+.pied { margin-top: 4.5rem; padding-top: 1rem; border-top: 1px solid var(--or); font-size: 0.88rem; color: var(--encre-2); max-width: 72ch; }
+
+@media (max-width: 900px) {
+  .sections > section { grid-template-columns: minmax(0, 1fr); }
+  .sections > section > h2 { grid-row: auto; }
+  .sections > section > * { grid-column: 1; }
+  .entonnoir { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .entonnoir li:nth-child(3)::before { display: none; }
+}
+@media (max-width: 720px) {
+  main { padding-block: 1.5rem 3rem; }
+  .sections > section { margin-top: 3.5rem; }
+  .reco { grid-template-columns: minmax(0, 1fr); padding: 1.1rem 1.1rem 1.25rem; }
+  .reco .numero { margin-bottom: 0.2rem; }
+  .reco dl { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
+  .reco dd { margin-bottom: 0.5rem; }
+  .fiche .corps { padding-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+
+/* Couverture des thèmes : barre fine bleu nuit, part des fiches en or */
+.couverture { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.8rem; }
+.couverture li { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) 13rem; gap: 0.25rem 1rem; align-items: center; }
+.barre { height: 0.45rem; background: var(--accent-doux); border-radius: 999px; overflow: hidden; }
+.barre span { display: flex; justify-content: flex-end; height: 100%; background: var(--encre-2); border-radius: 999px; }
+.barre i { display: block; height: 100%; background: var(--or); }
+.couverture .chiffres { font-size: 0.92rem; color: var(--encre-2); font-variant-numeric: tabular-nums; text-align: right; }
+.couverture .vide .chiffres { color: var(--part); font-weight: 700; }
 
 /* Trier */
 .outils { background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); padding: 1.1rem 1.25rem; display: grid; gap: 0.7rem; }
@@ -160,8 +186,6 @@ input[type="search"] { width: 100%; }
 #filtre-source { max-width: 20rem; }
 .coche { display: inline-flex; gap: 0.5rem; align-items: center; min-height: 40px; font-size: 0.95rem; }
 .coche input { width: 1.1rem; height: 1.1rem; accent-color: var(--encre); margin: 0; }
-button { font: inherit; font-size: 0.92rem; font-weight: 600; color: var(--encre); background: transparent; border: 1px solid var(--encre-2); border-radius: 999px; padding: 0.3rem 0.95rem; min-height: 36px; cursor: pointer; }
-button:hover { border-color: var(--or); }
 .discret { margin-left: auto; display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; }
 .compte { font-size: 0.92rem; color: var(--encre-2); font-variant-numeric: tabular-nums; margin: 0; }
 .jour { margin-top: 2rem; }
@@ -186,29 +210,12 @@ button:hover { border-color: var(--or); }
 .marquer[aria-pressed="true"]::before { content: "\2713\00a0" / ""; }
 .entree.vue .titre a, .entree.vue .meta { color: var(--vue); }
 .vide-etat { padding: 2rem 0; color: var(--encre-2); }
-dialog { color: var(--encre); background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); max-width: min(32rem, calc(100% - 32px)); }
-dialog h2 { font-size: 1.25rem; }
-dialog::backdrop { background: rgb(11 29 23 / 0.5); }
-kbd { font: 0.85rem var(--chasse); border: 1px solid var(--encre-2); border-bottom-width: 2px; border-radius: 4px; padding: 0 0.35rem; }
-.pied { margin-top: 4.5rem; padding-top: 1rem; border-top: 1px solid var(--or); font-size: 0.88rem; color: var(--encre-2); max-width: 72ch; }
 
 @media (max-width: 900px) {
-  #vue-rapport > section { grid-template-columns: minmax(0, 1fr); }
-  #vue-rapport > section > h2 { grid-row: auto; }
-  #vue-rapport > section > * { grid-column: 1; }
-  .entonnoir { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .entonnoir li:nth-child(3)::before { display: none; }
 }
 @media (max-width: 720px) {
-  main { padding-block: 1.5rem 3rem; }
-  #vue-rapport > section { margin-top: 3.5rem; }
   .couverture li { grid-template-columns: minmax(0, 1fr) auto; }
   .couverture .barre { grid-column: 1 / -1; grid-row: 2; }
-  .reco { grid-template-columns: minmax(0, 1fr); padding: 1.1rem 1.1rem 1.25rem; }
-  .reco .numero { margin-bottom: 0.2rem; }
-  .reco dl { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
-  .reco dd { margin-bottom: 0.5rem; }
-  .fiche .corps { padding-left: 0; }
   .entree { padding-inline: 0.5rem; column-gap: 0.75rem; }
   .entree .titre { grid-column: 1 / -1; }
   .entree .marquer { grid-column: 2; grid-row: 2; align-self: end; }
@@ -224,7 +231,6 @@ kbd { font: 0.85rem var(--chasse); border: 1px solid var(--encre-2); border-bott
   .champ select, #filtre-source { width: 100%; max-width: 100%; }
   .discret { margin-left: 0; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
 </style>
 
 <a class="evitement" href="#contenu">Aller au contenu</a>
@@ -245,7 +251,7 @@ kbd { font: 0.85rem var(--chasse); border: 1px solid var(--encre-2); border-bott
 </header>
 
 <main id="contenu" class="cadre" tabindex="-1">
-  <div id="vue-rapport"></div>
+  <div id="vue-rapport" class="sections"></div>
   <div id="vue-trier" hidden></div>
   <p class="pied" id="pied"></p>
 </main>
@@ -268,65 +274,70 @@ kbd { font: 0.85rem var(--chasse); border: 1px solid var(--encre-2); border-bott
 (() => {
   if (!document.documentElement.lang) document.documentElement.lang = "fr";
   const D = JSON.parse(document.getElementById("donnees").textContent);
-  const $ = (id) => document.getElementById(id);
+  const PREFIXE = "veille-muninn:";
+// Fonctions communes des vitrines de Muninn, insérées dans l'IIFE de chaque page. Attend
+// `PREFIXE` (clé de mémoire locale propre à la page) et les éléments `#bascule-theme`.
+const $ = (id) => document.getElementById(id);
 
-  // Construction sûre : le texte venu des flux n'est jamais interprété comme du HTML.
-  function el(tag, attrs, ...enfants) {
-    const n = document.createElement(tag);
-    for (const [k, v] of Object.entries(attrs || {})) {
-      if (v === null || v === undefined || v === false) continue;
-      if (k === "class") n.className = v;
-      else if (k === "text") n.textContent = v;
-      else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
-      else n.setAttribute(k, v === true ? "" : v);
-    }
-    for (const e of enfants.flat()) if (e !== null && e !== undefined && e !== false) n.append(e);
-    return n;
+// Construction sûre : le texte venu des flux n'est jamais interprété comme du HTML.
+function el(tag, attrs, ...enfants) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === null || v === undefined || v === false) continue;
+    if (k === "class") n.className = v;
+    else if (k === "text") n.textContent = v;
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v === true ? "" : v);
   }
-  const sur = (href) => typeof href === "string" && href.startsWith("https://");
-  function lien(texte, href) {
-    return sur(href) ? el("a", { href, target: "_blank", rel: "noopener noreferrer" }, texte, el("span", { class: "evitement", text: " (nouvel onglet)" })) : document.createTextNode(texte);
+  for (const e of enfants.flat()) if (e !== null && e !== undefined && e !== false) n.append(e);
+  return n;
+}
+const sur = (href) => typeof href === "string" && href.startsWith("https://");
+function lien(texte, href) {
+  return sur(href) ? el("a", { href, target: "_blank", rel: "noopener noreferrer" }, texte, el("span", { class: "evitement", text: " (nouvel onglet)" })) : document.createTextNode(texte);
+}
+function segs(liste) {
+  const f = document.createDocumentFragment();
+  for (const s of liste || []) {
+    if ("code" in s) f.append(el("code", { text: s.code }));
+    else if ("a" in s) f.append(lien(s.a, s.href));
+    else if ("b" in s) f.append(el("strong", {}, segs(s.b)));
+    else f.append(document.createTextNode(s.t));
   }
-  function segs(liste) {
-    const f = document.createDocumentFragment();
-    for (const s of liste || []) {
-      if ("code" in s) f.append(el("code", { text: s.code }));
-      else if ("a" in s) f.append(lien(s.a, s.href));
-      else f.append(document.createTextNode(s.t));
-    }
-    return f;
-  }
-  const texteDe = (liste) => (liste || []).map((s) => s.t ?? s.code ?? s.a ?? "").join("");
+  return f;
+}
+const texteDe = (liste) => (liste || []).map((s) => s.t ?? s.code ?? s.a ?? (s.b ? texteDe(s.b) : "")).join("");
 
-  // Mémoire propre à ce navigateur : préférences et entrées vues, jamais indispensable.
-  const memoire = {
-    lire(cle, defaut) { try { const v = localStorage.getItem("veille-muninn:" + cle); return v === null ? defaut : JSON.parse(v); } catch { return defaut; } },
-    ecrire(cle, v) { try { localStorage.setItem("veille-muninn:" + cle, JSON.stringify(v)); } catch { /* sans mémoire */ } },
-  };
+// Mémoire propre à ce navigateur : préférences et entrées vues, jamais indispensable.
+const memoire = {
+  lire(cle, defaut) { try { const v = localStorage.getItem(PREFIXE + cle); return v === null ? defaut : JSON.parse(v); } catch { return defaut; } },
+  ecrire(cle, v) { try { localStorage.setItem(PREFIXE + cle, JSON.stringify(v)); } catch { /* sans mémoire */ } },
+};
 
-  // Thème : celui du système par défaut ; un choix manuel est mémorisé dans ce navigateur.
-  const racineDoc = document.documentElement;
-  const themeChoisi = memoire.lire("theme", "");
-  if (themeChoisi === "dark" || themeChoisi === "light") racineDoc.setAttribute("data-theme", themeChoisi);
-  const systemeSombre = () => typeof matchMedia === "function" && matchMedia("(prefers-color-scheme: dark)").matches;
-  const estSombre = () => (racineDoc.getAttribute("data-theme") || (systemeSombre() ? "dark" : "light")) === "dark";
-  const boutonTheme = $("bascule-theme");
-  const majTheme = () => boutonTheme.setAttribute("aria-pressed", estSombre() ? "true" : "false");
-  boutonTheme.addEventListener("click", () => {
-    const theme = estSombre() ? "light" : "dark";
-    racineDoc.setAttribute("data-theme", theme);
-    memoire.ecrire("theme", theme);
-    majTheme();
-  });
+// Thème : celui du système par défaut ; un choix manuel est mémorisé dans ce navigateur.
+const racineDoc = document.documentElement;
+const themeChoisi = memoire.lire("theme", "");
+if (themeChoisi === "dark" || themeChoisi === "light") racineDoc.setAttribute("data-theme", themeChoisi);
+const systemeSombre = () => typeof matchMedia === "function" && matchMedia("(prefers-color-scheme: dark)").matches;
+const estSombre = () => (racineDoc.getAttribute("data-theme") || (systemeSombre() ? "dark" : "light")) === "dark";
+const boutonTheme = $("bascule-theme");
+const majTheme = () => boutonTheme.setAttribute("aria-pressed", estSombre() ? "true" : "false");
+boutonTheme.addEventListener("click", () => {
+  const theme = estSombre() ? "light" : "dark";
+  racineDoc.setAttribute("data-theme", theme);
+  memoire.ecrire("theme", theme);
   majTheme();
+});
+majTheme();
 
-  const mois = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-  const jours = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
-  function dateLongue(iso, avecJour) {
-    const [a, m, j] = iso.split("-").map(Number);
-    const d = new Date(Date.UTC(a, m - 1, j));
-    return (avecJour ? jours[d.getUTCDay()] + " " : "") + j + (j === 1 ? "er" : "") + " " + mois[m - 1] + " " + a;
-  }
+const mois = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+const jours = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+function dateLongue(iso, avecJour) {
+  const [a, m, j] = iso.split("-").map(Number);
+  const d = new Date(Date.UTC(a, m - 1, j));
+  return (avecJour ? jours[d.getUTCDay()] + " " : "") + j + (j === 1 ? "er" : "") + " " + mois[m - 1] + " " + a;
+}
+
 
   const C = D.collecte;
   const sources = Object.fromEntries(D.sources.map((s) => [s.code, s]));

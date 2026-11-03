@@ -1,0 +1,217 @@
+<title>Benchmark de Muninn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/*CHARTE*/
+/* Propre au benchmark : grilles colorées par état, sélecteur de catégorie, chiffres de la mesure. */
+.entonnoir.trois { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 48rem; }
+.reponses { display: grid; gap: 1rem; }
+.reco .categorie { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--or-texte); }
+.reco .contenu { gap: 0.6rem; }
+.choix { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
+.choix a { display: inline-flex; align-items: center; min-height: 40px; padding: 0.3rem 1rem; border: 1px solid var(--encre-2); border-radius: 999px; color: var(--encre); text-decoration: none; font-weight: 600; background: var(--surface); }
+.choix a[aria-current="true"] { background: var(--encre); color: var(--sur-accent); border-color: var(--encre); }
+.legende { display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; margin: 0 0 1rem; padding: 0; list-style: none; font-size: 0.9rem; color: var(--encre-2); }
+.legende li { display: inline-flex; align-items: center; gap: 0.45rem; }
+.pastille { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 3px; border: 1px solid var(--trait); }
+.pastille.c-oui, td.c-oui { background: var(--ok-fond); }
+.pastille.c-partie, td.c-partie { background: var(--part-fond); }
+.pastille.c-non, td.c-non { background: var(--non-fond); }
+td.c-oui { box-shadow: inset 3px 0 0 var(--ok); }
+td.c-partie { box-shadow: inset 3px 0 0 var(--part); }
+td.c-non { box-shadow: inset 3px 0 0 var(--non); }
+.grille table { min-width: 52rem; }
+.grille th:first-child, .grille td:first-child { position: sticky; left: 0; background: var(--surface); z-index: 1; white-space: normal; min-width: 11rem; max-width: 14rem; }
+.grille td { min-width: 9rem; }
+.chiffres-cles { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: 1.5rem 2rem; }
+.chiffres-cles li { display: grid; gap: 0.35rem; align-content: start; padding-top: 0.9rem; border-top: 1px solid var(--or); }
+.chiffres-cles .nombre { font-size: clamp(2rem, 1.5rem + 1.6vw, 2.8rem); font-weight: 300; line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
+.chiffres-cles .libelle { color: var(--encre-2); font-size: 0.95rem; line-height: 1.4; }
+.liste .liste { margin-top: 0.5rem; }
+.liste .suite { margin: 0.6rem 0 0; }
+.liste + .chapo, .defile + .chapo, .defile + .liste { margin-top: 1.25rem; }
+.preuves a { font-weight: 600; }
+@media (max-width: 720px) {
+  .entonnoir.trois { grid-template-columns: minmax(0, 1fr); }
+  .entonnoir.trois li + li::before { display: none; }
+  .grille th:first-child, .grille td:first-child { min-width: 7.5rem; max-width: 8.5rem; }
+  .grille td { min-width: 8rem; }
+}
+</style>
+
+<a class="evitement" href="#contenu">Aller au contenu</a>
+<header class="entete">
+  <div class="cadre">
+    <div class="marque">
+      <strong>Benchmark de Muninn</strong>
+      <span class="fraicheur" id="fraicheur"></span>
+    </div>
+    <div class="entete-actions">
+      <nav class="onglets" aria-label="Vues">
+        <a href="#reponse" id="onglet-reponse">Réponse</a>
+        <a href="#comparer" id="onglet-comparer">Comparer</a>
+        <a href="#mesure" id="onglet-mesure">Mesure</a>
+      </nav>
+      <button type="button" id="bascule-theme" class="bascule-theme" aria-pressed="false">Thème sombre</button>
+    </div>
+  </div>
+</header>
+
+<main id="contenu" class="cadre" tabindex="-1">
+  <div id="vue-reponse" class="sections"></div>
+  <div id="vue-comparer" hidden></div>
+  <div id="vue-mesure" hidden></div>
+  <p class="pied" id="pied"></p>
+</main>
+
+<script type="application/json" id="donnees">/*DONNEES*/</script>
+<script>
+(() => {
+  if (!document.documentElement.lang) document.documentElement.lang = "fr";
+  const D = JSON.parse(document.getElementById("donnees").textContent);
+  const PREFIXE = "benchmark-muninn:";
+/*COMMUN_JS*/
+
+  const R = D.mesure.resultats;
+  const pourcent = (x) => (x * 100).toFixed(1).replace(".", ",") + " %";
+  const secondes = (ms) => (ms / 1000).toFixed(2).replace(".", ",") + " s";
+  const euros = (x) => x.toFixed(2).replace(".", ",") + " €";
+  const passent = D.categories.reduce((n, c) => n + (c.grille ? c.grille.lignes.at(-1).slice(1).filter((x) => x.e === "oui" || x.e === "partie").length : 0), 0);
+  const retenus = D.reponse.filter((r) => texteDe(r.recommandation).startsWith("Garder")).length;
+  $("fraicheur").textContent = "Mesure du " + dateLongue(D.mesure.date.slice(0, 10)) + " · " + D.services + " services comparés · " + R.appels_mesures + " transcriptions mesurées";
+  $("pied").textContent = "Il parle, Muninn se souvient. Page produite à partir du rapport du benchmark (C7), de sa mesure « " + D.mesure.fichier + " » et de ses relevés, dans le dépôt Muninn.";
+
+  // Blocs du rapport : paragraphes, listes et tableaux, sans jamais interpréter de HTML.
+  function bloc(b, grille) {
+    if (b.type === "p") return el("p", { class: "chapo" }, segs(b.s));
+    if (b.type === "liste") return el(b.ordonnee ? "ol" : "ul", { class: "liste" }, b.items.map((i) => el("li", {}, segs(i.s),
+      i.sous.length ? el("ul", { class: "liste" }, i.sous.map((s) => el("li", {}, segs(s)))) : null,
+      (i.suite || []).map((s) => el("p", { class: "suite" }, segs(s))))));
+    return el("div", { class: "defile" + (grille ? " grille" : ""), tabindex: "0", role: "region", "aria-label": grille || "Tableau" },
+      el("table", {},
+        el("thead", {}, el("tr", {}, b.entetes.map((h) => el("th", { scope: "col", text: h })))),
+        el("tbody", {}, b.lignes.map((ligne) => el("tr", {}, ligne.map((c, i) => i === 0
+          ? el("th", { scope: "row" }, segs(c.s))
+          : el("td", { class: grille && c.e ? "c-" + c.e : null }, segs(c.s))))))));
+  }
+  const section = (id, titre, ...contenu) => el("section", { id, "aria-labelledby": "t-" + id }, el("h2", { id: "t-" + id, text: titre }), ...contenu);
+
+  // ---------- Réponse ----------
+  function reponse() {
+    const racine = $("vue-reponse");
+    let lecture = memoire.lire("lecture", "clair");
+    if (lecture !== "clair" && lecture !== "technique") lecture = "clair";
+    const lead = el("p", { class: "lead" });
+    const cartes = el("div", { class: "reponses" });
+    function remplir() {
+      lead.replaceChildren(lecture === "clair" && D.chapeau_clair ? document.createTextNode(D.chapeau_clair) : segs(D.en_tete[0]));
+      cartes.replaceChildren(...D.reponse.map((r, k) => {
+        const cat = D.categories[k];
+        const clair = lecture === "clair" && r.clair;
+        return el("article", { class: "reco", "aria-labelledby": "rep-" + k },
+          el("span", { class: "numero", text: String(k + 1) }),
+          el("div", { class: "contenu" },
+            el("span", { class: "categorie", text: r.categorie }),
+            el("h3", { id: "rep-" + k }, segs(r.recommandation)),
+            clair ? el("p", { text: r.clair }) : el("dl", {}, el("dt", { text: "Condition" }), el("dd", {}, segs(r.condition))),
+            cat ? el("div", { class: "liens" }, el("a", { href: "#comparer-" + cat.id, text: "Comparer les services" })) : null));
+      }));
+    }
+    const bascule = el("div", { class: "lecture", role: "radiogroup", "aria-label": "Niveau de lecture du chapeau et des réponses" },
+      ["clair", "technique"].map((v) => el("label", {},
+        el("input", { type: "radio", name: "lecture", value: v, checked: lecture === v, onchange: () => { lecture = v; memoire.ecrire("lecture", v); remplir(); } }),
+        el("span", { text: v === "clair" ? "En clair" : "Version technique" }))));
+    racine.append(el("div", { class: "ouverture" },
+      el("span", { class: "sur", text: "Benchmark de services d'IA · C7" }),
+      el("h1", { id: "titre-reponse", tabindex: "-1", text: "Transcription, synthèse vocale et téléphonie" }),
+      lead, bascule,
+      el("ol", { class: "entonnoir trois", "aria-label": "Des services comparés aux services retenus" },
+        [[D.services, "services comparés sur une même grille"], [passent, "passent les critères éliminatoires"], [retenus, "services recommandés"]]
+          .map(([n, l]) => el("li", {}, el("span", { class: "nombre", text: String(n) }), el("span", { class: "libelle", text: l }))))));
+    racine.append(section("reponses", "La réponse", el("p", { class: "chapo", text: "Une recommandation par catégorie, avec la condition qui l'accompagne." }), cartes));
+    racine.append(section("regles", "Comment la grille est appliquée", ...D.regles.map((b) => bloc(b))));
+    racine.append(section("ecarts", "Écarts au protocole", ...D.ecarts.map((b) => bloc(b))));
+    racine.append(section("limites", "Limites", ...D.limites.map((b) => bloc(b))));
+    const fichier = (chemin, texte) => el("li", {}, lien(texte, D.depot + chemin));
+    racine.append(section("preuves", "Les preuves", el("ul", { class: "liste preuves" },
+      fichier("protocole.md", "Le protocole, écrit avant la mesure"), fichier("rapport.md", "Le rapport complet"),
+      fichier("mesures/" + D.mesure.fichier, "La mesure (JSON)"),
+      D.categories.map((c) => el("li", {}, lien("Le relevé « " + c.titre.toLowerCase() + " », source par source", c.releve)))),
+      el("p", { class: "chapo", text: "Les fichiers sont dans le dépôt Muninn, accessible à ses membres." })));
+    remplir();
+  }
+
+  // ---------- Comparer ----------
+  let categorie = D.categories[0].id;
+  function comparer() {
+    const racine = $("vue-comparer");
+    const c = D.categories.find((x) => x.id === categorie) || D.categories[0];
+    racine.replaceChildren(
+      el("h1", { id: "titre-comparer", class: "titre-vue", tabindex: "-1", text: "Comparer les services" }),
+      el("p", { class: "chapo", text: "Cinq services par catégorie, notés sur la grille du protocole. Un critère éliminatoire non établi écarte le service ; les critères principaux classent les autres." }),
+      el("ul", { class: "choix", "aria-label": "Catégorie" }, D.categories.map((x) =>
+        el("li", {}, el("a", { href: "#comparer-" + x.id, "aria-current": x.id === c.id ? "true" : null, text: x.titre })))),
+      el("h2", { id: "t-grille", text: c.titre }),
+      el("ul", { class: "legende", "aria-label": "Légende des couleurs" },
+        [["oui", "Établi, ou retenu"], ["partie", "Sous réserve, ou préversion"], ["non", "Non établi, ou écarté"]]
+          .map(([k, l]) => el("li", {}, el("span", { class: "pastille c-" + k, "aria-hidden": "true" }), l))),
+      c.grille ? bloc(c.grille, "Grille de la catégorie " + c.titre.toLowerCase()) : null,
+      ...c.blocs.map((b) => bloc(b)),
+      el("p", { class: "chapo" }, lien("Le relevé de la catégorie, source par source", c.releve)));
+  }
+
+  // ---------- Mesure ----------
+  function mesure() {
+    const racine = $("vue-mesure");
+    if (racine.dataset.pret) return;
+    racine.dataset.pret = "1";
+    const cles = [
+      [pourcent(R.rappel_median), "des mots dits retrouvés (médiane)"],
+      [pourcent(R.precision_mediane), "des mots entendus justes (médiane)"],
+      [pourcent(R.locuteurs_justes_median), "des mots attribués à la bonne voix"],
+      [R.groupes_chiffres_exacts + " / " + R.groupes_chiffres_dits, "suites de chiffres rendues à l'identique"],
+      [secondes(R.transcription_ms_median), "pour transcrire un enregistrement (médiane)"],
+      [R.scenarios_stables + " / " + R.scenarios, "scénarios transcrits à l'identique à chaque passage"],
+      [euros(D.mesure.cout), "coût estimé de la mesure"],
+    ];
+    racine.append(
+      el("h1", { id: "titre-mesure", class: "titre-vue", tabindex: "-1", text: "Mesurer le service en place" }),
+      D.mesure_clair ? el("p", { class: "lead", text: D.mesure_clair }) : null,
+      el("ul", { class: "chiffres-cles", "aria-label": "Résultats de la mesure" },
+        cles.map(([n, l]) => el("li", {}, el("span", { class: "nombre", text: n }), el("span", { class: "libelle", text: l })))),
+      el("div", { class: "sections" }, section("detail", "Le détail", ...D.mesure.blocs.map((b) => bloc(b)))));
+  }
+
+  // ---------- Navigation par le fragment d'adresse ----------
+  const VUES = ["reponse", "comparer", "mesure"];
+  function montrer(vue, focaliser) {
+    for (const v of VUES) {
+      $("vue-" + v).hidden = v !== vue;
+      if (v === vue) $("onglet-" + v).setAttribute("aria-current", "page"); else $("onglet-" + v).removeAttribute("aria-current");
+    }
+    if (vue === "comparer") comparer();
+    if (vue === "mesure") mesure();
+    if (focaliser) { window.scrollTo(0, 0); $("titre-" + vue)?.focus({ preventScroll: true }); }
+  }
+  let premier = true;
+  function route() {
+    let h = "";
+    try { h = decodeURIComponent(location.hash.slice(1)); } catch { h = ""; }
+    const focaliser = !premier;
+    premier = false;
+    if (h.startsWith("comparer-")) {
+      const id = h.slice("comparer-".length);
+      if (D.categories.some((c) => c.id === id)) categorie = id;
+      montrer("comparer", focaliser);
+      return;
+    }
+    // Un fragment inconnu (le lien d'évitement « #contenu », par exemple) laisse la vue en place.
+    if (h && !VUES.includes(h)) return;
+    montrer(h || "reponse", focaliser);
+  }
+  reponse();
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>

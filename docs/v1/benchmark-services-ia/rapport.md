@@ -8,11 +8,43 @@ candidat, chaque valeur liée à sa source et à sa date de lecture).
 
 ## 1. Réponse courte
 
-| Catégorie     | Recommandation                                            | Condition principale                                                                           |
-| ------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Transcription | Garder Azure AI Speech, transcription rapide (D-50)       | Rendre déterministe le refus d'un numéro français mal formé (section 3)                        |
-| Synthèse      | Garder Azure AI Speech, voix neuronales et SSML (D-50)    | Revoir si Voxtral TTS de Mistral passe en disponibilité générale dans l'UE                     |
-| Téléphonie    | Aucun service ne passe la grille ; aucun n'est recommandé | Décision du porteur : l'éliminatoire « entraînement » devient-il une condition contractuelle ? |
+| Catégorie       | Recommandation                                            | Condition principale                                                                           |
+| --------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Transcription   | Garder Azure AI Speech, transcription rapide (D-50)       | Numéro français mal formé refusé par une règle, ajoutée après le benchmark (PR n° 219)         |
+| Synthèse vocale | Garder Azure AI Speech, voix neuronales et SSML (D-50)    | Revoir si Voxtral TTS de Mistral passe en disponibilité générale dans l'UE                     |
+| Téléphonie      | Aucun service ne passe la grille ; aucun n'est recommandé | Décision du porteur : l'éliminatoire « entraînement » devient-il une condition contractuelle ? |
+
+## En clair
+
+Pour un lecteur non spécialiste ; chaque phrase reprend le rapport, sans rien y ajouter.
+
+- Chapeau : Muninn a besoin de trois services autour d'un appel : écrire ce que dit l'appelant
+  (transcription), faire parler l'agent (synthèse vocale) et recevoir l'appel renvoyé par le
+  téléphone de l'artisan (téléphonie). J'ai comparé cinq services dans chaque catégorie, avec une
+  grille écrite avant de lire les offres concurrentes ; les écarts à cette grille sont déclarés.
+- Mesure : 48 dialogues enregistrés (16 scénarios, 3 fois chacun) ont été transcrits par le service
+  en place, pour un coût estimé de 0,64 €. Presque tous les mots sont retrouvés, les deux voix ne
+  sont jamais confondues, et 69 suites de chiffres sur 75 sont rendues à l'identique ; les écarts
+  sont un zéro de trop dans un numéro (3 fois) et « 9-3 » écrit « 9a3 » (3 fois), un écart de forme
+  sans erreur de sens. Mesure faite sur des voix de synthèse, sans bruit ni qualité téléphonique :
+  c'est un plafond, pas la qualité d'un vrai appel.
+- Transcription : Garder le service de Microsoft déjà en place. C'est le seul qu'on peut mesurer,
+  puisque le projet exclut d'ouvrir un compte chez un fournisseur ; Speechmatics et OVHcloud passent
+  aussi la grille, sur documentation. Il rend un enregistrement complet en 1,4 s en médiane (2,6 s
+  au plus). Un défaut existe : un zéro de trop dans un numéro de téléphone, sans qu'on sache s'il
+  vient de la voix de synthèse ou de la transcription. Lors d'une vérification, Muninn n'a pas
+  retenu ce numéro invalide, mais par jugement du modèle d'IA qui remplit le dossier et non par une
+  règle ; depuis, une règle ajoutée à Muninn le refuse à coup sûr.
+- Synthèse vocale : Garder le service de Microsoft : sa documentation prévoit la lecture des numéros
+  en français, et Microsoft s'engage par écrit à ne pas conserver les textes ni s'en servir pour
+  entraîner ses modèles. Google et Amazon sont à égalité sur l'essentiel, avec des réserves que
+  Microsoft n'a pas (critère de départage hors grille, déclaré). Mistral, le seul concurrent établi
+  dans l'UE examiné, est écarté : rien n'établit que l'audio reste dans l'UE, et ses conditions de
+  préversion autorisent l'entraînement.
+- Téléphonie : Aucun fournisseur n'affiche publiquement deux engagements : traiter les appels dans
+  l'Union européenne, et ne pas s'en servir pour entraîner ses modèles. Rien n'est acheté pour
+  l'instant : ces deux engagements seront exigés par écrit avant tout contrat ; le choix se fera
+  après la V1 (décision consignée D-93).
 
 ## 2. Règles d'application de la grille
 
@@ -53,8 +85,9 @@ Lecture des écarts :
   accepte tout numéro international de 8 à 15 chiffres (`MOTIF_TELEPHONE`,
   `extraction/contrat.py`), et le contrôle du serveur (`extraction/evaluateur.py`) garde un numéro
   dont les chiffres ont été dits. « +336990000002 » passerait les deux. Une règle propre aux
-  numéros français (« +33 » suivi de 9 chiffres) rendrait ce refus déterministe : dette à traiter
-  dans la V1. La mesure ne permet pas non plus de dire si le zéro vient de la synthèse ou de la
+  numéros français (« +33 » suivi de 9 chiffres) rend ce refus déterministe : ajoutée le
+  3 novembre 2026, après le benchmark (PR n° 219), avec un test qui reproduit SC-02 et échoue
+  sans elle. La mesure ne permet pas non plus de dire si le zéro vient de la synthèse ou de la
   transcription : S2 et T3 ne sont pas séparables par l'aller-retour.
 - **SC-01.** Son numéro, mal rendu cinq fois sur six le 26 octobre (INC-09), est rendu à
   l'identique aux trois passages. Cause non établie ; un numéro qui contient « 00 00 » reste exposé,
@@ -112,8 +145,8 @@ l'intégration tranche avant, d'où Speechmatics devant OVHcloud malgré sa rés
 **Recommandation : garder Azure**, malgré T3 non tenu sur SC-02. On ignore si ce défaut est propre à
 Azure : aucun concurrent n'est mesurable sans compte. La défense reste dans Muninn : le numéro
 invalide de SC-02 n'a pas été retenu lors d'un appel de vérification, par le modèle ; une règle
-déterministe est à ajouter
-(section 3), et l'agent en direct de la cible devra relire le numéro à l'appelant.
+déterministe l'écarte depuis (section 3, PR n° 219), et l'agent en direct de la cible devra
+relire le numéro à l'appelant.
 
 **Ce qui ferait changer :** une mesure d'un concurrent sur le même jeu, avec un compte ouvert après
 la V1 ; Mistral, s'il documente le français et le traitement de l'audio dans l'UE, hors préversion ;

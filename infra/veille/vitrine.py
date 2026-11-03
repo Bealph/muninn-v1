@@ -13,38 +13,36 @@ Bibliothèque standard seulement. Usage : `python infra/veille/vitrine.py [--sor
 """
 
 import argparse
-import json
+import importlib.util
 import re
 import sys
 from pathlib import Path
+from types import ModuleType
 from typing import Any
 
 RACINE = Path(__file__).resolve().parents[2]
 VEILLE = RACINE / "docs" / "veille"
 MODELE = Path(__file__).with_name("vitrine_modele.html")
-MARQUE = "/*DONNEES*/"
+
+
+def _charger_assemblage() -> ModuleType:
+    chemin = RACINE / "infra" / "vitrine" / "assemblage.py"
+    spec = importlib.util.spec_from_file_location("vitrine_assemblage", chemin)
+    if spec is None or spec.loader is None:
+        raise ImportError(chemin)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+_assemblage = _charger_assemblage()
 
 Segment = dict[str, str]
 
 
 def segments(texte: str) -> list[Segment]:
     """Markdown en ligne -> segments : texte, `code`, [lien](https://…) ou <https://…>."""
-    motif = re.compile(r"`([^`]+)`|\[([^\]]+)\]\((https://[^)\s]+)\)|<(https://[^>\s]+)>")
-    resultat: list[Segment] = []
-    position = 0
-    for m in motif.finditer(texte):
-        if m.start() > position:
-            resultat.append({"t": texte[position : m.start()]})
-        if m.group(1) is not None:
-            resultat.append({"code": m.group(1)})
-        elif m.group(2) is not None:
-            resultat.append({"a": m.group(2), "href": m.group(3)})
-        else:
-            resultat.append({"a": m.group(4), "href": m.group(4)})
-        position = m.end()
-    if position < len(texte):
-        resultat.append({"t": texte[position:]})
-    return resultat
+    return list(_assemblage.segments(texte))
 
 
 def cellules(ligne: str) -> list[str]:
@@ -232,14 +230,8 @@ def donnees(veille: Path = VEILLE) -> dict[str, Any]:
 
 
 def page(d: dict[str, Any], modele: Path = MODELE) -> str:
-    texte = modele.read_text(encoding="utf-8")
-    if texte.count(MARQUE) != 1:
-        raise ValueError(f"le modèle doit contenir {MARQUE} une seule fois")
-    # « < », « > » et « & » échappés : le JSON ne peut ni fermer la balise <script> qui le
-    # porte, ni ouvrir un « <!-- » qui ferait avaler le script suivant par l'analyseur HTML.
-    charge = json.dumps(d, ensure_ascii=False, separators=(",", ":"))
-    charge = charge.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
-    return texte.replace(MARQUE, charge)
+    """La page autonome : charte commune et données insérées (`infra/vitrine/assemblage.py`)."""
+    return str(_assemblage.page(d, modele))
 
 
 def main(argv: list[str]) -> int:
