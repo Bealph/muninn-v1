@@ -5,7 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block titre %}Muninn, console de démonstration{% endblock %}</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 52rem; margin: 2rem auto; padding: 0 1rem;
+    /* Polices de Muninn (D-92) : Nunito pour le texte, IBM Plex Mono pour le code. */
+    @font-face { font-family: "Nunito"; font-weight: 400; font-style: normal; font-display: swap;
+                 src: url("/static/polices/Nunito-Regular.woff2") format("woff2"); }
+    @font-face { font-family: "Nunito"; font-weight: 700; font-style: normal; font-display: swap;
+                 src: url("/static/polices/Nunito-Bold.woff2") format("woff2"); }
+    @font-face { font-family: "Nunito"; font-weight: 400; font-style: italic; font-display: swap;
+                 src: url("/static/polices/Nunito-Italic.woff2") format("woff2"); }
+    @font-face { font-family: "IBM Plex Mono"; font-weight: 400; font-style: normal; font-display: swap;
+                 src: url("/static/polices/IBMPlexMono-Regular.woff2") format("woff2"); }
+    body { font-family: "Nunito", system-ui, sans-serif; max-width: 52rem; margin: 2rem auto; padding: 0 1rem;
            color: #1a1a1a; background: #fff; line-height: 1.5; }
     nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; padding: 0; margin: 0 0 1rem; }
     nav a { color: #1f4f9f; }
@@ -20,11 +29,11 @@
     .aide { color: #4a4a4a; margin: .25rem 0 0; }
     dl { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem; }
     dt { font-weight: 600; }
-    dd { margin: 0; font-family: ui-monospace, monospace; }
+    dd { margin: 0; font-family: "IBM Plex Mono", ui-monospace, monospace; }
     table { border-collapse: collapse; width: 100%; margin: .5rem 0 1rem; font-size: .95rem; }
     th, td { border: 1px solid #c8c8c8; padding: .35rem .5rem; text-align: left; vertical-align: top; }
     th { background: #f0f0f0; }
-    code { font-family: ui-monospace, monospace; }
+    code { font-family: "IBM Plex Mono", ui-monospace, monospace; }
     fieldset { border: 1px solid #c8c8c8; padding: .5rem 1rem 1rem; margin: 1.5rem 0 0; }
     legend { font-weight: 700; padding: 0 .25rem; }
   </style>

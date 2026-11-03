@@ -15,6 +15,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 import httpx
 from fastapi import Depends, FastAPI, Form, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse, Response
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.concurrency import run_in_threadpool
 
@@ -25,6 +26,9 @@ from muninn.voix.contrat import AUDIO_OCTETS_MAX, LECTURE_AUDIO_S, TYPE_AUDIO, D
 
 app = FastAPI(title="Muninn console", version=__version__)
 gabarits = Jinja2Templates(directory=Path(__file__).parent / "templates")
+# Polices de Muninn (D-92), servies par la console elle-même : aucun appel à un service tiers, donc
+# aucune adresse IP de visiteur transmise. Licence SIL OFL 1.1, textes joints dans le dossier.
+app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
 
 
 def date_lisible(valeur: str) -> str:
