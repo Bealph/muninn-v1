@@ -253,8 +253,8 @@ Ils ne correspondent à aucune case, mais renforcent C20 et C21 s'ils sont trait
 - [ ] Courriel de résolution d'AL-04 non reçu le 26 octobre : cause à identifier.
 - [ ] Écart entre le budget filtré par étiquette (21,32 €) et le groupe de ressources : chercher
       la ressource non étiquetée.
-- [ ] `docs/exploitation.md` : la phrase « une vraie panne du modèle ne se provoque pas en
-      production » contredit l'exercice du 26 octobre.
+- [x] `docs/exploitation.md` : la phrase « une vraie panne du modèle ne se provoque pas en
+      production » contredisait l'exercice du 26 octobre ; remplacée le 3 novembre.
 
 ## 8. Checklist de suivi
 
@@ -266,7 +266,7 @@ Cocher ici quand la preuve est dans le dépôt, puis cocher la case correspondan
 - [ ] C7 · benchmark complet (`docs/v1/benchmark-services-ia/`)
 - [x] C8 · demande de zéro rétention tracée (D-89)
 - [x] C19 · environnement de test (workflow et exécution, D-90)
-- [ ] C20 · détection automatique d'incident (issue #210 ouverte par une alerte réelle ; lancement planifié à prouver)
+- [x] C20 · détection automatique d'incident (issue #210 ; lancement planifié constaté le 3 novembre ; limite écrite)
 - [x] C21 · incident provoqué, résolu et documenté (exercice du 26 octobre, décision du porteur)
 - [x] C21 · renfort : fiche de l'exercice (INC-12) et fiche INC-11
 - [ ] C10 · audit RGAA manuel (`docs/v1/accessibilite/`)

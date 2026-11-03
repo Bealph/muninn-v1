@@ -1,10 +1,10 @@
 # Suivi des compétences
 
-**Mis à jour le :** 2 novembre 2026 (C8 et C19 cochées ; C20, vigie en service, issue réelle attendue)
+**Mis à jour le :** 3 novembre 2026 (C20 cochée : lancement planifié de la vigie constaté)
 
 Statuts : « À faire », « En cours », « Preuve produite », « Validée » (validée par le porteur).
 
-Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026).
+Priorité : E2, E4 et E5, évalués au second oral (12 novembre 2026) ; E1 et E3 l'ont été au premier oral blanc (29 et 30 octobre).
 
 ## E1 : collecte, stockage et mise à disposition des données (2 à 5 pages, 15 min)
 
@@ -49,12 +49,12 @@ Priorité : E1 et E3 sont évalués au premier oral blanc (29 et 30 octobre 2026
 
 | Code | Compétence (résumé)                                                | Phase | Preuve prévue                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Statut          |
 | ---- | ------------------------------------------------------------------ | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| C20  | Surveiller l'application (journalisation conforme RGPD, détection) | 2, 6  | Journalisation sans DP, alertes et ouverture d'incident conçues (phase 2) ; journaux du LLM sans contenu échangé, testés (sprint 2) ; classeur des anomalies et des révisions, journaux de l'exportateur assainis (23 % des octets en moins), traces sans contenu (sprint 5) ; vigie de l'application : écran « Qualité », alertes AL-01, AL-16 et AL-04, journaux et traces sans contenu (sprint 5) ; workflow `vigie` qui lit les alertes Azure (2 novembre) | En cours        |
+| C20  | Surveiller l'application (journalisation conforme RGPD, détection) | 2, 6  | Journalisation sans DP, alertes et ouverture d'incident conçues (phase 2) ; journaux du LLM sans contenu échangé, testés (sprint 2) ; classeur des anomalies et des révisions, journaux de l'exportateur assainis (23 % des octets en moins), traces sans contenu (sprint 5) ; vigie de l'application : écran « Qualité », alertes AL-01, AL-16 et AL-04, journaux et traces sans contenu (sprint 5) ; workflow `vigie` qui lit les alertes Azure (2 novembre) | Preuve produite |
 | C21  | Résoudre et documenter des incidents techniques                    | 6     | Fiches d'incident et correctifs ; INC-05 et INC-06 (sprint 4), correctif et non-régression ; INC-07 (sprint 5), correctif, non-régression et essai de mutation ; INC-08, INC-09 (limite assumée, sans ajustement au test) et INC-10 (sprint 5, 26 octobre)                                                                                                                                                                                                     | Preuve produite |
 
 ## Preuves, case par case
 
-**Cases cochées : 56 sur 61** (au 2 novembre 2026). Plan et checklist des sept cases restantes :
+**Cases cochées : 57 sur 61** (au 3 novembre 2026). Plan et checklist des cases restantes :
 `docs/suivi/reste-a-faire.md`.
 
 Une case n'est cochée que si la preuve existe dans le dépôt. Source des preuves attendues :
@@ -95,14 +95,14 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 
 **C6** (0 sur 2)
 
-- [ ] Dispositif de veille : sources, collecte, partage (31 octobre)
-- [ ] Synthèses et recommandations (31 octobre)
+- [ ] Dispositif de veille : sources, collecte, partage (4 novembre)
+- [ ] Synthèses et recommandations (4 novembre)
 
 **C7** (2 sur 3)
 
 - [x] Comparatif des services big data : `docs/conception/architecture_de_donnees/06-big-data-externalise.md`
 - [x] Banc d'essai des modèles LLM (T-06) : protocole commité avant la mesure, 48 extractions, recommandation et décision D-61 (`docs/v1/banc-essai-t06/`)
-- [ ] Benchmark complet : transcription, synthèse vocale, téléphonie (1er novembre)
+- [ ] Benchmark complet : transcription, synthèse vocale, téléphonie (5 novembre)
 
 **C8** (4 sur 4)
 
@@ -124,7 +124,7 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 - [x] Exigences d'accessibilité : `docs/conception/sources_de_donnees/04-accessibilite-utilisabilite.md`
 - [x] Console qui appelle l'API, testée par le porteur : `docs/v1/sprints/sprint-2/preuves/`
 - [x] Contrôle axe-core automatisé en CI, WCAG 2.2 AA, sans manquement : `tests/test_accessibilite.py`, `.github/workflows/ci.yml` (sprint 2)
-- [ ] Audit RGAA manuel (V1.1)
+- [ ] Audit RGAA manuel (6 novembre)
 
 **C11** (3 sur 3)
 
@@ -183,12 +183,12 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 
 ### E5 : surveillance et incidents (oral du 12 novembre)
 
-**C20** (3 sur 4)
+**C20** (4 sur 4)
 
 - [x] Journalisation sans donnée personnelle et alertes conçues : `docs/conception/industrialisation/03-observabilite.md`
 - [x] Journaux du LLM sans contenu échangé, testés : `tests/test_llm.py` (sprint 2)
 - [x] Alerte et boucle de rétroaction : champs corrigés par l'artisan comptés dans l'écran Qualité, alertes AL-01, AL-16 et AL-04 (sprint 5, PR n° 175, 176, 183 à 189)
-- [ ] Détection automatique d'incident : workflow `vigie` en service toutes les 15 minutes, qui ouvre une issue « Incident » par alerte déclenchée (PR n° 203) ; visibilité prouvée le 2 novembre, 1 alerte lue sur 30 jours comme le compte propriétaire (PR n° 206). Issue #210 ouverte par une alerte réelle le 2 novembre, une seule (INC-12). Reste : le lancement planifié de la vigie, aucune exécution automatique constatée le 2 novembre
+- [x] Détection automatique d'incident : AL-04 déclenchée et notifiée par courriel dans la minute ; workflow `vigie` qui ouvre une issue « Incident » par alerte déclenchée (PR n° 203, 206, 208) ; issue #210 ouverte par une alerte réelle, une seule (INC-12, PR n° 211) ; lancement planifié constaté les 2 et 3 novembre (deux exécutions automatiques réussies). Limite écrite dans `docs/exploitation.md` : GitHub n'honore la planification que rarement, l'issue peut arriver plusieurs heures après l'alerte
 
 **C21** (2 sur 2)
 
