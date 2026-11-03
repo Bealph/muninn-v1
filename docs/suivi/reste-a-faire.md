@@ -81,9 +81,9 @@ transcription de D-50 (Azure AI Speech retenu, modèles OpenAI écartés faute d
 
 **À faire :**
 
-- [ ] Écrire l'expression de besoin de chaque service : transcription (français, téléphone,
+- [x] Écrire l'expression de besoin de chaque service : transcription (français, téléphone,
       deux locuteurs), synthèse vocale, téléphonie (numéro, renvoi d'appel, enregistrement).
-- [ ] Fixer la grille avant de regarder les offres : traitement dans l'UE, rétention, qualité,
+- [x] Fixer la grille avant de regarder les offres : traitement dans l'UE, rétention, qualité,
       latence, coût à l'usage, intégration (SDK, API), authentification, accessibilité de la
       documentation, maturité.
 - [ ] Lister de 3 à 5 services par catégorie, à partir des sources de la veille.
@@ -97,8 +97,9 @@ transcription de D-50 (Azure AI Speech retenu, modèles OpenAI écartés faute d
 **Preuve attendue :** `docs/v1/benchmark-services-ia/` avec le protocole (commité avant toute
 mesure), la grille, les résultats et la recommandation.
 
-**Décision du porteur :** mesurer ou non la transcription d'Azure sur les dialogues (coût de
-quelques centimes, à confirmer), ou s'en tenir au documentaire hors LLM.
+**Décision du porteur (3 novembre 2026) :** mesurer la transcription et la synthèse d'Azure sur
+les dialogues synthétiques. Protocole écrit avant la mesure (`protocole.md`) : 16 scénarios,
+3 passages, coût prévu 0,70 €, plafond 2 € ; programme `eval/c7/mesurer_voix.py`.
 
 ## 4. Lot 3 · C8, la demande de zéro rétention
 
