@@ -4,8 +4,16 @@
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Date de lecture               | 2026-11-03                                                                                                                                                                                                               |
 | Source                        | S11, « Revoir le webinaire - Nouveau régime de la prospection téléphonique », 19 octobre 2026, <https://www.cnil.fr/fr/webinaire-demarchage-telephonique>                                                                |
+| Entrée de collecte            | <https://www.cnil.fr/fr/webinaire-demarchage-telephonique>                                                                                                                                                               |
 | Thème                         | Démarchage et téléphonie                                                                                                                                                                                                 |
 | Vérifiée à la source primaire | Non : page d'un webinaire de la CNIL lue ; article L.223-1 du code de la consommation et décret n° 2026-662 non lus. Une lecture de L.223-1 sur Légifrance a été tentée le 3 novembre, sans succès (adresse non trouvée) |
+
+## En clair
+
+Selon la CNIL, depuis le 11 août 2026, solliciter un consommateur par téléphone exige son
+consentement préalable. Muninn ne sollicite personne : il rappelle le client qui a appelé, mais la
+page ne dit pas si ce rappel échappe à la règle. Recontacter d'anciens clients pour leur proposer
+une prestation y entrerait, selon la CNIL ; les textes de loi cités n'ont pas été lus.
 
 ## Résumé
 

@@ -4,8 +4,15 @@
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Date de lecture               | 2026-11-03                                                                                                                                                                |
 | Source                        | S09, « pull_request_target blocked by default December 2 », 2 novembre 2026, <https://github.blog/changelog/2026-11-02-pull_request_target-blocked-by-default-december-2> |
+| Entrée de collecte            | <https://github.blog/changelog/2026-11-02-pull_request_target-blocked-by-default-december-2>                                                                              |
 | Thème                         | Chaîne de livraison                                                                                                                                                       |
 | Vérifiée à la source primaire | Oui : billet du changelog de GitHub lu le 3 novembre                                                                                                                      |
+
+## En clair
+
+À partir du 2 décembre 2026, GitHub bloquera par défaut un type de déclenchement automatique,
+`pull_request_target`, dans les dépôts publics. Le dépôt de Muninn est privé et n'utilise pas ce
+déclenchement : aucun impact. La question serait à revoir si le dépôt devenait public.
 
 ## Résumé
 

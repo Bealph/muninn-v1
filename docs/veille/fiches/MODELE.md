@@ -1,11 +1,12 @@
 # V-AAAA-MM-JJ-nn : titre court de l'information
 
-| Champ                         | Valeur                                                    |
-| ----------------------------- | --------------------------------------------------------- |
-| Date de lecture               | AAAA-MM-JJ                                                |
-| Source                        | Sxx du registre, titre et lien exact, date de publication |
-| Thème                         | Un des thèmes de `../README.md`                           |
-| Vérifiée à la source primaire | oui, page citée ; ou non, et pourquoi                     |
+| Champ                         | Valeur                                                                |
+| ----------------------------- | --------------------------------------------------------------------- |
+| Date de lecture               | AAAA-MM-JJ                                                            |
+| Source                        | Sxx du registre, titre et lien exact, date de publication             |
+| Entrée de collecte            | lien exact de l'entrée dans `../collecte/`, ou « aucune » et pourquoi |
+| Thème                         | Un des thèmes de `../README.md`                                       |
+| Vérifiée à la source primaire | oui, page citée ; ou non, et pourquoi                                 |
 
 ## Résumé
 

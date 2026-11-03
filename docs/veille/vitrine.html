@@ -1,0 +1,540 @@
+<title>Veille de Muninn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;600&family=Public+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Mise en page : une colonne de lecture (68 rem), un en-tête à onglets ; « Rapport » pour le
+   formateur et le jury, « Trier » pour la lecture de la semaine. Encre bleu nuit sur papier froid,
+   un seul accent cobalt ; les états (vérifiée, en partie, non vérifiée) ont leurs propres teintes. */
+:root {
+  --fond: #f4f6f9; --surface: #ffffff; --encre: #16202f; --encre-2: #475467; --trait: #d6dce5;
+  --accent: #1d4ec2; --accent-doux: #e7eefc; --sur-accent: #ffffff;
+  --ok: #1d6a3a; --ok-fond: #e3f2e8; --part: #7d4a00; --part-fond: #fcefd6;
+  --non: #9a1d1d; --non-fond: #fbe5e5; --vue: #5f6b7d;
+  --texte: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --chasse: "Atkinson Hyperlegible Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --rayon: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --fond: #0f141b; --surface: #171d26; --encre: #e7ebf2; --encre-2: #a7b1c0; --trait: #2a3342;
+    --accent: #8db0ff; --accent-doux: #1b2944; --sur-accent: #0f141b;
+    --ok: #86d7a2; --ok-fond: #15301f; --part: #f2c46d; --part-fond: #372a12;
+    --non: #ff9e9e; --non-fond: #3b1a1a; --vue: #8f99a9; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --fond: #0f141b; --surface: #171d26; --encre: #e7ebf2; --encre-2: #a7b1c0; --trait: #2a3342;
+  --accent: #8db0ff; --accent-doux: #1b2944; --sur-accent: #0f141b;
+  --ok: #86d7a2; --ok-fond: #15301f; --part: #f2c46d; --part-fond: #372a12;
+  --non: #ff9e9e; --non-fond: #3b1a1a; --vue: #8f99a9; color-scheme: dark;
+}
+html { scroll-padding-top: 3.5rem; }
+body { background: var(--fond); color: var(--encre); font: 1rem/1.6 var(--texte); }
+* { box-sizing: border-box; }
+a { color: var(--accent); text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+code { font: 0.9em var(--chasse); background: var(--accent-doux); padding: 0.05em 0.3em; border-radius: 3px; overflow-wrap: anywhere; }
+h1, h2, h3 { line-height: 1.25; text-wrap: balance; margin: 0; }
+.cadre { max-width: 68rem; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.evitement { position: absolute; left: -9999px; }
+.evitement:focus { left: 16px; top: 16px; background: var(--surface); padding: 0.5rem 0.75rem; z-index: 20; }
+
+/* En-tête */
+.entete { background: var(--surface); border-bottom: 1px solid var(--trait); }
+.entete .cadre { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 0.75rem 2rem; padding-block: 1.25rem 0; }
+.marque { display: grid; gap: 0.15rem; padding-bottom: 0.9rem; }
+.marque strong { font-size: 1.35rem; letter-spacing: -0.01em; }
+.fraicheur { font: 0.85rem var(--chasse); color: var(--encre-2); }
+.onglets { display: flex; gap: 0.25rem; }
+.onglets a { display: inline-block; padding: 0.6rem 1rem; min-height: 44px; color: var(--encre-2); text-decoration: none; font-weight: 700; border-bottom: 3px solid transparent; }
+.onglets a[aria-current="page"] { color: var(--encre); border-bottom-color: var(--accent); }
+
+main { padding-block: 2rem 4rem; }
+section { margin-top: 3rem; }
+section > h2 { font-size: 1.3rem; margin-bottom: 0.4rem; }
+.chapo { color: var(--encre-2); max-width: 65ch; margin: 0 0 1.25rem; }
+.sur { font: 600 0.75rem var(--chasse); text-transform: uppercase; letter-spacing: 0.08em; color: var(--encre-2); }
+
+/* Ouverture du rapport */
+.titre-vue { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem); margin-bottom: 0.5rem; }
+.ouverture h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); max-width: 30ch; margin-top: 0.4rem; }
+.lead { font-size: 1.15rem; max-width: 62ch; margin: 1rem 0 0; }
+.lecture { display: inline-flex; margin-top: 1.25rem; border: 1px solid var(--trait); border-radius: 999px; padding: 3px; background: var(--surface); }
+.lecture label { position: relative; }
+.lecture input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.lecture span { display: block; padding: 0.35rem 0.9rem; border-radius: 999px; font-size: 0.9rem; min-height: 32px; }
+.lecture input:checked + span { background: var(--accent); color: var(--sur-accent); }
+.lecture input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* Entonnoir : du volume collecté à la décision */
+.entonnoir { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--trait); border-radius: var(--rayon); background: var(--surface); }
+.entonnoir li { padding: 1rem 1.1rem; display: grid; gap: 0.15rem; }
+.entonnoir li + li { border-left: 1px solid var(--trait); }
+.entonnoir .nombre { font: 700 2rem/1.1 var(--chasse); font-variant-numeric: tabular-nums; }
+.entonnoir .libelle { color: var(--encre-2); font-size: 0.9rem; }
+.entonnoir li:last-child .nombre { color: var(--accent); }
+
+/* Recommandations */
+.recos { display: grid; gap: 1rem; }
+.reco { background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); padding: 1.1rem 1.25rem; display: grid; gap: 0.6rem; }
+.reco header { display: flex; gap: 0.75rem; align-items: baseline; flex-wrap: wrap; }
+.pastille { font: 700 0.85rem var(--chasse); background: var(--accent); color: var(--sur-accent); border-radius: 4px; padding: 0.1rem 0.45rem; }
+.reco h3 { font-size: 1.1rem; flex: 1 1 20rem; min-width: 0; }
+.reco dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.3rem 1rem; font-size: 0.95rem; }
+.reco dt { color: var(--encre-2); }
+.reco dd { margin: 0; min-width: 0; }
+.liens { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-size: 0.95rem; }
+
+/* Fiches */
+.fiche { background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); }
+.fiche + .fiche { margin-top: 0.6rem; }
+.fiche summary { cursor: pointer; padding: 0.85rem 1.1rem; display: flex; gap: 0.75rem; align-items: baseline; flex-wrap: wrap; list-style: none; min-height: 44px; }
+.fiche summary::-webkit-details-marker { display: none; }
+.fiche summary::before { content: "›"; font-weight: 700; color: var(--encre-2); transition: transform 0.15s; }
+.fiche[open] summary::before { transform: rotate(90deg); }
+.fiche .code { font: 0.8rem var(--chasse); color: var(--encre-2); }
+.fiche .intitule { font-weight: 700; flex: 1 1 18rem; min-width: 0; }
+.fiche .corps { padding: 0 1.25rem 1.2rem; display: grid; gap: 0.9rem; max-width: 72ch; }
+.fiche h3 { margin: 0; font-size: 0.8rem; font-family: var(--chasse); text-transform: uppercase; letter-spacing: 0.08em; color: var(--encre-2); }
+.fiche p { margin: 0.2rem 0 0; }
+.clair { background: var(--accent-doux); border-radius: var(--rayon); padding: 0.75rem 0.9rem; }
+.etat { font: 600 0.78rem var(--chasse); border-radius: 999px; padding: 0.12rem 0.55rem; white-space: nowrap; }
+.etat.oui { color: var(--ok); background: var(--ok-fond); }
+.etat.partie { color: var(--part); background: var(--part-fond); }
+.etat.non { color: var(--non); background: var(--non-fond); }
+
+/* Couverture des thèmes */
+.couverture { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.55rem; }
+.couverture li { display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) 13rem; gap: 0.75rem; align-items: center; }
+.barre { height: 0.6rem; background: var(--trait); border-radius: 999px; overflow: hidden; }
+.barre span { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.couverture .chiffres { font: 0.85rem var(--chasse); color: var(--encre-2); font-variant-numeric: tabular-nums; text-align: right; }
+.couverture .vide .chiffres { color: var(--part); }
+
+.liste { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.5rem; max-width: 72ch; }
+.glossaire { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 0.9rem 2rem; margin: 0; }
+.glossaire div { min-width: 0; }
+.glossaire dt { font-weight: 700; }
+.glossaire dd { margin: 0.15rem 0 0; color: var(--encre-2); }
+.defile { overflow-x: auto; border: 1px solid var(--trait); border-radius: var(--rayon); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--trait); vertical-align: top; }
+th { font: 600 0.78rem var(--chasse); text-transform: uppercase; letter-spacing: 0.06em; color: var(--encre-2); }
+tr:last-child td { border-bottom: 0; }
+
+/* Trier */
+.outils { background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); padding: 1rem; display: grid; gap: 0.9rem; }
+.ligne-outils { display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; align-items: end; }
+.champ { display: grid; gap: 0.25rem; min-width: 0; max-width: 100%; }
+.champ label, .champ .titre-champ { font-size: 0.85rem; color: var(--encre-2); }
+select { min-width: 0; }
+input[type="search"], select { font: inherit; color: var(--encre); background: var(--fond); border: 1px solid var(--encre-2); border-radius: var(--rayon); padding: 0.45rem 0.6rem; min-height: 44px; max-width: 100%; }
+input[type="search"] { width: min(28rem, 100%); }
+.coche { display: inline-flex; gap: 0.45rem; align-items: center; min-height: 44px; }
+.coche input { width: 1.15rem; height: 1.15rem; accent-color: var(--accent); }
+button { font: inherit; color: var(--encre); background: var(--surface); border: 1px solid var(--encre-2); border-radius: var(--rayon); padding: 0.4rem 0.8rem; min-height: 44px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+.compte { font: 0.9rem var(--chasse); color: var(--encre-2); }
+.jour { margin-top: 1.75rem; }
+.jour h2 { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--fond); padding-block: 0.5rem; font-size: 1rem; display: flex; gap: 0.6rem; align-items: baseline; border-bottom: 1px solid var(--trait); }
+.jour h2 .compte { font-weight: 400; }
+.entrees { list-style: none; padding: 0; margin: 0; }
+.entree { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.25rem 1rem; padding: 0.7rem 0.4rem; border-bottom: 1px solid var(--trait); scroll-margin-top: 4rem; }
+.entree.active { background: var(--accent-doux); }
+.entree .titre { font-weight: 700; overflow-wrap: anywhere; }
+.entree .titre a { color: var(--encre); text-decoration: none; }
+.entree .titre a:hover { color: var(--accent); text-decoration: underline; }
+.meta { grid-column: 1; display: flex; flex-wrap: wrap; gap: 0.25rem 0.9rem; font: 0.82rem var(--chasse); color: var(--encre-2); }
+.etiquette { border: 1px solid var(--trait); border-radius: 4px; padding: 0 0.35rem; }
+.retenue { color: var(--sur-accent); background: var(--accent); border-color: var(--accent); display: inline-block; min-height: 24px; padding: 0.1rem 0.45rem; }
+.entree .marquer { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-size: 0.85rem; }
+.entree.vue .titre a, .entree.vue .meta { color: var(--vue); }
+.marquer[aria-pressed="true"] { background: var(--accent-doux); border-color: var(--accent); }
+.vide-etat { padding: 2rem 1rem; text-align: center; color: var(--encre-2); }
+dialog { color: var(--encre); background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); max-width: min(32rem, calc(100% - 32px)); }
+dialog::backdrop { background: rgb(0 0 0 / 0.4); }
+kbd { font: 0.85rem var(--chasse); border: 1px solid var(--trait); border-bottom-width: 2px; border-radius: 4px; padding: 0 0.35rem; }
+.pied { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--trait); font-size: 0.85rem; color: var(--encre-2); }
+
+@media (max-width: 720px) {
+  .entonnoir { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .entonnoir li:nth-child(3) { border-left: 0; }
+  .entonnoir li:nth-child(n+3) { border-top: 1px solid var(--trait); }
+  .couverture li { grid-template-columns: minmax(0, 1fr) auto; }
+  .couverture .barre { grid-column: 1 / -1; grid-row: 2; }
+  .reco dl { grid-template-columns: minmax(0, 1fr); }
+  .reco dd { margin-bottom: 0.4rem; }
+  .entree { grid-template-columns: minmax(0, 1fr); }
+  .entree .marquer { grid-column: 1; grid-row: auto; justify-self: start; }
+  .champ { flex: 1 1 100%; }
+  .champ select, input[type="search"] { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+
+<a class="evitement" href="#contenu">Aller au contenu</a>
+<header class="entete">
+  <div class="cadre">
+    <div class="marque">
+      <strong>Veille de Muninn</strong>
+      <span class="fraicheur" id="fraicheur"></span>
+    </div>
+    <nav class="onglets" aria-label="Vues">
+      <a href="#rapport" id="onglet-rapport">Rapport</a>
+      <a href="#trier" id="onglet-trier">Trier la collecte</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenu" class="cadre" tabindex="-1">
+  <div id="vue-rapport"></div>
+  <div id="vue-trier" hidden></div>
+  <p class="pied" id="pied"></p>
+</main>
+
+<dialog id="aide" aria-labelledby="aide-titre">
+  <h2 id="aide-titre">Raccourcis clavier</h2>
+  <p>Actifs dans la vue « Trier », hors des champs de saisie. La case « Raccourcis clavier » les désactive.</p>
+  <ul class="liste">
+    <li><kbd>j</kbd> et <kbd>k</kbd> : entrée suivante et précédente</li>
+    <li><kbd>v</kbd> : ouvrir la source de l'entrée active</li>
+    <li><kbd>x</kbd> : marquer l'entrée active comme vue, ou non vue</li>
+    <li><kbd>/</kbd> : aller à la recherche</li>
+    <li><kbd>?</kbd> : afficher cette aide</li>
+  </ul>
+  <form method="dialog"><button id="fermer-aide">Fermer</button></form>
+</dialog>
+
+<script type="application/json" id="donnees">{"themes":["Modèles et services d'IA","Évaluation et observabilité","Agents et extraction","Chaîne de livraison","Règlement européen sur l'IA","Données personnelles","Démarchage et téléphonie","Accessibilité"],"sources":[{"code":"S01","nom":"Azure Updates","theme":"Modèles et services d'IA","type":"Éditeur","fiabilite":"Élevée","frequence":"Hebdomadaire","acces":"flux","lien":"https://www.microsoft.com/releasecommunications/api/v2/azure/rss"},{"code":"S02","nom":"Microsoft Learn, nouveautés de Foundry et de Speech","theme":"Modèles et services d'IA","type":"Éditeur","fiabilite":"Élevée","frequence":"Mensuelle","acces":"main","lien":"https://learn.microsoft.com/en-us/azure/foundry/whats-new-foundry"},{"code":"S03","nom":"Mistral AI, notes de version","theme":"Modèles et services d'IA","type":"Éditeur","fiabilite":"Élevée","frequence":"Mensuelle","acces":"main","lien":"https://docs.mistral.ai/getting-started/changelog/"},{"code":"S04","nom":"Langfuse, versions du SDK Python","theme":"Évaluation et observabilité","type":"Éditeur","fiabilite":"Élevée","frequence":"Hebdomadaire","acces":"flux","lien":"https://github.com/langfuse/langfuse-python/releases.atom"},{"code":"S05","nom":"OpenTelemetry, conventions sémantiques","theme":"Évaluation et observabilité","type":"Normatif","fiabilite":"Élevée","frequence":"Mensuelle","acces":"flux","lien":"https://github.com/open-telemetry/semantic-conventions/releases.atom"},{"code":"S06","nom":"arXiv, catégorie cs.CL","theme":"Agents et extraction","type":"Recherche","fiabilite":"Moyenne","frequence":"Hebdomadaire","acces":"flux","lien":"https://rss.arxiv.org/rss/cs.CL"},{"code":"S07","nom":"Hugging Face, blog","theme":"Agents et extraction","type":"Communauté","fiabilite":"Moyenne","frequence":"Hebdomadaire","acces":"flux","lien":"https://huggingface.co/blog/feed.xml"},{"code":"S08","nom":"Simon Willison","theme":"Agents et extraction","type":"Expert","fiabilite":"Moyenne","frequence":"Hebdomadaire","acces":"flux","lien":"https://simonwillison.net/atom/everything/"},{"code":"S09","nom":"GitHub Changelog","theme":"Chaîne de livraison","type":"Éditeur","fiabilite":"Élevée","frequence":"Hebdomadaire","acces":"flux","lien":"https://github.blog/changelog/feed/"},{"code":"S10","nom":"Commission européenne, stratégie numérique","theme":"Règlement européen sur l'IA","type":"Officielle","fiabilite":"Élevée","frequence":"Hebdomadaire","acces":"flux","lien":"https://digital-strategy.ec.europa.eu/en/rss.xml"},{"code":"S11","nom":"CNIL, actualités","theme":"Données personnelles","type":"Officielle","fiabilite":"Élevée","frequence":"Hebdomadaire","acces":"flux","lien":"https://www.cnil.fr/fr/rss.xml"},{"code":"S12","nom":"Service-public.fr, actualités professionnelles","theme":"Démarchage et téléphonie","type":"Officielle","fiabilite":"Élevée","frequence":"Hebdomadaire","acces":"flux","lien":"https://www.service-public.fr/abonnements/rss/actu-actu-pro.rss"},{"code":"S13","nom":"Légifrance et Arcep","theme":"Démarchage et téléphonie","type":"Officielle","fiabilite":"Élevée","frequence":"Mensuelle","acces":"main","lien":"https://www.arcep.fr/actualites.html"},{"code":"S14","nom":"W3C, initiative pour l'accessibilité (WAI)","theme":"Accessibilité","type":"Normatif","fiabilite":"Élevée","frequence":"Mensuelle","acces":"flux","lien":"https://www.w3.org/WAI/feed.xml"}],"collecte":{"fichier":"2026-11-03-30j.md","date":"2026-11-03","jours":30,"total":171,"retirees":1,"injoignables":[],"entrees":[{"id":"entree-1","date":"2026-11-02","titre":"[In preview] Public Preview: On-prem NAS share discovery and assessment are now available using Azure Migrate","lien":"https://azure.microsoft.com/updates?id=577975","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-2","date":"2026-11-02","titre":"Retirement: OT security in Microsoft Defender for IoT","lien":"https://azure.microsoft.com/updates?id=576255","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-3","date":"2026-11-02","titre":"[Launched] Generally Available: Change from virtual network integration to a private endpoint capable network configuration in Azure Database for PostgreSQL flexible server","lien":"https://azure.microsoft.com/updates?id=574541","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-4","date":"2026-11-02","titre":"Retirement: Azure Fluid Relay","lien":"https://azure.microsoft.com/updates?id=570498","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-5","date":"2026-11-02","titre":"[Launched] Generally Available: Azure Storage Actions adds automatic task updates, execution controls, and case-sensitive matching","lien":"https://azure.microsoft.com/updates?id=578628","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-6","date":"2026-11-02","titre":"[Launched] Generally Available: Restart databases in Azure SQL DB via the Azure portal","lien":"https://azure.microsoft.com/updates?id=577992","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-7","date":"2026-11-02","titre":"[Launched] Generally Available: Geo-Replication on partitioned namespaces for Azure Service Bus Premium","lien":"https://azure.microsoft.com/updates?id=579021","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-8","date":"2026-11-02","titre":"[Launched] Generally Available: Azure Site Recovery for Azure Local","lien":"https://azure.microsoft.com/updates?id=579111","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-9","date":"2026-10-30","titre":"[In preview] Public Preview: Support database-level managed identity (including FIC) in Create Database Scoped Credential T-SQL","lien":"https://azure.microsoft.com/updates?id=577491","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-10","date":"2026-10-29","titre":"[Launched] Generally Available: Large OS Disk Encryption for Azure Confidential VM migrations","lien":"https://azure.microsoft.com/updates?id=578850","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-11","date":"2026-10-29","titre":"[Launched] Generally Available: HTTP DDoS ruleset for Azure Front Door Premium WAF","lien":"https://azure.microsoft.com/updates?id=578681","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-12","date":"2026-10-29","titre":"[Launched] Generally Available: Azure MCP Server 3.0","lien":"https://azure.microsoft.com/updates?id=578662","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-13","date":"2026-10-28","titre":"Announcing: Migrate Azure Container Apps logging destination from Log Analytics to Azure Monitor","lien":"https://azure.microsoft.com/updates?id=577689","source":"S01","theme":"Modèles et services d'IA","fiche":"v-2026-11-03-01"},{"id":"entree-14","date":"2026-10-28","titre":"[In preview] Public Preview: Cross Tenant Restore with Azure Backup","lien":"https://azure.microsoft.com/updates?id=577117","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-15","date":"2026-10-28","titre":"[Launched] Generally Available: Marketplace private offer enhancements","lien":"https://azure.microsoft.com/updates?id=576547","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-16","date":"2026-10-27","titre":"[Launched] Generally Available: Higher limit of Azure Blob Storage accounts per region per subscription","lien":"https://azure.microsoft.com/updates?id=578358","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-17","date":"2026-10-27","titre":"[Launched] Generally Available: Azure Front Door profile and route level WAF policies","lien":"https://azure.microsoft.com/updates?id=578153","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-18","date":"2026-10-26","titre":"[Launched] Generally Available: Network Watcher VNet flow logs filtering","lien":"https://azure.microsoft.com/updates?id=577782","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-19","date":"2026-10-23","titre":"[Launched] Generally Available: Item Level Recovery for Azure VMs with Premium SSDv2 and Ultra Disks in Azure Backup","lien":"https://azure.microsoft.com/updates?id=577963","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-20","date":"2026-10-22","titre":"[Launched] Generally Available: ABFS Vectored Read for Azure Data Lake Storage","lien":"https://azure.microsoft.com/updates?id=577618","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-21","date":"2026-10-21","titre":"Announcing: Choose Your Own Telephony (CYOT) for Microsoft Entra","lien":"https://azure.microsoft.com/updates?id=577273","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-22","date":"2026-10-21","titre":"[Launched] Generally Available: Azure Cosmos DB Safe Key Rotation","lien":"https://azure.microsoft.com/updates?id=576716","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-23","date":"2026-10-20","titre":"[In preview] Public Preview: Disable VNet peering route","lien":"https://azure.microsoft.com/updates?id=576242","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-24","date":"2026-10-20","titre":"[Launched] Generally Available: Service tag match condition for Azure Front Door Premium WAF","lien":"https://azure.microsoft.com/updates?id=577156","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-25","date":"2026-10-20","titre":"[Launched] Generally Available: Keyless TLS on Application Gateway with Azure Key Vault Managed HSM","lien":"https://azure.microsoft.com/updates?id=577130","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-26","date":"2026-10-20","titre":"[Launched] Generally Available: Advanced platform metrics for Azure Monitor","lien":"https://azure.microsoft.com/updates?id=575329","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-27","date":"2026-10-19","titre":"[Launched] Generally Available: Metrics usage insights for Azure Monitor workspace","lien":"https://azure.microsoft.com/updates?id=577165","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-28","date":"2026-10-19","titre":"[Launched] Generally Available: Azure DNS enables DNS-based load balancing through Traffic Manager linked records","lien":"https://azure.microsoft.com/updates?id=573917","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-29","date":"2026-10-16","titre":"[In preview] Public Preview: Azure Databricks Private network gateway","lien":"https://azure.microsoft.com/updates?id=576556","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-30","date":"2026-10-16","titre":"[Launched] Generally Available: External key management for Azure Key Vault Managed HSM","lien":"https://azure.microsoft.com/updates?id=574296","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-31","date":"2026-10-15","titre":"[In preview] Public Preview: Azure Files cross-region data copy and synchronization with Azure Storage Mover","lien":"https://azure.microsoft.com/updates?id=576542","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-32","date":"2026-10-15","titre":"[Launched] Generally Available: Standard service endpoint","lien":"https://azure.microsoft.com/updates?id=571025","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-33","date":"2026-10-15","titre":"[Launched] Generally Availabile: Automatic zone balance for Virtual Machine Scale Sets","lien":"https://azure.microsoft.com/updates?id=576334","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-34","date":"2026-10-14","titre":"[Launched] Generally Available: Azure Cloud HSM hardware audit logging","lien":"https://azure.microsoft.com/updates?id=576377","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-35","date":"2026-10-14","titre":"[Launched] Generally Available: Azure Site Recovery Support for Azure ARC-enabled Windows VMWare/Physical servers","lien":"https://azure.microsoft.com/updates?id=576214","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-36","date":"2026-10-09","titre":"Retirement: Azure Key Vault Secrets Provider Extension for Azure Arc enabled Kubernetes clusters","lien":"https://azure.microsoft.com/updates?id=570313","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-37","date":"2026-10-08","titre":"[Launched] Generally Available: Managed StandardV2 NAT Gateway for AKS","lien":"https://azure.microsoft.com/updates?id=574430","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-38","date":"2026-10-08","titre":"[Launched] Generally Available: Azure Database for PostgreSQL flexible server in East US 3","lien":"https://azure.microsoft.com/updates?id=573691","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-39","date":"2026-10-08","titre":"Retirement: Microsoft Dev Box will be retired on September 18, 2028","lien":"https://azure.microsoft.com/updates?id=567933","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-40","date":"2026-10-08","titre":"Retirement: Azure Deployment Environments will be retired on February 22, 2027","lien":"https://azure.microsoft.com/updates?id=567934","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-41","date":"2026-10-08","titre":"[Launched] Generally Available: Exceptions in WAF for Azure Application Gateway and Azure Front Door","lien":"https://azure.microsoft.com/updates?id=574343","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-42","date":"2026-10-08","titre":"[In preview] Public Preview: Microsoft Agent 365 integration with Azure API Management","lien":"https://azure.microsoft.com/updates?id=574204","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-43","date":"2026-10-08","titre":"Announcing: Multiparty private offers in Microsoft Marketplace expands to Hong Kong","lien":"https://azure.microsoft.com/updates?id=571831","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-44","date":"2026-10-07","titre":"[Launched] Generally Available: Anyscale on Azure","lien":"https://azure.microsoft.com/updates?id=573744","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-45","date":"2026-10-07","titre":"[Launched] Generally Available: Enabling the Bulk admin role for SQL Server on Linux","lien":"https://azure.microsoft.com/updates?id=573443","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-46","date":"2026-10-06","titre":"Retirement: Pod name dimension in AKS pod platform metrics","lien":"https://azure.microsoft.com/updates?id=570232","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-47","date":"2026-10-06","titre":"Retirement: Azure App Service on Azure Stack Hub","lien":"https://azure.microsoft.com/updates?id=568178","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-48","date":"2026-10-06","titre":"Retirement: Support for Java 8, 11 and 17 will end on September 1, 2027","lien":"https://azure.microsoft.com/updates?id=568585","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-49","date":"2026-10-06","titre":"Retirement: Always Encrypted with Intel SGX Enclaves","lien":"https://azure.microsoft.com/updates?id=569236","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-50","date":"2026-10-06","titre":"[In preview] Public Preview: AKS on bare metal now on Ubuntu","lien":"https://azure.microsoft.com/updates?id=573782","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-51","date":"2026-10-05","titre":"[In preview] Public Preview: Azure HorizonDB expands to additional regions","lien":"https://azure.microsoft.com/updates?id=572940","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-52","date":"2026-10-05","titre":"[Launched] Generally Available: SQL Server on Azure Virtual Machines in Azure Bleu","lien":"https://azure.microsoft.com/updates?id=571499","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-53","date":"2026-10-05","titre":"Announcing: Table discovery in OneLake Catalog search","lien":"https://azure.microsoft.com/updates?id=573875","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-54","date":"2026-10-05","titre":"[In preview] Public Preview: Azure Backup for PostgreSQL flexible server and elastic cluster (v2)","lien":"https://azure.microsoft.com/updates?id=573425","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-55","date":"2026-10-05","titre":"[In preview] Public Preview: IPv6 Support for Application Gateway WAF","lien":"https://azure.microsoft.com/updates?id=573861","source":"S01","theme":"Modèles et services d'IA","fiche":""},{"id":"entree-56","date":"2026-10-30","titre":"v5.1.0","lien":"https://github.com/langfuse/langfuse-python/releases/tag/v5.1.0","source":"S04","theme":"Évaluation et observabilité","fiche":"v-2026-11-03-02"},{"id":"entree-57","date":"2026-10-21","titre":"v5.0.4","lien":"https://github.com/langfuse/langfuse-python/releases/tag/v5.0.4","source":"S04","theme":"Évaluation et observabilité","fiche":""},{"id":"entree-58","date":"2026-10-20","titre":"v5.0.3","lien":"https://github.com/langfuse/langfuse-python/releases/tag/v5.0.3","source":"S04","theme":"Évaluation et observabilité","fiche":""},{"id":"entree-59","date":"2026-10-16","titre":"v5.0.2","lien":"https://github.com/langfuse/langfuse-python/releases/tag/v5.0.2","source":"S04","theme":"Évaluation et observabilité","fiche":""},{"id":"entree-60","date":"2026-10-14","titre":"v5.0.1","lien":"https://github.com/langfuse/langfuse-python/releases/tag/v5.0.1","source":"S04","theme":"Évaluation et observabilité","fiche":""},{"id":"entree-61","date":"2026-10-14","titre":"v5.0.0","lien":"https://github.com/langfuse/langfuse-python/releases/tag/v5.0.0","source":"S04","theme":"Évaluation et observabilité","fiche":""},{"id":"entree-62","date":"2026-10-14","titre":"v4.18.0","lien":"https://github.com/langfuse/langfuse-python/releases/tag/v4.18.0","source":"S04","theme":"Évaluation et observabilité","fiche":""},{"id":"entree-63","date":"2026-10-05","titre":"v4.17.0","lien":"https://github.com/langfuse/langfuse-python/releases/tag/v4.17.0","source":"S04","theme":"Évaluation et observabilité","fiche":""},{"id":"entree-64","date":"2026-11-02","titre":"v1.45.0","lien":"https://github.com/open-telemetry/semantic-conventions/releases/tag/v1.45.0","source":"S05","theme":"Évaluation et observabilité","fiche":"v-2026-11-03-06"},{"id":"entree-65","date":"2026-11-03","titre":"MedAstra: ASR-less Speech Retrieval with Diagnostic Grounding for Medical QA","lien":"https://arxiv.org/abs/2611.01261","source":"S06","theme":"Agents et extraction","fiche":""},{"id":"entree-66","date":"2026-11-03","titre":"FOLLIE: Automated Reasoning over the First Dataset of Sentences with their First-Order Logical Representation for French","lien":"https://arxiv.org/abs/2611.02129","source":"S06","theme":"Agents et extraction","fiche":""},{"id":"entree-67","date":"2026-11-03","titre":"GigaSpeech 3: Scaling Multi-Dialect Arabic Speech Recognition with Weakly Labeled Data","lien":"https://arxiv.org/abs/2611.02476","source":"S06","theme":"Agents et extraction","fiche":""},{"id":"entree-68","date":"2026-11-03","titre":"They Know Where It Is, But Not What It Says: A Bilingual Hallucination Benchmark of Hadith Recall in Open LLMs","lien":"https://arxiv.org/abs/2611.02587","source":"S06","theme":"Agents et extraction","fiche":""},{"id":"entree-69","date":"2026-11-03","titre":"Unlocking Criminal Court Decisions: Flexible Information Extraction for Empirical Legal Research","lien":"https://arxiv.org/abs/2611.03051","source":"S06","theme":"Agents et extraction","fiche":""},{"id":"entree-70","date":"2026-11-03","titre":"Quantiles, Not Points: Streaming Quantile Matching for Ordinal-Aware LLM-as-a-Judge Calibration","lien":"https://arxiv.org/abs/2611.00447","source":"S06","theme":"Agents et extraction","fiche":""},{"id":"entree-71","date":"2026-11-03","titre":"What Do LLM Judges Actually Verify? Matched Controls and Record Gaps for Document Currency","lien":"https://arxiv.org/abs/2611.01311","source":"S06","theme":"Agents et extraction","fiche":""},{"id":"entree-72","date":"2026-11-03","titre":"AutoSpecNER: A Fine-Grained Named Entity Recognition Dataset for Vehicle Specification Extraction","lien":"https://arxiv.org/abs/2606.24387","source":"S06","theme":"Agents et extraction","fiche":""},{"id":"entree-73","date":"2026-11-03","titre":"A Study of ASR Adaptation and Representation Dimensionality Reduction in Persian Speech Emotion Recognition Using Whisper","lien":"https://arxiv.org/abs/2608.05165","source":"S06","theme":"Agents et extraction","fiche":""},{"id":"entree-74","date":"2026-11-03","titre":"trajectory-judge: What Outcome-Only LLM Judges Miss on Agent Trajectories","lien":"https://arxiv.org/abs/2609.00038","source":"S06","theme":"Agents et extraction","fiche":""},{"id":"entree-75","date":"2026-11-03","titre":"Transformers Model Integration Contracts","lien":"https://huggingface.co/blog/transformers-mic","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-76","date":"2026-10-30","titre":"nemotron-halloween","lien":"https://huggingface.co/blog/nvidia/nemotron-halloween","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-77","date":"2026-10-29","titre":"Granite Switch 4.1.1 — Update models like you update software","lien":"https://huggingface.co/blog/ibm-granite/granite-switch-4-1-1","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-78","date":"2026-10-29","titre":"Announcing Project ProtoStar: Making Publicly Funded Science AI-Ready","lien":"https://huggingface.co/blog/announcing-project-protostar","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-79","date":"2026-10-29","titre":"Welcome Le Chonk: Mistral Large 4 on Hugging Face","lien":"https://huggingface.co/blog/mistral-large4","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-80","date":"2026-10-29","titre":"Introducing AnySpeechRecognizer and AnyDecisionModel: Open Models for Speech and Decisions on Apple Platforms","lien":"https://huggingface.co/blog/anydecisionmodel","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-81","date":"2026-10-27","titre":"Build specialized multimodal models with LFM3","lien":"https://huggingface.co/blog/LiquidAI/lfm3","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-82","date":"2026-10-27","titre":"Can we trust LLMs to judge whether a research idea is novel?","lien":"https://huggingface.co/blog/allenai/novelty-bench","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-83","date":"2026-10-23","titre":"Does Your Model Run on AWS Trainium? Look It Up","lien":"https://huggingface.co/blog/torch-neuronx-model-support","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-84","date":"2026-10-22","titre":"Turning Database Grading into RL Rewards: Post-Training Agents with ThinkingBox","lien":"https://huggingface.co/blog/microsoft/thinkingbox-training","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-85","date":"2026-10-22","titre":"Ensemble forecasting with IBM Granite time-series models","lien":"https://huggingface.co/blog/ibm-research/granite-timeseries-ensemble-r1","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-86","date":"2026-10-21","titre":"How Specializing the Vocabulary of SLMs Can Cut Inference Cost by 77% in Real Applications","lien":"https://huggingface.co/blog/Dharma-AI/vocabx-vocabulary-specialization","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-87","date":"2026-10-21","titre":"Profiling TorchNeuron (Part 1): System-level profiling on AWS Trainium.","lien":"https://huggingface.co/blog/amazon/profiling-torchneuron-part-1","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-88","date":"2026-10-20","titre":"Hugging Face ❤️ TorchTPU: TPUs, Natively","lien":"https://huggingface.co/blog/hf-torchtpu","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-89","date":"2026-10-20","titre":"AnyLanguageModel 1.0: One Year of Local Models on Apple Platforms","lien":"https://huggingface.co/blog/anylanguagemodel-1-0","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-90","date":"2026-10-20","titre":"MPS in PyTorch 2.15","lien":"https://huggingface.co/blog/mps-pytorch-2-15","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-91","date":"2026-10-19","titre":"TorchNeuron: running HF models on AWS Trainium is easier than ever","lien":"https://huggingface.co/blog/hf-torchneuron","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-92","date":"2026-10-16","titre":"Welcome Beam: a 501B open model you can own, customize, and scale","lien":"https://huggingface.co/blog/reflection-beam","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-93","date":"2026-10-15","titre":"Apertus 1.5 Release Notes","lien":"https://huggingface.co/blog/swiss-ai/apertus-v15-release-notes","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-94","date":"2026-10-15","titre":"Welcome Muse Spark Open: open-weight frontier multimodal mixture-of-experts model from Meta","lien":"https://huggingface.co/blog/meta-muse-spark-open","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-95","date":"2026-10-15","titre":"Welcome FLUX.3 Image Klein in Diffusers","lien":"https://huggingface.co/blog/flux-3","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-96","date":"2026-10-13","titre":"Run fast, private agents on-device with LFM2.5-24B-A2B","lien":"https://huggingface.co/blog/LiquidAI/lfm25-24b-a2b","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-97","date":"2026-10-08","titre":"The model that didn't exist, so you made it yourself","lien":"https://huggingface.co/blog/building-with-ml-intern","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-98","date":"2026-10-07","titre":"Introducing Falcon ASR","lien":"https://huggingface.co/blog/tiiuae/falcon-asr","source":"S07","theme":"Agents et extraction","fiche":""},{"id":"entree-99","date":"2026-11-03","titre":"I discovered a sound that leaks your exact location (and it's everywhere) - YouTube","lien":"https://simonwillison.net/2026/Nov/3/a-sound-that-leaks-your-exact-location/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-100","date":"2026-11-03","titre":"October sponsors-only newsletter","lien":"https://simonwillison.net/2026/Nov/3/october-newsletter/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-101","date":"2026-11-02","titre":"llm 0.37","lien":"https://simonwillison.net/2026/Nov/2/llm/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-102","date":"2026-11-02","titre":"The U.S. Census Bureau and “Super Intelligence”","lien":"https://simonwillison.net/2026/Nov/2/census-bureau-super-intelligence/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-103","date":"2026-11-01","titre":"If in doubt, delete the uv.lock file","lien":"https://simonwillison.net/2026/Nov/1/delete-uv-lock-first/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-104","date":"2026-11-01","titre":"Quoting Kyle Kingsbury","lien":"https://simonwillison.net/2026/Nov/1/kyle-kingsbury/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-105","date":"2026-10-31","titre":"How We Took Over ChatGPT Accounts","lien":"https://simonwillison.net/2026/Oct/31/how-we-took-over-chatgpt-accounts/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-106","date":"2026-10-31","titre":"datasette-llm 0.1a9","lien":"https://simonwillison.net/2026/Oct/31/datasette-llm/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-107","date":"2026-10-30","titre":"dbreunig/nesformer","lien":"https://simonwillison.net/2026/Oct/30/nesformer/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-108","date":"2026-10-29","titre":"API credits benefit for eligible ChatGPT subscriptions","lien":"https://simonwillison.net/2026/Oct/29/api-credits/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-109","date":"2026-10-29","titre":"Building a multiplayer game world with autonomous Fable-class models","lien":"https://simonwillison.net/2026/Oct/29/how-i-built-the-most-ai-pilled-company-in-the-world/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-110","date":"2026-10-29","titre":"Quoting Ben Hylak","lien":"https://simonwillison.net/2026/Oct/29/ben-hylak/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-111","date":"2026-10-28","titre":"Quoting Ted Sanders","lien":"https://simonwillison.net/2026/Oct/28/ted-sanders/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-112","date":"2026-10-28","titre":"GitHub Octoverse 2026","lien":"https://simonwillison.net/2026/Oct/28/github-octoverse-2026/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-113","date":"2026-10-28","titre":"The October inflection point for vibe game development","lien":"https://simonwillison.net/2026/Oct/28/vibe-game-development/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-114","date":"2026-10-28","titre":"Quoting Terk Terkowitz","lien":"https://simonwillison.net/2026/Oct/28/terk-terkowitz/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-115","date":"2026-10-27","titre":"Game Boy Color on My Conference Badge","lien":"https://simonwillison.net/2026/Oct/27/game-boy-color-on-my-conference-badge/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-116","date":"2026-10-26","titre":"GPT-6.1 Terra","lien":"https://simonwillison.net/2026/Oct/26/gpt-61-terra/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-117","date":"2026-10-26","titre":"Quoting Jason Koebler","lien":"https://simonwillison.net/2026/Oct/26/jason-koebler/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-118","date":"2026-10-26","titre":"webframe: evaluated as a scraper and a sandbox","lien":"https://simonwillison.net/2026/Oct/26/webframe-evaluation/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-119","date":"2026-10-25","titre":"Seam Cutter","lien":"https://simonwillison.net/2026/Oct/25/seam-cutter/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-120","date":"2026-10-24","titre":"battledrones v14: Compass Rose, a four player map","lien":"https://simonwillison.net/2026/Oct/24/battledrones/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-121","date":"2026-10-23","titre":"Quick Study","lien":"https://simonwillison.net/2026/Oct/23/quick-study-painter/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-122","date":"2026-10-23","titre":"Introducing Kimi K3.1 Pro","lien":"https://simonwillison.net/2026/Oct/23/kimi-k31-pro/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-123","date":"2026-10-22","titre":"DE STAAT - FREEDOM (Official Music Video)","lien":"https://simonwillison.net/2026/Oct/22/de-staat-freedom/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-124","date":"2026-10-22","titre":"Donating Agent Skills to the Agentic AI Foundation","lien":"https://simonwillison.net/2026/Oct/22/donating-agent-skills/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-125","date":"2026-10-22","titre":"Quoting Armin Ronacher","lien":"https://simonwillison.net/2026/Oct/22/armin-ronacher/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-126","date":"2026-10-21","titre":"Today's PHP Security Release, and How We're Strengthening PHP Security","lien":"https://simonwillison.net/2026/Oct/21/php-security-release/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-127","date":"2026-10-21","titre":"Panache — RTS Belle Époque pour mobile","lien":"https://simonwillison.net/2026/Oct/21/panache/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-128","date":"2026-10-20","titre":"eMudhra Intermediate CA Compromise","lien":"https://simonwillison.net/2026/Oct/20/emudhra-certificates/","source":"S08","theme":"Agents et extraction","fiche":""},{"id":"entree-129","date":"2026-11-02","titre":"Security risk assessments include repository protection status","lien":"https://github.blog/changelog/2026-11-02-security-risk-assessments-include-repository-protection-status","source":"S09","theme":"Chaîne de livraison","fiche":""},{"id":"entree-130","date":"2026-11-02","titre":"pull_request_target blocked by default December 2","lien":"https://github.blog/changelog/2026-11-02-pull_request_target-blocked-by-default-december-2","source":"S09","theme":"Chaîne de livraison","fiche":"v-2026-11-03-05"},{"id":"entree-131","date":"2026-10-29","titre":"Webhook IP ranges added to the Meta API","lien":"https://github.blog/changelog/2026-10-29-webhook-ip-ranges-added-to-the-meta-api","source":"S09","theme":"Chaîne de livraison","fiche":""},{"id":"entree-132","date":"2026-10-28","titre":"Route and orchestrate models with GitHub Copilot Fusion","lien":"https://github.blog/changelog/2026-10-28-route-and-orchestrate-models-with-github-copilot-fusion","source":"S09","theme":"Chaîne de livraison","fiche":""},{"id":"entree-133","date":"2026-10-28","titre":"GitHub Copilot app, Universe releases","lien":"https://github.blog/changelog/2026-10-28-github-copilot-app-universe-releases","source":"S09","theme":"Chaîne de livraison","fiche":""},{"id":"entree-134","date":"2026-10-28","titre":"GitHub Enterprise now includes access to GitHub Copilot","lien":"https://github.blog/changelog/2026-10-28-github-enterprise-now-includes-access-to-github-copilot","source":"S09","theme":"Chaîne de livraison","fiche":""},{"id":"entree-135","date":"2026-10-28","titre":"Security extension for the GitHub Copilot app","lien":"https://github.blog/changelog/2026-10-28-security-extension-for-the-github-copilot-app","source":"S09","theme":"Chaîne de livraison","fiche":""},{"id":"entree-136","date":"2026-10-28","titre":"GitHub intelligence puts your code, context, and history to work","lien":"https://github.blog/changelog/2026-10-28-github-intelligence-puts-your-code-context-and-history-to-work","source":"S09","theme":"Chaîne de livraison","fiche":""},{"id":"entree-137","date":"2026-10-28","titre":"Build shared workflows for your team with Copilot Automations","lien":"https://github.blog/changelog/2026-10-28-build-shared-workflows-for-your-team-with-copilot-automations","source":"S09","theme":"Chaîne de livraison","fiche":""},{"id":"entree-138","date":"2026-10-28","titre":"GitHub Copilot in VS Code, Universe releases","lien":"https://github.blog/changelog/2026-10-28-github-copilot-in-vs-code-universe-releases","source":"S09","theme":"Chaîne de livraison","fiche":""},{"id":"entree-139","date":"2026-10-29","titre":"Local Digital Twins CiTiVERSE EDIC joins Smart City Expo World Congress 2026","lien":"https://digital-strategy.ec.europa.eu/en/events/local-digital-twins-citiverse-edic-joins-smart-city-expo-world-congress-2026","source":"S10","theme":"Règlement européen sur l'IA","fiche":""},{"id":"entree-140","date":"2026-10-26","titre":"Commission accepts Temu's action plan to remedy the breach of the Digital Services Act","lien":"https://digital-strategy.ec.europa.eu/en/news/commission-accepts-temus-action-plan-remedy-breach-digital-services-act","source":"S10","theme":"Règlement européen sur l'IA","fiche":""},{"id":"entree-141","date":"2026-10-21","titre":"Commission to investigate how Booking.com combats scams and fraud under the Digital Services Act","lien":"https://digital-strategy.ec.europa.eu/en/news/commission-investigate-how-bookingcom-combats-scams-and-fraud-under-digital-services-act","source":"S10","theme":"Règlement européen sur l'IA","fiche":""},{"id":"entree-142","date":"2026-10-20","titre":"Digital Services Act study on financial scams on online platforms and ways to counter them","lien":"https://digital-strategy.ec.europa.eu/en/library/digital-services-act-study-financial-scams-online-platforms-and-ways-counter-them","source":"S10","theme":"Règlement européen sur l'IA","fiche":""},{"id":"entree-143","date":"2026-10-19","titre":"First harmonised standard supporting the AI Act published in the Official Journal","lien":"https://digital-strategy.ec.europa.eu/en/library/first-harmonised-standard-supporting-ai-act-published-official-journal","source":"S10","theme":"Règlement européen sur l'IA","fiche":"v-2026-11-03-03"},{"id":"entree-144","date":"2026-10-08","titre":"European AI Innovation Month","lien":"https://digital-strategy.ec.europa.eu/en/events/european-ai-innovation-month","source":"S10","theme":"Règlement européen sur l'IA","fiche":""},{"id":"entree-145","date":"2026-10-05","titre":"Establishing the European AI Observatory: Call for tenders","lien":"https://digital-strategy.ec.europa.eu/en/funding/establishing-european-ai-observatory-call-tenders","source":"S10","theme":"Règlement européen sur l'IA","fiche":""},{"id":"entree-146","date":"2026-10-29","titre":"Cookies et application mobile : sanctions de 7 millions d’euros à l’encontre des sociétés FNAC DARTY PARTICIPATIONS ET SERVICES et FNAC DIRECT","lien":"https://www.cnil.fr/fr/sanction-cookies-app-fnac","source":"S11","theme":"Données personnelles","fiche":""},{"id":"entree-147","date":"2026-10-22","titre":"Ordre du jour de la séance plénière du 22 octobre 2026","lien":"https://www.cnil.fr/fr/ordre-du-jour-de-la-seance-pleniere-du-22-octobre-2026","source":"S11","theme":"Données personnelles","fiche":""},{"id":"entree-148","date":"2026-10-20","titre":"Journée RGPD à Poitiers : cybersécurité, IA et conformité au cœur des enjeux de protection des données","lien":"https://www.cnil.fr/fr/journee-rgpd-2026-poitiers","source":"S11","theme":"Données personnelles","fiche":""},{"id":"entree-149","date":"2026-10-19","titre":"Revoir le webinaire - Nouveau régime de la prospection téléphonique : comment et quand recueillir le consentement de la personne concernée ?","lien":"https://www.cnil.fr/fr/webinaire-demarchage-telephonique","source":"S11","theme":"Données personnelles","fiche":"v-2026-11-03-04"},{"id":"entree-150","date":"2026-10-16","titre":"De la protection des données à la création de valeur en finance : des autorités européennes publient une étude et des bonnes pratiques","lien":"https://www.cnil.fr/fr/protection-donnees-valeur-finance-etude-autorites-europeennes","source":"S11","theme":"Données personnelles","fiche":""},{"id":"entree-151","date":"2026-10-16","titre":"Reconstitution d’adresses électroniques professionnelles : dans quel cadre est-ce autorisé ?","lien":"https://www.cnil.fr/fr/reconstitution-adresses-professionnelles-quel-cadre","source":"S11","theme":"Données personnelles","fiche":""},{"id":"entree-152","date":"2026-10-16","titre":"Reconstitution d’adresses électroniques professionnelles : quels sont vos droits ?","lien":"https://www.cnil.fr/fr/reconstitution-adresses-professionnelles-vos-droits","source":"S11","theme":"Données personnelles","fiche":""},{"id":"entree-153","date":"2026-10-15","titre":"Ordre du jour de la séance plénière du 15 octobre 2026","lien":"https://www.cnil.fr/fr/ordre-du-jour-de-la-seance-pleniere-du-15-octobre-2026","source":"S11","theme":"Données personnelles","fiche":""},{"id":"entree-154","date":"2026-10-14","titre":"Clôture de l’injonction prononcée à l’encontre de GOOGLE","lien":"https://www.cnil.fr/fr/cloture-injonction-google","source":"S11","theme":"Données personnelles","fiche":""},{"id":"entree-155","date":"2026-10-13","titre":"Le CEPD publie une déclaration sur les enjeux de protection des données liés aux lunettes connectées","lien":"https://www.cnil.fr/fr/cepd-declaration-lunettes-connectees","source":"S11","theme":"Données personnelles","fiche":""},{"id":"entree-156","date":"2026-10-28","titre":"Quelles sont les mesures pour préserver l'emploi dans les commerces impactés par les dégradations ?","lien":"https://entreprendre.service-public.gouv.fr/actualites/A19104?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-157","date":"2026-10-27","titre":"Une nouvelle aide de 100 euros pour les travailleurs « grands rouleurs »","lien":"https://www.service-public.gouv.fr/particuliers/actualites/A18903?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-158","date":"2026-10-26","titre":"Dégradations des 17 et 18 octobre : voici les aides mises en place pour les commerçants","lien":"https://entreprendre.service-public.gouv.fr/actualites/A19106?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-159","date":"2026-10-26","titre":"Dégradations des 17 et 18 octobre 2026 : les mesures de soutien financier pour les commerçants","lien":"https://entreprendre.service-public.gouv.fr/actualites/A19108?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-160","date":"2026-10-24","titre":"Prime de transport versée au salarié : le plafond d’exonération est revalorisé temporairement","lien":"https://www.service-public.gouv.fr/particuliers/actualites/A18926?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-161","date":"2026-10-22","titre":"Le site Net-entreprises évolue","lien":"https://entreprendre.service-public.gouv.fr/actualites/A19076?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-162","date":"2026-10-19","titre":"Sécurité sociale : quel sera le plafond annuel en 2027 ?","lien":"https://www.service-public.gouv.fr/particuliers/actualites/A15386?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-163","date":"2026-10-19","titre":"Entreprises impactées : le Tribunal des activités économiques de Paris vous accompagne","lien":"https://entreprendre.service-public.gouv.fr/actualites/A19100?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-164","date":"2026-10-16","titre":"Du 1er au 31 octobre, devenez « cyber-responsable » avec le Cybermois !","lien":"https://entreprendre.service-public.gouv.fr/actualites/A17731?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-165","date":"2026-10-16","titre":"« Decarb Flash Artisan » : une aide pour les équipements électriques","lien":"https://entreprendre.service-public.gouv.fr/actualites/A19098?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-166","date":"2026-10-12","titre":"Versement trimestriel de la taxe sur les salaires : prochaine échéance au 15 octobre","lien":"https://entreprendre.service-public.gouv.fr/actualites/A17480?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-167","date":"2026-10-10","titre":"Avancement de la date limite de déclaration du chiffre d'affaires de septembre 2026 pour les micro-entrepreneurs","lien":"https://entreprendre.service-public.gouv.fr/actualites/A19087?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-168","date":"2026-10-09","titre":"Les travailleurs indépendants ne peuvent pas payer l’Urssaf par carte bancaire au-delà de 1 000 euros","lien":"https://entreprendre.service-public.gouv.fr/actualites/A19090?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-169","date":"2026-10-08","titre":"L’Urssaf propose un formulaire de procuration","lien":"https://entreprendre.service-public.gouv.fr/actualites/A19082?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-170","date":"2026-10-07","titre":"De nouvelles modalités pour déclarer un congé supplémentaire de naissance","lien":"https://entreprendre.service-public.gouv.fr/actualites/A19077?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""},{"id":"entree-171","date":"2026-10-05","titre":"L’aide au carburant pour les entreprises du bâtiment et des travaux publics est prolongée","lien":"https://entreprendre.service-public.gouv.fr/actualites/A18905?xtor=RSS-112","source":"S12","theme":"Démarchage et téléphonie","fiche":""}]},"fiches":[{"id":"v-2026-11-03-01","code":"V-2026-11-03-01","titre":"la destination de journaux Log Analytics de Container Apps devient héritée","lecture":"2026-11-03","source":[{"t":"S01, « Announcing: Migrate Azure Container Apps logging destination from Log Analytics to Azure Monitor », 28 octobre 2026, "},{"a":"https://azure.microsoft.com/updates?id=577689","href":"https://azure.microsoft.com/updates?id=577689"}],"theme":"Modèles et services d'IA (hébergement)","verification":"Oui","verification_detail":[{"t":"Oui, trois pages lues le 3 novembre : l'annonce (texte complet par l'API d'Azure Updates) ; [G1] « Change Container Apps logging from Log Analytics to Azure Monitor », mise à jour le 14 août 2026, "},{"a":"https://learn.microsoft.com/azure/container-apps/migrate-logs-azure-monitor","href":"https://learn.microsoft.com/azure/container-apps/migrate-logs-azure-monitor"},{"t":" ; [G2] « Migrate from the HTTP Data Collector API to the Logs ingestion API », mise à jour le 29 septembre 2026, "},{"a":"https://learn.microsoft.com/en-us/azure/azure-monitor/logs/custom-logs-migrate","href":"https://learn.microsoft.com/en-us/azure/azure-monitor/logs/custom-logs-migrate"}],"entree":"https://azure.microsoft.com/updates?id=577689","resume":[[{"t":"La destination « Log Analytics » des journaux de Container Apps est désormais une option héritée (annonce). Elle repose sur l'API HTTP Data Collector, dont le support a pris fin le 14 septembre 2026, « although ingestion continues to function » pour les clients en TLS 1.2 ou plus récent ([G2], introduction). Aucune date d'arrêt de l'ingestion n'est annoncée dans ces pages. Microsoft recommande la destination « Azure Monitor », qui écrit dans "},{"code":"ContainerAppConsoleLogs"},{"t":" au lieu de "},{"code":"ContainerAppConsoleLogs_CL"},{"t":", avec "},{"code":"Log"},{"t":" au lieu de "},{"code":"Log_s"},{"t":" et "},{"code":"ContainerAppName"},{"t":" au lieu de "},{"code":"ContainerAppName_s"},{"t":" ([G1], « Update queries and alerts »)."}]],"impact":[[{"t":"Direct. L'environnement "},{"code":"cae-muninn"},{"t":" utilise la destination Log Analytics ("},{"code":"az containerapp env show … --query properties.appLogsConfiguration.destination"},{"t":", le 3 novembre : "},{"code":"log-analytics"},{"t":"). Deux éléments en service lisent "},{"code":"ContainerAppConsoleLogs_CL"},{"t":" (recherche dans le dépôt le 3 novembre) : la règle AL-04 ("},{"code":"infra/azure/alertes/al04.kql"},{"t":") et le classeur d'exploitation ("},{"code":"infra/azure/classeur/requetes.kql"},{"t":"). D'après [G1] (« Plan for the monitoring transition ») : les alertes qui lisent les tables "},{"code":"_CL"},{"t":" ne reçoivent plus de nouvelles données dès le changement de destination, et le nouveau routage peut mettre jusqu'à 90 minutes à s'activer."}]],"suite":[[{"t":"Recommandation R1 de la synthèse S-2026-11-03."}]],"en_clair":[[{"t":"Azure déclasse l'ancienne façon de ranger les journaux des applications de Muninn ; elle devient une option « héritée ». Elle fonctionne encore, sans date d'arrêt annoncée, mais au changement de destination les alertes branchées dessus ne reçoivent plus de données. Muninn est directement concerné : l'alerte AL-04 et le classeur d'exploitation lisent l'ancien emplacement."}]]},{"id":"v-2026-11-03-02","code":"V-2026-11-03-02","titre":"le SDK Python de Langfuse passe en version 5","lecture":"2026-11-03","source":[{"t":"S04, versions du SDK Python : v5.0.1 le 14 octobre 2026, v5.1.0 le 30 octobre 2026, "},{"a":"https://github.com/langfuse/langfuse-python/releases","href":"https://github.com/langfuse/langfuse-python/releases"}],"theme":"Évaluation et observabilité","verification":"Oui","verification_detail":[{"t":"Oui : notes de version (API GitHub) et guide de migration, "},{"a":"https://langfuse.com/docs/observability/sdk/upgrade-path/python-v4-to-v5","href":"https://langfuse.com/docs/observability/sdk/upgrade-path/python-v4-to-v5"}],"entree":"https://github.com/langfuse/langfuse-python/releases/tag/v5.1.0","resume":[[{"t":"La version 5 du SDK retire plusieurs API : les accesseurs "},{"code":"set_current_trace_io()"},{"t":" et "},{"code":"span.set_trace_io()"},{"t":", "},{"code":"blocked_instrumentation_scopes"},{"t":", les méthodes dépréciées "},{"code":"api.trace.get"},{"t":", "},{"code":"api.sessions"},{"t":" et "},{"code":"api.legacy.*"},{"t":", les assistants des « dataset runs » (remplacés par l'API des expériences). "},{"code":"api.scores.create"},{"t":" prend désormais une liste. La version 5 demande Python 3.11 ou plus. Le guide ne dit pas jusqu'à quand la version 4 reçoit des correctifs."}]],"impact":[[{"t":"Faible. Muninn épingle "},{"code":"langfuse==4.15.6"},{"t":" (D-49), parue le 24 septembre 2026. Recherche dans "},{"code":"src/"},{"t":", "},{"code":"eval/"},{"t":" et "},{"code":"tests/"},{"t":" le 3 novembre : aucune des API retirées n'est utilisée ; le harnais d'évaluation appelle déjà "},{"code":"run_experiment"},{"t":", la voie recommandée. Python 3.12 convient ("},{"code":"requires-python = \"\u003e=3.12,\u003c3.13\""},{"t":" dans "},{"code":"pyproject.toml"},{"t":")."}]],"suite":[[{"t":"Recommandation R2 de la synthèse S-2026-11-03."}]],"en_clair":[[{"t":"Langfuse, l'outil qu'utilise Muninn pour observer et évaluer son modèle d'IA, sort la version 5 de son SDK Python, qui retire plusieurs fonctions. Muninn reste fixé sur la version 4.15.6 et n'utilise aucune des fonctions retirées : l'impact est faible. Le guide ne dit pas jusqu'à quand la version 4 recevra des correctifs."}]]},{"id":"v-2026-11-03-03","code":"V-2026-11-03-03","titre":"première norme harmonisée du règlement européen sur l'IA","lecture":"2026-11-03","source":[{"t":"S10, « First harmonised standard supporting the AI Act published in the Official Journal », 19 octobre 2026, "},{"a":"https://digital-strategy.ec.europa.eu/en/library/first-harmonised-standard-supporting-ai-act-published-official-journal","href":"https://digital-strategy.ec.europa.eu/en/library/first-harmonised-standard-supporting-ai-act-published-official-journal"}],"theme":"Règlement européen sur l'IA","verification":"En","verification_detail":[{"t":"En partie : page de la Commission lue ; texte de la norme (EN 18286:2026, diffusion payante) et texte du règlement non lus"}],"entree":"https://digital-strategy.ec.europa.eu/en/library/first-harmonised-standard-supporting-ai-act-published-official-journal","resume":[[{"t":"D'après la Commission, la norme EN 18286:2026, « Artificial intelligence - Quality management system for EU AI Act regulatory purposes » (CEN et CENELEC), est publiée par la décision d'exécution (UE) 2026/2274. Elle décrit un système de management de la qualité organisé autour du cycle de vie de chaque système d'IA, compatible avec ISO/IEC 42001 et ISO 9001. Elle donne une présomption de conformité à l'article 17 aux fournisseurs de systèmes d'IA à haut risque. La page ne date pas l'application des exigences du haut risque."}]],"impact":[[{"t":"Aucun impact direct, sous réserve. Le projet a placé Muninn sous l'obligation de transparence de l'article 50 (l'assistant s'annonce comme une IA : D-51, R6), et non parmi les systèmes à haut risque. C'est un choix de périmètre du projet, non vérifié au texte du règlement dans cette veille."}]],"suite":[[{"t":"Question ouverte : confirmer au texte du règlement (annexe III) que l'usage de Muninn n'y figure pas, avant un usage réel."}]],"en_clair":[[{"t":"D'après la Commission européenne, la première norme harmonisée du règlement sur l'IA est publiée ; elle concerne les systèmes « à haut risque ». Le projet a classé Muninn ailleurs, sous l'obligation de s'annoncer comme une IA : aucun impact direct, sous réserve. Ni la norme ni le règlement n'ont été lus ; ce classement reste à vérifier avant un usage réel."}]]},{"id":"v-2026-11-03-04","code":"V-2026-11-03-04","titre":"prospection téléphonique et consentement préalable, selon la CNIL","lecture":"2026-11-03","source":[{"t":"S11, « Revoir le webinaire - Nouveau régime de la prospection téléphonique », 19 octobre 2026, "},{"a":"https://www.cnil.fr/fr/webinaire-demarchage-telephonique","href":"https://www.cnil.fr/fr/webinaire-demarchage-telephonique"}],"theme":"Démarchage et téléphonie","verification":"Non","verification_detail":[{"t":"Non : page d'un webinaire de la CNIL lue ; article L.223-1 du code de la consommation et décret n° 2026-662 non lus. Une lecture de L.223-1 sur Légifrance a été tentée le 3 novembre, sans succès (adresse non trouvée)"}],"entree":"https://www.cnil.fr/fr/webinaire-demarchage-telephonique","resume":[[{"t":"Selon la CNIL, les règles de la prospection téléphonique « ont évolué le 11 août 2026 » : « il est désormais interdit de solliciter un consommateur par voie téléphonique à moins d'avoir son consentement ». La CNIL cite le décret n° 2026-662 du 23 juillet 2026, sur le recueil, la conservation et le retrait de ce consentement, et l'article L.223-1. La page signale que « quelques autres exceptions existent », sans les détailler."}]],"impact":[[{"t":"À confirmer. Muninn répond aux appels entrants et prépare le rappel du client qui a appelé ; il ne sollicite personne. La page ne dit pas si un rappel demandé par le client sort du régime. Un usage qui recontacterait d'anciens clients pour leur proposer une prestation y entrerait, selon la CNIL."}]],"suite":[[{"t":"Recommandation R3 de la synthèse S-2026-11-03."}]],"en_clair":[[{"t":"Selon la CNIL, depuis le 11 août 2026, solliciter un consommateur par téléphone exige son consentement préalable. Muninn ne sollicite personne : il rappelle le client qui a appelé, mais la page ne dit pas si ce rappel échappe à la règle. Recontacter d'anciens clients pour leur proposer une prestation y entrerait, selon la CNIL ; les textes de loi cités n'ont pas été lus."}]]},{"id":"v-2026-11-03-05","code":"V-2026-11-03-05","titre":"`pull_request_target` bloqué par défaut le 2 décembre","lecture":"2026-11-03","source":[{"t":"S09, « pull_request_target blocked by default December 2 », 2 novembre 2026, "},{"a":"https://github.blog/changelog/2026-11-02-pull_request_target-blocked-by-default-december-2","href":"https://github.blog/changelog/2026-11-02-pull_request_target-blocked-by-default-december-2"}],"theme":"Chaîne de livraison","verification":"Oui","verification_detail":[{"t":"Oui : billet du changelog de GitHub lu le 3 novembre"}],"entree":"https://github.blog/changelog/2026-11-02-pull_request_target-blocked-by-default-december-2","resume":[[{"t":"À partir du 2 décembre 2026, GitHub Actions bloque par défaut l'événement "},{"code":"pull_request_target"},{"t":" dans les dépôts publics, sauf autorisation explicite par une politique d'événements. Deux coupures d'essai ont lieu les 9 et 16 novembre, de 16:00 à 18:00 UTC. Les dépôts privés ne sont pas concernés."}]],"impact":[[{"t":"Aucun. Le dépôt est privé ("},{"code":"gh repo view"},{"t":" : "},{"code":"PRIVATE"},{"t":"), et aucun workflow de "},{"code":".github/workflows/"},{"t":" n'utilise "},{"code":"pull_request_target"},{"t":" (recherche du 3 novembre) ; le job "},{"code":"test"},{"t":" de C19 tourne sur "},{"code":"pull_request"},{"t":"."}]],"suite":[[{"t":"Rien. À relire si le dépôt devenait public."}]],"en_clair":[[{"t":"À partir du 2 décembre 2026, GitHub bloquera par défaut un type de déclenchement automatique, "},{"code":"pull_request_target"},{"t":", dans les dépôts publics. Le dépôt de Muninn est privé et n'utilise pas ce déclenchement : aucun impact. La question serait à revoir si le dépôt devenait public."}]]},{"id":"v-2026-11-03-06","code":"V-2026-11-03-06","titre":"conventions sémantiques OpenTelemetry 1.45.0, rien pour l'IA générative","lecture":"2026-11-03","source":[{"t":"S05, version v1.45.0, 2 novembre 2026, "},{"a":"https://github.com/open-telemetry/semantic-conventions/releases/tag/v1.45.0","href":"https://github.com/open-telemetry/semantic-conventions/releases/tag/v1.45.0"}],"theme":"Évaluation et observabilité","verification":"Oui","verification_detail":[{"t":"Oui : notes de la version v1.45.0 lues le 3 novembre, aucune entrée "},{"code":"gen_ai"}],"entree":"https://github.com/open-telemetry/semantic-conventions/releases/tag/v1.45.0","resume":[[{"t":"La version 1.45.0 des conventions sémantiques ne contient aucun changement des attributs, spans, métriques ou événements "},{"code":"gen_ai.*"},{"t":"."}]],"impact":[[{"t":"Aucun. Les traces de Muninn passent par une liste blanche d'attributs (OB-2, "},{"code":"docs/conception/industrialisation/03-observabilite.md"},{"t":") ; rien ne change pour elles."}]],"suite":[[{"t":"Rien."}]],"en_clair":[[{"t":"OpenTelemetry, un vocabulaire commun pour décrire ce que fait un logiciel, publie sa version 1.45.0. Elle ne change rien à la partie consacrée à l'IA générative. Les traces de Muninn ne gardent qu'une liste autorisée d'informations ; rien ne change pour elles."}]]},{"id":"v-2026-11-03-07","code":"V-2026-11-03-07","titre":"Mistral publie Voxtral 3, transcription et synthèse vocale","lecture":"2026-11-03","source":[{"t":"S03, notes de version de Mistral AI, entrée du 20 octobre 2026, "},{"a":"https://docs.mistral.ai/getting-started/changelog/","href":"https://docs.mistral.ai/getting-started/changelog/"}],"theme":"Modèles et services d'IA","verification":"Oui","verification_detail":[{"t":"Oui, source primaire directe (notes de version de l'éditeur, lues le 3 novembre) ; fiches des modèles, prix et zone de traitement non lus"}],"entree":"","resume":[[{"t":"Le 20 octobre 2026, Mistral a lancé la famille audio Voxtral 3 en préversion publique : un modèle de synthèse vocale et trois modèles de transcription, ainsi que « Voice Agents », une chaîne vocale temps réel gérée. Les mêmes notes ne signalent aucun retrait de "},{"code":"mistral-medium-3-5"},{"t":", le modèle B de Muninn (dernière entrée le concernant : sa sortie, le 28 avril 2026)."}]],"impact":[[{"t":"Pas de changement en V1 : la voix passe par Azure AI Speech (D-50). Mais Voxtral 3 est un candidat de plus pour le benchmark complet de C7 (transcription et synthèse vocale)."}]],"suite":[[{"t":"Recommandation R4 de la synthèse S-2026-11-03."}]],"en_clair":[[{"t":"Le 20 octobre 2026, Mistral a lancé en préversion Voxtral 3, des modèles qui transcrivent la voix et qui parlent. Rien ne change pour la version actuelle de Muninn, dont la voix passe par Azure AI Speech. Voxtral 3 devient un candidat de plus au comparatif (benchmark) prévu pour la compétence C7."}]]}],"synthese":{"titre":"Synthèse de veille du 3 novembre 2026","chapeau":[[{"t":"Une fiche sur sept impose une action : la destination des journaux de Container Apps, dont dépend l'alerte AL-04, devient une option héritée (fiche 01). Trois autres sont à suivre (02, 04, 07). Recommandation principale : ne rien basculer avant la soutenance du 30 novembre, puis migrer les journaux en suivant le guide de Microsoft, alertes réécrites et testées d'abord."}]],"periode":[[{"t":"Période : du 4 octobre au 3 novembre 2026, première collecte. 171 entrées issues des 11 flux, une autre retirée par la règle d'exclusion du poste ("},{"code":"../collecte/2026-11-03-30j.md"},{"t":"), plus les trois sources lues à la main (S02, S03, S13) ; 7 retenues en fiche ("},{"code":"../fiches/V-2026-11-03-01"},{"t":" à "},{"code":"-07"},{"t":"). Les changements du dispositif faits pendant cette collecte sont notés dans "},{"code":"../sources.md"},{"t":"."}]],"chapeau_clair":"Sur sept informations retenues lors de cette première collecte (4 octobre au 3 novembre 2026), une seule impose d'agir, l'ancienne voie des journaux Azure dont dépend l'alerte AL-04, et trois sont à suivre ; la migration est recommandée après la soutenance du 30 novembre, alertes réécrites et testées d'abord.","recommandations":[{"n":"R1","fiche":"01","information":[{"t":"Destination Log Analytics de Container Apps devenue héritée (Azure, 28 octobre)"}],"impact":[{"t":"Direct : "},{"code":"cae-muninn"},{"t":" l'utilise ; AL-04 et le classeur lisent "},{"code":"ContainerAppConsoleLogs_CL"}],"recommandation":[{"t":"Migrer après le 30 novembre, AL-04 et le classeur réécrits et testés avant la bascule"}],"en_clair":"Ne rien basculer avant la soutenance du 30 novembre, pour ne pas exposer l'alerte AL-04 pendant la démonstration ; migrer ensuite les journaux vers Azure Monitor, alerte et classeur réécrits et testés d'abord."},{"n":"R2","fiche":"02","information":[{"t":"SDK Python de Langfuse en version 5 (Langfuse, 14 et 30 octobre)"}],"impact":[{"t":"Faible : aucune API retirée n'est utilisée ; Muninn épingle 4.15.6"}],"recommandation":[{"t":"Rester sur 4.15.6 jusqu'à la soutenance, puis migrer par une PR que le job "},{"code":"evaluation"},{"t":" contrôle"}],"en_clair":"Garder Langfuse en version 4.15.6 jusqu'à la soutenance, puis passer à la version 5 par une demande de modification (PR) vérifiée par l'évaluation automatique du projet."},{"n":"R3","fiche":"04","information":[{"t":"Prospection téléphonique soumise au consentement préalable depuis le 11 août (selon la CNIL, 19 octobre)"}],"impact":[{"t":"À confirmer : Muninn rappelle le client qui a appelé ; la page ne dit pas si ce rappel sort du régime"}],"recommandation":[{"t":"Trancher au texte (L.223-1, décret n° 2026-662) avant tout usage réel (D-68)"}],"en_clair":"Avant tout usage réel, lire les textes de loi (article L.223-1 du code de la consommation, décret n° 2026-662) pour trancher si le rappel du client est concerné."},{"n":"R4","fiche":"07","information":[{"t":"Mistral lance Voxtral 3, transcription et synthèse vocale en préversion (Mistral, 20 octobre)"}],"impact":[{"t":"Aucun en V1 (voix par Azure AI Speech, D-50) ; aucun retrait annoncé pour "},{"code":"mistral-medium-3-5"},{"t":", le modèle B"}],"recommandation":[{"t":"Ajouter Voxtral 3 aux services comparés du benchmark de C7, sa préversion notée comme limite de maturité"}],"en_clair":"Ajouter Voxtral 3 aux services comparés pour la compétence C7, en notant que son statut de préversion limite sa maturité."}],"raisonnements":{"R1":{"titre":"R1 : pourquoi migrer après la soutenance","paragraphes":[[{"t":"Ce que dit Microsoft. L'ingestion par l'ancienne voie continue de fonctionner, et aucune date d'arrêt n'est annoncée ([G2], page mise à jour le 29 septembre 2026). Au changement de destination, les alertes qui lisent les tables "},{"code":"_CL"},{"t":" ne reçoivent plus de nouvelles données, et le nouveau routage peut mettre jusqu'à 90 minutes à s'activer. Le guide [G1] prévoit une fenêtre de maintenance, un trafic témoin et des alertes de remplacement testées avant de retirer les anciennes (section « Plan for the monitoring transition »)."}],[{"t":"Ce qu'en tire le projet. Faite avant le 30 novembre, la bascule exposerait AL-04 au moment de la démonstration, pour un gain nul tant que l'ingestion fonctionne. Faite après, elle se prépare : réécrire "},{"code":"al04.kql"},{"t":" et "},{"code":"classeur/requetes.kql"},{"t":" ("},{"code":"ContainerAppConsoleLogs"},{"t":", colonnes "},{"code":"Log"},{"t":" et "},{"code":"ContainerAppName"},{"t":"), puis basculer selon [G1], avec son retour arrière prêt. Risque assumé : un arrêt de l'ingestion annoncé avant le 30 novembre ; la veille hebdomadaire de S01 le signalerait."}],[{"t":"Décision proposée au porteur (numéro provisoire D-91) : migration des journaux de Container Apps vers Azure Monitor après la soutenance, selon [G1]."}]]}},"rien":[[{"t":"03 : la première norme harmonisée du règlement sur l'IA (EN 18286:2026) vise les systèmes à haut risque. Le projet a placé Muninn sous l'obligation de transparence de l'article 50 (D-51) ; ce classement n'est pas vérifié au texte du règlement dans cette veille."}],[{"t":"05 : "},{"code":"pull_request_target"},{"t":" bloqué par défaut le 2 décembre dans les dépôts publics ; le dépôt est privé et n'utilise pas cet événement."}],[{"t":"06 : conventions OpenTelemetry 1.45.0, aucun changement pour l'IA générative."}],[{"t":"S02 (Microsoft Learn) : rien de nouveau pour la voix en français, "},{"code":"gpt-5.4-mini"},{"t":" ou "},{"code":"mistral-medium-3-5"},{"t":" ; la page des nouveautés de Foundry a changé d'adresse."}]],"limites":[[{"t":"Une seule collecte : la régularité de la veille reste à prouver par les suivantes."}],[{"t":"R3 repose sur la page d'un webinaire de la CNIL : les textes cités n'ont pas été lus ; une lecture de L.223-1 sur Légifrance a été tentée le 3 novembre, sans succès."}],[{"t":"Partage : la synthèse n'a pas encore été envoyée au formateur ; la trace ira dans "},{"code":"../seances/"},{"t":"."}]],"sources_citees":[[{"t":"[G1] Microsoft Learn, « Change Container Apps logging from Log Analytics to Azure Monitor », mise à jour le 14 août 2026, "},{"a":"https://learn.microsoft.com/azure/container-apps/migrate-logs-azure-monitor","href":"https://learn.microsoft.com/azure/container-apps/migrate-logs-azure-monitor"},{"t":"."}],[{"t":"[G2] Microsoft Learn, « Migrate from the HTTP Data Collector API to the Logs ingestion API », mise à jour le 29 septembre 2026, "},{"a":"https://learn.microsoft.com/en-us/azure/azure-monitor/logs/custom-logs-migrate","href":"https://learn.microsoft.com/en-us/azure/azure-monitor/logs/custom-logs-migrate"},{"t":"."}],[{"t":"Les autres sources sont citées dans chaque fiche."}]]},"glossaire":[{"terme":"Journaux","definition":"relevés que les applications écrivent au fil de leur fonctionnement, pour savoir après coup ce qui s'est passé."},{"terme":"Container Apps","definition":"service d'Azure qui fait tourner les applications de Muninn."},{"terme":"Log Analytics","definition":"Service d'Azure où les journaux sont stockés et interrogés ; la « destination Log Analytics » de Container Apps est l'ancienne façon de les y envoyer."},{"terme":"Azure Monitor","definition":"la destination que Microsoft recommande désormais pour ces mêmes journaux."},{"terme":"Option héritée","definition":"réglage encore disponible et en service, mais que l'éditeur ne recommande plus."},{"terme":"Alerte AL-04","definition":"règle de surveillance de Muninn qui lit les journaux de Container Apps pour déclencher une alerte."},{"terme":"Classeur d'exploitation","definition":"tableau de bord du projet construit à partir des mêmes journaux."},{"terme":"SDK","definition":"boîte à outils logicielle qu'un service fournit pour que d'autres programmes puissent l'utiliser."},{"terme":"Préversion","definition":"version mise à disposition pour essai avant d'être déclarée stable."},{"terme":"Flux","definition":"fil de nouvelles qu'un site publie et qu'un programme lit automatiquement ; la veille en suit 11."},{"terme":"Dépôt","definition":"espace sur GitHub où est rangé le code du projet ; il peut être privé ou public."},{"terme":"Norme harmonisée","definition":"norme technique européenne dont le respect fait présumer qu'une exigence du règlement est remplie."}]}</script>
+<script>
+(() => {
+  if (!document.documentElement.lang) document.documentElement.lang = "fr";
+  const D = JSON.parse(document.getElementById("donnees").textContent);
+  const $ = (id) => document.getElementById(id);
+
+  // Construction sûre : le texte venu des flux n'est jamais interprété comme du HTML.
+  function el(tag, attrs, ...enfants) {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) {
+      if (v === null || v === undefined || v === false) continue;
+      if (k === "class") n.className = v;
+      else if (k === "text") n.textContent = v;
+      else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+      else n.setAttribute(k, v === true ? "" : v);
+    }
+    for (const e of enfants.flat()) if (e !== null && e !== undefined && e !== false) n.append(e);
+    return n;
+  }
+  const sur = (href) => typeof href === "string" && href.startsWith("https://");
+  function lien(texte, href) {
+    return sur(href) ? el("a", { href, target: "_blank", rel: "noopener noreferrer" }, texte, el("span", { class: "evitement", text: " (nouvel onglet)" })) : document.createTextNode(texte);
+  }
+  function segs(liste) {
+    const f = document.createDocumentFragment();
+    for (const s of liste || []) {
+      if ("code" in s) f.append(el("code", { text: s.code }));
+      else if ("a" in s) f.append(lien(s.a, s.href));
+      else f.append(document.createTextNode(s.t));
+    }
+    return f;
+  }
+  const texteDe = (liste) => (liste || []).map((s) => s.t ?? s.code ?? s.a ?? "").join("");
+
+  // Mémoire propre à ce navigateur : préférences et entrées vues, jamais indispensable.
+  const memoire = {
+    lire(cle, defaut) { try { const v = localStorage.getItem("veille-muninn:" + cle); return v === null ? defaut : JSON.parse(v); } catch { return defaut; } },
+    ecrire(cle, v) { try { localStorage.setItem("veille-muninn:" + cle, JSON.stringify(v)); } catch { /* sans mémoire */ } },
+  };
+
+  const mois = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+  const jours = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+  function dateLongue(iso, avecJour) {
+    const [a, m, j] = iso.split("-").map(Number);
+    const d = new Date(Date.UTC(a, m - 1, j));
+    return (avecJour ? jours[d.getUTCDay()] + " " : "") + j + (j === 1 ? "er" : "") + " " + mois[m - 1] + " " + a;
+  }
+
+  const C = D.collecte;
+  const sources = Object.fromEntries(D.sources.map((s) => [s.code, s]));
+  const fiches = Object.fromEntries(D.fiches.map((f) => [f.id, f]));
+  const parNumero = (n) => D.fiches.find((f) => f.code.endsWith("-" + n));
+  const nbFlux = D.sources.filter((s) => s.acces === "flux").length;
+  $("fraicheur").textContent = "Collecte du " + dateLongue(C.date) + " · " + C.jours + " jours · " + C.total + " entrées · " + nbFlux + " flux";
+  $("pied").textContent = "Page produite à partir des fichiers de veille du dépôt Muninn (registre, collecte « " + C.fichier + " », fiches, synthèse). Les liens ouvrent les sources d'origine.";
+
+  function etat(f) {
+    const v = (f.verification || "").toLowerCase();
+    const cls = v === "oui" ? "oui" : v === "en" ? "partie" : "non";
+    const libelle = v === "oui" ? "Vérifiée à la source" : v === "en" ? "Vérifiée en partie" : "Non vérifiée au texte";
+    return el("span", { class: "etat " + cls, text: libelle });
+  }
+
+  // ---------- Rapport ----------
+  function rapport() {
+    const S = D.synthese;
+    const racine = $("vue-rapport");
+    racine.replaceChildren();
+    if (!S) { racine.append(el("h1", { id: "titre-rapport", tabindex: "-1", text: "Veille de Muninn" }), el("p", { text: "Aucune synthèse pour l'instant." })); return; }
+    let lecture = memoire.lire("lecture", "clair");
+    if (lecture !== "clair" && lecture !== "technique") lecture = "clair";
+
+    const lead = el("p", { class: "lead" });
+    const decisions = Object.values(S.raisonnements).flatMap((r) => r.paragraphes).filter((p) => texteDe(p).startsWith("Décision proposée")).length;
+    function remplirLead() {
+      lead.replaceChildren(lecture === "clair" && S.chapeau_clair ? document.createTextNode(S.chapeau_clair) : segs(S.chapeau[0]));
+      for (const r of document.querySelectorAll("[data-reco]")) r.render();
+    }
+    const bascule = el("div", { class: "lecture", role: "radiogroup", "aria-label": "Niveau de lecture du chapeau et des recommandations" },
+      ["clair", "technique"].map((v) => el("label", {},
+        el("input", { type: "radio", name: "lecture", id: "lecture-" + v, value: v, checked: lecture === v, onchange: () => { lecture = v; memoire.ecrire("lecture", v); remplirLead(); } }),
+        el("span", { text: v === "clair" ? "En clair" : "Version technique" }))));
+
+    racine.append(el("div", { class: "ouverture" },
+      el("span", { class: "sur", text: "Synthèse de veille" }),
+      el("h1", { id: "titre-rapport", tabindex: "-1", text: S.titre }),
+      lead,
+      bascule,
+      el("ol", { class: "entonnoir", "aria-label": "Du volume collecté à la décision" },
+        [[C.total, "entrées collectées en " + C.jours + " jours"], [D.fiches.length, "fiches retenues"], [S.recommandations.length, "recommandations"], [decisions, decisions > 1 ? "décisions proposées" : "décision proposée"]]
+          .map(([n, l]) => el("li", {}, el("span", { class: "nombre", text: String(n) }), el("span", { class: "libelle", text: l }))))));
+
+    // Recommandations
+    const recos = el("div", { class: "recos" });
+    for (const r of S.recommandations) {
+      const f = parNumero(r.fiche);
+      const carte = el("article", { class: "reco", "data-reco": "", "aria-labelledby": "reco-" + r.n });
+      const raison = S.raisonnements[r.n];
+      carte.render = () => {
+        const clair = lecture === "clair" && r.en_clair;
+        carte.replaceChildren(
+          el("header", {}, el("span", { class: "pastille", text: r.n }),
+            el("h3", { id: "reco-" + r.n }, clair ? r.en_clair : segs(r.recommandation)), f ? etat(f) : null),
+          el("dl", {},
+            el("dt", { text: "Information" }), el("dd", {}, segs(r.information)),
+            el("dt", { text: "Impact sur Muninn" }), el("dd", {}, segs(r.impact)),
+            clair ? [el("dt", { text: "Recommandation" }), el("dd", {}, segs(r.recommandation))] : null),
+          el("div", { class: "liens" },
+            f ? el("a", { href: "#" + f.id, text: "Lire la fiche " + r.fiche }) : null,
+            raison ? el("a", { href: "#raison-" + r.n, text: "Pourquoi cette recommandation" }) : null));
+      };
+      carte.render();
+      recos.append(carte);
+    }
+    racine.append(el("section", { "aria-labelledby": "t-recos" }, el("h2", { id: "t-recos", text: "Recommandations" }),
+      el("p", { class: "chapo", text: "Collecte du " + dateLongue(C.date) + " sur " + C.jours + " jours : " + C.total + " entrées issues de " + nbFlux + " flux" + (C.retirees ? " (" + C.retirees + " retirée" + (C.retirees > 1 ? "s" : "") + " par la règle d'exclusion)" : "") + ", plus les sources lues à la main ; " + D.fiches.length + " fiches retenues." }), recos));
+
+    for (const [n, r] of Object.entries(S.raisonnements)) {
+      racine.append(el("section", { id: "raison-" + n, "aria-labelledby": "t-raison-" + n },
+        el("h2", { id: "t-raison-" + n, text: r.titre }), r.paragraphes.map((p) => el("p", { class: "chapo" }, segs(p)))));
+    }
+
+    // Couverture des thèmes
+    const parTheme = (t, cle) => C.entrees.filter((e) => e.theme === t && (!cle || e.fiche)).length;
+    const max = Math.max(1, ...D.themes.map((t) => parTheme(t)));
+    racine.append(el("section", { "aria-labelledby": "t-couv" },
+      el("h2", { id: "t-couv", text: "Couverture des thèmes" }),
+      el("p", { class: "chapo", text: "Nombre d'entrées collectées par thème, et parmi elles celles devenues fiches. Un thème sans entrée reste affiché : c'est un angle mort à surveiller." }),
+      el("ul", { class: "couverture" }, D.themes.map((t) => {
+        const n = parTheme(t), nf = parTheme(t, true);
+        return el("li", { class: n ? "" : "vide" },
+          el("span", { text: t }),
+          el("span", { class: "barre", "aria-hidden": "true" }, el("span", { style: "width:" + Math.round((n / max) * 100) + "%" })),
+          el("span", { class: "chiffres", text: n ? n + (n > 1 ? " entrées" : " entrée") + (nf ? ", dont " + nf + (nf > 1 ? " fiches" : " fiche") : "") : "aucune entrée" }));
+      }))));
+
+    // Fiches
+    racine.append(el("section", { "aria-labelledby": "t-fiches" },
+      el("h2", { id: "t-fiches", text: "Les fiches" }),
+      el("p", { class: "chapo", text: "Chaque information retenue, vérifiée à sa source. Le texte en clair vient d'abord, la fiche technique ensuite." }),
+      D.fiches.map((f) => el("details", { class: "fiche", id: f.id },
+        el("summary", {}, el("span", { class: "code", text: f.code }), el("span", { class: "intitule", text: f.titre }), etat(f)),
+        el("div", { class: "corps" },
+          f.en_clair.length ? el("div", { class: "clair" }, el("h3", { text: "En clair" }), f.en_clair.map((p) => el("p", {}, segs(p)))) : null,
+          [["Résumé", f.resume], ["Impact sur Muninn", f.impact], ["Suite", f.suite]].map(([t, ps]) => el("div", {}, el("h3", { text: t }), ps.map((p) => el("p", {}, segs(p))))),
+          el("div", {}, el("h3", { text: "Source et vérification" }), el("p", {}, segs(f.source)), el("p", {}, segs(f.verification_detail))),
+          f.entree ? el("p", {}, el("a", { href: "#trier", "data-entree": f.entree, onclick: (ev) => { ev.preventDefault(); allerEntree(f.entree); }, text: "Voir l'entrée dans la collecte" })) : null)))));
+
+    racine.append(el("section", { "aria-labelledby": "t-rien" }, el("h2", { id: "t-rien", text: "Ce qui ne change rien" }),
+      el("ul", { class: "liste" }, S.rien.map((p) => el("li", {}, segs(p))))));
+    racine.append(el("section", { "aria-labelledby": "t-limites" }, el("h2", { id: "t-limites", text: "Limites" }),
+      el("ul", { class: "liste" }, S.limites.map((p) => el("li", {}, segs(p))))));
+    if (S.sources_citees.length) {
+      racine.append(el("section", { "aria-labelledby": "t-citees" }, el("h2", { id: "t-citees", text: "Sources citées" }),
+        el("ul", { class: "liste" }, S.sources_citees.map((p) => el("li", {}, segs(p))))));
+    }
+    if (D.glossaire.length) {
+      racine.append(el("section", { "aria-labelledby": "t-gloss" }, el("h2", { id: "t-gloss", text: "Glossaire" }),
+        el("dl", { class: "glossaire" }, D.glossaire.map((g) => el("div", {}, el("dt", { text: g.terme }), el("dd", { text: g.definition }))))));
+    }
+    racine.append(el("section", { "aria-labelledby": "t-sources" }, el("h2", { id: "t-sources", text: "Les sources suivies" }),
+      el("p", { class: "chapo", text: D.sources.length + " sources : " + nbFlux + " flux lus par la collecte, les autres lues à la main." }),
+      el("div", { class: "defile", tabindex: "0", role: "region", "aria-label": "Registre des sources" },
+        el("table", {},
+          el("thead", {}, el("tr", {}, ["N°", "Source", "Thème", "Type", "Fiabilité", "Lecture"].map((h) => el("th", { scope: "col", text: h })))),
+          el("tbody", {}, D.sources.map((s) => el("tr", {},
+            el("td", { text: s.code }), el("td", {}, s.lien ? lien(s.nom, s.lien) : s.nom), el("td", { text: s.theme }),
+            el("td", { text: s.type }), el("td", { text: s.fiabilite }),
+            el("td", { text: s.frequence.toLowerCase() + (s.acces === "main" ? ", à la main" : "") }))))))));
+    remplirLead();
+  }
+
+  // ---------- Trier ----------
+  const lus = memoire.lire("vues", []);
+  const vues = new Set(Array.isArray(lus) ? lus.filter((v) => typeof v === "string") : []);
+  const filtre = { q: "", theme: "", source: "", fiabilite: "", fiches: false, masquerVues: false };
+  let raccourcis = memoire.lire("raccourcis", true) !== false;
+  let active = -1;
+  let visibles = [];
+
+  function trier() {
+    const racine = $("vue-trier");
+    if (racine.dataset.pret) { afficherListe(); return; }
+    racine.dataset.pret = "1";
+    const options = (liste) => [el("option", { value: "", text: "Tous" }), ...liste.map(([v, l]) => el("option", { value: v, text: l }))];
+    const sel = (id, libelle, liste, cle) => el("div", { class: "champ" }, el("label", { for: id, text: libelle }),
+      el("select", { id, onchange: (e) => { filtre[cle] = e.target.value; afficherListe(); } }, options(liste)));
+    const coche = (id, libelle, cle) => el("label", { class: "coche" },
+      el("input", { type: "checkbox", id, onchange: (e) => { filtre[cle] = e.target.checked; afficherListe(); } }), libelle);
+    const sourcesCollecte = D.sources.filter((s) => s.acces === "flux");
+    racine.append(
+      el("h1", { id: "titre-trier", class: "titre-vue", tabindex: "-1", text: "Trier la collecte" }),
+      el("p", { class: "chapo", text: "Les nouveautés de la collecte, jour par jour. Une entrée n'est retenue que si elle peut changer un choix, une mesure ou une obligation de Muninn ; les entrées retenues portent la marque « fiche »." }),
+      el("div", { class: "outils", role: "search", "aria-label": "Filtrer la collecte" },
+        el("div", { class: "ligne-outils" },
+          el("div", { class: "champ" }, el("label", { for: "recherche", text: "Rechercher dans les titres" }),
+            el("input", { type: "search", id: "recherche", autocomplete: "off", oninput: (e) => { filtre.q = e.target.value.trim().toLowerCase(); afficherListe(); } })),
+          sel("filtre-theme", "Thème", D.themes.map((t) => [t, t]), "theme"),
+          sel("filtre-source", "Source", sourcesCollecte.map((s) => [s.code, s.code + " · " + s.nom]), "source"),
+          sel("filtre-fiabilite", "Fiabilité", [...new Set(D.sources.map((s) => s.fiabilite))].map((v) => [v, v]), "fiabilite")),
+        el("div", { class: "ligne-outils" },
+          coche("seulement-fiches", "Seulement les entrées retenues", "fiches"),
+          coche("masquer-vues", "Masquer les entrées vues", "masquerVues"),
+          el("button", { type: "button", id: "effacer", onclick: effacer, text: "Effacer les filtres" }),
+          el("label", { class: "coche" }, el("input", { type: "checkbox", id: "raccourcis", checked: raccourcis, onchange: (e) => { raccourcis = e.target.checked; memoire.ecrire("raccourcis", raccourcis); } }), "Raccourcis clavier"),
+          el("button", { type: "button", id: "ouvrir-aide", onclick: () => $("aide").showModal(), text: "Aide des raccourcis" })),
+        el("p", { class: "compte", id: "compte", "aria-live": "polite", role: "status" })),
+      el("div", { id: "liste" }));
+    afficherListe();
+  }
+
+  function effacer() {
+    Object.assign(filtre, { q: "", theme: "", source: "", fiabilite: "", fiches: false, masquerVues: false });
+    for (const id of ["recherche", "filtre-theme", "filtre-source", "filtre-fiabilite"]) $(id).value = "";
+    $("seulement-fiches").checked = false;
+    $("masquer-vues").checked = false;
+    afficherListe();
+  }
+
+  function retenue(e) {
+    const s = sources[e.source] || {};
+    return (!filtre.q || e.titre.toLowerCase().includes(filtre.q)) && (!filtre.theme || e.theme === filtre.theme) &&
+      (!filtre.source || e.source === filtre.source) && (!filtre.fiabilite || s.fiabilite === filtre.fiabilite) &&
+      (!filtre.fiches || e.fiche) && (!filtre.masquerVues || !vues.has(e.lien));
+  }
+
+  function afficherListe() {
+    const zone = $("liste");
+    visibles = C.entrees.filter(retenue).sort((a, b) => b.date.localeCompare(a.date) || (b.fiche ? 1 : 0) - (a.fiche ? 1 : 0));
+    clearTimeout(afficherListe.minuteur);
+    const n = visibles.length;
+    afficherListe.minuteur = setTimeout(() => { $("compte").textContent = n + (n > 1 ? " entrées affichées" : " entrée affichée") + " sur " + C.total; }, 300);
+    active = -1;
+    if (!visibles.length) { zone.replaceChildren(el("p", { class: "vide-etat", text: "Aucune entrée ne correspond à ces filtres." })); return; }
+    const groupes = new Map();
+    for (const e of visibles) { if (!groupes.has(e.date)) groupes.set(e.date, []); groupes.get(e.date).push(e); }
+    zone.replaceChildren(...[...groupes].map(([date, liste]) => el("div", { class: "jour" },
+      el("h2", { id: "j-" + date }, el("span", { text: dateLongue(date, true) }), el("span", { class: "compte", text: liste.length + (liste.length > 1 ? " entrées" : " entrée") })),
+      el("ul", { class: "entrees" }, liste.map(ligne)))));
+  }
+
+  function ligne(e) {
+    const s = sources[e.source] || {};
+    const vue = vues.has(e.lien);
+    const bouton = el("button", { type: "button", class: "marquer", "aria-pressed": vue ? "true" : "false", "aria-describedby": "t-" + e.id, text: "Marquer comme vue" });
+    const li = el("li", { class: "entree" + (vue ? " vue" : ""), id: e.id, "data-lien": e.lien },
+      el("div", { class: "titre", id: "t-" + e.id, tabindex: "-1" }, lien(e.titre, e.lien)),
+      el("div", { class: "meta" },
+        el("span", { text: e.source + " · " + (s.nom || "") }),
+        el("span", { class: "etiquette", text: e.theme }),
+        el("span", { text: "fiabilité " + (s.fiabilite || "").toLowerCase() }),
+        e.fiche ? el("a", { class: "etiquette retenue", href: "#" + e.fiche, text: "fiche " + (fiches[e.fiche]?.code.slice(-2) || "") }) : null),
+      bouton);
+    bouton.addEventListener("click", () => basculerVue(li, bouton, e.lien));
+    return li;
+  }
+
+  function basculerVue(li, bouton, url) {
+    if (vues.has(url)) vues.delete(url); else vues.add(url);
+    memoire.ecrire("vues", [...vues]);
+    const vue = vues.has(url);
+    li.classList.toggle("vue", vue);
+    bouton.setAttribute("aria-pressed", vue ? "true" : "false");
+    if (filtre.masquerVues && vue) afficherListe();
+  }
+
+  function activer(i) {
+    const items = [...document.querySelectorAll("#liste .entree")];
+    if (!items.length) return;
+    active = Math.max(0, Math.min(items.length - 1, i));
+    items.forEach((n, k) => n.classList.toggle("active", k === active));
+    items[active].querySelector(".titre a, .titre")?.focus();
+    items[active].scrollIntoView({ block: "nearest" });
+  }
+
+  document.addEventListener("keydown", (ev) => {
+    if (!raccourcis || $("vue-trier").hidden || ev.ctrlKey || ev.metaKey || ev.altKey) return;
+    const cible = ev.target;
+    if (cible.closest("input, select, textarea, dialog")) return;
+    const items = [...document.querySelectorAll("#liste .entree")];
+    if (ev.key === "j") { ev.preventDefault(); activer(active + 1); }
+    else if (ev.key === "k") { ev.preventDefault(); activer(active - 1); }
+    else if (ev.key === "/") { ev.preventDefault(); $("recherche").focus(); }
+    else if (ev.key === "?") { ev.preventDefault(); $("aide").showModal(); }
+    else if (ev.key === "v" && items[active]) { ev.preventDefault(); items[active].querySelector(".titre a")?.click(); }
+    else if (ev.key === "x" && items[active]) { ev.preventDefault(); items[active].querySelector(".marquer").click(); }
+  });
+
+  function allerEntree(url) {
+    history.pushState(null, "", "#trier");
+    montrer("trier", false);
+    const li = document.querySelector('#liste .entree[data-lien="' + CSS.escape(url) + '"]');
+    if (!li) { effacer(); }
+    const cible = document.querySelector('#liste .entree[data-lien="' + CSS.escape(url) + '"]');
+    if (cible) { cible.classList.add("active"); cible.scrollIntoView({ block: "center" }); cible.querySelector(".titre a")?.focus(); }
+  }
+
+  // ---------- Navigation par le fragment d'adresse ----------
+  function montrer(vue, focaliser) {
+    const trierVue = vue === "trier";
+    $("vue-rapport").hidden = trierVue;
+    $("vue-trier").hidden = !trierVue;
+    $("onglet-rapport").removeAttribute("aria-current");
+    $("onglet-trier").removeAttribute("aria-current");
+    $(trierVue ? "onglet-trier" : "onglet-rapport").setAttribute("aria-current", "page");
+    if (trierVue) trier();
+    if (focaliser) { window.scrollTo(0, 0); $(trierVue ? "titre-trier" : "titre-rapport")?.focus({ preventScroll: true }); }
+  }
+  let premier = true;
+  function route() {
+    let h = "";
+    try { h = decodeURIComponent(location.hash.slice(1)); } catch { h = ""; }
+    const focaliser = !premier;
+    premier = false;
+    if (h === "trier") { montrer("trier", focaliser); return; }
+    // Un fragment inconnu (le lien d'évitement « #contenu », par exemple) laisse la vue en place.
+    if (h && h !== "rapport" && !h.startsWith("v-") && !h.startsWith("raison-")) return;
+    montrer("rapport", focaliser && (h === "" || h === "rapport"));
+    if (h.startsWith("v-")) {
+      const d = document.getElementById(h);
+      if (d && d.tagName === "DETAILS") { d.open = true; d.scrollIntoView({ block: "start" }); d.querySelector("summary").focus(); }
+    } else if (h.startsWith("raison-")) {
+      document.getElementById(h)?.scrollIntoView({ block: "start" });
+    }
+  }
+  rapport();
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>

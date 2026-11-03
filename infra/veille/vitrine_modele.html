@@ -1,0 +1,540 @@
+<title>Veille de Muninn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;600&family=Public+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Mise en page : une colonne de lecture (68 rem), un en-tête à onglets ; « Rapport » pour le
+   formateur et le jury, « Trier » pour la lecture de la semaine. Encre bleu nuit sur papier froid,
+   un seul accent cobalt ; les états (vérifiée, en partie, non vérifiée) ont leurs propres teintes. */
+:root {
+  --fond: #f4f6f9; --surface: #ffffff; --encre: #16202f; --encre-2: #475467; --trait: #d6dce5;
+  --accent: #1d4ec2; --accent-doux: #e7eefc; --sur-accent: #ffffff;
+  --ok: #1d6a3a; --ok-fond: #e3f2e8; --part: #7d4a00; --part-fond: #fcefd6;
+  --non: #9a1d1d; --non-fond: #fbe5e5; --vue: #5f6b7d;
+  --texte: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --chasse: "Atkinson Hyperlegible Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --rayon: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --fond: #0f141b; --surface: #171d26; --encre: #e7ebf2; --encre-2: #a7b1c0; --trait: #2a3342;
+    --accent: #8db0ff; --accent-doux: #1b2944; --sur-accent: #0f141b;
+    --ok: #86d7a2; --ok-fond: #15301f; --part: #f2c46d; --part-fond: #372a12;
+    --non: #ff9e9e; --non-fond: #3b1a1a; --vue: #8f99a9; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --fond: #0f141b; --surface: #171d26; --encre: #e7ebf2; --encre-2: #a7b1c0; --trait: #2a3342;
+  --accent: #8db0ff; --accent-doux: #1b2944; --sur-accent: #0f141b;
+  --ok: #86d7a2; --ok-fond: #15301f; --part: #f2c46d; --part-fond: #372a12;
+  --non: #ff9e9e; --non-fond: #3b1a1a; --vue: #8f99a9; color-scheme: dark;
+}
+html { scroll-padding-top: 3.5rem; }
+body { background: var(--fond); color: var(--encre); font: 1rem/1.6 var(--texte); }
+* { box-sizing: border-box; }
+a { color: var(--accent); text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+code { font: 0.9em var(--chasse); background: var(--accent-doux); padding: 0.05em 0.3em; border-radius: 3px; overflow-wrap: anywhere; }
+h1, h2, h3 { line-height: 1.25; text-wrap: balance; margin: 0; }
+.cadre { max-width: 68rem; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.evitement { position: absolute; left: -9999px; }
+.evitement:focus { left: 16px; top: 16px; background: var(--surface); padding: 0.5rem 0.75rem; z-index: 20; }
+
+/* En-tête */
+.entete { background: var(--surface); border-bottom: 1px solid var(--trait); }
+.entete .cadre { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 0.75rem 2rem; padding-block: 1.25rem 0; }
+.marque { display: grid; gap: 0.15rem; padding-bottom: 0.9rem; }
+.marque strong { font-size: 1.35rem; letter-spacing: -0.01em; }
+.fraicheur { font: 0.85rem var(--chasse); color: var(--encre-2); }
+.onglets { display: flex; gap: 0.25rem; }
+.onglets a { display: inline-block; padding: 0.6rem 1rem; min-height: 44px; color: var(--encre-2); text-decoration: none; font-weight: 700; border-bottom: 3px solid transparent; }
+.onglets a[aria-current="page"] { color: var(--encre); border-bottom-color: var(--accent); }
+
+main { padding-block: 2rem 4rem; }
+section { margin-top: 3rem; }
+section > h2 { font-size: 1.3rem; margin-bottom: 0.4rem; }
+.chapo { color: var(--encre-2); max-width: 65ch; margin: 0 0 1.25rem; }
+.sur { font: 600 0.75rem var(--chasse); text-transform: uppercase; letter-spacing: 0.08em; color: var(--encre-2); }
+
+/* Ouverture du rapport */
+.titre-vue { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem); margin-bottom: 0.5rem; }
+.ouverture h1 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); max-width: 30ch; margin-top: 0.4rem; }
+.lead { font-size: 1.15rem; max-width: 62ch; margin: 1rem 0 0; }
+.lecture { display: inline-flex; margin-top: 1.25rem; border: 1px solid var(--trait); border-radius: 999px; padding: 3px; background: var(--surface); }
+.lecture label { position: relative; }
+.lecture input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.lecture span { display: block; padding: 0.35rem 0.9rem; border-radius: 999px; font-size: 0.9rem; min-height: 32px; }
+.lecture input:checked + span { background: var(--accent); color: var(--sur-accent); }
+.lecture input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* Entonnoir : du volume collecté à la décision */
+.entonnoir { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--trait); border-radius: var(--rayon); background: var(--surface); }
+.entonnoir li { padding: 1rem 1.1rem; display: grid; gap: 0.15rem; }
+.entonnoir li + li { border-left: 1px solid var(--trait); }
+.entonnoir .nombre { font: 700 2rem/1.1 var(--chasse); font-variant-numeric: tabular-nums; }
+.entonnoir .libelle { color: var(--encre-2); font-size: 0.9rem; }
+.entonnoir li:last-child .nombre { color: var(--accent); }
+
+/* Recommandations */
+.recos { display: grid; gap: 1rem; }
+.reco { background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); padding: 1.1rem 1.25rem; display: grid; gap: 0.6rem; }
+.reco header { display: flex; gap: 0.75rem; align-items: baseline; flex-wrap: wrap; }
+.pastille { font: 700 0.85rem var(--chasse); background: var(--accent); color: var(--sur-accent); border-radius: 4px; padding: 0.1rem 0.45rem; }
+.reco h3 { font-size: 1.1rem; flex: 1 1 20rem; min-width: 0; }
+.reco dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.3rem 1rem; font-size: 0.95rem; }
+.reco dt { color: var(--encre-2); }
+.reco dd { margin: 0; min-width: 0; }
+.liens { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-size: 0.95rem; }
+
+/* Fiches */
+.fiche { background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); }
+.fiche + .fiche { margin-top: 0.6rem; }
+.fiche summary { cursor: pointer; padding: 0.85rem 1.1rem; display: flex; gap: 0.75rem; align-items: baseline; flex-wrap: wrap; list-style: none; min-height: 44px; }
+.fiche summary::-webkit-details-marker { display: none; }
+.fiche summary::before { content: "›"; font-weight: 700; color: var(--encre-2); transition: transform 0.15s; }
+.fiche[open] summary::before { transform: rotate(90deg); }
+.fiche .code { font: 0.8rem var(--chasse); color: var(--encre-2); }
+.fiche .intitule { font-weight: 700; flex: 1 1 18rem; min-width: 0; }
+.fiche .corps { padding: 0 1.25rem 1.2rem; display: grid; gap: 0.9rem; max-width: 72ch; }
+.fiche h3 { margin: 0; font-size: 0.8rem; font-family: var(--chasse); text-transform: uppercase; letter-spacing: 0.08em; color: var(--encre-2); }
+.fiche p { margin: 0.2rem 0 0; }
+.clair { background: var(--accent-doux); border-radius: var(--rayon); padding: 0.75rem 0.9rem; }
+.etat { font: 600 0.78rem var(--chasse); border-radius: 999px; padding: 0.12rem 0.55rem; white-space: nowrap; }
+.etat.oui { color: var(--ok); background: var(--ok-fond); }
+.etat.partie { color: var(--part); background: var(--part-fond); }
+.etat.non { color: var(--non); background: var(--non-fond); }
+
+/* Couverture des thèmes */
+.couverture { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.55rem; }
+.couverture li { display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) 13rem; gap: 0.75rem; align-items: center; }
+.barre { height: 0.6rem; background: var(--trait); border-radius: 999px; overflow: hidden; }
+.barre span { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.couverture .chiffres { font: 0.85rem var(--chasse); color: var(--encre-2); font-variant-numeric: tabular-nums; text-align: right; }
+.couverture .vide .chiffres { color: var(--part); }
+
+.liste { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.5rem; max-width: 72ch; }
+.glossaire { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 0.9rem 2rem; margin: 0; }
+.glossaire div { min-width: 0; }
+.glossaire dt { font-weight: 700; }
+.glossaire dd { margin: 0.15rem 0 0; color: var(--encre-2); }
+.defile { overflow-x: auto; border: 1px solid var(--trait); border-radius: var(--rayon); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--trait); vertical-align: top; }
+th { font: 600 0.78rem var(--chasse); text-transform: uppercase; letter-spacing: 0.06em; color: var(--encre-2); }
+tr:last-child td { border-bottom: 0; }
+
+/* Trier */
+.outils { background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); padding: 1rem; display: grid; gap: 0.9rem; }
+.ligne-outils { display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; align-items: end; }
+.champ { display: grid; gap: 0.25rem; min-width: 0; max-width: 100%; }
+.champ label, .champ .titre-champ { font-size: 0.85rem; color: var(--encre-2); }
+select { min-width: 0; }
+input[type="search"], select { font: inherit; color: var(--encre); background: var(--fond); border: 1px solid var(--encre-2); border-radius: var(--rayon); padding: 0.45rem 0.6rem; min-height: 44px; max-width: 100%; }
+input[type="search"] { width: min(28rem, 100%); }
+.coche { display: inline-flex; gap: 0.45rem; align-items: center; min-height: 44px; }
+.coche input { width: 1.15rem; height: 1.15rem; accent-color: var(--accent); }
+button { font: inherit; color: var(--encre); background: var(--surface); border: 1px solid var(--encre-2); border-radius: var(--rayon); padding: 0.4rem 0.8rem; min-height: 44px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+.compte { font: 0.9rem var(--chasse); color: var(--encre-2); }
+.jour { margin-top: 1.75rem; }
+.jour h2 { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--fond); padding-block: 0.5rem; font-size: 1rem; display: flex; gap: 0.6rem; align-items: baseline; border-bottom: 1px solid var(--trait); }
+.jour h2 .compte { font-weight: 400; }
+.entrees { list-style: none; padding: 0; margin: 0; }
+.entree { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.25rem 1rem; padding: 0.7rem 0.4rem; border-bottom: 1px solid var(--trait); scroll-margin-top: 4rem; }
+.entree.active { background: var(--accent-doux); }
+.entree .titre { font-weight: 700; overflow-wrap: anywhere; }
+.entree .titre a { color: var(--encre); text-decoration: none; }
+.entree .titre a:hover { color: var(--accent); text-decoration: underline; }
+.meta { grid-column: 1; display: flex; flex-wrap: wrap; gap: 0.25rem 0.9rem; font: 0.82rem var(--chasse); color: var(--encre-2); }
+.etiquette { border: 1px solid var(--trait); border-radius: 4px; padding: 0 0.35rem; }
+.retenue { color: var(--sur-accent); background: var(--accent); border-color: var(--accent); display: inline-block; min-height: 24px; padding: 0.1rem 0.45rem; }
+.entree .marquer { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-size: 0.85rem; }
+.entree.vue .titre a, .entree.vue .meta { color: var(--vue); }
+.marquer[aria-pressed="true"] { background: var(--accent-doux); border-color: var(--accent); }
+.vide-etat { padding: 2rem 1rem; text-align: center; color: var(--encre-2); }
+dialog { color: var(--encre); background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); max-width: min(32rem, calc(100% - 32px)); }
+dialog::backdrop { background: rgb(0 0 0 / 0.4); }
+kbd { font: 0.85rem var(--chasse); border: 1px solid var(--trait); border-bottom-width: 2px; border-radius: 4px; padding: 0 0.35rem; }
+.pied { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--trait); font-size: 0.85rem; color: var(--encre-2); }
+
+@media (max-width: 720px) {
+  .entonnoir { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .entonnoir li:nth-child(3) { border-left: 0; }
+  .entonnoir li:nth-child(n+3) { border-top: 1px solid var(--trait); }
+  .couverture li { grid-template-columns: minmax(0, 1fr) auto; }
+  .couverture .barre { grid-column: 1 / -1; grid-row: 2; }
+  .reco dl { grid-template-columns: minmax(0, 1fr); }
+  .reco dd { margin-bottom: 0.4rem; }
+  .entree { grid-template-columns: minmax(0, 1fr); }
+  .entree .marquer { grid-column: 1; grid-row: auto; justify-self: start; }
+  .champ { flex: 1 1 100%; }
+  .champ select, input[type="search"] { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+
+<a class="evitement" href="#contenu">Aller au contenu</a>
+<header class="entete">
+  <div class="cadre">
+    <div class="marque">
+      <strong>Veille de Muninn</strong>
+      <span class="fraicheur" id="fraicheur"></span>
+    </div>
+    <nav class="onglets" aria-label="Vues">
+      <a href="#rapport" id="onglet-rapport">Rapport</a>
+      <a href="#trier" id="onglet-trier">Trier la collecte</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenu" class="cadre" tabindex="-1">
+  <div id="vue-rapport"></div>
+  <div id="vue-trier" hidden></div>
+  <p class="pied" id="pied"></p>
+</main>
+
+<dialog id="aide" aria-labelledby="aide-titre">
+  <h2 id="aide-titre">Raccourcis clavier</h2>
+  <p>Actifs dans la vue « Trier », hors des champs de saisie. La case « Raccourcis clavier » les désactive.</p>
+  <ul class="liste">
+    <li><kbd>j</kbd> et <kbd>k</kbd> : entrée suivante et précédente</li>
+    <li><kbd>v</kbd> : ouvrir la source de l'entrée active</li>
+    <li><kbd>x</kbd> : marquer l'entrée active comme vue, ou non vue</li>
+    <li><kbd>/</kbd> : aller à la recherche</li>
+    <li><kbd>?</kbd> : afficher cette aide</li>
+  </ul>
+  <form method="dialog"><button id="fermer-aide">Fermer</button></form>
+</dialog>
+
+<script type="application/json" id="donnees">/*DONNEES*/</script>
+<script>
+(() => {
+  if (!document.documentElement.lang) document.documentElement.lang = "fr";
+  const D = JSON.parse(document.getElementById("donnees").textContent);
+  const $ = (id) => document.getElementById(id);
+
+  // Construction sûre : le texte venu des flux n'est jamais interprété comme du HTML.
+  function el(tag, attrs, ...enfants) {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) {
+      if (v === null || v === undefined || v === false) continue;
+      if (k === "class") n.className = v;
+      else if (k === "text") n.textContent = v;
+      else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+      else n.setAttribute(k, v === true ? "" : v);
+    }
+    for (const e of enfants.flat()) if (e !== null && e !== undefined && e !== false) n.append(e);
+    return n;
+  }
+  const sur = (href) => typeof href === "string" && href.startsWith("https://");
+  function lien(texte, href) {
+    return sur(href) ? el("a", { href, target: "_blank", rel: "noopener noreferrer" }, texte, el("span", { class: "evitement", text: " (nouvel onglet)" })) : document.createTextNode(texte);
+  }
+  function segs(liste) {
+    const f = document.createDocumentFragment();
+    for (const s of liste || []) {
+      if ("code" in s) f.append(el("code", { text: s.code }));
+      else if ("a" in s) f.append(lien(s.a, s.href));
+      else f.append(document.createTextNode(s.t));
+    }
+    return f;
+  }
+  const texteDe = (liste) => (liste || []).map((s) => s.t ?? s.code ?? s.a ?? "").join("");
+
+  // Mémoire propre à ce navigateur : préférences et entrées vues, jamais indispensable.
+  const memoire = {
+    lire(cle, defaut) { try { const v = localStorage.getItem("veille-muninn:" + cle); return v === null ? defaut : JSON.parse(v); } catch { return defaut; } },
+    ecrire(cle, v) { try { localStorage.setItem("veille-muninn:" + cle, JSON.stringify(v)); } catch { /* sans mémoire */ } },
+  };
+
+  const mois = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+  const jours = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+  function dateLongue(iso, avecJour) {
+    const [a, m, j] = iso.split("-").map(Number);
+    const d = new Date(Date.UTC(a, m - 1, j));
+    return (avecJour ? jours[d.getUTCDay()] + " " : "") + j + (j === 1 ? "er" : "") + " " + mois[m - 1] + " " + a;
+  }
+
+  const C = D.collecte;
+  const sources = Object.fromEntries(D.sources.map((s) => [s.code, s]));
+  const fiches = Object.fromEntries(D.fiches.map((f) => [f.id, f]));
+  const parNumero = (n) => D.fiches.find((f) => f.code.endsWith("-" + n));
+  const nbFlux = D.sources.filter((s) => s.acces === "flux").length;
+  $("fraicheur").textContent = "Collecte du " + dateLongue(C.date) + " · " + C.jours + " jours · " + C.total + " entrées · " + nbFlux + " flux";
+  $("pied").textContent = "Page produite à partir des fichiers de veille du dépôt Muninn (registre, collecte « " + C.fichier + " », fiches, synthèse). Les liens ouvrent les sources d'origine.";
+
+  function etat(f) {
+    const v = (f.verification || "").toLowerCase();
+    const cls = v === "oui" ? "oui" : v === "en" ? "partie" : "non";
+    const libelle = v === "oui" ? "Vérifiée à la source" : v === "en" ? "Vérifiée en partie" : "Non vérifiée au texte";
+    return el("span", { class: "etat " + cls, text: libelle });
+  }
+
+  // ---------- Rapport ----------
+  function rapport() {
+    const S = D.synthese;
+    const racine = $("vue-rapport");
+    racine.replaceChildren();
+    if (!S) { racine.append(el("h1", { id: "titre-rapport", tabindex: "-1", text: "Veille de Muninn" }), el("p", { text: "Aucune synthèse pour l'instant." })); return; }
+    let lecture = memoire.lire("lecture", "clair");
+    if (lecture !== "clair" && lecture !== "technique") lecture = "clair";
+
+    const lead = el("p", { class: "lead" });
+    const decisions = Object.values(S.raisonnements).flatMap((r) => r.paragraphes).filter((p) => texteDe(p).startsWith("Décision proposée")).length;
+    function remplirLead() {
+      lead.replaceChildren(lecture === "clair" && S.chapeau_clair ? document.createTextNode(S.chapeau_clair) : segs(S.chapeau[0]));
+      for (const r of document.querySelectorAll("[data-reco]")) r.render();
+    }
+    const bascule = el("div", { class: "lecture", role: "radiogroup", "aria-label": "Niveau de lecture du chapeau et des recommandations" },
+      ["clair", "technique"].map((v) => el("label", {},
+        el("input", { type: "radio", name: "lecture", id: "lecture-" + v, value: v, checked: lecture === v, onchange: () => { lecture = v; memoire.ecrire("lecture", v); remplirLead(); } }),
+        el("span", { text: v === "clair" ? "En clair" : "Version technique" }))));
+
+    racine.append(el("div", { class: "ouverture" },
+      el("span", { class: "sur", text: "Synthèse de veille" }),
+      el("h1", { id: "titre-rapport", tabindex: "-1", text: S.titre }),
+      lead,
+      bascule,
+      el("ol", { class: "entonnoir", "aria-label": "Du volume collecté à la décision" },
+        [[C.total, "entrées collectées en " + C.jours + " jours"], [D.fiches.length, "fiches retenues"], [S.recommandations.length, "recommandations"], [decisions, decisions > 1 ? "décisions proposées" : "décision proposée"]]
+          .map(([n, l]) => el("li", {}, el("span", { class: "nombre", text: String(n) }), el("span", { class: "libelle", text: l }))))));
+
+    // Recommandations
+    const recos = el("div", { class: "recos" });
+    for (const r of S.recommandations) {
+      const f = parNumero(r.fiche);
+      const carte = el("article", { class: "reco", "data-reco": "", "aria-labelledby": "reco-" + r.n });
+      const raison = S.raisonnements[r.n];
+      carte.render = () => {
+        const clair = lecture === "clair" && r.en_clair;
+        carte.replaceChildren(
+          el("header", {}, el("span", { class: "pastille", text: r.n }),
+            el("h3", { id: "reco-" + r.n }, clair ? r.en_clair : segs(r.recommandation)), f ? etat(f) : null),
+          el("dl", {},
+            el("dt", { text: "Information" }), el("dd", {}, segs(r.information)),
+            el("dt", { text: "Impact sur Muninn" }), el("dd", {}, segs(r.impact)),
+            clair ? [el("dt", { text: "Recommandation" }), el("dd", {}, segs(r.recommandation))] : null),
+          el("div", { class: "liens" },
+            f ? el("a", { href: "#" + f.id, text: "Lire la fiche " + r.fiche }) : null,
+            raison ? el("a", { href: "#raison-" + r.n, text: "Pourquoi cette recommandation" }) : null));
+      };
+      carte.render();
+      recos.append(carte);
+    }
+    racine.append(el("section", { "aria-labelledby": "t-recos" }, el("h2", { id: "t-recos", text: "Recommandations" }),
+      el("p", { class: "chapo", text: "Collecte du " + dateLongue(C.date) + " sur " + C.jours + " jours : " + C.total + " entrées issues de " + nbFlux + " flux" + (C.retirees ? " (" + C.retirees + " retirée" + (C.retirees > 1 ? "s" : "") + " par la règle d'exclusion)" : "") + ", plus les sources lues à la main ; " + D.fiches.length + " fiches retenues." }), recos));
+
+    for (const [n, r] of Object.entries(S.raisonnements)) {
+      racine.append(el("section", { id: "raison-" + n, "aria-labelledby": "t-raison-" + n },
+        el("h2", { id: "t-raison-" + n, text: r.titre }), r.paragraphes.map((p) => el("p", { class: "chapo" }, segs(p)))));
+    }
+
+    // Couverture des thèmes
+    const parTheme = (t, cle) => C.entrees.filter((e) => e.theme === t && (!cle || e.fiche)).length;
+    const max = Math.max(1, ...D.themes.map((t) => parTheme(t)));
+    racine.append(el("section", { "aria-labelledby": "t-couv" },
+      el("h2", { id: "t-couv", text: "Couverture des thèmes" }),
+      el("p", { class: "chapo", text: "Nombre d'entrées collectées par thème, et parmi elles celles devenues fiches. Un thème sans entrée reste affiché : c'est un angle mort à surveiller." }),
+      el("ul", { class: "couverture" }, D.themes.map((t) => {
+        const n = parTheme(t), nf = parTheme(t, true);
+        return el("li", { class: n ? "" : "vide" },
+          el("span", { text: t }),
+          el("span", { class: "barre", "aria-hidden": "true" }, el("span", { style: "width:" + Math.round((n / max) * 100) + "%" })),
+          el("span", { class: "chiffres", text: n ? n + (n > 1 ? " entrées" : " entrée") + (nf ? ", dont " + nf + (nf > 1 ? " fiches" : " fiche") : "") : "aucune entrée" }));
+      }))));
+
+    // Fiches
+    racine.append(el("section", { "aria-labelledby": "t-fiches" },
+      el("h2", { id: "t-fiches", text: "Les fiches" }),
+      el("p", { class: "chapo", text: "Chaque information retenue, vérifiée à sa source. Le texte en clair vient d'abord, la fiche technique ensuite." }),
+      D.fiches.map((f) => el("details", { class: "fiche", id: f.id },
+        el("summary", {}, el("span", { class: "code", text: f.code }), el("span", { class: "intitule", text: f.titre }), etat(f)),
+        el("div", { class: "corps" },
+          f.en_clair.length ? el("div", { class: "clair" }, el("h3", { text: "En clair" }), f.en_clair.map((p) => el("p", {}, segs(p)))) : null,
+          [["Résumé", f.resume], ["Impact sur Muninn", f.impact], ["Suite", f.suite]].map(([t, ps]) => el("div", {}, el("h3", { text: t }), ps.map((p) => el("p", {}, segs(p))))),
+          el("div", {}, el("h3", { text: "Source et vérification" }), el("p", {}, segs(f.source)), el("p", {}, segs(f.verification_detail))),
+          f.entree ? el("p", {}, el("a", { href: "#trier", "data-entree": f.entree, onclick: (ev) => { ev.preventDefault(); allerEntree(f.entree); }, text: "Voir l'entrée dans la collecte" })) : null)))));
+
+    racine.append(el("section", { "aria-labelledby": "t-rien" }, el("h2", { id: "t-rien", text: "Ce qui ne change rien" }),
+      el("ul", { class: "liste" }, S.rien.map((p) => el("li", {}, segs(p))))));
+    racine.append(el("section", { "aria-labelledby": "t-limites" }, el("h2", { id: "t-limites", text: "Limites" }),
+      el("ul", { class: "liste" }, S.limites.map((p) => el("li", {}, segs(p))))));
+    if (S.sources_citees.length) {
+      racine.append(el("section", { "aria-labelledby": "t-citees" }, el("h2", { id: "t-citees", text: "Sources citées" }),
+        el("ul", { class: "liste" }, S.sources_citees.map((p) => el("li", {}, segs(p))))));
+    }
+    if (D.glossaire.length) {
+      racine.append(el("section", { "aria-labelledby": "t-gloss" }, el("h2", { id: "t-gloss", text: "Glossaire" }),
+        el("dl", { class: "glossaire" }, D.glossaire.map((g) => el("div", {}, el("dt", { text: g.terme }), el("dd", { text: g.definition }))))));
+    }
+    racine.append(el("section", { "aria-labelledby": "t-sources" }, el("h2", { id: "t-sources", text: "Les sources suivies" }),
+      el("p", { class: "chapo", text: D.sources.length + " sources : " + nbFlux + " flux lus par la collecte, les autres lues à la main." }),
+      el("div", { class: "defile", tabindex: "0", role: "region", "aria-label": "Registre des sources" },
+        el("table", {},
+          el("thead", {}, el("tr", {}, ["N°", "Source", "Thème", "Type", "Fiabilité", "Lecture"].map((h) => el("th", { scope: "col", text: h })))),
+          el("tbody", {}, D.sources.map((s) => el("tr", {},
+            el("td", { text: s.code }), el("td", {}, s.lien ? lien(s.nom, s.lien) : s.nom), el("td", { text: s.theme }),
+            el("td", { text: s.type }), el("td", { text: s.fiabilite }),
+            el("td", { text: s.frequence.toLowerCase() + (s.acces === "main" ? ", à la main" : "") }))))))));
+    remplirLead();
+  }
+
+  // ---------- Trier ----------
+  const lus = memoire.lire("vues", []);
+  const vues = new Set(Array.isArray(lus) ? lus.filter((v) => typeof v === "string") : []);
+  const filtre = { q: "", theme: "", source: "", fiabilite: "", fiches: false, masquerVues: false };
+  let raccourcis = memoire.lire("raccourcis", true) !== false;
+  let active = -1;
+  let visibles = [];
+
+  function trier() {
+    const racine = $("vue-trier");
+    if (racine.dataset.pret) { afficherListe(); return; }
+    racine.dataset.pret = "1";
+    const options = (liste) => [el("option", { value: "", text: "Tous" }), ...liste.map(([v, l]) => el("option", { value: v, text: l }))];
+    const sel = (id, libelle, liste, cle) => el("div", { class: "champ" }, el("label", { for: id, text: libelle }),
+      el("select", { id, onchange: (e) => { filtre[cle] = e.target.value; afficherListe(); } }, options(liste)));
+    const coche = (id, libelle, cle) => el("label", { class: "coche" },
+      el("input", { type: "checkbox", id, onchange: (e) => { filtre[cle] = e.target.checked; afficherListe(); } }), libelle);
+    const sourcesCollecte = D.sources.filter((s) => s.acces === "flux");
+    racine.append(
+      el("h1", { id: "titre-trier", class: "titre-vue", tabindex: "-1", text: "Trier la collecte" }),
+      el("p", { class: "chapo", text: "Les nouveautés de la collecte, jour par jour. Une entrée n'est retenue que si elle peut changer un choix, une mesure ou une obligation de Muninn ; les entrées retenues portent la marque « fiche »." }),
+      el("div", { class: "outils", role: "search", "aria-label": "Filtrer la collecte" },
+        el("div", { class: "ligne-outils" },
+          el("div", { class: "champ" }, el("label", { for: "recherche", text: "Rechercher dans les titres" }),
+            el("input", { type: "search", id: "recherche", autocomplete: "off", oninput: (e) => { filtre.q = e.target.value.trim().toLowerCase(); afficherListe(); } })),
+          sel("filtre-theme", "Thème", D.themes.map((t) => [t, t]), "theme"),
+          sel("filtre-source", "Source", sourcesCollecte.map((s) => [s.code, s.code + " · " + s.nom]), "source"),
+          sel("filtre-fiabilite", "Fiabilité", [...new Set(D.sources.map((s) => s.fiabilite))].map((v) => [v, v]), "fiabilite")),
+        el("div", { class: "ligne-outils" },
+          coche("seulement-fiches", "Seulement les entrées retenues", "fiches"),
+          coche("masquer-vues", "Masquer les entrées vues", "masquerVues"),
+          el("button", { type: "button", id: "effacer", onclick: effacer, text: "Effacer les filtres" }),
+          el("label", { class: "coche" }, el("input", { type: "checkbox", id: "raccourcis", checked: raccourcis, onchange: (e) => { raccourcis = e.target.checked; memoire.ecrire("raccourcis", raccourcis); } }), "Raccourcis clavier"),
+          el("button", { type: "button", id: "ouvrir-aide", onclick: () => $("aide").showModal(), text: "Aide des raccourcis" })),
+        el("p", { class: "compte", id: "compte", "aria-live": "polite", role: "status" })),
+      el("div", { id: "liste" }));
+    afficherListe();
+  }
+
+  function effacer() {
+    Object.assign(filtre, { q: "", theme: "", source: "", fiabilite: "", fiches: false, masquerVues: false });
+    for (const id of ["recherche", "filtre-theme", "filtre-source", "filtre-fiabilite"]) $(id).value = "";
+    $("seulement-fiches").checked = false;
+    $("masquer-vues").checked = false;
+    afficherListe();
+  }
+
+  function retenue(e) {
+    const s = sources[e.source] || {};
+    return (!filtre.q || e.titre.toLowerCase().includes(filtre.q)) && (!filtre.theme || e.theme === filtre.theme) &&
+      (!filtre.source || e.source === filtre.source) && (!filtre.fiabilite || s.fiabilite === filtre.fiabilite) &&
+      (!filtre.fiches || e.fiche) && (!filtre.masquerVues || !vues.has(e.lien));
+  }
+
+  function afficherListe() {
+    const zone = $("liste");
+    visibles = C.entrees.filter(retenue).sort((a, b) => b.date.localeCompare(a.date) || (b.fiche ? 1 : 0) - (a.fiche ? 1 : 0));
+    clearTimeout(afficherListe.minuteur);
+    const n = visibles.length;
+    afficherListe.minuteur = setTimeout(() => { $("compte").textContent = n + (n > 1 ? " entrées affichées" : " entrée affichée") + " sur " + C.total; }, 300);
+    active = -1;
+    if (!visibles.length) { zone.replaceChildren(el("p", { class: "vide-etat", text: "Aucune entrée ne correspond à ces filtres." })); return; }
+    const groupes = new Map();
+    for (const e of visibles) { if (!groupes.has(e.date)) groupes.set(e.date, []); groupes.get(e.date).push(e); }
+    zone.replaceChildren(...[...groupes].map(([date, liste]) => el("div", { class: "jour" },
+      el("h2", { id: "j-" + date }, el("span", { text: dateLongue(date, true) }), el("span", { class: "compte", text: liste.length + (liste.length > 1 ? " entrées" : " entrée") })),
+      el("ul", { class: "entrees" }, liste.map(ligne)))));
+  }
+
+  function ligne(e) {
+    const s = sources[e.source] || {};
+    const vue = vues.has(e.lien);
+    const bouton = el("button", { type: "button", class: "marquer", "aria-pressed": vue ? "true" : "false", "aria-describedby": "t-" + e.id, text: "Marquer comme vue" });
+    const li = el("li", { class: "entree" + (vue ? " vue" : ""), id: e.id, "data-lien": e.lien },
+      el("div", { class: "titre", id: "t-" + e.id, tabindex: "-1" }, lien(e.titre, e.lien)),
+      el("div", { class: "meta" },
+        el("span", { text: e.source + " · " + (s.nom || "") }),
+        el("span", { class: "etiquette", text: e.theme }),
+        el("span", { text: "fiabilité " + (s.fiabilite || "").toLowerCase() }),
+        e.fiche ? el("a", { class: "etiquette retenue", href: "#" + e.fiche, text: "fiche " + (fiches[e.fiche]?.code.slice(-2) || "") }) : null),
+      bouton);
+    bouton.addEventListener("click", () => basculerVue(li, bouton, e.lien));
+    return li;
+  }
+
+  function basculerVue(li, bouton, url) {
+    if (vues.has(url)) vues.delete(url); else vues.add(url);
+    memoire.ecrire("vues", [...vues]);
+    const vue = vues.has(url);
+    li.classList.toggle("vue", vue);
+    bouton.setAttribute("aria-pressed", vue ? "true" : "false");
+    if (filtre.masquerVues && vue) afficherListe();
+  }
+
+  function activer(i) {
+    const items = [...document.querySelectorAll("#liste .entree")];
+    if (!items.length) return;
+    active = Math.max(0, Math.min(items.length - 1, i));
+    items.forEach((n, k) => n.classList.toggle("active", k === active));
+    items[active].querySelector(".titre a, .titre")?.focus();
+    items[active].scrollIntoView({ block: "nearest" });
+  }
+
+  document.addEventListener("keydown", (ev) => {
+    if (!raccourcis || $("vue-trier").hidden || ev.ctrlKey || ev.metaKey || ev.altKey) return;
+    const cible = ev.target;
+    if (cible.closest("input, select, textarea, dialog")) return;
+    const items = [...document.querySelectorAll("#liste .entree")];
+    if (ev.key === "j") { ev.preventDefault(); activer(active + 1); }
+    else if (ev.key === "k") { ev.preventDefault(); activer(active - 1); }
+    else if (ev.key === "/") { ev.preventDefault(); $("recherche").focus(); }
+    else if (ev.key === "?") { ev.preventDefault(); $("aide").showModal(); }
+    else if (ev.key === "v" && items[active]) { ev.preventDefault(); items[active].querySelector(".titre a")?.click(); }
+    else if (ev.key === "x" && items[active]) { ev.preventDefault(); items[active].querySelector(".marquer").click(); }
+  });
+
+  function allerEntree(url) {
+    history.pushState(null, "", "#trier");
+    montrer("trier", false);
+    const li = document.querySelector('#liste .entree[data-lien="' + CSS.escape(url) + '"]');
+    if (!li) { effacer(); }
+    const cible = document.querySelector('#liste .entree[data-lien="' + CSS.escape(url) + '"]');
+    if (cible) { cible.classList.add("active"); cible.scrollIntoView({ block: "center" }); cible.querySelector(".titre a")?.focus(); }
+  }
+
+  // ---------- Navigation par le fragment d'adresse ----------
+  function montrer(vue, focaliser) {
+    const trierVue = vue === "trier";
+    $("vue-rapport").hidden = trierVue;
+    $("vue-trier").hidden = !trierVue;
+    $("onglet-rapport").removeAttribute("aria-current");
+    $("onglet-trier").removeAttribute("aria-current");
+    $(trierVue ? "onglet-trier" : "onglet-rapport").setAttribute("aria-current", "page");
+    if (trierVue) trier();
+    if (focaliser) { window.scrollTo(0, 0); $(trierVue ? "titre-trier" : "titre-rapport")?.focus({ preventScroll: true }); }
+  }
+  let premier = true;
+  function route() {
+    let h = "";
+    try { h = decodeURIComponent(location.hash.slice(1)); } catch { h = ""; }
+    const focaliser = !premier;
+    premier = false;
+    if (h === "trier") { montrer("trier", focaliser); return; }
+    // Un fragment inconnu (le lien d'évitement « #contenu », par exemple) laisse la vue en place.
+    if (h && h !== "rapport" && !h.startsWith("v-") && !h.startsWith("raison-")) return;
+    montrer("rapport", focaliser && (h === "" || h === "rapport"));
+    if (h.startsWith("v-")) {
+      const d = document.getElementById(h);
+      if (d && d.tagName === "DETAILS") { d.open = true; d.scrollIntoView({ block: "start" }); d.querySelector("summary").focus(); }
+    } else if (h.startsWith("raison-")) {
+      document.getElementById(h)?.scrollIntoView({ block: "start" });
+    }
+  }
+  rapport();
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>

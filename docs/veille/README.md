@@ -23,7 +23,7 @@ synthèses datées, chacune terminée par une recommandation pour le projet.
 1. **Sources** : le registre `sources.md` (type, fiabilité, fréquence de lecture) et son export
    `sources.opml`, à importer dans un lecteur de flux.
 2. **Collecte** : chaque semaine, `python infra/veille/collecter.py` lit les 11 flux et écrit les
-   nouveautés de la période dans `collecte/AAAA-MM-JJ.md` (arXiv filtré par mots-clés ; les mots que
+   nouveautés de la période dans `collecte/AAAA-MM-JJ-<jours>j.md` (arXiv filtré par mots-clés ; les mots que
    la règle du dépôt exclut sont réglés sur le poste par `VEILLE_EXCLUSIONS`, jamais versionnés) ; les
    sources sans flux se lisent à la main, à leur fréquence. Une information est retenue si elle
    peut changer un choix, une mesure ou une obligation du projet.
@@ -38,6 +38,10 @@ synthèses datées, chacune terminée par une recommandation pour le projet.
    une recommandation. Pas de séance avec un pair en V1 : la synthèse sert de support à l'oral
    blanc du 13 novembre. La trace de chaque partage (envoi daté, retours reçus ou leur absence,
    suites) va dans `seances/`.
+6. **Vitrine** : après chaque collecte, `python infra/veille/vitrine.py` régénère
+   `vitrine.html`, une page qui présente le rapport (recommandations, fiches en clair et version
+   technique, couverture des thèmes) et la collecte à trier ; elle est republiée au même lien
+   privé. Le test `tests/test_vitrine.py` échoue si la page n'a pas été régénérée.
 
 ## Règles
 

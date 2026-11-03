@@ -1,7 +1,8 @@
 """Collecte de la veille (C6) : lit les flux du registre et écrit les nouveautés à trier.
 
 Entrée : `docs/veille/sources.opml` (les flux de `docs/veille/sources.md`). Sortie : un fichier
-Markdown daté, `docs/veille/collecte/AAAA-MM-JJ.md`, une section par source, une ligne par
+Markdown daté et marqué de sa période, `docs/veille/collecte/AAAA-MM-JJ-<jours>j.md` (deux
+collectes de périodes différentes ne s'écrasent pas), une section par source, une ligne par
 nouveauté (date, titre, lien), du plus récent au plus ancien. Une nouveauté est retenue si elle
 date de la période demandée ; pour les flux à fort volume (arXiv), seulement si son titre contient
 un des mots-clés de la veille. Une source injoignable est signalée dans le fichier, sans arrêter
@@ -160,6 +161,9 @@ def main(argv: list[str]) -> int:
     mots = tuple(
         m.strip().lower() for m in os.environ.get("VEILLE_EXCLUSIONS", "").split(",") if m.strip()
     )
+    if not mots:
+        print("Attention : VEILLE_EXCLUSIONS n'est pas définie, aucune entrée n'est exclue.",
+              file=sys.stderr)  # fmt: skip
     resultats: list[tuple[str, list[tuple[datetime, str, str]] | str]] = []
     retirees = 0
     for nom, adresse in lire_opml(OPML):
@@ -171,7 +175,7 @@ def main(argv: list[str]) -> int:
         resultats.append((nom, gardees))
         retirees += n
     args.sortie.mkdir(parents=True, exist_ok=True)
-    fichier = args.sortie / f"{maintenant.date().isoformat()}.md"
+    fichier = args.sortie / f"{maintenant.date().isoformat()}-{args.jours}j.md"
     texte = rendre(maintenant.date(), args.jours, resultats, retirees)
     fichier.write_text(texte, encoding="utf-8", newline="\n")
     sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[union-attr]

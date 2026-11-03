@@ -4,8 +4,15 @@
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | Date de lecture               | 2026-11-03                                                                                                           |
 | Source                        | S05, version v1.45.0, 2 novembre 2026, <https://github.com/open-telemetry/semantic-conventions/releases/tag/v1.45.0> |
+| Entrée de collecte            | <https://github.com/open-telemetry/semantic-conventions/releases/tag/v1.45.0>                                        |
 | Thème                         | Évaluation et observabilité                                                                                          |
 | Vérifiée à la source primaire | Oui : notes de la version v1.45.0 lues le 3 novembre, aucune entrée `gen_ai`                                         |
+
+## En clair
+
+OpenTelemetry, un vocabulaire commun pour décrire ce que fait un logiciel, publie sa version 1.45.0.
+Elle ne change rien à la partie consacrée à l'IA générative. Les traces de Muninn ne gardent qu'une
+liste autorisée d'informations ; rien ne change pour elles.
 
 ## Résumé
 

@@ -4,8 +4,16 @@
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Date de lecture               | 2026-11-03                                                                                                                                                                                                                             |
 | Source                        | S10, « First harmonised standard supporting the AI Act published in the Official Journal », 19 octobre 2026, <https://digital-strategy.ec.europa.eu/en/library/first-harmonised-standard-supporting-ai-act-published-official-journal> |
+| Entrée de collecte            | <https://digital-strategy.ec.europa.eu/en/library/first-harmonised-standard-supporting-ai-act-published-official-journal>                                                                                                              |
 | Thème                         | Règlement européen sur l'IA                                                                                                                                                                                                            |
 | Vérifiée à la source primaire | En partie : page de la Commission lue ; texte de la norme (EN 18286:2026, diffusion payante) et texte du règlement non lus                                                                                                             |
+
+## En clair
+
+D'après la Commission européenne, la première norme harmonisée du règlement sur l'IA est publiée ;
+elle concerne les systèmes « à haut risque ». Le projet a classé Muninn ailleurs, sous l'obligation
+de s'annoncer comme une IA : aucun impact direct, sous réserve. Ni la norme ni le règlement n'ont
+été lus ; ce classement reste à vérifier avant un usage réel.
 
 ## Résumé
 

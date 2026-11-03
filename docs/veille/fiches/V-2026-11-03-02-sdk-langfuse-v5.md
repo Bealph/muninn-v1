@@ -4,8 +4,16 @@
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Date de lecture               | 2026-11-03                                                                                                                                 |
 | Source                        | S04, versions du SDK Python : v5.0.1 le 14 octobre 2026, v5.1.0 le 30 octobre 2026, <https://github.com/langfuse/langfuse-python/releases> |
+| Entrée de collecte            | <https://github.com/langfuse/langfuse-python/releases/tag/v5.1.0>                                                                          |
 | Thème                         | Évaluation et observabilité                                                                                                                |
 | Vérifiée à la source primaire | Oui : notes de version (API GitHub) et guide de migration, <https://langfuse.com/docs/observability/sdk/upgrade-path/python-v4-to-v5>      |
+
+## En clair
+
+Langfuse, l'outil qu'utilise Muninn pour observer et évaluer son modèle d'IA, sort la version 5 de
+son SDK Python, qui retire plusieurs fonctions. Muninn reste fixé sur la version 4.15.6 et n'utilise
+aucune des fonctions retirées : l'impact est faible. Le guide ne dit pas jusqu'à quand la version 4
+recevra des correctifs.
 
 ## Résumé
 
