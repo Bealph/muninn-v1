@@ -1,0 +1,1460 @@
+{
+  "date": "2026-11-03T11:41:18+00:00",
+  "api": "https://ca-muninn-api-prod.graybeach-70019748.francecentral.azurecontainerapps.io",
+  "environnement": "production",
+  "git_sha": "ce8ca4ba77f7a2cc51f19a973e59865d9dab720b",
+  "protocole": "docs/v1/benchmark-services-ia/protocole.md, section 5",
+  "passages": 3,
+  "espacement_s": 10.0,
+  "seuils": {
+    "rappel": 0.9,
+    "precision": 0.95,
+    "transcription_ms": 30000
+  },
+  "arret": null,
+  "cout_estime_eur": 0.6383,
+  "resultats": {
+    "appels_mesures": 48,
+    "appels_en_erreur": 0,
+    "rappel_median": 0.9827,
+    "rappel_min": 0.9375,
+    "precision_mediane": 0.9857,
+    "precision_min": 0.9286,
+    "appels_sous_seuils_mots": 3,
+    "locuteurs_justes_median": 1.0,
+    "locuteurs_justes_min": 1.0,
+    "groupes_chiffres_dits": 75,
+    "groupes_chiffres_exacts": 69,
+    "groupes_chiffres_en_trop": 6,
+    "transcription_ms_median": 1351.5,
+    "transcription_ms_max": 2562,
+    "appels_au_dela_30_s": 0,
+    "scenarios_stables": 16,
+    "scenarios": 16,
+    "fideles_selon_api": 30
+  },
+  "lignes": [
+    {
+      "passage": 1,
+      "scenario_id": "SC-01",
+      "caracteres": 340,
+      "audio_s": 30.8,
+      "synthese_ms": 2100,
+      "appel_ms": 4991,
+      "transcription_ms": 1399,
+      "audio_octets": 185040,
+      "tours_dits": 8,
+      "tours_entendus": 8,
+      "rappel": 0.9697,
+      "precision": 0.9846,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "0000"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 3,
+        "groupes_exacts": 3,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 3227,
+      "empreinte_entendu": "e74bef429c8ea109"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-02",
+      "caracteres": 233,
+      "audio_s": 25.1,
+      "synthese_ms": 820,
+      "appel_ms": 5059,
+      "transcription_ms": 1516,
+      "audio_octets": 150768,
+      "tours_dits": 8,
+      "tours_entendus": 8,
+      "rappel": 0.9762,
+      "precision": 0.9762,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "000"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 2,
+        "groupes_exacts": 1,
+        "groupes_manquants": [
+          "0699000002"
+        ],
+        "groupes_en_trop": [
+          "06990000002"
+        ]
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4864,
+      "empreinte_entendu": "3250349335f334b3"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-03",
+      "caracteres": 200,
+      "audio_s": 19.0,
+      "synthese_ms": 550,
+      "appel_ms": 3837,
+      "transcription_ms": 885,
+      "audio_octets": 114048,
+      "tours_dits": 6,
+      "tours_entendus": 6,
+      "rappel": 0.9706,
+      "precision": 0.9706,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "goute"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 2,
+        "groupes_exacts": 2,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4865,
+      "empreinte_entendu": "a3eb96ea6ab8c0af"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-04",
+      "caracteres": 182,
+      "audio_s": 15.1,
+      "synthese_ms": 426,
+      "appel_ms": 4229,
+      "transcription_ms": 1188,
+      "audio_octets": 90432,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 1.0,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 2,
+        "groupes_exacts": 2,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4801,
+      "empreinte_entendu": "e20e7e42163510f4"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-05",
+      "caracteres": 301,
+      "audio_s": 21.9,
+      "synthese_ms": 536,
+      "appel_ms": 6700,
+      "transcription_ms": 939,
+      "audio_octets": 131328,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 0.9808,
+      "precision": 0.9808,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "verifie"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 1,
+        "groupes_exacts": 1,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4879,
+      "empreinte_entendu": "c061a5c9ef28d6a5"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-07",
+      "caracteres": 178,
+      "audio_s": 14.6,
+      "synthese_ms": 400,
+      "appel_ms": 3729,
+      "transcription_ms": 741,
+      "audio_octets": 87552,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 0.9375,
+      "precision": 0.9677,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "9a3"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 1,
+        "groupes_exacts": 0,
+        "groupes_manquants": [
+          "93"
+        ],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4872,
+      "empreinte_entendu": "a7492be76d9b7eb2"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-08",
+      "caracteres": 164,
+      "audio_s": 14.6,
+      "synthese_ms": 481,
+      "appel_ms": 4563,
+      "transcription_ms": 835,
+      "audio_octets": 87408,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 0.963,
+      "precision": 0.9286,
+      "mots_en_trop": 2,
+      "mots_en_trop_liste": [
+        "94",
+        "300"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 1,
+        "groupes_exacts": 1,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 6404,
+      "empreinte_entendu": "29b2463aa245018b"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-10",
+      "caracteres": 151,
+      "audio_s": 12.9,
+      "synthese_ms": 403,
+      "appel_ms": 4448,
+      "transcription_ms": 688,
+      "audio_octets": 77472,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 1.0,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4882,
+      "empreinte_entendu": "8057ffb6b8abb830"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-Q1",
+      "caracteres": 978,
+      "audio_s": 67.8,
+      "synthese_ms": 1043,
+      "appel_ms": 2626,
+      "transcription_ms": 1715,
+      "audio_octets": 406512,
+      "tours_dits": 11,
+      "tours_entendus": 11,
+      "rappel": 0.9769,
+      "precision": 0.9769,
+      "mots_en_trop": 4,
+      "mots_en_trop_liste": [
+        "h",
+        "h",
+        "h",
+        "h"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 4,
+        "groupes_exacts": 4,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "message",
+      "cout_modele_micro_eur": 1119,
+      "empreinte_entendu": "a671801bbc887013"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-Q2",
+      "caracteres": 743,
+      "audio_s": 53.4,
+      "synthese_ms": 818,
+      "appel_ms": 2141,
+      "transcription_ms": 1340,
+      "audio_octets": 320400,
+      "tours_dits": 7,
+      "tours_entendus": 7,
+      "rappel": 0.9926,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "message",
+      "cout_modele_micro_eur": 980,
+      "empreinte_entendu": "024803970d9e21be"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-Q3",
+      "caracteres": 944,
+      "audio_s": 67.5,
+      "synthese_ms": 1009,
+      "appel_ms": 4470,
+      "transcription_ms": 1592,
+      "audio_octets": 404784,
+      "tours_dits": 11,
+      "tours_entendus": 11,
+      "rappel": 1.0,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 1,
+        "groupes_exacts": 1,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 5386,
+      "empreinte_entendu": "7c7d5cd87a63b62e"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-Q4",
+      "caracteres": 1141,
+      "audio_s": 84.4,
+      "synthese_ms": 1258,
+      "appel_ms": 6053,
+      "transcription_ms": 1986,
+      "audio_octets": 506448,
+      "tours_dits": 17,
+      "tours_entendus": 17,
+      "rappel": 0.9619,
+      "precision": 0.9665,
+      "mots_en_trop": 7,
+      "mots_en_trop_liste": [
+        "classer",
+        "guede",
+        "h",
+        "rappelle",
+        "au",
+        "coupe",
+        "h"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 5,
+        "groupes_exacts": 5,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 5552,
+      "empreinte_entendu": "5c46c18d7c154614"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-Q5",
+      "caracteres": 931,
+      "audio_s": 62.5,
+      "synthese_ms": 668,
+      "appel_ms": 3323,
+      "transcription_ms": 2381,
+      "audio_octets": 374976,
+      "tours_dits": 7,
+      "tours_entendus": 7,
+      "rappel": 0.9868,
+      "precision": 0.9868,
+      "mots_en_trop": 2,
+      "mots_en_trop_liste": [
+        "15",
+        "rappelle"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": [
+          "15"
+        ]
+      },
+      "fidele_selon_api": false,
+      "issue": "message",
+      "cout_modele_micro_eur": 1096,
+      "empreinte_entendu": "184949cdb6946bf5"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-Q6",
+      "caracteres": 1022,
+      "audio_s": 72.6,
+      "synthese_ms": 1171,
+      "appel_ms": 2565,
+      "transcription_ms": 1654,
+      "audio_octets": 435888,
+      "tours_dits": 11,
+      "tours_entendus": 11,
+      "rappel": 0.9888,
+      "precision": 0.9888,
+      "mots_en_trop": 2,
+      "mots_en_trop_liste": [
+        "livrer",
+        "et"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "message",
+      "cout_modele_micro_eur": 1174,
+      "empreinte_entendu": "52bf8271ad4ff0d6"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-Q7",
+      "caracteres": 729,
+      "audio_s": 52.2,
+      "synthese_ms": 556,
+      "appel_ms": 4173,
+      "transcription_ms": 1363,
+      "audio_octets": 313056,
+      "tours_dits": 5,
+      "tours_entendus": 5,
+      "rappel": 0.9846,
+      "precision": 0.9922,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "0800"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 3,
+        "groupes_exacts": 3,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 5160,
+      "empreinte_entendu": "906588c600fd2785"
+    },
+    {
+      "passage": 1,
+      "scenario_id": "SC-Q8",
+      "caracteres": 749,
+      "audio_s": 54.9,
+      "synthese_ms": 789,
+      "appel_ms": 5287,
+      "transcription_ms": 1553,
+      "audio_octets": 329328,
+      "tours_dits": 9,
+      "tours_entendus": 9,
+      "rappel": 1.0,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 5190,
+      "empreinte_entendu": "cb5e715d3af48f84"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-01",
+      "caracteres": 340,
+      "audio_s": 30.8,
+      "synthese_ms": null,
+      "appel_ms": 3398,
+      "transcription_ms": 1226,
+      "audio_octets": 185040,
+      "tours_dits": 8,
+      "tours_entendus": 8,
+      "rappel": 0.9697,
+      "precision": 0.9846,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "0000"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 3,
+        "groupes_exacts": 3,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 3248,
+      "empreinte_entendu": "e74bef429c8ea109"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-02",
+      "caracteres": 233,
+      "audio_s": 25.1,
+      "synthese_ms": null,
+      "appel_ms": 3665,
+      "transcription_ms": 868,
+      "audio_octets": 150768,
+      "tours_dits": 8,
+      "tours_entendus": 8,
+      "rappel": 0.9762,
+      "precision": 0.9762,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "000"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 2,
+        "groupes_exacts": 1,
+        "groupes_manquants": [
+          "0699000002"
+        ],
+        "groupes_en_trop": [
+          "06990000002"
+        ]
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4812,
+      "empreinte_entendu": "3250349335f334b3"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-03",
+      "caracteres": 200,
+      "audio_s": 19.0,
+      "synthese_ms": null,
+      "appel_ms": 3214,
+      "transcription_ms": 929,
+      "audio_octets": 114048,
+      "tours_dits": 6,
+      "tours_entendus": 6,
+      "rappel": 0.9706,
+      "precision": 0.9706,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "goute"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 2,
+        "groupes_exacts": 2,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 3259,
+      "empreinte_entendu": "a3eb96ea6ab8c0af"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-04",
+      "caracteres": 182,
+      "audio_s": 15.1,
+      "synthese_ms": null,
+      "appel_ms": 4329,
+      "transcription_ms": 1060,
+      "audio_octets": 90432,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 1.0,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 2,
+        "groupes_exacts": 2,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4836,
+      "empreinte_entendu": "e20e7e42163510f4"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-05",
+      "caracteres": 301,
+      "audio_s": 21.9,
+      "synthese_ms": null,
+      "appel_ms": 4469,
+      "transcription_ms": 1392,
+      "audio_octets": 131328,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 0.9808,
+      "precision": 0.9808,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "verifie"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 1,
+        "groupes_exacts": 1,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4896,
+      "empreinte_entendu": "c061a5c9ef28d6a5"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-07",
+      "caracteres": 178,
+      "audio_s": 14.6,
+      "synthese_ms": null,
+      "appel_ms": 4288,
+      "transcription_ms": 907,
+      "audio_octets": 87552,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 0.9375,
+      "precision": 0.9677,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "9a3"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 1,
+        "groupes_exacts": 0,
+        "groupes_manquants": [
+          "93"
+        ],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4872,
+      "empreinte_entendu": "a7492be76d9b7eb2"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-08",
+      "caracteres": 164,
+      "audio_s": 14.6,
+      "synthese_ms": null,
+      "appel_ms": 4828,
+      "transcription_ms": 1002,
+      "audio_octets": 87408,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 0.963,
+      "precision": 0.9286,
+      "mots_en_trop": 2,
+      "mots_en_trop_liste": [
+        "94",
+        "300"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 1,
+        "groupes_exacts": 1,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 6473,
+      "empreinte_entendu": "29b2463aa245018b"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-10",
+      "caracteres": 151,
+      "audio_s": 12.9,
+      "synthese_ms": null,
+      "appel_ms": 3503,
+      "transcription_ms": 759,
+      "audio_octets": 77472,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 1.0,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4903,
+      "empreinte_entendu": "8057ffb6b8abb830"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-Q1",
+      "caracteres": 978,
+      "audio_s": 67.8,
+      "synthese_ms": null,
+      "appel_ms": 4437,
+      "transcription_ms": 2562,
+      "audio_octets": 406512,
+      "tours_dits": 11,
+      "tours_entendus": 11,
+      "rappel": 0.9769,
+      "precision": 0.9769,
+      "mots_en_trop": 4,
+      "mots_en_trop_liste": [
+        "h",
+        "h",
+        "h",
+        "h"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 4,
+        "groupes_exacts": 4,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "message",
+      "cout_modele_micro_eur": 1133,
+      "empreinte_entendu": "a671801bbc887013"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-Q2",
+      "caracteres": 743,
+      "audio_s": 53.4,
+      "synthese_ms": null,
+      "appel_ms": 2456,
+      "transcription_ms": 1418,
+      "audio_octets": 320400,
+      "tours_dits": 7,
+      "tours_entendus": 7,
+      "rappel": 0.9926,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "message",
+      "cout_modele_micro_eur": 1019,
+      "empreinte_entendu": "024803970d9e21be"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-Q3",
+      "caracteres": 944,
+      "audio_s": 67.5,
+      "synthese_ms": null,
+      "appel_ms": 5424,
+      "transcription_ms": 2334,
+      "audio_octets": 404784,
+      "tours_dits": 11,
+      "tours_entendus": 11,
+      "rappel": 1.0,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 1,
+        "groupes_exacts": 1,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 5337,
+      "empreinte_entendu": "7c7d5cd87a63b62e"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-Q4",
+      "caracteres": 1141,
+      "audio_s": 84.4,
+      "synthese_ms": null,
+      "appel_ms": 5066,
+      "transcription_ms": 1985,
+      "audio_octets": 506448,
+      "tours_dits": 17,
+      "tours_entendus": 17,
+      "rappel": 0.9619,
+      "precision": 0.9665,
+      "mots_en_trop": 7,
+      "mots_en_trop_liste": [
+        "classer",
+        "guede",
+        "h",
+        "rappelle",
+        "au",
+        "coupe",
+        "h"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 5,
+        "groupes_exacts": 5,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 5518,
+      "empreinte_entendu": "5c46c18d7c154614"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-Q5",
+      "caracteres": 931,
+      "audio_s": 62.5,
+      "synthese_ms": null,
+      "appel_ms": 2777,
+      "transcription_ms": 1579,
+      "audio_octets": 374976,
+      "tours_dits": 7,
+      "tours_entendus": 7,
+      "rappel": 0.9868,
+      "precision": 0.9868,
+      "mots_en_trop": 2,
+      "mots_en_trop_liste": [
+        "15",
+        "rappelle"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": [
+          "15"
+        ]
+      },
+      "fidele_selon_api": false,
+      "issue": "message",
+      "cout_modele_micro_eur": 1109,
+      "empreinte_entendu": "184949cdb6946bf5"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-Q6",
+      "caracteres": 1022,
+      "audio_s": 72.6,
+      "synthese_ms": null,
+      "appel_ms": 2759,
+      "transcription_ms": 1673,
+      "audio_octets": 435888,
+      "tours_dits": 11,
+      "tours_entendus": 11,
+      "rappel": 0.9888,
+      "precision": 0.9888,
+      "mots_en_trop": 2,
+      "mots_en_trop_liste": [
+        "livrer",
+        "et"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "message",
+      "cout_modele_micro_eur": 1226,
+      "empreinte_entendu": "52bf8271ad4ff0d6"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-Q7",
+      "caracteres": 729,
+      "audio_s": 52.2,
+      "synthese_ms": null,
+      "appel_ms": 4150,
+      "transcription_ms": 1299,
+      "audio_octets": 313056,
+      "tours_dits": 5,
+      "tours_entendus": 5,
+      "rappel": 0.9846,
+      "precision": 0.9922,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "0800"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 3,
+        "groupes_exacts": 3,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 5078,
+      "empreinte_entendu": "906588c600fd2785"
+    },
+    {
+      "passage": 2,
+      "scenario_id": "SC-Q8",
+      "caracteres": 749,
+      "audio_s": 54.9,
+      "synthese_ms": null,
+      "appel_ms": 3749,
+      "transcription_ms": 1369,
+      "audio_octets": 329328,
+      "tours_dits": 9,
+      "tours_entendus": 9,
+      "rappel": 1.0,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 3482,
+      "empreinte_entendu": "cb5e715d3af48f84"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-01",
+      "caracteres": 340,
+      "audio_s": 30.8,
+      "synthese_ms": null,
+      "appel_ms": 3386,
+      "transcription_ms": 1131,
+      "audio_octets": 185040,
+      "tours_dits": 8,
+      "tours_entendus": 8,
+      "rappel": 0.9697,
+      "precision": 0.9846,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "0000"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 3,
+        "groupes_exacts": 3,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 3209,
+      "empreinte_entendu": "e74bef429c8ea109"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-02",
+      "caracteres": 233,
+      "audio_s": 25.1,
+      "synthese_ms": null,
+      "appel_ms": 5290,
+      "transcription_ms": 864,
+      "audio_octets": 150768,
+      "tours_dits": 8,
+      "tours_entendus": 8,
+      "rappel": 0.9762,
+      "precision": 0.9762,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "000"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 2,
+        "groupes_exacts": 1,
+        "groupes_manquants": [
+          "0699000002"
+        ],
+        "groupes_en_trop": [
+          "06990000002"
+        ]
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4877,
+      "empreinte_entendu": "3250349335f334b3"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-03",
+      "caracteres": 200,
+      "audio_s": 19.0,
+      "synthese_ms": null,
+      "appel_ms": 3085,
+      "transcription_ms": 811,
+      "audio_octets": 114048,
+      "tours_dits": 6,
+      "tours_entendus": 6,
+      "rappel": 0.9706,
+      "precision": 0.9706,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "goute"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 2,
+        "groupes_exacts": 2,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 3250,
+      "empreinte_entendu": "a3eb96ea6ab8c0af"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-04",
+      "caracteres": 182,
+      "audio_s": 15.1,
+      "synthese_ms": null,
+      "appel_ms": 4775,
+      "transcription_ms": 931,
+      "audio_octets": 90432,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 1.0,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 2,
+        "groupes_exacts": 2,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4840,
+      "empreinte_entendu": "e20e7e42163510f4"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-05",
+      "caracteres": 301,
+      "audio_s": 21.9,
+      "synthese_ms": null,
+      "appel_ms": 4209,
+      "transcription_ms": 1039,
+      "audio_octets": 131328,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 0.9808,
+      "precision": 0.9808,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "verifie"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 1,
+        "groupes_exacts": 1,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4870,
+      "empreinte_entendu": "c061a5c9ef28d6a5"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-07",
+      "caracteres": 178,
+      "audio_s": 14.6,
+      "synthese_ms": null,
+      "appel_ms": 3684,
+      "transcription_ms": 810,
+      "audio_octets": 87552,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 0.9375,
+      "precision": 0.9677,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "9a3"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 1,
+        "groupes_exacts": 0,
+        "groupes_manquants": [
+          "93"
+        ],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4885,
+      "empreinte_entendu": "a7492be76d9b7eb2"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-08",
+      "caracteres": 164,
+      "audio_s": 14.6,
+      "synthese_ms": null,
+      "appel_ms": 4662,
+      "transcription_ms": 964,
+      "audio_octets": 87408,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 0.963,
+      "precision": 0.9286,
+      "mots_en_trop": 2,
+      "mots_en_trop_liste": [
+        "94",
+        "300"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 1,
+        "groupes_exacts": 1,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 6404,
+      "empreinte_entendu": "29b2463aa245018b"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-10",
+      "caracteres": 151,
+      "audio_s": 12.9,
+      "synthese_ms": null,
+      "appel_ms": 3938,
+      "transcription_ms": 718,
+      "audio_octets": 77472,
+      "tours_dits": 4,
+      "tours_entendus": 4,
+      "rappel": 1.0,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 4903,
+      "empreinte_entendu": "8057ffb6b8abb830"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-Q1",
+      "caracteres": 978,
+      "audio_s": 67.8,
+      "synthese_ms": null,
+      "appel_ms": 2573,
+      "transcription_ms": 1539,
+      "audio_octets": 406512,
+      "tours_dits": 11,
+      "tours_entendus": 11,
+      "rappel": 0.9769,
+      "precision": 0.9769,
+      "mots_en_trop": 4,
+      "mots_en_trop_liste": [
+        "h",
+        "h",
+        "h",
+        "h"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 4,
+        "groupes_exacts": 4,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "message",
+      "cout_modele_micro_eur": 1133,
+      "empreinte_entendu": "a671801bbc887013"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-Q2",
+      "caracteres": 743,
+      "audio_s": 53.4,
+      "synthese_ms": null,
+      "appel_ms": 2520,
+      "transcription_ms": 1432,
+      "audio_octets": 320400,
+      "tours_dits": 7,
+      "tours_entendus": 7,
+      "rappel": 0.9926,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "message",
+      "cout_modele_micro_eur": 980,
+      "empreinte_entendu": "024803970d9e21be"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-Q3",
+      "caracteres": 944,
+      "audio_s": 67.5,
+      "synthese_ms": null,
+      "appel_ms": 4484,
+      "transcription_ms": 1511,
+      "audio_octets": 404784,
+      "tours_dits": 11,
+      "tours_entendus": 11,
+      "rappel": 1.0,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 1,
+        "groupes_exacts": 1,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 5372,
+      "empreinte_entendu": "7c7d5cd87a63b62e"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-Q4",
+      "caracteres": 1141,
+      "audio_s": 84.4,
+      "synthese_ms": null,
+      "appel_ms": 5249,
+      "transcription_ms": 1810,
+      "audio_octets": 506448,
+      "tours_dits": 17,
+      "tours_entendus": 17,
+      "rappel": 0.9619,
+      "precision": 0.9665,
+      "mots_en_trop": 7,
+      "mots_en_trop_liste": [
+        "classer",
+        "guede",
+        "h",
+        "rappelle",
+        "au",
+        "coupe",
+        "h"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 5,
+        "groupes_exacts": 5,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 5531,
+      "empreinte_entendu": "5c46c18d7c154614"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-Q5",
+      "caracteres": 931,
+      "audio_s": 62.5,
+      "synthese_ms": null,
+      "appel_ms": 2639,
+      "transcription_ms": 1622,
+      "audio_octets": 374976,
+      "tours_dits": 7,
+      "tours_entendus": 7,
+      "rappel": 0.9868,
+      "precision": 0.9868,
+      "mots_en_trop": 2,
+      "mots_en_trop_liste": [
+        "15",
+        "rappelle"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": [
+          "15"
+        ]
+      },
+      "fidele_selon_api": false,
+      "issue": "message",
+      "cout_modele_micro_eur": 1109,
+      "empreinte_entendu": "184949cdb6946bf5"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-Q6",
+      "caracteres": 1022,
+      "audio_s": 72.6,
+      "synthese_ms": null,
+      "appel_ms": 2801,
+      "transcription_ms": 1656,
+      "audio_octets": 435888,
+      "tours_dits": 11,
+      "tours_entendus": 11,
+      "rappel": 0.9888,
+      "precision": 0.9888,
+      "mots_en_trop": 2,
+      "mots_en_trop_liste": [
+        "livrer",
+        "et"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "message",
+      "cout_modele_micro_eur": 1222,
+      "empreinte_entendu": "52bf8271ad4ff0d6"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-Q7",
+      "caracteres": 729,
+      "audio_s": 52.2,
+      "synthese_ms": null,
+      "appel_ms": 4441,
+      "transcription_ms": 1307,
+      "audio_octets": 313056,
+      "tours_dits": 5,
+      "tours_entendus": 5,
+      "rappel": 0.9846,
+      "precision": 0.9922,
+      "mots_en_trop": 1,
+      "mots_en_trop_liste": [
+        "0800"
+      ],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 3,
+        "groupes_exacts": 3,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": false,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 5095,
+      "empreinte_entendu": "906588c600fd2785"
+    },
+    {
+      "passage": 3,
+      "scenario_id": "SC-Q8",
+      "caracteres": 749,
+      "audio_s": 54.9,
+      "synthese_ms": null,
+      "appel_ms": 3750,
+      "transcription_ms": 1422,
+      "audio_octets": 329328,
+      "tours_dits": 9,
+      "tours_entendus": 9,
+      "rappel": 1.0,
+      "precision": 1.0,
+      "mots_en_trop": 0,
+      "mots_en_trop_liste": [],
+      "locuteurs_justes": 1.0,
+      "chiffres": {
+        "groupes_dits": 0,
+        "groupes_exacts": 0,
+        "groupes_manquants": [],
+        "groupes_en_trop": []
+      },
+      "fidele_selon_api": true,
+      "issue": "dossier",
+      "cout_modele_micro_eur": 3465,
+      "empreinte_entendu": "cb5e715d3af48f84"
+    }
+  ]
+}

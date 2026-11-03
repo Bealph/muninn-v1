@@ -54,7 +54,9 @@ qui en découlent (`docs/decisions.md`). Aucun dispositif organisé.
       partage, et un rituel court avec le pair ou le formateur, avec la trace d'au moins une
       séance. Décision du porteur du 3 novembre : pas de séance avec un pair ; la synthèse est
       publiée en document commentable et envoyée au formateur, et sert de support à l'oral blanc
-      du 13 novembre. Reste : l'envoi et sa trace dans `docs/veille/seances/`.
+      du 13 novembre. Le 3 novembre, le formateur a indiqué que l'envoi de la synthèse n'est
+      pas nécessaire. Décision du porteur du 3 novembre : la présentation de la synthèse à
+      l'oral blanc du 13 novembre sert de séance tracée dans `docs/veille/seances/`.
 - [ ] Rédiger deux ou trois synthèses datées, chacune terminée par une recommandation pour le
       projet, reliée si besoin à une décision D-xx. Une faite le 3 novembre
       (`docs/veille/syntheses/S-2026-11-03.md`, quatre recommandations, D-91 proposée).
@@ -86,13 +88,13 @@ transcription de D-50 (Azure AI Speech retenu, modèles OpenAI écartés faute d
 - [x] Fixer la grille avant de regarder les offres : traitement dans l'UE, rétention, qualité,
       latence, coût à l'usage, intégration (SDK, API), authentification, accessibilité de la
       documentation, maturité.
-- [ ] Lister de 3 à 5 services par catégorie, à partir des sources de la veille.
-- [ ] Mesurer ce qui peut l'être sans nouveau compte : la transcription et la synthèse d'Azure
+- [x] Lister de 3 à 5 services par catégorie, à partir des sources de la veille.
+- [x] Mesurer ce qui peut l'être sans nouveau compte : la transcription et la synthèse d'Azure
       sur les dialogues synthétiques existants. Pour les autres services, une comparaison
       documentaire, sources citées. La téléphonie reste documentaire (R10 : pas d'achat, pas de
       compte fournisseur).
-- [ ] Écrire la recommandation par catégorie, avec ses limites et ce qui la ferait changer.
-- [ ] Relire le document par un relecteur indépendant avant de cocher.
+- [x] Écrire la recommandation par catégorie, avec ses limites et ce qui la ferait changer.
+- [x] Relire le document par un relecteur indépendant avant de cocher (deux passes, 27 constats traités).
 
 **Preuve attendue :** `docs/v1/benchmark-services-ia/` avec le protocole (commité avant toute
 mesure), la grille, les résultats et la recommandation.
@@ -251,6 +253,11 @@ de l'écran Démonstration et quatre corrections avec leur test.
 
 **Décision du porteur :** l'échantillon, et qui joue le parcours au lecteur d'écran.
 
+**Vérifié le 3 novembre 2026 :** le RGAA 4.1.2 reste la version en vigueur ; la version 5 est
+« en cours de rédaction, avec une publication prévue fin 2026 », sans suspendre les travaux
+(<https://accessibilite.numerique.gouv.fr/>). La console passe en Nunito avec la PR n° 216 : l'audit
+porte sur la version qui l'inclut.
+
 ## 7. Sujets ouverts le 29 octobre, à rattacher
 
 Ils ne correspondent à aucune case, mais renforcent C20 et C21 s'ils sont traités :
@@ -270,7 +277,7 @@ Cocher ici quand la preuve est dans le dépôt, puis cocher la case correspondan
 
 - [ ] C6 · dispositif de veille (`docs/veille/`)
 - [ ] C6 · synthèses et recommandations
-- [ ] C7 · benchmark complet (`docs/v1/benchmark-services-ia/`)
+- [x] C7 · benchmark complet (`docs/v1/benchmark-services-ia/`, 3 novembre)
 - [x] C8 · demande de zéro rétention tracée (D-89)
 - [x] C19 · environnement de test (workflow et exécution, D-90)
 - [x] C20 · détection automatique d'incident (issue #210 ; lancement planifié constaté le 3 novembre ; limite écrite)

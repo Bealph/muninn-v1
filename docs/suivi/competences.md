@@ -18,11 +18,11 @@ Priorité : E2, E4 et E5, évalués au second oral (12 novembre 2026) ; E1 et E3
 
 ## E2 : veille, benchmark et paramétrage de services d'IA (15 à 20 pages, 15 min)
 
-| Code | Compétence (résumé)                                    | Phase | Preuve prévue                                                                                                                                                  | Statut          |
-| ---- | ------------------------------------------------------ | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| C6   | Veille technique et réglementaire organisée            | 0     | Dispositif de veille et synthèses                                                                                                                              | À faire         |
-| C7   | Benchmark de services d'IA existants et recommandation | 0     | Grille comparative et recommandation argumentée                                                                                                                | En cours        |
-| C8   | Paramétrer un service d'IA selon sa documentation      | 4     | Configuration documentée et connecteurs intégrés ; déploiements Foundry en zone UE et authentification Entra ID (D-44 à D-46) ; zéro rétention tranchée (D-89) | Preuve produite |
+| Code | Compétence (résumé)                                    | Phase | Preuve prévue                                                                                                                                                                                                                                                   | Statut          |
+| ---- | ------------------------------------------------------ | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| C6   | Veille technique et réglementaire organisée            | 0     | Dispositif de veille et synthèses                                                                                                                                                                                                                               | À faire         |
+| C7   | Benchmark de services d'IA existants et recommandation | 0     | Grille comparative et recommandation argumentée ; banc d'essai des LLM T-06 (D-61) ; benchmark transcription, synthèse vocale et téléphonie : protocole commité avant la mesure, Azure AI Speech mesuré en production, relevés sourcés, rapport relu trois fois | Preuve produite |
+| C8   | Paramétrer un service d'IA selon sa documentation      | 4     | Configuration documentée et connecteurs intégrés ; déploiements Foundry en zone UE et authentification Entra ID (D-44 à D-46) ; zéro rétention tranchée (D-89)                                                                                                  | Preuve produite |
 
 ## E3 : exposition, intégration et industrialisation du modèle (15 à 20 pages, 20 min dont démo)
 
@@ -54,7 +54,7 @@ Priorité : E2, E4 et E5, évalués au second oral (12 novembre 2026) ; E1 et E3
 
 ## Preuves, case par case
 
-**Cases cochées : 57 sur 61** (au 3 novembre 2026). Plan et checklist des cases restantes :
+**Cases cochées : 58 sur 61** (au 3 novembre 2026). Plan et checklist des cases restantes :
 `docs/suivi/reste-a-faire.md`.
 
 Une case n'est cochée que si la preuve existe dans le dépôt. Source des preuves attendues :
@@ -98,11 +98,11 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 - [ ] Dispositif de veille : sources, collecte, partage (4 novembre)
 - [ ] Synthèses et recommandations (4 novembre)
 
-**C7** (2 sur 3)
+**C7** (3 sur 3)
 
 - [x] Comparatif des services big data : `docs/conception/architecture_de_donnees/06-big-data-externalise.md`
 - [x] Banc d'essai des modèles LLM (T-06) : protocole commité avant la mesure, 48 extractions, recommandation et décision D-61 (`docs/v1/banc-essai-t06/`)
-- [ ] Benchmark complet : transcription, synthèse vocale, téléphonie (5 novembre)
+- [x] Benchmark complet : transcription, synthèse vocale, téléphonie (`docs/v1/benchmark-services-ia/` : protocole, mesure, relevés, rapport ; 3 novembre)
 
 **C8** (4 sur 4)
 

@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-03",
+  "api": "https://ca-muninn-api-prod.graybeach-70019748.francecentral.azurecontainerapps.io",
+  "environnement": "production",
+  "git_sha": "ce8ca4ba77f7a2cc51f19a973e59865d9dab720b",
+  "objet": "Vérifier, après la mesure, que le dossier de SC-02 ne retient pas le numéro à onze chiffres entendu par la transcription (rapport, section 3)",
+  "methode": "Un appel : POST /v1/demo/voice/synthesis puis POST /v1/demo/voice/call?scenario_id=SC-02, mêmes extraits que la mesure ; champs relevés à la lecture de la réponse",
+  "note": "Archive partielle : seuls les champs ci-dessous ont été relevés ; la réponse complète n'a pas été conservée. Un seul tirage d'un modèle non déterministe.",
+  "resultat": {
+    "statut_http": 200,
+    "request_id": "692d5d8c-8913-402c-aedf-7c5e9dd73b92",
+    "issue": "dossier",
+    "dossier_client_telephone": {"value": null, "confidence": 0.0, "origin": null},
+    "conformity": {"compliant": true, "gaps": []}
+  }
+}

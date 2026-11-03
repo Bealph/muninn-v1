@@ -4,7 +4,7 @@
 
 Tableau Kanban de la V1 : <https://github.com/users/Bealph/projects/4> (même périmètre, vue par carte).
 
-Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
+Prochaines échéances : oral blanc le 13 novembre 2026, passage devant le jury le 30 novembre 2026.
 
 ## Fait
 
@@ -129,6 +129,12 @@ Prochaine échéance : premier oral blanc (E1 et E3), 29 et 30 octobre 2026.
 | 2026-10-29 | E3 enrichi : vérification en production (tableau 5), seize campagnes Langfuse (tableau 8), annexes I et J (requêtes KQL, captures), glossaire (annexe K)                                       | Local ; annexe K dans un aperçu, livret retouché par le porteur non écrasé                                                           |
 | 2026-10-29 | Supports d'étude : cours sur l'évaluation et l'observabilité de Muninn, manuel générique pour un autre projet                                                                                  | Hors dépôt                                                                                                                           |
 | 2026-10-29 | Repasse des listes de suivi : 10 cases cochées (54 sur 61), dont C21 par décision du porteur ; plan des sept restantes                                                                         | `docs/suivi/`                                                                                                                        |
+| 2026-11-03 | C20 cochée (57 sur 61) ; suivi des compétences publié pour le formateur                                                                                                                        | PR n° 212                                                                                                                            |
+| 2026-11-03 | C6, veille : dispositif, 14 sources, collectes sur 30 et 7 jours, sept fiches, première synthèse                                                                                               | PR n° 213                                                                                                                            |
+| 2026-11-03 | C6, vitrine de lecture de la veille : benchmark et brainstorming, direction artistique, accessibilité, thème clair et sombre, couleurs de la charte                                            | PR n° 214 et 215                                                                                                                     |
+| 2026-11-03 | D-92 : Nunito et IBM Plex Mono partout ; console servant ses polices, générateur des livrables, supports d'oral convertis                                                                      | PR n° 216 ; livrables locaux                                                                                                         |
+| 2026-11-03 | D-91 (journaux après la soutenance) ; C7 : protocole du benchmark voix et téléphonie, programme de mesure                                                                                      | PR n° 217                                                                                                                            |
+| 2026-11-03 | C7 : mesure d'Azure AI Speech en production, relevés de quinze services, rapport relu trois fois ; C7 cochée (58 sur 61)                                                                       | `docs/v1/benchmark-services-ia/`                                                                                                     |
 
 ## À faire
 
