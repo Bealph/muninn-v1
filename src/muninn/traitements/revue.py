@@ -27,7 +27,6 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_valida
 from sqlalchemy import Engine, text
 
 from muninn.extraction.contrat import (
-    MOTIF_TELEPHONE,
     Adresse,
     Client,
     CodePostal,
@@ -37,6 +36,7 @@ from muninn.extraction.contrat import (
     Telephone,
     TexteCourt,
     Urgence,
+    numero_plausible,
 )
 from muninn.extraction.evaluateur import (
     Enveloppe,
@@ -123,7 +123,7 @@ def _telephone(valeur: str | None) -> Telephone:
         return Telephone(value=None, confidence=0, origin=None)
     if re.fullmatch(r"0[1-9][0-9]{8}", propre):
         propre = "+33" + propre[1:]
-    if not MOTIF_TELEPHONE.fullmatch(propre):
+    if not numero_plausible(propre):
         raise ValueError("numéro invalide")
     return Telephone(value=propre, confidence=1.0, origin="spoken")
 

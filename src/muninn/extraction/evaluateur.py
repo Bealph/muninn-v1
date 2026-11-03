@@ -48,6 +48,7 @@ from muninn.extraction.contrat import (
     TexteCourt,
     TexteLong,
     VersionReferentiel,
+    numero_plausible,
 )
 from muninn.extraction.entree import controler, normaliser, paroles_appelant
 from muninn.extraction.indices import departements_cites
@@ -231,7 +232,10 @@ def retirer_identite_inventee(
     if tel.value is not None:
         national = "0" + tel.value[3:] if tel.value.startswith("+33") else tel.value
         dit = national in chiffres(transcription) or tel.value[1:] in chiffres(transcription)
-        if not (dit or (tel.origin == "caller_id" and tel.value == numero_presente)):
+        # Un numéro mal formé (« +336990000002 ») est retiré même si ses chiffres ont été dits.
+        if not numero_plausible(tel.value) or not (
+            dit or (tel.origin == "caller_id" and tel.value == numero_presente)
+        ):
             mises_a_jour["telephone"] = Telephone(value=None, confidence=0, origin=None)
     if not mises_a_jour:
         return sortie, False

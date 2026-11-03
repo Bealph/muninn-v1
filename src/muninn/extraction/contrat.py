@@ -26,7 +26,18 @@ StatutControle = Literal["verified", "mismatch", "not_checked"]
 MotifNonControle = Literal["no_value", "service_unavailable", "timeout", "not_applicable"]
 
 MOTIF_TELEPHONE = re.compile(r"^\+[1-9][0-9]{7,14}$")
+# Numéro français : 10 chiffres en national, donc « +33 » suivi de 9 chiffres. Le motif E.164
+# seul accepte « +336990000002 », un zéro répété par la transcription (benchmark C7, SC-02).
+MOTIF_TELEPHONE_FRANCE = re.compile(r"^\+33[1-9][0-9]{8}$")
 MOTIF_CODE_POSTAL = re.compile(r"^[0-9]{4,5}$")
+
+
+def numero_plausible(numero: str) -> bool:
+    """Numéro E.164 ; s'il est français, exactement 9 chiffres après « +33 »."""
+    if not MOTIF_TELEPHONE.fullmatch(numero):
+        return False
+    return not numero.startswith("+33") or MOTIF_TELEPHONE_FRANCE.fullmatch(numero) is not None
+
 
 # Liste fermée des chemins de champ (contrat § 3.4, `FieldPath`), sans les chemins `depense.*`
 # ni `contact.*`, hors V1.

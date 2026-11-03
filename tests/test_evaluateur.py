@@ -90,13 +90,14 @@ def sortie(
     description: str = "Fuite sous l'évier.",
     urgence: str = "normal",
     nom: str | None = "Martin",
+    telephone: str = "+33699000001",
 ) -> SortieLLM:
     return SortieLLM.model_validate(
         {
             "client": {
                 "nom": champ(nom),
                 "prenom": champ(None),
-                "telephone": {"value": "+33699000001", "confidence": 0.95, "origin": "spoken"},
+                "telephone": {"value": telephone, "confidence": 0.95, "origin": "spoken"},
                 "adresse": {
                     "rue": champ("12 rue des Lilas"),
                     "code_postal": champ(code_postal),
@@ -504,6 +505,17 @@ def test_identite_non_dite_retiree() -> None:
     assert b.client.telephone.value == "+33699000077"  # repli sur le numéro présenté
     assert b.client.telephone.origin == "caller_id"
     assert "invention" in e.garde_fous and "invention_retiree" in e.motifs
+
+
+def test_numero_francais_mal_forme_retire_meme_dit() -> None:
+    """Benchmark C7, SC-02 : « 06 99 00 00 02 » transcrit « 06 99 00 000 02 ». Ses onze chiffres
+    ont bien été dits, mais le numéro est mal formé : retiré, jamais retenu."""
+    transcription = TRANSCRIPTION_COMPLETE.replace("06 99 00 00 01", "06 99 00 000 02")
+    b, e = evaluer_cas(
+        resultat(sortie("Montreuil", "93100", telephone="+336990000002")), transcription
+    )
+    assert b.client.telephone.value is None
+    assert "invention" in e.garde_fous
 
 
 def test_identite_dite_gardee() -> None:

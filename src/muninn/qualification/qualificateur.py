@@ -28,7 +28,7 @@ from pathlib import Path
 
 from pydantic import ValidationError
 
-from muninn.extraction.contrat import MOTIF_TELEPHONE, Metier
+from muninn.extraction.contrat import Metier, numero_plausible
 from muninn.extraction.entree import LETTRES_MIN, controler, normaliser, paroles_appelant
 from muninn.extraction.evaluateur import (
     ContenuRefuse,
@@ -186,7 +186,7 @@ def qualifier(
 
 
 def numero_valide(numero: str | None) -> str | None:
-    return numero if numero and MOTIF_TELEPHONE.match(numero) else None
+    return numero if numero and numero_plausible(numero) else None
 
 
 def dit_dans(valeur: str | None, transcription_normalisee: str) -> str | None:
@@ -211,7 +211,7 @@ def construire_message(
     normalisee = normaliser(transcription)
     presente = numero_valide(numero_presente)
     dicte = sortie.numero_dicte
-    if dicte is None or not MOTIF_TELEPHONE.match(dicte) or dicte == presente:
+    if dicte is None or not numero_plausible(dicte) or dicte == presente:
         dicte = None
     declenches: set[GardeFouSortie] = set()
 
