@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Flux du registre docs/veille/sources.md, vérifiés le 2 novembre 2026. À importer dans un
+     lecteur de flux. Les sources S02, S03 et S13 n'ont pas de flux : elles se lisent à la main. -->
+<opml version="2.0">
+  <head>
+    <title>Veille de Muninn</title>
+    <dateCreated>Mon, 02 Nov 2026 16:00:00 GMT</dateCreated>
+  </head>
+  <body>
+    <outline text="Modèles et services d'IA">
+      <outline type="rss" text="S01 Azure Updates" xmlUrl="https://www.microsoft.com/releasecommunications/api/v2/azure/rss"/>
+    </outline>
+    <outline text="Évaluation et observabilité">
+      <outline type="rss" text="S04 Langfuse, versions du SDK Python" xmlUrl="https://github.com/langfuse/langfuse-python/releases.atom"/>
+      <outline type="rss" text="S05 OpenTelemetry, conventions sémantiques" xmlUrl="https://github.com/open-telemetry/semantic-conventions/releases.atom"/>
+    </outline>
+    <outline text="Agents et extraction">
+      <outline type="rss" text="S06 arXiv cs.CL" xmlUrl="https://rss.arxiv.org/rss/cs.CL"/>
+      <outline type="rss" text="S07 Hugging Face, blog" xmlUrl="https://huggingface.co/blog/feed.xml"/>
+      <outline type="rss" text="S08 Simon Willison" xmlUrl="https://simonwillison.net/atom/everything/"/>
+    </outline>
+    <outline text="Chaîne de livraison">
+      <outline type="rss" text="S09 GitHub Changelog" xmlUrl="https://github.blog/changelog/feed/"/>
+    </outline>
+    <outline text="Réglementaire">
+      <outline type="rss" text="S10 Commission européenne, stratégie numérique" xmlUrl="https://digital-strategy.ec.europa.eu/en/rss.xml"/>
+      <outline type="rss" text="S11 CNIL, actualités" xmlUrl="https://www.cnil.fr/fr/rss.xml"/>
+      <outline type="rss" text="S12 Service-public.fr, actualités professionnelles" xmlUrl="https://www.service-public.fr/abonnements/rss/actu-actu-pro.rss"/>
+    </outline>
+    <outline text="Accessibilité">
+      <outline type="rss" text="S14 W3C WAI" xmlUrl="https://www.w3.org/WAI/feed.xml"/>
+    </outline>
+  </body>
+</opml>

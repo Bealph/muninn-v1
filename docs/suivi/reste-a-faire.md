@@ -42,19 +42,25 @@ qui en découlent (`docs/decisions.md`). Aucun dispositif organisé.
 
 **À faire :**
 
-- [ ] Fixer les thèmes : technique (modèles et services d'IA, agents, évaluation et observabilité
+- [x] Fixer les thèmes : technique (modèles et services d'IA, agents, évaluation et observabilité
       des LLM, voix) et réglementaire (règlement européen sur l'IA, RGPD, accessibilité, démarchage
       téléphonique).
-- [ ] Choisir les sources, de 10 à 15, avec pour chacune son type (officielle, éditeur,
+- [x] Choisir les sources, de 10 à 15, avec pour chacune son type (officielle, éditeur,
       recherche, presse), sa fiabilité et sa fréquence de lecture.
-- [ ] Mettre en place la collecte : flux RSS ou alertes, et une fiche par information retenue
-      (date, source, résumé, impact sur Muninn).
+- [x] Mettre en place la collecte : flux RSS ou alertes, et une fiche par information retenue
+      (date, source, résumé, impact sur Muninn). Fait le 3 novembre : 14 sources
+      (`docs/veille/sources.md`), collecte par `infra/veille/collecter.py`, 7 fiches.
 - [ ] Organiser le partage et le travail collectif, que le référentiel exige : un canal de
       partage, et un rituel court avec le pair ou le formateur, avec la trace d'au moins une
-      séance.
+      séance. Décision du porteur du 3 novembre : pas de séance avec un pair ; la synthèse est
+      publiée en document commentable et envoyée au formateur, et sert de support à l'oral blanc
+      du 13 novembre. Reste : l'envoi et sa trace dans `docs/veille/seances/`.
 - [ ] Rédiger deux ou trois synthèses datées, chacune terminée par une recommandation pour le
-      projet, reliée si besoin à une décision D-xx.
-- [ ] Vérifier chaque affirmation réglementaire à la source officielle, et citer la page.
+      projet, reliée si besoin à une décision D-xx. Une faite le 3 novembre
+      (`docs/veille/syntheses/S-2026-11-03.md`, quatre recommandations, D-91 proposée).
+- [ ] Vérifier chaque affirmation réglementaire à la source officielle, et citer la page. Fait
+      pour les fiches 01, 03 (en partie) et 05 ; reste le texte de L.223-1 et du décret
+      n° 2026-662 (fiche 04), et l'annexe III du règlement sur l'IA (fiche 03).
 
 **Preuve attendue :** `docs/veille/` avec le registre des sources, les fiches, les synthèses et
 la trace de partage. Les deux cases de C6 sont alors cochées.
