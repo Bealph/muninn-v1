@@ -1,0 +1,235 @@
+<title>Audit RGAA de Muninn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/*CHARTE*/
+/* Propre à l'audit : encadré de cadrage, avant et après, grille filtrable aux verdicts écrits. */
+.cadrage { margin-top: 2rem; padding: 1.1rem 1.25rem; border: 1px solid var(--or); border-radius: var(--rayon); background: var(--or-doux); }
+.cadrage > strong { display: block; margin-bottom: 0.3rem; }
+.cadrage p { margin: 0.4rem 0 0; }
+.duo { list-style: none; padding: 0; margin: 2.5rem 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1.25rem 2rem; }
+.duo li { display: grid; gap: 0.35rem; padding-top: 0.9rem; border-top: 1px solid var(--or); }
+.duo .nombre { font-size: clamp(2.2rem, 1.6rem + 2vw, 3.2rem); font-weight: 300; line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
+.duo .apres .nombre { color: var(--or-texte); font-weight: 400; }
+.duo .libelle { color: var(--encre-2); font-size: 0.95rem; line-height: 1.4; }
+.cartes { display: grid; gap: 1rem; }
+.statut { font-size: 0.78rem; font-weight: 700; border-radius: 999px; padding: 0.12rem 0.65rem; justify-self: start; color: var(--ok); background: var(--ok-fond); }
+.filtres { display: flex; flex-wrap: wrap; gap: 0.7rem 1rem; align-items: end; margin: 0 0 1.25rem; padding: 1rem 1.1rem; background: var(--surface); border: 1px solid var(--trait); border-radius: var(--rayon); }
+.filtres .champ { display: grid; gap: 0.25rem; min-width: 0; }
+.filtres label { font-size: 0.85rem; font-weight: 600; color: var(--encre-2); }
+.filtres select, .filtres input { font: inherit; font-size: 1rem; color: var(--encre); background: var(--fond); border: 1px solid var(--encre-2); border-radius: var(--rayon-petit); padding: 0.4rem 0.7rem; min-height: 42px; max-width: 100%; }
+.filtres .large { flex: 1 1 16rem; }
+.filtres .large input { width: 100%; }
+.compte { font-size: 0.92rem; color: var(--encre-2); margin: 0 0 1rem; }
+.grille-rgaa table { min-width: 58rem; }
+.grille-rgaa th:first-child { position: sticky; left: 0; background: var(--surface); z-index: 1; min-width: 14rem; max-width: 18rem; white-space: normal; }
+.grille-rgaa td.v { white-space: nowrap; font-weight: 700; }
+.grille-rgaa td.v-C { color: var(--ok); }
+.grille-rgaa td.v-NC { color: var(--non); }
+.grille-rgaa td.v-NA { color: var(--vue); font-weight: 400; }
+.grille-rgaa td.preuve { min-width: 22rem; font-size: 0.88rem; }
+.grille-rgaa .corrige { display: block; font-size: 0.78rem; font-weight: 700; color: var(--or-texte); }
+tbody th { text-transform: none; letter-spacing: normal; font-size: 0.94rem; font-weight: 700; color: var(--encre); }
+.theme-titre { margin: 2rem 0 0.75rem; font-size: 1.15rem; }
+.legende { margin: 0 0 1rem; font-size: 0.9rem; color: var(--encre-2); }
+.liste .liste { margin-top: 0.5rem; }
+.liste .suite { margin: 0.6rem 0 0; }
+.liste + .chapo, .defile + .chapo { margin-top: 1.25rem; }
+@media (max-width: 720px) {
+  .grille-rgaa th:first-child { min-width: 9rem; max-width: 10rem; }
+  .filtres .champ { flex: 1 1 100%; }
+  .filtres select { width: 100%; }
+  .onglets { flex-wrap: wrap; }
+  .onglets a { padding-inline: 0.55rem; }
+}
+</style>
+
+<a class="evitement" href="#contenu">Aller au contenu</a>
+<header class="entete">
+  <div class="cadre">
+    <div class="marque">
+      <strong>Audit RGAA de Muninn</strong>
+      <span class="fraicheur" id="fraicheur"></span>
+    </div>
+    <div class="entete-actions">
+      <nav class="onglets" aria-label="Vues">
+        <a href="#resultats" id="onglet-resultats">Résultats</a>
+        <a href="#corrections" id="onglet-corrections">Corrections</a>
+        <a href="#grille" id="onglet-grille">Grille</a>
+        <a href="#methode" id="onglet-methode">Méthode</a>
+      </nav>
+      <button type="button" id="bascule-theme" class="bascule-theme" aria-pressed="false">Thème sombre</button>
+    </div>
+  </div>
+</header>
+
+<main id="contenu" class="cadre" tabindex="-1">
+  <div id="vue-resultats" class="sections"></div>
+  <div id="vue-corrections" class="sections" hidden></div>
+  <div id="vue-grille" hidden></div>
+  <div id="vue-methode" class="sections" hidden></div>
+  <p class="pied" id="pied"></p>
+</main>
+
+<script type="application/json" id="donnees">/*DONNEES*/</script>
+<script>
+(() => {
+  if (!document.documentElement.lang) document.documentElement.lang = "fr";
+  const D = JSON.parse(document.getElementById("donnees").textContent);
+  const PREFIXE = "audit-muninn:";
+/*COMMUN_JS*/
+
+  const T = D.taux;
+  const nv = D.nvda.champs;
+  const touches = new Set(D.corrections.flatMap((c) => c.criteres.split(",").map((x) => x.trim()))).size;
+  const okNvda = D.nvda.etapes.filter((e) => e.observe.toUpperCase() === "OK").length;
+  $("fraicheur").textContent = "RGAA 4.1.2 · " + D.criteres.length + " critères · " + D.ecrans.length + " écrans · parcours NVDA du " + (nv["Date"] || "");
+  $("pied").textContent = "Il parle, Muninn se souvient. Page produite à partir du rapport, de la grille et du parcours NVDA de l'audit (C10), dans le dépôt Muninn.";
+
+  function bloc(b) {
+    if (b.type === "p") return el("p", { class: "chapo" }, segs(b.s));
+    if (b.type === "liste") return el(b.ordonnee ? "ol" : "ul", { class: "liste" }, b.items.map((i) => el("li", {}, segs(i.s),
+      i.sous.length ? el("ul", { class: "liste" }, i.sous.map((s) => el("li", {}, segs(s)))) : null,
+      (i.suite || []).map((s) => el("p", { class: "suite" }, segs(s))))));
+    return el("div", { class: "defile", tabindex: "0", role: "region", "aria-label": "Tableau" },
+      el("table", {}, el("thead", {}, el("tr", {}, b.entetes.map((h) => el("th", { scope: "col", text: h })))),
+        el("tbody", {}, b.lignes.map((l) => el("tr", {}, l.map((c, i) => i === 0 ? el("th", { scope: "row" }, segs(c.s)) : el("td", {}, segs(c.s))))))));
+  }
+  const section = (id, titre, ...contenu) => el("section", { id, "aria-labelledby": "t-" + id }, el("h2", { id: "t-" + id, text: titre }), ...contenu);
+  const tableau = (legende, entetes, lignes) => el("div", { class: "defile", tabindex: "0", role: "region", "aria-label": legende },
+    el("table", {}, el("caption", { class: "evitement", text: legende }),
+      el("thead", {}, el("tr", {}, entetes.map((h) => el("th", { scope: "col", text: h })))),
+      el("tbody", {}, lignes.map((l) => el("tr", {}, el("th", { scope: "row", text: l[0] }), l.slice(1).map((x) => el("td", { text: x })))))));
+
+  // ---------- Résultats ----------
+  function resultats() {
+    const r = $("vue-resultats");
+    r.append(el("div", { class: "ouverture" },
+      el("span", { class: "sur", text: "Audit d'accessibilité · C10" }),
+      el("h1", { id: "titre-resultats", tabindex: "-1", text: "La console de démonstration, au RGAA 4.1.2" }),
+      el("p", { class: "lead", text: D.clair["Chapeau"] || "" }),
+      el("div", { class: "cadrage", role: "note" }, el("strong", { text: "Pourquoi la console, et pas l'application" }), D.cadrage.map(bloc)),
+      el("ul", { class: "duo", "aria-label": "Taux de conformité" },
+        [["", T.avant.global, "des critères applicables respectés avant corrections (" + T.avant.c + " sur " + (T.avant.c + T.avant.nc) + ")"],
+         ["apres", T.apres.global, "après corrections (" + T.apres.c + " sur " + (T.apres.c + T.apres.nc) + ") : totalement conforme"],
+         ["", String(touches), "critères corrigés ou rendus applicables, chacun avec un test"],
+         ["", okNvda + " / " + D.nvda.etapes.length, "étapes du parcours au lecteur d'écran réussies"]]
+          .map(([cls, n, l]) => el("li", { class: cls }, el("span", { class: "nombre", text: n }), el("span", { class: "libelle", text: l }))))));
+    r.append(section("par-ecran", "Par écran",
+      el("p", { class: "chapo", text: "Taux de conformité de chaque écran, avant et après corrections. Taux moyen : " + T.avant.moyen + " avant, " + T.apres.moyen + " après." }),
+      tableau("Taux par écran, avant et après corrections", ["Écran", "Avant", "Après"], D.ecrans.map((e) => [e, T.avant.ecrans[e], T.apres.ecrans[e]]))));
+    const parTheme = D.themes.map((t) => {
+      const l = D.criteres.filter((c) => c.theme === t);
+      const etat = (c) => { const v = Object.values(c.verdicts); return v.includes("NC") ? "NC" : v.includes("C") ? "C" : "NA"; };
+      const n = (x) => String(l.filter((c) => etat(c) === x).length);
+      return [t, String(l.length), n("C"), n("NC"), n("NA"), String(l.filter((c) => c.avant !== "inchangé").length)];
+    });
+    r.append(section("par-theme", "Par thématique",
+      el("p", { class: "chapo", text: "Critères conformes, non conformes et non applicables sur l'échantillon, après corrections, et nombre de critères dont le verdict a changé." }),
+      tableau("Répartition des critères par thématique, après corrections", ["Thématique", "Critères", "Conformes", "Non conformes", "Non applicables", "Changés"], parTheme)));
+    r.append(section("lecture", "Comment lire ces chiffres", ...D.resultats.map(bloc)));
+  }
+
+  // ---------- Corrections ----------
+  function corrections() {
+    const r = $("vue-corrections");
+    if (r.dataset.pret) return; r.dataset.pret = "1";
+    r.append(el("h1", { id: "titre-corrections", class: "titre-vue", tabindex: "-1", text: "Ce qui a été corrigé" }),
+      el("p", { class: "chapo", text: "Chaque défaut relevé, sa correction, et sa preuve : un test qui échoue sans la correction, puis un contre-audit indépendant." }),
+      el("div", { class: "cartes" }, D.corrections.map((c, k) => el("article", { class: "reco", "aria-labelledby": "corr-" + k },
+        el("span", { class: "numero", text: String(k + 1) }),
+        el("div", { class: "contenu" },
+          el("h3", { id: "corr-" + k, text: "Critère" + (c.criteres.includes(",") ? "s " : " ") + c.criteres + " · " + c.ecrans }),
+          el("span", { class: "statut", text: "Corrigé, testé, revalidé" }),
+          el("dl", {}, el("dt", { text: "Défaut" }), el("dd", {}, segs(c.defaut)), el("dt", { text: "Correction" }), el("dd", {}, segs(c.correction))))))),
+      el("div", { class: "sections" }, section("preuve", "La preuve", ...D.corrections_fin.map(bloc))));
+  }
+
+  // ---------- Grille ----------
+  const filtre = { ecran: "", verdict: "", q: "" };
+  function grille() {
+    const r = $("vue-grille");
+    if (!r.dataset.pret) {
+      r.dataset.pret = "1";
+      const sel = (id, libelle, options, cle) => el("div", { class: "champ" }, el("label", { for: id, text: libelle }),
+        el("select", { id, onchange: (e) => { filtre[cle] = e.target.value; lignes(); } }, options.map(([v, l]) => el("option", { value: v, text: l }))));
+      r.append(el("h1", { id: "titre-grille", class: "titre-vue", tabindex: "-1", text: "Les 106 critères" }),
+        el("p", { class: "chapo", text: "Verdict de chaque critère sur chaque écran, après corrections : C conforme, NC non conforme, NA non applicable. La marque « corrigé » signale un verdict qui a changé." }),
+        el("div", { class: "filtres", role: "search", "aria-label": "Filtrer la grille" },
+          el("div", { class: "champ large" }, el("label", { for: "recherche", text: "Rechercher (numéro ou intitulé)" }),
+            el("input", { type: "search", id: "recherche", autocomplete: "off", oninput: (e) => { filtre.q = e.target.value.trim().toLowerCase(); lignes(); } })),
+          sel("filtre-ecran", "Écran", [["", "Tous"], ...D.ecrans.map((e) => [e, e])], "ecran"),
+          sel("filtre-verdict", "Verdict", [["", "Tous"], ["C", "Conforme"], ["NA", "Non applicable"], ["NC", "Non conforme"], ["change", "Corrigé"]], "verdict")),
+        el("p", { class: "compte", id: "compte", role: "status", "aria-live": "polite" }),
+        el("div", { id: "zone-grille" }));
+    }
+    lignes();
+  }
+  function lignes() {
+    const garde = D.criteres.filter((c) => {
+      const v = filtre.ecran ? [c.verdicts[filtre.ecran]] : Object.values(c.verdicts);
+      const okV = !filtre.verdict || (filtre.verdict === "change" ? c.avant !== "inchangé" : v.includes(filtre.verdict));
+      const okQ = !filtre.q || (c.numero + " " + c.titre).toLowerCase().includes(filtre.q);
+      return okV && okQ;
+    });
+    clearTimeout(lignes.t);
+    lignes.t = setTimeout(() => { $("compte").textContent = garde.length + (garde.length > 1 ? " critères affichés" : " critère affiché") + " sur " + D.criteres.length; }, 300);
+    const zone = $("zone-grille");
+    if (!garde.length) { zone.replaceChildren(el("p", { class: "chapo", text: "Aucun critère ne correspond à ces filtres." })); return; }
+    zone.replaceChildren(...D.themes.filter((t) => garde.some((c) => c.theme === t)).map((t) => el("section", { "aria-labelledby": "th-" + t.split(".")[0] },
+      el("h2", { class: "theme-titre", id: "th-" + t.split(".")[0], text: t }),
+      el("div", { class: "defile grille-rgaa", tabindex: "0", role: "region", "aria-label": "Critères de la thématique " + t },
+        el("table", {},
+          el("thead", {}, el("tr", {}, ["Critère", ...D.ecrans, "Preuve"].map((h) => el("th", { scope: "col", text: h })))),
+          el("tbody", {}, garde.filter((c) => c.theme === t).map((c) => el("tr", {},
+            el("th", { scope: "row" }, c.numero + " " + c.titre, c.avant !== "inchangé" ? el("span", { class: "corrige", text: "corrigé · avant : " + c.avant }) : null),
+            D.ecrans.map((e) => el("td", { class: "v v-" + c.verdicts[e], text: c.verdicts[e] })),
+            el("td", { class: "preuve" }, segs(c.preuve))))))))));
+  }
+
+  // ---------- Méthode ----------
+  function methode() {
+    const r = $("vue-methode");
+    if (r.dataset.pret) return; r.dataset.pret = "1";
+    const lien_ = (chemin, texte) => el("li", {}, lien(texte, D.depot + chemin));
+    r.append(el("h1", { id: "titre-methode", class: "titre-vue", tabindex: "-1", text: "Méthode et preuves" }),
+      D.clair["Méthode"] ? el("p", { class: "lead", text: D.clair["Méthode"] }) : null,
+      section("echantillon", "Échantillon et méthode", ...D.methode.map(bloc)),
+      section("nvda", "Parcours au lecteur d'écran", ...D.nvda.texte.map(bloc),
+        tableau("Parcours NVDA, étape par étape", ["Étape", "Écran", "Attendu", "Observé"], D.nvda.etapes.map((e) => [e.n, e.ecran, texteDe(e.attendu), e.observe])),
+        el("p", { class: "chapo", text: "NVDA " + (nv["Version de NVDA"] || "") + ", Firefox " + (nv["Version de Firefox"] || "").replace(/^Version /, "") + ", " + (nv["Durée"] || "") + " ; remarques : " + (nv["Remarques"] || "aucune") + "." })),
+      section("remarques", "Remarques hors taux", ...D.remarques.map(bloc)),
+      section("limites", "Limites", ...D.limites.map(bloc)),
+      section("preuves", "Les preuves", el("ul", { class: "liste" },
+        lien_("protocole.md", "Le protocole, écrit avant l'audit"), lien_("rapport.md", "Le rapport"),
+        lien_("grille.md", "La grille après corrections"), lien_("grille-avant-corrections.md", "La grille avant corrections"),
+        lien_("scenario-nvda.md", "Le parcours NVDA, rempli"), lien_("declaration.md", "La déclaration d'accessibilité"), lien_("mesures/", "Les mesures")),
+        el("p", { class: "chapo", text: "Les fichiers sont dans le dépôt Muninn, accessible à ses membres." })));
+  }
+
+  // ---------- Navigation ----------
+  const VUES = ["resultats", "corrections", "grille", "methode"];
+  function montrer(vue, focaliser) {
+    for (const v of VUES) {
+      $("vue-" + v).hidden = v !== vue;
+      if (v === vue) $("onglet-" + v).setAttribute("aria-current", "page"); else $("onglet-" + v).removeAttribute("aria-current");
+    }
+    if (vue === "corrections") corrections();
+    if (vue === "grille") grille();
+    if (vue === "methode") methode();
+    if (focaliser) { window.scrollTo(0, 0); $("titre-" + vue)?.focus({ preventScroll: true }); }
+  }
+  let premier = true;
+  function route() {
+    let h = "";
+    try { h = decodeURIComponent(location.hash.slice(1)); } catch { h = ""; }
+    const focaliser = !premier; premier = false;
+    if (h && !VUES.includes(h)) return;
+    montrer(h || "resultats", focaliser);
+  }
+  resultats();
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>

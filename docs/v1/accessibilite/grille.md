@@ -2,29 +2,33 @@
 
 **Date :** 3 novembre 2026, contre-audit après corrections. **Protocole :**
 `docs/v1/accessibilite/protocole.md`, appliqué sans modification. **Grille avant corrections :**
-`c10-grille-avant.md`, conservée telle quelle (version rectifiée de 16 h 20, qui ajoutait la
+`grille-avant-corrections.md`, conservée telle quelle (version rectifiée de 16 h 20, qui ajoutait la
 non-conformité 9.1 Qualité relevée par le validateur Nu).
 
 ## Ce qui a changé
 
-- **Code :** corrections non commitées dans `src/muninn/console/main.py` et les six gabarits
+- **Code :** corrections dans `src/muninn/console/main.py` et les six gabarits
   `templates/*.html`, avec leurs tests dans `tests/test_console_rgaa.py`. Les 16 critères non
-  conformes ont été traités : 12.7, 1.6, 1.9, 3.1, 3.3, 10.2, 10.9, 8.2, 8.9, 8.7, 10.4, 10.11, 11.10,
+  conformes ont été traités : 12.7, 1.6, 1.9, 3.1, 3.3, 10.2, 10.9, 8.2, 8.9, 8.7, 10.4, 10.11,
+  11.10,
   11.11, 11.12 et 9.1.
 - **Grille :** les verdicts et les preuves des critères touchés sont remplacés. La colonne
-  « Avant » donne l'ancien verdict quand il diffère. Les autres critères gardent la preuve de l'audit
+  « Avant » donne l'ancien verdict quand il diffère. Les autres critères gardent la preuve de
+  l'audit
   initial, après une recherche de régression (section suivante).
 
 ## Comment la grille a été revérifiée
 
-- **Rendus :** les 17 états fournis dans `c10-etats` (anciens dans `c10-etats-avant`).
+- **Rendus :** les 17 états rendus après corrections (ceux d'avant ont été conservés à part).
   - `agent.html` et `main.py` ont été modifiés après la production de ces rendus (16 h 38 contre
     16 h 36). Les états Agent ont donc été **rendus à neuf** avec le code courant, dans
-    `agent-frais/` : liste, dossier à valider, refus, lot interrompu, confirmation manquante.
+    un jeu à part : liste, dossier à valider, refus, lot interrompu, confirmation manquante.
   - L'écran Qualité, rendu à neuf avec les aides de test, est identique au rendu fourni, dates mises
     à part.
-- **Mesures rejouées** par `audit_c10.py` sur les 24 états (17 rendus et 7 états dynamiques de la
-  Démonstration produits par le vrai JavaScript), puis sur les 5 rendus Agent neufs. Ont été rejoués :
+- **Mesures rejouées** par le script de mesure de l'auditeur (hors dépôt ; ses résultats sont dans
+  `mesures/`) sur les 24 états (17 rendus et 7 états dynamiques de la
+  Démonstration produits par le vrai JavaScript), puis sur les 5 rendus Agent neufs. Ont été rejoués
+  :
   - axe-core ;
   - le clavier (Tab, Maj+Tab, contour et contraste du focus) ;
   - les largeurs de 320 px et de 640 px ;
@@ -32,9 +36,10 @@ non-conformité 9.1 Qualité relevée par le validateur Nu).
   - les espacements du texte.
 
   Le parcours complet de la Démonstration au clavier seul a aussi été rejoué, pour SC-10 et SC-Q1.
-- **Validateur Nu**, image locale `ghcr.io/validator/validator` lancée sans réseau, sur les 17 rendus
+- **Validateur Nu**, image locale `ghcr.io/validator/validator` lancée sans réseau, sur les 17
+  rendus
   et les 5 rendus Agent neufs.
-- **Contrôles ciblés** (`contre.py`) :
+- **Contrôles ciblés** :
   - lien d'évitement : premier arrêt, visible au focus, déplacement du focus à l'activation ;
   - hiérarchie des titres sur les 17 rendus ;
   - case de confirmation : `required`, description, blocage de l'envoi ;
@@ -48,7 +53,9 @@ non-conformité 9.1 Qualité relevée par le validateur Nu).
 
 - l'état Agent « dossier validé » n'est pas rendu, faute de base de données ; il a été jugé sur le
   gabarit ;
-- le lecteur d'écran n'a pas été joué.
+- le lecteur d'écran n'était pas joué à cette date ; il l'a été le 5 novembre 2026 par le porteur
+  (NVDA 2026.3 et Firefox 159.0.1, 24 étapes sur 24 conformes, complément compris :
+  `scenario-nvda.md`, `rapport.md`).
 
 ## Taux (protocole, section 5)
 
@@ -61,7 +68,8 @@ non-conformité 9.1 Qualité relevée par le validateur Nu).
 Le taux est le nombre de critères conformes rapporté aux critères applicables, C / (C + NC).
 
 Mention après corrections, selon le protocole : **totalement conforme** (taux global de 100 %),
-sur l'échantillon audité et sous réserve du parcours au lecteur d'écran. Le nombre de critères non
+sur l'échantillon audité, parcours au lecteur d'écran joué ensuite (24 étapes sur 24 conformes). Le
+nombre de critères non
 applicables reste 34 : 1.7 devient applicable (les graphiques ont désormais une description
 détaillée), 1.9 devient non applicable (plus aucune figure à légende, option b ci-dessous).
 
@@ -94,9 +102,11 @@ le validateur Nu, rejoué en local sur Qualité (données et erreur), ne trouve 
   - axe-core : 0 violation sur 29 rendus ;
   - 320 px : aucun débordement hors tableaux.
 - **Remarques hors taux :**
-  - à 200 % de texte, les badges de l'écran de Karim se coupent au milieu des mots (« à de/ma/nde/r ») :
+  - à 200 % de texte, les badges de l'écran de Karim se coupent au milieu des mots (« à de/ma/nde/r
+    ») :
     lisible, à améliorer ;
-  - en cas de confirmation manquante envoyée sans validation native, le formulaire du dossier disparaît :
+  - en cas de confirmation manquante envoyée sans validation native, le formulaire du dossier
+    disparaît :
     l'usager doit rejouer l'appel ;
   - codes signalés hors échantillon (catégories du lexique part, equipment, fault, material ;
     « refus content_refused » dans les écarts d'un lot ; `content_refused` dans la Démonstration) :
@@ -116,7 +126,8 @@ Les points réservés de la grille avant corrections restent valables.
 
 ## Grille après corrections
 
-A = Accueil, R = Référentiels, G = Agent, D = Démonstration, Q = Qualité. La colonne « Avant » donne le verdict de l'audit initial (rectifié pour 9.1) quand il diffère.
+A = Accueil, R = Référentiels, G = Agent, D = Démonstration, Q = Qualité. La colonne « Avant » donne
+le verdict de l'audit initial (rectifié pour 9.1) quand il diffère.
 
 ### 1. Images
 
@@ -197,18 +208,18 @@ A = Accueil, R = Référentiels, G = Agent, D = Démonstration, Q = Qualité. La
 
 ### 8. Éléments obligatoires
 
-| Critère                                                                                      | Accueil | Référentiels | Agent | Démonstration | Qualité | Avant                         | Preuve                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| -------------------------------------------------------------------------------------------- | ------- | ------------ | ----- | ------------- | ------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 8.1 Chaque page web est-elle définie par un type de document ?                               | C       | C            | C     | C             | C       | inchangé                      | `<!doctype html>` (base.html).                                                                                                                                                                                                                                                                                                                                                                                              |
-| 8.2 Pour chaque page web, le code source généré est-il valide selon le type de document spé… | C       | C            | C     | C             | C       | Démonstration NC ; Qualité NC | Validateur Nu local (image ghcr.io/validator/validator, sans réseau) : 0 erreur sur les 17 rendus après corrections et 5 rendus Agent neufs ; puis 0 erreur sur Qualité (données, erreur) après l'option b, qui retire le conflit `figure role` + `figcaption`.                                                                                                                                                             |
-| 8.3 Dans chaque page web, la langue par défaut est-elle présente ?                           | C       | C            | C     | C             | C       | inchangé                      | `<html lang="fr">`.                                                                                                                                                                                                                                                                                                                                                                                                         |
-| 8.4 Pour chaque page web ayant une langue par défaut, le code de langue est-il pertinent ?   | C       | C            | C     | C             | C       | inchangé                      | `fr` pertinent.                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 8.5 Chaque page web a-t-elle un titre de page ?                                              | C       | C            | C     | C             | C       | inchangé                      | `<title>` présent sur chaque écran.                                                                                                                                                                                                                                                                                                                                                                                         |
-| 8.6 Pour chaque page web ayant un titre de page, ce titre est-il pertinent ?                 | C       | C            | C     | C             | C       | inchangé                      | « Muninn, console de démonstration », « Muninn, référentiels », « Muninn, agent », « Muninn, démonstration d'un appel », « Muninn, qualité du service ».                                                                                                                                                                                                                                                                    |
-| 8.7 Dans chaque page web, chaque changement de langue est-il indiqué dans le code source (h… | C       | C            | C     | C             | C       | Référentiels NC ; Agent NC    | Après : filtre `libelle` (console/main.py) : « autre », « non contrôlé », « partiel après un nouvel essai », « sortie du modèle invalide » ; aucun code anglais restant dans les rendus (recherche outillée). Réserves hors échantillon : catégories du lexique part, equipment, fault, material non traduites (l'ingestion n'écrit que « other ») ; « refus content_refused » dans les écarts d'un lot. Avant : NC (R, G). |
-| 8.8 Dans chaque page web, le code de langue de chaque changement de langue est-il valide et… | NA      | NA           | NA    | NA            | NA      | inchangé                      | Aucun changement de langue déclaré.                                                                                                                                                                                                                                                                                                                                                                                         |
-| 8.9 Dans chaque page web, les balises ne doivent pas être utilisées uniquement à des fins d… | C       | C            | C     | C             | C       | Démonstration NC              | D, après : barres de voix et jauge en `<span>` ; plus aucun `<i>` (analyse locale). Avant : NC.                                                                                                                                                                                                                                                                                                                             |
-| 8.10 Dans chaque page web, les changements du sens de lecture sont-ils signalés ?            | NA      | NA           | NA    | NA            | NA      | inchangé                      | Aucun changement de sens de lecture.                                                                                                                                                                                                                                                                                                                                                                                        |
+| Critère                                                                                      | Accueil | Référentiels | Agent | Démonstration | Qualité | Avant                         | Preuve                                                                                                                                                                                                                                                                                                                                                                                           |
+| -------------------------------------------------------------------------------------------- | ------- | ------------ | ----- | ------------- | ------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 8.1 Chaque page web est-elle définie par un type de document ?                               | C       | C            | C     | C             | C       | inchangé                      | `<!doctype html>` (base.html).                                                                                                                                                                                                                                                                                                                                                                   |
+| 8.2 Pour chaque page web, le code source généré est-il valide selon le type de document spé… | C       | C            | C     | C             | C       | Démonstration NC ; Qualité NC | Validateur Nu local (image ghcr.io/validator/validator, sans réseau) : 0 erreur sur les 17 rendus après corrections et 5 rendus Agent neufs ; puis 0 erreur sur Qualité (données, erreur) après l'option b, qui retire le conflit `figure role` + `figcaption`.                                                                                                                                  |
+| 8.3 Dans chaque page web, la langue par défaut est-elle présente ?                           | C       | C            | C     | C             | C       | inchangé                      | `<html lang="fr">`.                                                                                                                                                                                                                                                                                                                                                                              |
+| 8.4 Pour chaque page web ayant une langue par défaut, le code de langue est-il pertinent ?   | C       | C            | C     | C             | C       | inchangé                      | `fr` pertinent.                                                                                                                                                                                                                                                                                                                                                                                  |
+| 8.5 Chaque page web a-t-elle un titre de page ?                                              | C       | C            | C     | C             | C       | inchangé                      | `<title>` présent sur chaque écran.                                                                                                                                                                                                                                                                                                                                                              |
+| 8.6 Pour chaque page web ayant un titre de page, ce titre est-il pertinent ?                 | C       | C            | C     | C             | C       | inchangé                      | « Muninn, console de démonstration », « Muninn, référentiels », « Muninn, agent », « Muninn, démonstration d'un appel », « Muninn, qualité du service ».                                                                                                                                                                                                                                         |
+| 8.7 Dans chaque page web, chaque changement de langue est-il indiqué dans le code source (h… | C       | C            | C     | C             | C       | Référentiels NC ; Agent NC    | Après : filtre `libelle` (console/main.py) : « autre », « non contrôlé », « partiel après un nouvel essai », « sortie du modèle invalide » ; aucun code anglais restant dans les rendus (recherche outillée). Codes relevés hors échantillon (catégories du lexique part, equipment, fault, material ; « refus content_refused » dans les écarts d'un lot) : traduits depuis. Avant : NC (R, G). |
+| 8.8 Dans chaque page web, le code de langue de chaque changement de langue est-il valide et… | NA      | NA           | NA    | NA            | NA      | inchangé                      | Aucun changement de langue déclaré.                                                                                                                                                                                                                                                                                                                                                              |
+| 8.9 Dans chaque page web, les balises ne doivent pas être utilisées uniquement à des fins d… | C       | C            | C     | C             | C       | Démonstration NC              | D, après : barres de voix et jauge en `<span>` ; plus aucun `<i>` (analyse locale). Avant : NC.                                                                                                                                                                                                                                                                                                  |
+| 8.10 Dans chaque page web, les changements du sens de lecture sont-ils signalés ?            | NA      | NA           | NA    | NA            | NA      | inchangé                      | Aucun changement de sens de lecture.                                                                                                                                                                                                                                                                                                                                                             |
 
 ### 9. Structuration de l’information
 

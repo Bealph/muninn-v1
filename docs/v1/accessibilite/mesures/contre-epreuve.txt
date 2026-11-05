@@ -1,0 +1,27 @@
+Contre-épreuve des tests de non-régression (C10), 5 novembre 2026.
+Mêmes tests, tests/test_console_rgaa.py (19 cas), lancés deux fois.
+
+== Passe 1 : console AVANT corrections (commit 6f367e5), filtre libelle neutralisé
+FAILED test_12_7_lien_d_evitement_vers_le_contenu[/]
+FAILED test_12_7_lien_d_evitement_vers_le_contenu[/referentiels]
+FAILED test_12_7_lien_d_evitement_vers_le_contenu[/agent]
+FAILED test_12_7_lien_d_evitement_vers_le_contenu[/demonstration]
+FAILED test_12_7_lien_d_evitement_vers_le_contenu[/qualite]
+FAILED test_8_2_aucun_style_dans_le_corps
+FAILED test_8_9_aucune_balise_i_de_mise_en_forme
+FAILED test_8_7_codes_affiches_en_francais
+FAILED test_8_7_categorie_du_terme_en_francais
+FAILED test_9_1_aucun_saut_de_niveau_de_titre
+FAILED test_10_11_dossier_sans_defilement_horizontal_a_320_px
+FAILED test_10_4_cartes_de_l_ecran_de_karim_repliables
+FAILED test_11_10_champ_obligatoire_signale_dans_son_etiquette[/-question]
+FAILED test_11_10_champ_obligatoire_signale_dans_son_etiquette[/referentiels-mot]
+FAILED test_11_10_et_11_11_transcription_vide_nommee_et_reliee
+FAILED test_11_12_validation_confirmee_explicitement
+FAILED test_1_6_et_10_9_valeurs_des_graphiques_en_tableau
+FAILED test_1_9_et_8_2_graphiques_introduits_sans_figure
+FAILED test_3_3_series_contrastees
+19 failed, 4 warnings in 2.46s
+
+== Passe 2 : console APRÈS corrections (main, f4edad7)
+19 passed, 4 warnings in 2.24s

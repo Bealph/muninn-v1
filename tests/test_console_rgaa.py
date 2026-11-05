@@ -35,7 +35,7 @@ def _contraste(a: str, b: str) -> float:
     return (hi + 0.05) / (lo + 0.05)
 
 
-@pytest.mark.parametrize("chemin", ["/", "/referentiels", "/agent", "/demonstration"])
+@pytest.mark.parametrize("chemin", ["/", "/referentiels", "/agent", "/demonstration", "/qualite"])
 def test_12_7_lien_d_evitement_vers_le_contenu(client_console: TestClient, chemin: str) -> None:
     html = client_console.get(chemin).text
     corps = html[html.index("<body>") :]

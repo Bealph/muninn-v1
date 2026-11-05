@@ -1,0 +1,20 @@
+{
+ "qualite-alerte.html": {
+  "axe_violations": 0,
+  "arrets_clavier": 11,
+  "sans_contour": [],
+  "ordre_inverse_exact": true
+ },
+ "qualite-donnees.html": {
+  "axe_violations": 0,
+  "arrets_clavier": 11,
+  "sans_contour": [],
+  "ordre_inverse_exact": true
+ },
+ "qualite-erreur.html": {
+  "axe_violations": 0,
+  "arrets_clavier": 10,
+  "sans_contour": [],
+  "ordre_inverse_exact": true
+ }
+}

@@ -1,2 +1,3 @@
-Picked up JAVA_TOOL_OPTIONS: 
-Document checking completed. No errors found.
+Validateur Nu du W3C (image ghcr.io/validator/validator, lancée en local, sans réseau), 5 novembre 2026,
+après l'option b, sur les trois états Qualité : qualite-donnees.html, qualite-alerte.html, qualite-erreur.html.
+Messages (erreurs et avertissements) : 0.

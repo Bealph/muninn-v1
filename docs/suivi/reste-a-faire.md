@@ -1,6 +1,7 @@
 # Reste à faire : les sept cases non cochées
 
-**Établi le :** 29 octobre 2026, après la repasse de `competences.md` (54 cases sur 61 ; C21 cochée par décision du porteur).
+**Établi le :** 29 octobre 2026, après la repasse de `competences.md` (54 cases sur 61 ; C21 cochée
+par décision du porteur).
 
 **Échéance :** oral blanc en situation réelle, E1 à E5, les 12 et 13 novembre 2026 ; gel des
 livrables le 11 à 18 h (`docs/v1/roadmap-v1.md`).
@@ -94,7 +95,8 @@ transcription de D-50 (Azure AI Speech retenu, modèles OpenAI écartés faute d
       documentaire, sources citées. La téléphonie reste documentaire (R10 : pas d'achat, pas de
       compte fournisseur).
 - [x] Écrire la recommandation par catégorie, avec ses limites et ce qui la ferait changer.
-- [x] Relire le document par un relecteur indépendant avant de cocher (deux passes, 27 constats traités).
+- [x] Relire le document par un relecteur indépendant avant de cocher (deux passes, 27 constats
+  traités).
 
 **Preuve attendue :** `docs/v1/benchmark-services-ia/` avec le protocole (commité avant toute
 mesure), la grille, les résultats et la recommandation.
@@ -242,13 +244,13 @@ de l'écran Démonstration et quatre corrections avec leur test.
 
 - [x] Fixer l'échantillon : les cinq écrans de la console (Accueil, Référentiels, Agent,
       Démonstration, Qualité), chacun dans ses états.
-- [ ] Dérouler la grille du RGAA 4.1.2, critère par critère, au clavier seul, au lecteur d'écran
+- [x] Dérouler la grille du RGAA 4.1.2, critère par critère, au clavier seul, au lecteur d'écran
       (NVDA), avec un zoom à 200 % et un contrôle des contrastes.
 - [x] Calculer le taux de conformité selon la méthode du RGAA : 77,8 % avant, 100 % après
       corrections.
 - [x] Corriger les non-conformités, chacune avec un test de non-régression : aucune bloquante, les
       16 corrigées (décision du porteur), 1.9 et 8.2 tranchés par l'option b.
-- [ ] Rédiger la déclaration d'accessibilité.
+- [x] Rédiger la déclaration d'accessibilité (`docs/v1/accessibilite/declaration.md`).
 
 **Preuve attendue :** la grille remplie, le taux, les corrections et la déclaration, dans
 `docs/v1/accessibilite/`.
@@ -282,7 +284,8 @@ Cocher ici quand la preuve est dans le dépôt, puis cocher la case correspondan
 - [x] C7 · benchmark complet (`docs/v1/benchmark-services-ia/`, 3 novembre)
 - [x] C8 · demande de zéro rétention tracée (D-89)
 - [x] C19 · environnement de test (workflow et exécution, D-90)
-- [x] C20 · détection automatique d'incident (issue #210 ; lancement planifié constaté le 3 novembre ; limite écrite)
+- [x] C20 · détection automatique d'incident (issue #210 ; lancement planifié constaté le 3 novembre
+  ; limite écrite)
 - [x] C21 · incident provoqué, résolu et documenté (exercice du 26 octobre, décision du porteur)
 - [x] C21 · renfort : fiche de l'exercice (INC-12) et fiche INC-11
 - [ ] C10 · audit RGAA manuel (`docs/v1/accessibilite/`)
