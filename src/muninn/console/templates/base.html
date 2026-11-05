@@ -27,9 +27,15 @@
     .refus { border-left: 4px solid #8a5a00; padding: .5rem 1rem; background: #fdf6e9; }
     .erreur { border-left: 4px solid #a31515; padding: .5rem 1rem; background: #fbf0f0; }
     .aide { color: #4a4a4a; margin: .25rem 0 0; }
-    dl { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem; }
+    dl { display: grid; grid-template-columns: minmax(0, max-content) minmax(0, 1fr); gap: .25rem 1rem; }
     dt { font-weight: 600; }
-    dd { margin: 0; font-family: "IBM Plex Mono", ui-monospace, monospace; }
+    dd { margin: 0; font-family: "IBM Plex Mono", ui-monospace, monospace; overflow-wrap: anywhere; }
+    /* RGAA 10.11 : à 320 px, terme et valeur l'un sous l'autre, sans défilement horizontal. */
+    @media (max-width: 30rem) { dl { grid-template-columns: minmax(0, 1fr); } dd { margin-bottom: .4rem; } }
+    /* RGAA 12.7 : lien d'évitement, visible quand il reçoit le focus. */
+    .evitement { position: absolute; left: -9999px; }
+    .evitement:focus { position: static; display: inline-block; margin-bottom: .5rem; }
+    .obligatoire { font-weight: 400; color: #4a4a4a; }
     table { border-collapse: collapse; width: 100%; margin: .5rem 0 1rem; font-size: .95rem; }
     th, td { border: 1px solid #c8c8c8; padding: .35rem .5rem; text-align: left; vertical-align: top; }
     th { background: #f0f0f0; }
@@ -37,8 +43,11 @@
     fieldset { border: 1px solid #c8c8c8; padding: .5rem 1rem 1rem; margin: 1.5rem 0 0; }
     legend { font-weight: 700; padding: 0 .25rem; }
   </style>
+  {# RGAA 8.2 : les styles propres à un écran restent dans l'en-tête de la page. #}
+  {% block style %}{% endblock %}
 </head>
 <body>
+<a class="evitement" href="#contenu">Aller au contenu</a>
 <header>
   <nav aria-label="Pages de la console">
     <ul>
@@ -50,7 +59,7 @@
     </ul>
   </nav>
 </header>
-<main>
+<main id="contenu" tabindex="-1">
 {% block contenu %}{% endblock %}
 </main>
 </body>

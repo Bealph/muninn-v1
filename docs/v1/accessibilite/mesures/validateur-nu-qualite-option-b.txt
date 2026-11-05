@@ -1,0 +1,2 @@
+Picked up JAVA_TOOL_OPTIONS: 
+Document checking completed. No errors found.

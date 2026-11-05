@@ -1,0 +1,1016 @@
+{
+ "statiques": [
+  {
+   "etat": "frais-agent-confirmation-manquante",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «scenario»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «transcript»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "textarea#transcript",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x138",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#trade «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#caller_number[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Traiter l'appel»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "139x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Jouer les 8 scénarios»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "188x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 14,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "input[radio] «scenario»",
+     "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "textarea#transcript",
+     "select#trade «plomberie chauffage electricite serrurer»",
+     "input#caller_number[text]",
+     "button «Traiter l'appel»",
+     "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "button «Jouer les 8 scénarios»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 14
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "frais-agent-dossier-a-valider",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «scenario»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «transcript»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "textarea#transcript",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x138",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#trade «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#caller_number[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Traiter l'appel»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "139x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Jouer les 8 scénarios»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "188x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-client-nom[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-client-prenom[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-client-telephone[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-client-adresse-rue[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-client-adresse-code_postal[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-client-adresse-commune[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-demande-objet_court[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#c-demande-urgence «sécurité urgent normal non précisé»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[checkbox] «oui»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Valider le dossier»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "163x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 24,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "input[radio] «scenario»",
+     "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "textarea#transcript",
+     "select#trade «plomberie chauffage electricite serrurer»",
+     "input#caller_number[text]",
+     "button «Traiter l'appel»",
+     "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "button «Jouer les 8 scénarios»",
+     "input#c-client-nom[text]",
+     "input#c-client-prenom[text]",
+     "input#c-client-telephone[text]",
+     "input#c-client-adresse-rue[text]",
+     "input#c-client-adresse-code_postal[text]",
+     "input#c-client-adresse-commune[text]",
+     "input#c-demande-objet_court[text]",
+     "select#c-demande-urgence «sécurité urgent normal non précisé»",
+     "input[checkbox] «oui»",
+     "button «Valider le dossier»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 24
+   },
+   "reflux_320": {
+    "scrollW": 366,
+    "clientW": 320,
+    "horizontal": true,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "frais-agent-liste",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «scenario»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «transcript»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "textarea#transcript",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x138",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#trade «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#caller_number[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Traiter l'appel»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "139x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Jouer les 8 scénarios»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "188x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 14,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "input[radio] «scenario»",
+     "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "textarea#transcript",
+     "select#trade «plomberie chauffage electricite serrurer»",
+     "input#caller_number[text]",
+     "button «Traiter l'appel»",
+     "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "button «Jouer les 8 scénarios»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 14
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "frais-agent-lot",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «scenario»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «transcript»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "textarea#transcript",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x138",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#trade «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#caller_number[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Traiter l'appel»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "139x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Jouer les 8 scénarios»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "188x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 14,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "input[radio] «scenario»",
+     "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "textarea#transcript",
+     "select#trade «plomberie chauffage electricite serrurer»",
+     "input#caller_number[text]",
+     "button «Traiter l'appel»",
+     "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "button «Jouer les 8 scénarios»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 14
+   },
+   "reflux_320": {
+    "scrollW": 504,
+    "clientW": 320,
+    "horizontal": true,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "frais-agent-refus",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «scenario»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «transcript»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "textarea#transcript",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x138",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#trade «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#caller_number[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Traiter l'appel»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "139x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Jouer les 8 scénarios»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "188x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 14,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "input[radio] «transcript»",
+     "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "textarea#transcript",
+     "select#trade «plomberie chauffage electricite serrurer»",
+     "input#caller_number[text]",
+     "button «Traiter l'appel»",
+     "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "button «Jouer les 8 scénarios»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 14
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  }
+ ],
+ "demo": [],
+ "clavier_demo": {}
+}

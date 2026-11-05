@@ -74,6 +74,32 @@ def date_paris(valeur: str) -> str:
 
 gabarits.env.filters["heure_lisible"] = heure_lisible
 gabarits.env.filters["date_paris"] = date_paris
+
+# RGAA 8.7 : les codes du contrat (anglais ou snake_case) ne s'affichent jamais bruts.
+CODES_EN_FRANCAIS = {
+    "verified": "vérifié", "mismatch": "incohérent", "not_checked": "non contrôlé",
+    "complete": "complet", "partial_after_retry": "partiel après un nouvel essai",
+    "fallback_no_llm": "brouillon de secours", "brand": "marque", "other": "autre",
+    "trouve": "trouvé", "incoherent": "incohérent", "hors_corpus": "hors des données",
+    "hors_perimetre": "hors du périmètre", "indisponible": "indisponible",
+    "delai_depasse": "délai dépassé", "arguments_illisibles": "arguments illisibles",
+    "securite": "sécurité", "non_precise": "non précisé",
+    "sortie_invalide": "sortie du modèle invalide", "modele_indisponible": "modèle indisponible",
+    "retrogradation": "rétrogradation", "detournement": "détournement",
+    "indetermine": "indéterminé",
+    "content_refused": "contenu refusé", "content_unprocessable": "contenu impossible à traiter",
+    "validation_failed": "requête invalide", "part": "pièce", "equipment": "équipement",
+    "fault": "panne", "material": "matériau",
+}  # fmt: skip
+
+
+def libelle(code: object) -> str:
+    """Le libellé français d'un code ; un code inconnu, sans ses tirets bas."""
+    texte = str(code)
+    return CODES_EN_FRANCAIS.get(texte, texte.replace("_", " "))
+
+
+gabarits.env.filters["libelle"] = libelle
 gabarits.env.globals["minimum"] = MINIMUM
 
 # Champs que l'artisan peut corriger avant de valider (V-09, CA-5), dans l'ordre de l'écran.
@@ -312,6 +338,13 @@ GROUPES = {
 CATEGORIES = {
     "demande_service": "demande de service",
     "indetermine": "indéterminé",
+    "content_refused": "contenu refusé",
+    "content_unprocessable": "contenu impossible à traiter",
+    "validation_failed": "requête invalide",
+    "part": "pièce",
+    "equipment": "équipement",
+    "fault": "panne",
+    "material": "matériau",
     "fournisseur": "fournisseur",
     "personnel": "personnel",
     "autre": "autre (démarchage, erreur)",
@@ -445,7 +478,17 @@ def agent_executer(
         corps |= {"transcript": transcript, "trade": trade}
         if caller_number.strip():
             corps["caller_number"] = caller_number.strip()
-    run, erreur = _executer(client, corps)
+    run: dict[str, Any] | None
+    erreur: dict[str, Any] | None
+    if mode == "transcript" and not transcript.strip():
+        # RGAA 11.10 et 11.11 : le champ en cause est nommé, avec la correction attendue.
+        run, erreur = None, {
+            "code": "validation_failed", "champ": "transcript",
+            "message": "Transcription : le champ est vide. Saisir le texte de l'appel "
+            "(8 000 caractères au plus), ou choisir « Scénario ».",
+        }  # fmt: skip
+    else:
+        run, erreur = _executer(client, corps)
     recus = _messages_recus(messages)
     if run and (resume := _message_resume(run)):
         recus = [resume, *recus][:MESSAGES_GARDES]
@@ -471,8 +514,21 @@ def agent_valider(
     commune: Annotated[str, Form(alias="client.adresse.commune", max_length=120)] = "",
     objet: Annotated[str, Form(alias="demande.objet_court", max_length=120)] = "",
     urgence: Annotated[str, Form(alias="demande.urgence", max_length=20)] = "",
+    confirme: Annotated[str, Form(max_length=3)] = "",
 ) -> HTMLResponse:
     """Validation par l'artisan : seuls les champs modifiés partent, avec leur nouvelle valeur."""
+    recus = _messages_recus(messages)
+    if confirme != "oui":
+        # RGAA 11.12 : la validation est définitive (l'API refuse une seconde revue) ; elle doit
+        # être confirmée explicitement.
+        erreur_confirmation = {
+            "code": "validation_failed", "champ": "confirme",
+            "message": "Confirmation : cocher « Je confirme la validation » ; un dossier validé ne "
+            "peut plus être modifié. Rejouer l'appel pour retrouver le dossier.",
+        }  # fmt: skip
+        return _page_agent(
+            request, client, erreur=erreur_confirmation, messages=recus, scenario_id=scenario_id
+        )
     saisis = dict(zip(CHAMPS_CORRIGEABLES, (nom, prenom, telephone, rue, code_postal, commune,
                                             objet, urgence), strict=True))  # fmt: skip
     try:
@@ -489,7 +545,6 @@ def agent_valider(
         "corrected_fields": corriges,
         "values": {c: saisis[c].strip() or None for c in corriges},
     }
-    recus = _messages_recus(messages)
     try:
         reponse = client.post(f"/v1/demo/runs/{draft_id}/review", json=corps,
                               timeout=DELAI_EXECUTION_S)  # fmt: skip
@@ -529,7 +584,10 @@ def agent_lot(
                     "libelle": s["libelle"],
                     "issue": "refus",
                     "categorie": None,
-                    "conformite": {"compliant": False, "gaps": [f"refus {erreur['code']}"]},
+                    "conformite": {
+                        "compliant": False,
+                        "gaps": [f"refus : {libelle(erreur['code'])}"],
+                    },
                     "garde_fous": [],
                     "cout": 0,
                     "duree": 0,
@@ -632,6 +690,11 @@ def _graphique(
             "h_verifier": round(p["a_verifier"] / haut * 120, 1),
             "h_part": None if part is None else round(part * 120, 1),
             "faible": (p.get("dossiers") or 0) < MINIMUM,
+            # RGAA 1.6 et 10.9 : les valeurs de chaque barre, reprises dans un tableau sous les
+            # graphiques.
+            "heure": f"{locale:%d/%m à %H:00}", "total": p["total"],
+            "verifier": p["a_verifier"], "dossiers": p.get("dossiers") or 0,
+            "part": None if part is None else f"{part * 100:.0f} %",
             "titre": f"{locale:%d/%m à %H:00} : {pluriel(p['total'], 'appel', 'appels')}, "
             f"{pluriel(p['a_verifier'], 'dossier à vérifier', 'dossiers à vérifier')}",
             "titre_part": "" if part is None else f"{locale:%d/%m à %H:00} : "

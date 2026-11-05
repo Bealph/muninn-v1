@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block titre %}Muninn, démonstration d'un appel{% endblock %}
-{% block contenu %}
+{% block style %}
   <style>
     /* Mise en scène de la maquette V0 : choix du scénario et phases en tête ; deux téléphones
        reliés par le parcours de l'appel ; puis la chaîne de traitement, une étape à la fois.
@@ -79,10 +79,10 @@
     .sous { font-size: .8rem; color: var(--ecran-discret); font-variant-numeric: tabular-nums; }
     .voix { display: flex; align-items: center; gap: .4rem; min-height: 1.2rem; font-size: .78rem; font-weight: 800; color: var(--bulle-moi); }
     .voix .barres { display: inline-flex; gap: 2px; align-items: center; height: .9rem; }
-    .voix .barres i { width: 3px; height: 4px; background: currentColor; border-radius: 2px; }
-    .voix.active .barres i { animation: onde .9s ease-in-out infinite; }
-    .voix.active .barres i:nth-child(2) { animation-delay: .1s; } .voix.active .barres i:nth-child(3) { animation-delay: .2s; }
-    .voix.active .barres i:nth-child(4) { animation-delay: .3s; } .voix.active .barres i:nth-child(5) { animation-delay: .4s; }
+    .voix .barres span { width: 3px; height: 4px; background: currentColor; border-radius: 2px; }
+    .voix.active .barres span { animation: onde .9s ease-in-out infinite; }
+    .voix.active .barres span:nth-child(2) { animation-delay: .1s; } .voix.active .barres span:nth-child(3) { animation-delay: .2s; }
+    .voix.active .barres span:nth-child(4) { animation-delay: .3s; } .voix.active .barres span:nth-child(5) { animation-delay: .4s; }
     @keyframes onde { 0%, 100% { height: 4px; } 50% { height: 14px; } }
     .voix.muette { color: var(--ecran-discret); }
     .conversation { overflow-y: auto; padding: .6rem .75rem .75rem; display: flex; flex-direction: column; gap: .5rem; }
@@ -102,7 +102,9 @@
     .barre-appel svg { width: 1.25rem; height: 1.25rem; }
     .barre-appel.finie span { opacity: .4; }
 
-    .corps-artisan { padding: .75rem; display: grid; gap: .5rem; align-content: start; overflow-y: auto; }
+    .corps-artisan { padding: .75rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: .5rem; align-content: start; overflow-y: auto; }
+    /* RGAA 10.4 : texte agrandi à 200 %, les cartes se replient au lieu d'être rognées par l'écran. */
+    .corps-artisan .carte-tel, .corps-artisan .notif { min-width: 0; overflow-wrap: anywhere; }
     .carte-tel { background: #fff; border-radius: .9rem; padding: .6rem .75rem; box-shadow: 0 1px 2px rgba(0, 0, 0, .1); display: grid; gap: .3rem; font-size: .82rem; }
     .carte-tel h3 { margin: 0; font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ecran-discret); }
     .grand { font-weight: 700; font-size: .95rem; line-height: 1.25; }
@@ -115,9 +117,9 @@
     .bandeau { border-radius: .75rem; padding: .5rem .7rem; font-size: .8rem; display: grid; gap: .1rem; }
     .bandeau.alerte { background: var(--alerte-doux); color: #5c3100; }
     .bandeau.danger { background: var(--danger-doux); color: #7a1509; }
-    .champ { display: grid; grid-template-columns: 5.2rem 1fr; gap: .4rem; font-size: .8rem; align-items: baseline; }
+    .champ { display: grid; grid-template-columns: minmax(0, 5.2rem) minmax(0, 1fr); gap: .4rem; font-size: .8rem; align-items: baseline; }
     .champ > span:first-child { color: var(--ecran-discret); }
-    .prov { display: inline-block; font-size: .68rem; font-weight: 800; padding: 0 .45rem; border-radius: 999px; white-space: nowrap; margin-left: .15rem; }
+    .prov { display: inline-block; font-size: .68rem; font-weight: 800; padding: 0 .45rem; border-radius: 999px; white-space: normal; margin-left: .15rem; }
     .prov.neutre { background: #e4ecf0; color: #2b3944; }
     .prov.ok { background: var(--ok-doux); color: #165536; }
     .prov.vide { background: #eef1f3; color: #4f5d6a; }
@@ -164,8 +166,8 @@
     .panneau ul { margin: 0; padding-left: 1.2rem; }
     .chrono { display: grid; gap: .3rem; }
     .chrono .jauge { position: relative; height: .6rem; border-radius: 999px; background: var(--trait); overflow: hidden; }
-    .chrono .jauge i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width .4s; }
-    .chrono .jauge i.depasse { background: var(--danger); }
+    .chrono .jauge span { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width .4s; }
+    .chrono .jauge span.depasse { background: var(--danger); }
     .chrono .verdict { font-weight: 700; }
     .chrono .detail { font-size: .88rem; color: var(--discret); }
     .entendu summary { cursor: pointer; font-weight: 700; }
@@ -188,18 +190,20 @@
       .noeud .l { text-align: left; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .tel.sonne, .points span, .voix.active .barres i, .bulle.entre { animation: none; }
-      .chrono .jauge i { transition: none; }
+      .tel.sonne, .points span, .voix.active .barres span, .bulle.entre { animation: none; }
+      .chrono .jauge span { transition: none; }
     }
     /* Case « Animation » décochée : plus rien ne bouge (WCAG 2.2.2). */
-    .demo.sans-anim .tel.sonne, .demo.sans-anim .points span, .demo.sans-anim .voix.active .barres i,
+    .demo.sans-anim .tel.sonne, .demo.sans-anim .points span, .demo.sans-anim .voix.active .barres span,
     .demo.sans-anim .bulle.entre { animation: none; }
-    .demo.sans-anim .chrono .jauge i { transition: none; }
+    .demo.sans-anim .chrono .jauge span { transition: none; }
     /* Régions défilantes : le contour de focus est tracé à l'intérieur, l'écran le rognerait. */
     .conversation:focus-visible, .corps-artisan:focus-visible { outline: 3px solid #1f5fbf; outline-offset: -3px; }
     .visuellement-cache { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
                           overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
   </style>
+{% endblock %}
+{% block contenu %}
 
   <div class="demo" id="demo">
     <h1>Un appel manqué chez Karim Plomberie</h1>
@@ -250,7 +254,7 @@
               <div class="avatar" aria-hidden="true">KP</div>
               <div class="qui">Karim Plomberie</div>
               <div class="sous" id="ap-sous">Prêt à appeler</div>
-              <div class="voix muette" id="voix"><span class="barres" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span id="voix-lbl">Silence</span></div>
+              <div class="voix muette" id="voix"><span class="barres" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span><span id="voix-lbl">Silence</span></div>
             </div>
             <div class="conversation" id="chat" role="region" aria-label="Conversation" tabindex="0"></div>
             <div class="barre-appel finie" id="barre-appel" aria-hidden="true">
@@ -292,7 +296,7 @@
       <ol class="piste" id="piste" aria-label="Étapes du traitement"></ol>
       <div class="panneau" id="panneau"><p>Le traitement commence quand l'appel se termine. Les étapes et leurs durées sont celles que rend l'API.</p></div>
       <div class="chrono">
-        <div class="jauge" aria-hidden="true"><i id="jauge"></i></div>
+        <div class="jauge" aria-hidden="true"><span id="jauge"></span></div>
         <p class="verdict" id="chrono">CA-8 : le dossier doit être prêt {{ ca8_s }} s au plus après la fin de l'appel.</p>
         <p class="detail" id="chrono-detail"></p>
       </div>
@@ -480,7 +484,7 @@
 
     const URGENCES = { securite: "sécurité", urgent: "urgent", normal: "normal", non_precise: "non précisée" };
     const ORIGINES = { entendu: "entendu", deduit: "déduit", absent: "absent", corrige: "corrigé" };
-    const STATUTS_AGENT = { complete: "complet", partial_after_retry: "partiel après un nouvel essai", fallback_no_llm: "brouillon de secours" };
+    const STATUTS_AGENT = { complete: "complet", partial_after_retry: "partiel après un nouvel essai", fallback_no_llm: "brouillon de secours", content_refused: "contenu refusé" };
     function badge(classe, texte) { return el("span", { class: "prov " + classe }, texte); }
     function champ(nom, texte, marque) { return el("div", { class: "champ" }, el("span", {}, nom), el("span", {}, texte, marque ? " " : "", marque)); }
     function marqueControle(controle, provenance, ambigue) {

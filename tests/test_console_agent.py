@@ -46,7 +46,7 @@ def test_perimetre_affiche_outil_refuse_et_borne(client_console: TestClient) -> 
         "/agent/executer", data={"mode": "scenario", "scenario_id": "P4-perimetre"}
     ).text
     assert "Modèle simulé" in html and "<code>lire_base</code>" in html
-    assert "outil_inconnu" in html and "borne atteinte" in html
+    assert "outil inconnu" in html and "outil_inconnu<" not in html and "borne atteinte" in html
     assert "conforme à l'attendu" in html
 
 
@@ -99,5 +99,5 @@ def test_refus_dans_un_lot_ne_l_interrompt_pas(client_console: TestClient) -> No
     f = FauxFournisseur(scenario=[RefusContenu("filtre"), RefusContenu("filtre")])
     api.dependency_overrides[get_fournisseur] = lambda: f
     html = client_console.post("/agent/lot", data={"groupe": "qualification"}).text
-    assert "refus content_refused" in html and "Lot interrompu" not in html
+    assert "refus : contenu refusé" in html and "Lot interrompu" not in html
     assert html.count('<th scope="row">SC-Q') == 8

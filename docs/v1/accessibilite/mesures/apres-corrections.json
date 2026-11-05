@@ -1,0 +1,4321 @@
+{
+ "statiques": [
+  {
+   "etat": "accueil-erreur",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "textarea#question «Bonjour»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "832x90",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#modele «A : modèle principal B : modèle de compa»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "832x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Envoyer»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "100x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 9,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "textarea#question «Bonjour»",
+     "select#modele «A : modèle principal B : modèle de compa»",
+     "button «Envoyer»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 9
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "accueil-reponse",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "textarea#question «Bonjour»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "832x90",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#modele «A : modèle principal B : modèle de compa»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "832x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Envoyer»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "100x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 9,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "textarea#question «Bonjour»",
+     "select#modele «A : modèle principal B : modèle de compa»",
+     "button «Envoyer»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 9
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "accueil-vide",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "textarea#question",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "832x90",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#modele «A : modèle principal B : modèle de compa»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "832x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Envoyer»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "100x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 9,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "textarea#question",
+     "select#modele «A : modèle principal B : modèle de compa»",
+     "button «Envoyer»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 9
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "agent-dossier-a-valider",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «scenario»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «transcript»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "textarea#transcript",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x138",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#trade «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#caller_number[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Traiter l'appel»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "139x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Jouer les 8 scénarios»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "188x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-client-nom[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-client-prenom[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-client-telephone[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-client-adresse-rue[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-client-adresse-code_postal[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-client-adresse-commune[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#c-demande-objet_court[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#c-demande-urgence «sécurité urgent normal non précisé»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[checkbox] «oui»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Valider le dossier»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "163x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 24,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "input[radio] «scenario»",
+     "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "textarea#transcript",
+     "select#trade «plomberie chauffage electricite serrurer»",
+     "input#caller_number[text]",
+     "button «Traiter l'appel»",
+     "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "button «Jouer les 8 scénarios»",
+     "input#c-client-nom[text]",
+     "input#c-client-prenom[text]",
+     "input#c-client-telephone[text]",
+     "input#c-client-adresse-rue[text]",
+     "input#c-client-adresse-code_postal[text]",
+     "input#c-client-adresse-commune[text]",
+     "input#c-demande-objet_court[text]",
+     "select#c-demande-urgence «sécurité urgent normal non précisé»",
+     "input[checkbox] «oui»",
+     "button «Valider le dossier»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 24
+   },
+   "reflux_320": {
+    "scrollW": 366,
+    "clientW": 320,
+    "horizontal": true,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "agent-liste",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «scenario»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «transcript»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "textarea#transcript",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x138",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#trade «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#caller_number[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Traiter l'appel»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "139x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Jouer les 8 scénarios»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "188x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 14,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "input[radio] «scenario»",
+     "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "textarea#transcript",
+     "select#trade «plomberie chauffage electricite serrurer»",
+     "input#caller_number[text]",
+     "button «Traiter l'appel»",
+     "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "button «Jouer les 8 scénarios»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 14
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "agent-lot",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «scenario»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «transcript»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "textarea#transcript",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x138",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#trade «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#caller_number[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Traiter l'appel»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "139x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Jouer les 8 scénarios»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "188x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 14,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "input[radio] «scenario»",
+     "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "textarea#transcript",
+     "select#trade «plomberie chauffage electricite serrurer»",
+     "input#caller_number[text]",
+     "button «Traiter l'appel»",
+     "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "button «Jouer les 8 scénarios»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 14
+   },
+   "reflux_320": {
+    "scrollW": 510,
+    "clientW": 320,
+    "horizontal": true,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "agent-refus",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «scenario»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «transcript»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "textarea#transcript",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x138",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#trade «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#caller_number[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Traiter l'appel»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "139x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Jouer les 8 scénarios»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "188x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 14,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "input[radio] «transcript»",
+     "select#scenario_id «SC-01 : Fuite sous l'évier, adresse comp»",
+     "textarea#transcript",
+     "select#trade «plomberie chauffage electricite serrurer»",
+     "input#caller_number[text]",
+     "button «Traiter l'appel»",
+     "select#groupe «Annexe A : extraction du dossier Qualifi»",
+     "button «Jouer les 8 scénarios»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 14
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "qualite-alerte",
+   "axe": {
+    "violations": [],
+    "incomplets": [
+     [
+      "color-contrast",
+      1,
+      [
+       "text"
+      ]
+     ]
+    ]
+   },
+   "composants": [
+    {
+     "d": "select#heures «la dernière heure les dernières 24 heure»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "200x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[checkbox] «1»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Afficher»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "99x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "summary «Les valeurs heure par heure (tableau)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "798x24",
+     "accent": "auto",
+     "apparence": "none"
+    },
+    {
+     "d": "summary «Détails pour le support technique»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "798x24",
+     "accent": "auto",
+     "apparence": "none"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 11,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "select#heures «la dernière heure les dernières 24 heure»",
+     "input[checkbox] «1»",
+     "button «Afficher»",
+     "summary «Les valeurs heure par heure (tableau)»",
+     "summary «Détails pour le support technique»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 11
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "qualite-donnees",
+   "axe": {
+    "violations": [],
+    "incomplets": [
+     [
+      "color-contrast",
+      1,
+      [
+       "text"
+      ]
+     ]
+    ]
+   },
+   "composants": [
+    {
+     "d": "select#heures «la dernière heure les dernières 24 heure»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "200x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[checkbox] «1»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Afficher»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "99x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "summary «Les valeurs heure par heure (tableau)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "798x24",
+     "accent": "auto",
+     "apparence": "none"
+    },
+    {
+     "d": "summary «Détails pour le support technique»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "798x24",
+     "accent": "auto",
+     "apparence": "none"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 11,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "select#heures «la dernière heure les dernières 24 heure»",
+     "input[checkbox] «1»",
+     "button «Afficher»",
+     "summary «Les valeurs heure par heure (tableau)»",
+     "summary «Détails pour le support technique»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 11
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "qualite-erreur",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "select#heures «la dernière heure les dernières 24 heure»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "200x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[checkbox] «1»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Afficher»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "99x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "summary «Détails pour le support technique»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "798x24",
+     "accent": "auto",
+     "apparence": "none"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 10,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "select#heures «la dernière heure les dernières 24 heure»",
+     "input[checkbox] «1»",
+     "button «Afficher»",
+     "summary «Détails pour le support technique»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 10
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "referentiels-incoherent",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input#nom[text] «Montreuil»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#code_postal[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Chercher la commune»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "199x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#mot[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#metier «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Chercher le terme»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "170x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#metier_marche «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Voir le marché»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "145x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 15,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "a «Code officiel géographique 2026»",
+     "input#nom[text] «Montreuil»",
+     "input#code_postal[text]",
+     "button «Chercher la commune»",
+     "input#mot[text]",
+     "select#metier «plomberie chauffage electricite serrurer»",
+     "button «Chercher le terme»",
+     "select#metier_marche «plomberie chauffage electricite serrurer»",
+     "button «Voir le marché»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 15
+   },
+   "reflux_320": {
+    "scrollW": 543,
+    "clientW": 320,
+    "horizontal": true,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "referentiels-indisponible",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input#nom[text] «Montreuil»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#code_postal[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Chercher la commune»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "199x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#mot[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#metier «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Chercher le terme»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "170x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#metier_marche «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Voir le marché»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "145x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 14,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "input#nom[text] «Montreuil»",
+     "input#code_postal[text]",
+     "button «Chercher la commune»",
+     "input#mot[text]",
+     "select#metier «plomberie chauffage electricite serrurer»",
+     "button «Chercher le terme»",
+     "select#metier_marche «plomberie chauffage electricite serrurer»",
+     "button «Voir le marché»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 14
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "referentiels-marche",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input#nom[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#code_postal[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Chercher la commune»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "199x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#mot[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#metier «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Chercher le terme»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "170x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#metier_marche «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Voir le marché»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "145x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 15,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "a «Stock Sirene»",
+     "input#nom[text]",
+     "input#code_postal[text]",
+     "button «Chercher la commune»",
+     "input#mot[text]",
+     "select#metier «plomberie chauffage electricite serrurer»",
+     "button «Chercher le terme»",
+     "select#metier_marche «plomberie chauffage electricite serrurer»",
+     "button «Voir le marché»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 15
+   },
+   "reflux_320": {
+    "scrollW": 492,
+    "clientW": 320,
+    "horizontal": true,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "referentiels-terme",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input#nom[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#code_postal[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Chercher la commune»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "199x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#mot[text] «cumulus»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#metier «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Chercher le terme»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "170x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#metier_marche «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Voir le marché»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "145x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 16,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "a «cumulus»",
+     "a «Wiktionnaire»",
+     "input#nom[text]",
+     "input#code_postal[text]",
+     "button «Chercher la commune»",
+     "input#mot[text] «cumulus»",
+     "select#metier «plomberie chauffage electricite serrurer»",
+     "button «Chercher le terme»",
+     "select#metier_marche «plomberie chauffage electricite serrurer»",
+     "button «Voir le marché»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 16
+   },
+   "reflux_320": {
+    "scrollW": 513,
+    "clientW": 320,
+    "horizontal": true,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "referentiels-trouve",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input#nom[text] «Montreuil»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#code_postal[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Chercher la commune»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "199x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#mot[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#metier «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Chercher le terme»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "170x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#metier_marche «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Voir le marché»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "145x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 15,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "a «Code officiel géographique 2026»",
+     "input#nom[text] «Montreuil»",
+     "input#code_postal[text]",
+     "button «Chercher la commune»",
+     "input#mot[text]",
+     "select#metier «plomberie chauffage electricite serrurer»",
+     "button «Chercher le terme»",
+     "select#metier_marche «plomberie chauffage electricite serrurer»",
+     "button «Voir le marché»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 15
+   },
+   "reflux_320": {
+    "scrollW": 543,
+    "clientW": 320,
+    "horizontal": true,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "referentiels-vide",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input#nom[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#code_postal[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Chercher la commune»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "199x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#mot[text]",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 2px inset",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#metier «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Chercher le terme»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "170x44",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "select#metier_marche «plomberie chauffage electricite serrurer»",
+     "disabled": false,
+     "bord": "rgb(118, 118, 118) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 4.54,
+     "rBg": 1,
+     "taille": "798x41",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «Voir le marché»",
+     "disabled": false,
+     "bord": "rgb(0, 0, 0) 2px outset",
+     "bg": "rgb(240, 240, 240)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 21,
+     "rBg": 1.14,
+     "taille": "145x44",
+     "accent": "auto",
+     "apparence": "auto"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 14,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "input#nom[text]",
+     "input#code_postal[text]",
+     "button «Chercher la commune»",
+     "input#mot[text]",
+     "select#metier «plomberie chauffage electricite serrurer»",
+     "button «Chercher le terme»",
+     "select#metier_marche «plomberie chauffage electricite serrurer»",
+     "button «Voir le marché»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 14
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  }
+ ],
+ "demo": [
+  {
+   "etat": "demonstration-initial",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «SC-Q4»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(220, 240, 242)",
+     "rBord": null,
+     "rBg": 17.79,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-04»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-Q1»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-10»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#son[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#anim[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#reel[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#lancer «Lancer l'appel»",
+     "disabled": false,
+     "bord": "rgb(15, 107, 118) 1px solid",
+     "bg": "rgb(15, 107, 118)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 6.2,
+     "rBg": 6.2,
+     "taille": "138x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#arreter «Arrêter»",
+     "disabled": true,
+     "bord": "rgb(201, 211, 218) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 1.52,
+     "rBg": 1,
+     "taille": "88x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "div#chat «Conversation»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x359",
+     "accent": "auto",
+     "apparence": "none"
+    },
+    {
+     "d": "div#art «Écran de Karim»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x568",
+     "accent": "auto",
+     "apparence": "none"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 13,
+    "ordre": [
+     "a «Aller au contenu»",
+     "a «Accueil»",
+     "a «Référentiels»",
+     "a «Agent»",
+     "a «Démonstration»",
+     "a «Qualité»",
+     "input[radio] «SC-Q4»",
+     "input#son[checkbox] «on»",
+     "input#anim[checkbox] «on»",
+     "input#reel[checkbox] «on»",
+     "button#lancer «Lancer l'appel»",
+     "div#chat «Conversation»",
+     "div#art «Écran de Karim»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     5.16,
+     5.77,
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 13
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   }
+  },
+  {
+   "etat": "demonstration-sonnerie",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «SC-Q4»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(220, 240, 242)",
+     "rBord": null,
+     "rBg": 17.79,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-04»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-Q1»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-10»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#son[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#anim[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#reel[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#lancer «Lancer l'appel»",
+     "disabled": true,
+     "bord": "rgb(15, 107, 118) 1px solid",
+     "bg": "rgb(15, 107, 118)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 6.2,
+     "rBg": 6.2,
+     "taille": "138x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#arreter «Arrêter»",
+     "disabled": false,
+     "bord": "rgb(201, 211, 218) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 1.52,
+     "rBg": 1,
+     "taille": "88x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "div#chat «Conversation»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x359",
+     "accent": "auto",
+     "apparence": "none"
+    },
+    {
+     "d": "div#art «Écran de Karim»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "291x574",
+     "accent": "auto",
+     "apparence": "none"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 2,
+    "ordre": [
+     "div#chat «Conversation»",
+     "div#art «Écran de Karim»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     5.77
+    ],
+    "retour_coherent": true,
+    "arriere_n": 2
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "statut": "Sonnerie. Le téléphone de Karim sonne ; il ne décroche pas."
+  },
+  {
+   "etat": "demonstration-conversation",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «SC-Q4»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(220, 240, 242)",
+     "rBord": null,
+     "rBg": 17.79,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-04»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-Q1»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-10»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#son[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#anim[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#reel[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#lancer «Lancer l'appel»",
+     "disabled": true,
+     "bord": "rgb(15, 107, 118) 1px solid",
+     "bg": "rgb(15, 107, 118)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 6.2,
+     "rBg": 6.2,
+     "taille": "138x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#arreter «Arrêter»",
+     "disabled": false,
+     "bord": "rgb(201, 211, 218) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 1.52,
+     "rBg": 1,
+     "taille": "88x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "div#chat «Conversation»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x359",
+     "accent": "auto",
+     "apparence": "none"
+    },
+    {
+     "d": "div#art «Écran de Karim»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x568",
+     "accent": "auto",
+     "apparence": "none"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 2,
+    "ordre": [
+     "div#chat «Conversation»",
+     "div#art «Écran de Karim»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     5.77
+    ],
+    "retour_coherent": true,
+    "arriere_n": 2
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "statut": "Muninn en ligne. La conversation se joue à deux voix."
+  },
+  {
+   "etat": "demonstration-dossier",
+   "axe": {
+    "violations": [],
+    "incomplets": [
+     [
+      "color-contrast",
+      13,
+      [
+       ".fait:nth-child(2) > .noeud > .c[aria-hidden=\"true\"]",
+       ".fait:nth-child(2) > .noeud > .l",
+       ".fait:nth-child(2) > .noeud > .t",
+       ".fait:nth-child(3) > .noeud > .c[aria-hidden=\"true\"]"
+      ]
+     ]
+    ]
+   },
+   "composants": [
+    {
+     "d": "input[radio] «SC-Q4»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-04»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-Q1»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-10»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(220, 240, 242)",
+     "rBord": null,
+     "rBg": 17.79,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#son[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#anim[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#reel[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#lancer «Rejouer l'appel»",
+     "disabled": false,
+     "bord": "rgb(15, 107, 118) 1px solid",
+     "bg": "rgb(15, 107, 118)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 6.2,
+     "rBg": 6.2,
+     "taille": "147x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#arreter «Arrêter»",
+     "disabled": true,
+     "bord": "rgb(201, 211, 218) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 1.52,
+     "rBg": 1,
+     "taille": "88x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "div#chat «Conversation»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x359",
+     "accent": "auto",
+     "apparence": "none"
+    },
+    {
+     "d": "div#art «Écran de Karim»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x568",
+     "accent": "auto",
+     "apparence": "none"
+    },
+    {
+     "d": "button «1 Transcription 2,4 s (terminée)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "91x105",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «2 Contrôle d'entrée 12 ms (terminée)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "119x105",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «3 Qualification 900 ms (terminée)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "88x105",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «4 Agent 3,3 s (terminée)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "44x105",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «5 Contrôles du serveur 150 ms ▲ à vérifi»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "139x105",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "summary «Ce que Muninn a entendu (transcription d»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "1118x24",
+     "accent": "auto",
+     "apparence": "none"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 8,
+    "ordre": [
+     "div#chat «Conversation»",
+     "div#art «Écran de Karim»",
+     "button «1 Transcription 2,4 s (terminée)»",
+     "button «2 Contrôle d'entrée 12 ms (terminée)»",
+     "button «3 Qualification 900 ms (terminée)»",
+     "button «4 Agent 3,3 s (terminée)»",
+     "button «5 Contrôles du serveur 150 ms ▲ à vérifi»",
+     "summary «Ce que Muninn a entendu (transcription d»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     5.77,
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 8
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "statut": "Reçu par Karim. Le dossier est sur son téléphone."
+  },
+  {
+   "etat": "demonstration-gaz",
+   "axe": {
+    "violations": [],
+    "incomplets": [
+     [
+      "color-contrast",
+      13,
+      [
+       ".fait:nth-child(2) > .noeud > .c[aria-hidden=\"true\"]",
+       ".fait:nth-child(2) > .noeud > .l",
+       ".fait:nth-child(2) > .noeud > .t",
+       ".fait:nth-child(3) > .noeud > .c[aria-hidden=\"true\"]"
+      ]
+     ]
+    ]
+   },
+   "composants": [
+    {
+     "d": "input[radio] «SC-Q4»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-04»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(220, 240, 242)",
+     "rBord": null,
+     "rBg": 17.79,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-Q1»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-10»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#son[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#anim[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#reel[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#lancer «Rejouer l'appel»",
+     "disabled": false,
+     "bord": "rgb(15, 107, 118) 1px solid",
+     "bg": "rgb(15, 107, 118)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 6.2,
+     "rBg": 6.2,
+     "taille": "147x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#arreter «Arrêter»",
+     "disabled": true,
+     "bord": "rgb(201, 211, 218) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 1.52,
+     "rBg": 1,
+     "taille": "88x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "div#chat «Conversation»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x359",
+     "accent": "auto",
+     "apparence": "none"
+    },
+    {
+     "d": "div#art «Écran de Karim»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x568",
+     "accent": "auto",
+     "apparence": "none"
+    },
+    {
+     "d": "button «1 Transcription 2,4 s (terminée)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "91x105",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «2 Contrôle d'entrée 12 ms (terminée)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "119x105",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «3 Qualification 900 ms (terminée)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "88x105",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «4 Agent 3,3 s (terminée)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "44x105",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «5 Contrôles du serveur 150 ms ! sécurité»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "139x105",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "summary «Ce que Muninn a entendu (transcription d»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "1118x24",
+     "accent": "auto",
+     "apparence": "none"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 8,
+    "ordre": [
+     "div#chat «Conversation»",
+     "div#art «Écran de Karim»",
+     "button «1 Transcription 2,4 s (terminée)»",
+     "button «2 Contrôle d'entrée 12 ms (terminée)»",
+     "button «3 Qualification 900 ms (terminée)»",
+     "button «4 Agent 3,3 s (terminée)»",
+     "button «5 Contrôles du serveur 150 ms ! sécurité»",
+     "summary «Ce que Muninn a entendu (transcription d»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     5.77,
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 8
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "statut": "Reçu par Karim. Le dossier est sur son téléphone."
+  },
+  {
+   "etat": "demonstration-message",
+   "axe": {
+    "violations": [],
+    "incomplets": [
+     [
+      "color-contrast",
+      9,
+      [
+       ".fait:nth-child(2) > .noeud > .c[aria-hidden=\"true\"]",
+       ".fait:nth-child(2) > .noeud > .l",
+       ".fait:nth-child(2) > .noeud > .t",
+       ".fait:nth-child(3) > .noeud > .c[aria-hidden=\"true\"]"
+      ]
+     ]
+    ]
+   },
+   "composants": [
+    {
+     "d": "input[radio] «SC-Q4»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-04»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-Q1»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(220, 240, 242)",
+     "rBord": null,
+     "rBg": 17.79,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-10»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#son[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#anim[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#reel[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#lancer «Rejouer l'appel»",
+     "disabled": false,
+     "bord": "rgb(15, 107, 118) 1px solid",
+     "bg": "rgb(15, 107, 118)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 6.2,
+     "rBg": 6.2,
+     "taille": "147x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#arreter «Arrêter»",
+     "disabled": true,
+     "bord": "rgb(201, 211, 218) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 1.52,
+     "rBg": 1,
+     "taille": "88x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "div#chat «Conversation»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x359",
+     "accent": "auto",
+     "apparence": "none"
+    },
+    {
+     "d": "div#art «Écran de Karim»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x568",
+     "accent": "auto",
+     "apparence": "none"
+    },
+    {
+     "d": "button «1 Transcription 2,4 s (terminée)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "91x83",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «2 Contrôle d'entrée 12 ms (terminée)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "119x83",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «3 Qualification 900 ms (terminée)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "88x83",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button «4 Message 3,3 s (terminée)»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "61x83",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "summary «Ce que Muninn a entendu (transcription d»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "1118x24",
+     "accent": "auto",
+     "apparence": "none"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 7,
+    "ordre": [
+     "div#chat «Conversation»",
+     "div#art «Écran de Karim»",
+     "button «1 Transcription 2,4 s (terminée)»",
+     "button «2 Contrôle d'entrée 12 ms (terminée)»",
+     "button «3 Qualification 900 ms (terminée)»",
+     "button «4 Message 3,3 s (terminée)»",
+     "summary «Ce que Muninn a entendu (transcription d»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     5.77,
+     6.09
+    ],
+    "retour_coherent": true,
+    "arriere_n": 7
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "statut": "Reçu par Karim. Un message dans l'onglet « Messages »."
+  },
+  {
+   "etat": "demonstration-erreur-voix",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «SC-Q4»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(220, 240, 242)",
+     "rBord": null,
+     "rBg": 17.79,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-04»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-Q1»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-10»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#son[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#anim[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#reel[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#lancer «Rejouer l'appel»",
+     "disabled": false,
+     "bord": "rgb(15, 107, 118) 1px solid",
+     "bg": "rgb(15, 107, 118)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 6.2,
+     "rBg": 6.2,
+     "taille": "147x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#arreter «Arrêter»",
+     "disabled": true,
+     "bord": "rgb(201, 211, 218) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 1.52,
+     "rBg": 1,
+     "taille": "88x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "div#chat «Conversation»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x359",
+     "accent": "auto",
+     "apparence": "none"
+    },
+    {
+     "d": "div#art «Écran de Karim»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x568",
+     "accent": "auto",
+     "apparence": "none"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 2,
+    "ordre": [
+     "div#chat «Conversation»",
+     "div#art «Écran de Karim»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     5.77
+    ],
+    "retour_coherent": true,
+    "arriere_n": 2
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "statut": "Démonstration interrompue. Le détail de l'erreur est affiché ci-dessous.",
+   "erreur": "Synthèse des voix impossible : Voix indisponible.\n\ncode voice_unavailable ; requête r-1."
+  },
+  {
+   "etat": "demonstration-erreur-appel",
+   "axe": {
+    "violations": [],
+    "incomplets": []
+   },
+   "composants": [
+    {
+     "d": "input[radio] «SC-Q4»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(220, 240, 242)",
+     "rBord": null,
+     "rBg": 17.79,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-04»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-Q1»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input[radio] «SC-10»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#son[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#anim[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "input#reel[checkbox] «on»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": null,
+     "rBg": 21,
+     "taille": "13x13",
+     "accent": "rgb(15, 107, 118)",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#lancer «Rejouer l'appel»",
+     "disabled": false,
+     "bord": "rgb(15, 107, 118) 1px solid",
+     "bg": "rgb(15, 107, 118)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 6.2,
+     "rBg": 6.2,
+     "taille": "147x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "button#arreter «Arrêter»",
+     "disabled": true,
+     "bord": "rgb(201, 211, 218) 1px solid",
+     "bg": "rgb(255, 255, 255)",
+     "fondParent": "rgb(255, 255, 255)",
+     "rBord": 1.52,
+     "rBg": 1,
+     "taille": "88x42",
+     "accent": "auto",
+     "apparence": "auto"
+    },
+    {
+     "d": "div#chat «Conversation»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x359",
+     "accent": "auto",
+     "apparence": "none"
+    },
+    {
+     "d": "div#art «Écran de Karim»",
+     "disabled": false,
+     "bord": "aucun",
+     "bg": "rgba(0, 0, 0, 0)",
+     "fondParent": "rgb(247, 249, 250)",
+     "rBord": null,
+     "rBg": 19.89,
+     "taille": "280x568",
+     "accent": "auto",
+     "apparence": "none"
+    }
+   ],
+   "clavier": {
+    "piege": false,
+    "n": 2,
+    "ordre": [
+     "div#chat «Conversation»",
+     "div#art «Écran de Karim»"
+    ],
+    "sans_indicateur": [],
+    "hors_ecran": [],
+    "contrastes_focus": [
+     5.77
+    ],
+    "retour_coherent": true,
+    "arriere_n": 2
+   },
+   "reflux_320": {
+    "scrollW": 320,
+    "clientW": 320,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_320": [],
+   "reflux_640": {
+    "scrollW": 640,
+    "clientW": 640,
+    "horizontal": false,
+    "hors": []
+   },
+   "rognes_640": [],
+   "texte200": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "espacement": {
+    "deborde": {
+     "scrollW": 1280,
+     "clientW": 1280,
+     "horizontal": false,
+     "hors": []
+    },
+    "rognes": []
+   },
+   "statut": "Démonstration interrompue. Le détail de l'erreur est affiché ci-dessous.",
+   "erreur": "Traitement de l'appel impossible : Trop de demandes : réessayer plus tard.\n\ncode rate_limited ; réessayer dans 30 s."
+  }
+ ],
+ "clavier_demo": {
+  "SC-10": [
+   "focus sur le groupe de scénarios : input[radio] «SC-Q4»",
+   "scénario coché aux flèches : SC-10",
+   "cases : son=False anim=True reel=False",
+   "focus avant lancement : button#lancer «Lancer l'appel»",
+   "focus après lancement : button#arreter «Arrêter»",
+   "statut final : Reçu par Karim. Le dossier est sur son téléphone.",
+   "focus en fin d'appel : button#lancer «Rejouer l'appel»",
+   "étape atteinte : button «1 Transcription 2,4 s (terminée)»",
+   "panneau après Entrée : 1/5 Transcription",
+   "aria-pressed : true",
+   "étape 2 à l'espace : 2/5 Contrôle d'entrée",
+   "transcription dépliée au clavier : True",
+   "second lancement, focus : button#arreter «Arrêter»",
+   "après Entrée sur Arrêter : statut « Arrêté. « Lancer l'appel » rejoue la démonstration depuis la sonnerie. », focus button#lancer «Rejouer l'appel»"
+  ],
+  "SC-Q1": [
+   "focus sur le groupe de scénarios : input[radio] «SC-Q4»",
+   "scénario coché aux flèches : SC-Q1",
+   "cases : son=False anim=True reel=False",
+   "focus avant lancement : button#lancer «Lancer l'appel»",
+   "focus après lancement : button#arreter «Arrêter»",
+   "statut final : Reçu par Karim. Un message dans l'onglet « Messages ».",
+   "focus en fin d'appel : button#lancer «Rejouer l'appel»",
+   "étape atteinte : button «1 Transcription 2,4 s (terminée)»",
+   "panneau après Entrée : 1/4 Transcription",
+   "aria-pressed : true",
+   "étape 2 à l'espace : 2/4 Contrôle d'entrée",
+   "transcription dépliée au clavier : True",
+   "second lancement, focus : button#arreter «Arrêter»",
+   "après Entrée sur Arrêter : statut « Arrêté. « Lancer l'appel » rejoue la démonstration depuis la sonnerie. », focus button#lancer «Rejouer l'appel»"
+  ]
+ }
+}

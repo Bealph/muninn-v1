@@ -12,7 +12,7 @@
 
   <h2>Essai du modèle</h2>
   <form method="post" action="/essai">
-    <label for="question">Question (500 caractères au plus)</label>
+    <label for="question">Question <span class="obligatoire">(obligatoire, 500 caractères au plus)</span></label>
     <textarea id="question" name="question" rows="3" maxlength="500" required>{{ question }}</textarea>
     <label for="modele">Modèle</label>
     <select id="modele" name="modele">

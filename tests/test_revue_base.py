@@ -178,7 +178,7 @@ def test_parcours_de_la_console(
     valide = client_console.post("/agent/valider", data={
         "draft_id": draft_id.group(1), "origine": html.unescape(origine.group(1)),
         "scenario_id": "SC-01", "client.adresse.code_postal": "93170",
-        "client.adresse.commune": "Bagnolet", "demande.urgence": "urgent",
+        "client.adresse.commune": "Bagnolet", "demande.urgence": "urgent", "confirme": "oui",
     })  # fmt: skip
     assert valide.status_code == 200
     assert "Dossier validé" in valide.text and "client.adresse.code_postal" in valide.text

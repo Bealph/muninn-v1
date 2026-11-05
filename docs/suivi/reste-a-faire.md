@@ -240,12 +240,14 @@ de l'écran Démonstration et quatre corrections avec leur test.
 
 **À faire :**
 
-- [ ] Fixer l'échantillon : les cinq écrans de la console (Accueil, Référentiels, Agent,
+- [x] Fixer l'échantillon : les cinq écrans de la console (Accueil, Référentiels, Agent,
       Démonstration, Qualité), chacun dans ses états.
 - [ ] Dérouler la grille du RGAA 4.1.2, critère par critère, au clavier seul, au lecteur d'écran
       (NVDA), avec un zoom à 200 % et un contrôle des contrastes.
-- [ ] Calculer le taux de conformité selon la méthode du RGAA.
-- [ ] Corriger les non-conformités bloquantes, chacune avec un test de non-régression.
+- [x] Calculer le taux de conformité selon la méthode du RGAA : 77,8 % avant, 100 % après
+      corrections.
+- [x] Corriger les non-conformités, chacune avec un test de non-régression : aucune bloquante, les
+      16 corrigées (décision du porteur), 1.9 et 8.2 tranchés par l'option b.
 - [ ] Rédiger la déclaration d'accessibilité.
 
 **Preuve attendue :** la grille remplie, le taux, les corrections et la déclaration, dans

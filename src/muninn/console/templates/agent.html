@@ -11,9 +11,9 @@
         <tr><th scope="row">Téléphone</th><td>{{ d.client.telephone.value or "absent" }}</td><td>{{ d.client.telephone.confidence }}</td><td>{{ {"spoken": "dicté", "caller_id": "numéro présenté"}.get(d.client.telephone.origin, "") }}</td></tr>
         <tr><th scope="row">Rue</th><td>{{ d.client.adresse.rue.value or "absent" }}</td><td>{{ d.client.adresse.rue.confidence }}</td><td></td></tr>
         <tr><th scope="row">Code postal</th><td>{{ d.client.adresse.code_postal.value or "absent" }}</td><td>{{ d.client.adresse.code_postal.confidence }}</td>
-          <td>{{ d.checks["client.adresse.code_postal"].status }} ; {{ e.provenance["client.adresse.code_postal"].origine }} ({{ e.provenance["client.adresse.code_postal"].auteur }})</td></tr>
+          <td>{{ d.checks["client.adresse.code_postal"].status | libelle }} ; {{ e.provenance["client.adresse.code_postal"].origine }} ({{ e.provenance["client.adresse.code_postal"].auteur }})</td></tr>
         <tr><th scope="row">Commune</th><td>{{ d.client.adresse.commune.value or "absent" }}</td><td>{{ d.client.adresse.commune.confidence }}</td>
-          <td>{{ d.checks["client.adresse.commune"].status }} ; {{ e.provenance["client.adresse.commune"].origine }} ({{ e.provenance["client.adresse.commune"].auteur }}){% if e.departement %} ; département {{ e.departement }}{% endif %}</td></tr>
+          <td>{{ d.checks["client.adresse.commune"].status | libelle }} ; {{ e.provenance["client.adresse.commune"].origine }} ({{ e.provenance["client.adresse.commune"].auteur }}){% if e.departement %} ; département {{ e.departement }}{% endif %}</td></tr>
         <tr><th scope="row">Objet</th><td>{{ d.demande.objet_court.value or "absent" }}</td><td>{{ d.demande.objet_court.confidence }}</td><td></td></tr>
         <tr><th scope="row">Description</th><td>{{ d.demande.description.value or "absent" }}</td><td>{{ d.demande.description.confidence }}</td><td></td></tr>
         <tr><th scope="row">Urgence</th><td>{{ d.demande.urgence }}</td><td></td><td>{% if e.provenance["demande.urgence"] %}{{ e.provenance["demande.urgence"].origine }} ({{ e.provenance["demande.urgence"].auteur }}) : dite par l'appelant{% endif %}</td></tr>
@@ -53,8 +53,8 @@
         </optgroup>
         {% endfor %}
       </select>
-      <label for="transcript">Transcription (8 000 caractères au plus)</label>
-      <textarea id="transcript" name="transcript" rows="5" maxlength="8000">{{ transcript }}</textarea>
+      <label for="transcript">Transcription <span class="obligatoire">(obligatoire avec « Transcription saisie », 8 000 caractères au plus)</span></label>
+      <textarea id="transcript" name="transcript" rows="5" maxlength="8000"{% if erreur and erreur.champ == "transcript" %} aria-invalid="true" aria-describedby="erreur-champ"{% endif %}>{{ transcript }}</textarea>
       <label for="trade">Métier de l'artisan</label>
       <select id="trade" name="trade">
         {% for m in metiers %}<option value="{{ m }}" {% if m == trade %}selected{% endif %}>{{ m }}</option>{% endfor %}
@@ -85,7 +85,7 @@
   {% if erreur %}
     <h2 id="titre-resultat">Refus</h2>
     <div class="erreur" role="alert">
-      <p>{{ erreur.message }}</p>
+      <p{% if erreur.champ %} id="erreur-champ"{% endif %}>{{ erreur.message }}</p>
       <p class="aide">Code <code>{{ erreur.code }}</code>{% if erreur.request_id %} ; requête <code>{{ erreur.request_id }}</code>{% endif %}{% if erreur.retry_after_s %} ; réessayer dans {{ erreur.retry_after_s }} s{% endif %}.</p>
     </div>
   {% elif lot %}
@@ -123,7 +123,7 @@
     <dl>
       <dt>Catégorie</dt><dd>{{ categories[run.qualification.categorie] }}</dd>
       <dt>Proposée par le modèle</dt><dd>{{ categories.get(run.qualification.categorie_modele, "aucune") }}, confiance {{ run.qualification.confiance }}</dd>
-      <dt>Règle du serveur</dt><dd>{{ run.qualification.regle or "aucune" }}</dd>
+      <dt>Règle du serveur</dt><dd>{{ (run.qualification.regle or "aucune") | libelle }}</dd>
       <dt>Sécurité (gaz)</dt><dd>{{ "oui" if run.qualification.securite else "non" }}</dd>
     </dl>
     {% endif %}
@@ -161,8 +161,10 @@
       <input id="c-demande-objet_court" name="demande.objet_court" value="{{ d.demande.objet_court.value or "" }}" maxlength="120" autocomplete="off">
       <label for="c-demande-urgence">Urgence</label>
       <select id="c-demande-urgence" name="demande.urgence">
-        {% for u in ["securite", "urgent", "normal", "non_precise"] %}<option value="{{ u }}" {% if u == d.demande.urgence %}selected{% endif %}>{{ u }}</option>{% endfor %}
+        {% for u in ["securite", "urgent", "normal", "non_precise"] %}<option value="{{ u }}" {% if u == d.demande.urgence %}selected{% endif %}>{{ u | libelle }}</option>{% endfor %}
       </select>
+      <p class="aide" id="aide-confirme">La validation est définitive : le dossier ne pourra plus être modifié.</p>
+      <label class="case"><input type="checkbox" name="confirme" value="oui" required aria-describedby="aide-confirme" style="width:auto"> Je confirme la validation <span class="obligatoire">(obligatoire)</span></label>
       <button type="submit">Valider le dossier</button>
       </fieldset>
     </form>
@@ -190,7 +192,7 @@
     <table>
       <caption>{{ run.tool_calls | length }} appel(s){% if run.tool_limit_reached %} ; borne atteinte, appels suivants refusés{% endif %}</caption>
       <thead><tr><th scope="col">Outil</th><th scope="col">Statut</th><th scope="col">Rendu</th><th scope="col">Durée</th></tr></thead>
-      <tbody>{% for a in run.tool_calls %}<tr><td><code>{{ a.nom }}</code></td><td>{{ a.statut }}</td><td>{{ a.communes | join(" ; ") or a.terme or "" }}</td><td>{{ a.duree_ms }} ms</td></tr>{% endfor %}</tbody>
+      <tbody>{% for a in run.tool_calls %}<tr><td><code>{{ a.nom }}</code></td><td>{{ a.statut | libelle }}</td><td>{{ a.communes | join(" ; ") or a.terme or "" }}</td><td>{{ a.duree_ms }} ms</td></tr>{% endfor %}</tbody>
     </table>
     {% else %}<p>Aucun.</p>{% endif %}
 
@@ -202,7 +204,7 @@
       <dt>Requête</dt><dd>{{ run.request_id }}</dd>
       <dt>Durée</dt><dd>{{ run.latency_ms }} ms</dd>
       <dt>Coût</dt><dd>{{ "%.4f" | format(((run.qualification.cost_micro_eur if run.qualification else 0) + (run.run.cost_micro_eur if run.run else 0)) / 1000000) }} €</dd>
-      {% if run.run %}<dt>Statut de l'extraction</dt><dd>{{ run.run.status }}</dd>{% endif %}
+      {% if run.run %}<dt>Statut de l'extraction</dt><dd>{{ run.run.status | libelle }}</dd>{% endif %}
     </dl>
   {% endif %}
   </section>

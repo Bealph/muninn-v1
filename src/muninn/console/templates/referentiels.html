@@ -32,7 +32,7 @@
     <dl>
       <dt>Terme</dt><dd>{{ resultat.terme.terme }}</dd>
       <dt>Similarité</dt><dd>{{ resultat.terme.similarite }} (seuil {{ resultat.seuil }})</dd>
-      <dt>Catégorie</dt><dd>{{ resultat.terme.categorie }}</dd>
+      <dt>Catégorie</dt><dd>{{ resultat.terme.categorie | libelle }}</dd>
       <dt>Page source</dt><dd>{% if resultat.terme.url %}<a href="{{ resultat.terme.url }}">{{ resultat.terme.reference }}</a>{% else %}{{ resultat.terme.reference }}{% endif %}</dd>
       <dt>Licence</dt><dd>{{ resultat.terme.licence }}</dd>
       <dt>Références en base</dt><dd>{% for r in resultat.terme.references %}{{ r.table }} {{ r.cle }}{% if not loop.last %} ; {% endif %}{% endfor %}</dd>
@@ -90,7 +90,7 @@
       <legend>Terme de métier</legend>
       <p class="aide">Un mot entendu et un métier : le terme du lexique le plus proche, au-dessus du
       seuil de similarité, ou un refus.</p>
-      <label for="mot">Mot entendu</label>
+      <label for="mot">Mot entendu <span class="obligatoire">(obligatoire)</span></label>
       <input id="mot" name="mot" maxlength="80" required value="{{ mot }}" autocomplete="off">
       <label for="metier">Métier</label>
       <select id="metier" name="metier">

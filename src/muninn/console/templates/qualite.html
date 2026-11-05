@@ -4,7 +4,7 @@
 {% macro sec(ms) %}{% if ms is none %}aucune mesure{% else %}{{ ("%.1f"|format(ms / 1000)).replace(".", ",") }} s{% endif %}{% endmacro %}
 {% macro eur(x) %}{{ ("%.4f"|format(x)).replace(".", ",") }} €{% endmacro %}
 {% macro verdict(niveau) %}{% if niveau == "ok" %}<span class="pastille ok">● Sous le seuil</span>{% elif niveau == "alerte" %}<span class="pastille alerte">▲ Seuil dépassé</span>{% else %}<span class="pastille insuffisant">○ Pas assez d'appels</span>{% endif %}{% endmacro %}
-{% block contenu %}
+{% block style %}
   <style>
     .etat { border-radius: .5rem; padding: 1rem 1.25rem; margin: 1rem 0; border: 2px solid; }
     .etat h2 { margin: 0 0 .25rem; font-size: 1.5rem; }
@@ -28,11 +28,13 @@
     .periode .case { display: flex; gap: .4rem; align-items: center; font-weight: 400; }
     .periode .case input { width: auto; }
     .periode button { margin-top: 0; }
-    figure { margin: .5rem 0 1rem; }
-    figcaption { color: #4a4a4a; font-size: .92rem; }
-    svg .total { fill: #9db7dc; }
-    svg .verifier { fill: #b5651d; }
-    svg .faible { fill: #b9bec5; }
+    .graphique { margin: .5rem 0 1rem; }
+    .graphique .legende { color: #4a4a4a; font-size: .92rem; margin: 0 0 .25rem; }
+    /* RGAA 3.3 : séries à 3:1 au moins contre le fond et entre elles (#5f86bd 3,73:1 ; #5c2a00
+       11,76:1, et 3,15:1 contre la série voisine ; #7d858f 3,73:1). */
+    svg .total { fill: #5f86bd; }
+    svg .verifier { fill: #5c2a00; }
+    svg .faible { fill: #7d858f; }
     details.technique { margin-top: 1.5rem; border: 1px solid #c8c8c8; border-radius: .5rem;
                         padding: .5rem 1rem; }
     details.technique summary { font-weight: 700; cursor: pointer; }
@@ -47,6 +49,8 @@
     .legende span { display: inline-block; width: .9rem; height: .9rem; vertical-align: middle;
                     margin: 0 .3rem 0 .8rem; }
   </style>
+{% endblock %}
+{% block contenu %}
 
   <h1>Qualité du service</h1>
   <p>Cette page dit si Muninn fonctionne bien, d'après les appels qu'il a traités (pour l'instant,
@@ -179,8 +183,10 @@
   <p class="aide">Le budget couvre tout le projet, hébergement compris ; ce chiffre n'en est que la part de l'IA pour les appels traités.</p>
 
   {% if graphique %}
-  <figure>
-    <svg viewBox="0 0 600 130" width="100%" role="img" aria-labelledby="titre-graphique">
+  {# RGAA 1.9 et 8.2 : texte d'introduction avant chaque graphique, sans figure ni légende de figure. #}
+  <div class="graphique">
+  <p class="legende">Une barre par heure, du {{ graphique.debut }} au {{ graphique.fin }} (heure de Paris) ; la plus haute compte {{ pluriel(graphique.haut, "appel", "appels") }}. Légende :<span style="background:#5f86bd"></span>appels traités<span style="background:#5c2a00"></span>dont dossiers à vérifier</p>
+    <svg viewBox="0 0 600 130" width="100%" role="img" aria-labelledby="titre-graphique" aria-describedby="valeurs-horaires">
       <title id="titre-graphique">Appels traités par heure, et dossiers à vérifier, sur {{ periodes[heures] }}, du {{ graphique.debut }} au {{ graphique.fin }}, heure de Paris ; au plus {{ pluriel(graphique.haut, 'appel', 'appels') }} dans une heure</title>
       {% for b in graphique.barres %}
       <rect class="total" x="{{ b.x }}" y="{{ 125 - b.h_total }}" width="{{ b.w }}" height="{{ b.h_total }}"><title>{{ b.titre }}</title></rect>
@@ -188,10 +194,10 @@
       {% endfor %}
       <line x1="0" y1="125.5" x2="600" y2="125.5" stroke="#5b6470"/>
     </svg>
-    <figcaption class="legende">Une barre par heure, du {{ graphique.debut }} au {{ graphique.fin }} (heure de Paris) ; la plus haute compte {{ pluriel(graphique.haut, "appel", "appels") }}. Légende :<span style="background:#9db7dc"></span>appels traités<span style="background:#b5651d"></span>dont dossiers à vérifier</figcaption>
-  </figure>
-  <figure>
-    <svg viewBox="0 0 600 130" width="100%" role="img" aria-labelledby="titre-part">
+  </div>
+  <div class="graphique">
+  <p class="legende">Part des dossiers à vérifier, heure par heure (100 % en haut). La ligne rouge marque le seuil de 20 %. En gris, les heures de moins de 20 dossiers : trop peu pour conclure, elles ne déclenchent pas d'alerte.<span style="background:#5c2a00"></span>assez de dossiers<span style="background:#7d858f"></span>trop peu de dossiers</p>
+    <svg viewBox="0 0 600 130" width="100%" role="img" aria-labelledby="titre-part" aria-describedby="valeurs-horaires">
       <title id="titre-part">Part des dossiers à vérifier, heure par heure, sur {{ periodes[heures] }} ; la ligne marque le seuil de 20 %</title>
       {% for b in graphique.barres %}{% if b.h_part is not none %}
       <rect class="{{ 'faible' if b.faible else 'verifier' }}" x="{{ b.x }}" y="{{ 125 - b.h_part }}" width="{{ b.w }}" height="{{ b.h_part }}"><title>{{ b.titre_part }}</title></rect>
@@ -200,8 +206,16 @@
       <text x="596" y="96" text-anchor="end" font-size="11" fill="#a31515">seuil : 20 %</text>
       <line x1="0" y1="125.5" x2="600" y2="125.5" stroke="#5b6470"/>
     </svg>
-    <figcaption class="legende">Part des dossiers à vérifier, heure par heure (100 % en haut). La ligne rouge marque le seuil de 20 %. En gris, les heures de moins de 20 dossiers : trop peu pour conclure, elles ne déclenchent pas d'alerte.<span style="background:#b5651d"></span>assez de dossiers<span style="background:#b9bec5"></span>trop peu de dossiers</figcaption>
-  </figure>
+  </div>
+  {# RGAA 1.6, 3.1, 10.2 et 10.9 : les mêmes valeurs en texte, sans couleur ni forme. #}
+  <details class="technique">
+    <summary>Les valeurs heure par heure (tableau)</summary>
+    <table id="valeurs-horaires">
+      <caption>Appels traités et dossiers à vérifier, heure par heure, du {{ graphique.debut }} au {{ graphique.fin }} (heure de Paris)</caption>
+      <thead><tr><th scope="col">Heure</th><th scope="col">Appels traités</th><th scope="col">Dossiers à vérifier</th><th scope="col">Part à vérifier</th></tr></thead>
+      <tbody>{% for b in graphique.barres %}<tr><th scope="row">{{ b.heure }}</th><td>{{ b.total }}</td><td>{{ b.verifier }} sur {{ b.dossiers }}</td><td>{% if b.part is none %}sans dossier{% else %}{{ b.part }}{% if b.faible %} (trop peu pour conclure){% endif %}{% endif %}</td></tr>{% endfor %}</tbody>
+    </table>
+  </details>
   {% endif %}
 
   <h3>Champs corrigés par l'artisan</h3>
@@ -255,7 +269,7 @@
   <p>{% for r in q.etat.regles %}{{ r.code }} : {{ r.court }}{% if not loop.last %} ; {% endif %}{% endfor %} (décision D-83).</p>
   {% endif %}
 
-  <h3>Version du logiciel</h3>
+  <h2>Version du logiciel</h2>
   <p class="aide">Utile à l'exploitant pour savoir quelle version a produit ces chiffres.</p>
   <dl>
     <dt>API</dt><dd>{{ api.version }} ({{ api.git_sha[:7] }})</dd>
