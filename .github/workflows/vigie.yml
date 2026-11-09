@@ -1,6 +1,6 @@
 # C20, détection automatique d'incident : toutes les 15 minutes, lit les alertes Azure Monitor
-# déclenchées sur le groupe de ressources et ouvre une issue « Incident » par alerte, une seule
-# fois. Identité id-muninn-vigie, lecture seule (infra/azure/14-vigie.sh) ; aucun secret.
+# du groupe de ressources, déclenchées ou déjà résolues, et ouvre une issue « Incident » par alerte,
+# une seule fois. Identité id-muninn-vigie, lecture seule (infra/azure/14-vigie.sh) ; aucun secret.
 name: vigie
 
 on:
@@ -17,7 +17,7 @@ on:
         type: boolean
         default: true
       periode:
-        description: "Essai seulement : 30d lit aussi les alertes résolues (preuve de visibilité)"
+        description: "Essai seulement : 30d lit les alertes du mois (preuve de visibilité)"
         type: choice
         options: [1d, 30d]
         default: 1d
@@ -47,15 +47,16 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Alertes déclenchées sur le groupe de ressources (dernières 24 h)
+      - name: Alertes du groupe de ressources (dernières 24 h)
         env:
           ESSAI: ${{ github.event_name == 'workflow_dispatch' && inputs.essai }}
           PERIODE: ${{ inputs.periode }}
         run: |
-          # Par défaut : alertes déclenchées des dernières 24 h. En essai seulement, « 30d » lit
-          # aussi les alertes résolues, pour prouver que l'identité les voit ; vigie.py n'ouvre de
-          # toute façon d'issue que pour une alerte déclenchée.
-          filtre="monitorCondition=Fired&timeRange=1d"
+          # Dernières 24 h, alertes résolues comprises : une alerte résolue entre deux passages doit
+          # quand même ouvrir son issue (la planification de GitHub laisse plusieurs heures entre deux
+          # passages). En essai seulement, « 30d » lit le mois, pour prouver que l'identité voit les
+          # alertes et que l'anti-doublon tient ; en essai, rien n'est créé.
+          filtre="timeRange=1d"
           if [ "$ESSAI" = "true" ] && [ "$PERIODE" = "30d" ]; then filtre="timeRange=30d"; fi
           echo "Filtre : $filtre"
           az rest --method get --output json \

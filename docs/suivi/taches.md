@@ -138,6 +138,7 @@ Prochaines échéances : oral blanc le 13 novembre 2026, passage devant le jury 
 | 2026-11-03 | C7 : vitrine de lecture du benchmark (réponse, grilles, mesure, couche « En clair » relue deux fois) ; charte commune aux deux vitrines ; D-93 ; règle des numéros français                    | `docs/v1/benchmark-services-ia/vitrine.html`, PR n° 219                                                                              |
 | 2026-11-05 | C10 : protocole, audit RGAA 4.1.2 des 5 écrans de la console (77,8 %), 16 non-conformités corrigées et testées, contre-audit (100 %), scénario NVDA                                            | `docs/v1/accessibilite/`                                                                                                             |
 | 2026-11-05 | C10 : parcours NVDA en production (24 étapes sur 24), rapport d'audit, déclaration d'accessibilité, vitrine de l'audit ; taux 77,8 % puis 100 %                                                | `docs/v1/accessibilite/`                                                                                                             |
+| 2026-11-05 | C20 : la vigie ouvre aussi l'issue d'une alerte déjà résolue (défaut relevé à la relecture du livret E5) ; test et guide d'exploitation à jour                                                 | `infra/github/vigie.py`, `tests/test_vigie.py`                                                                                       |
 
 ## À faire
 

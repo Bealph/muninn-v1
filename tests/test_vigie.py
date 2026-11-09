@@ -1,4 +1,4 @@
-"""Vigie (C20) : une alerte déclenchée ouvre une issue « Incident », une seule fois, sans Azure.
+"""Vigie (C20) : une alerte, déclenchée ou résolue, ouvre une issue « Incident », une seule fois.
 
 La forme des alertes est celle de l'API Alerts Management, version 2019-03-01 (lue le
 2 novembre 2026).
@@ -68,8 +68,24 @@ def test_une_alerte_deja_connue_n_ouvre_rien() -> None:
     assert m.a_ouvrir({"value": [alerte(1)]}, [{"number": 7, "body": deja["corps"]}]) == []
 
 
-def test_une_alerte_resolue_n_ouvre_rien() -> None:
-    assert module().a_ouvrir({"value": [alerte(1, "Resolved")]}, []) == []
+def test_une_alerte_resolue_avant_le_passage_ouvre_une_issue() -> None:
+    """AL-04 se résout seule en 90 min environ et la vigie passe rarement : l'incident resterait."""
+    issues = module().a_ouvrir({"value": [alerte(1, "Resolved")]}, [])
+    assert len(issues) == 1
+    assert "| Condition à la lecture | Resolved |" in issues[0]["corps"]
+
+
+def test_une_alerte_passee_de_declenchee_a_resolue_n_ouvre_pas_deux_issues() -> None:
+    """L'identifiant de l'alerte ne change pas à la résolution : l'issue déjà ouverte suffit."""
+    m = module()
+    deja = m.a_ouvrir({"value": [alerte(1, "Fired")]}, [])[0]
+    assert (
+        m.a_ouvrir({"value": [alerte(1, "Resolved")]}, [{"number": 7, "body": deja["corps"]}]) == []
+    )
+
+
+def test_une_condition_inconnue_n_ouvre_rien() -> None:
+    assert module().a_ouvrir({"value": [alerte(1, "Autre")]}, []) == []
 
 
 def test_plusieurs_alertes_dans_l_ordre_de_declenchement() -> None:
@@ -109,7 +125,7 @@ def test_workflow_lecture_seule_et_actions_epinglees() -> None:
     assert "environment: vigie" in texte
     assert "issues: write" in texte and "id-token: write" in texte
     assert "contents: write" not in texte and "pull-requests: write" not in texte
-    assert "monitorCondition=Fired" in texte
+    assert "monitorCondition=" not in texte  # les alertes résolues doivent rester visibles
     for ligne in texte.splitlines():
         if "uses:" in ligne:
             version = ligne.split("@", 1)[1].split()[0]
@@ -117,8 +133,8 @@ def test_workflow_lecture_seule_et_actions_epinglees() -> None:
 
 
 def test_la_periode_longue_est_reservee_a_l_essai() -> None:
-    """« 30d » lit aussi les alertes résolues : seulement pour prouver la visibilité, en essai."""
+    """« 30d » lit tout le mois : seulement pour prouver la visibilité, en essai."""
     texte = WORKFLOW.read_text(encoding="utf-8")
-    assert 'filtre="monitorCondition=Fired&timeRange=1d"' in texte
+    assert 'filtre="timeRange=1d"' in texte
     assert 'if [ "$ESSAI" = "true" ] && [ "$PERIODE" = "30d" ]; then' in texte
     assert "ESSAI: ${{ github.event_name == 'workflow_dispatch' && inputs.essai }}" in texte

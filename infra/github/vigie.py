@@ -4,7 +4,10 @@ Entrées : la réponse de l'API Alerts Management (`az rest`, version 2019-03-01
 déjà ouvertes par la vigie (`gh issue list --json number,body`). Sortie : la liste JSON des issues
 à créer, `[{"titre": ..., "corps": ...}]`. Une alerte n'ouvre qu'une issue, jamais deux : son
 identifiant est écrit dans l'issue, et une alerte déjà connue est ignorée, même si l'issue est
-fermée. Seules les alertes déclenchées (`Fired`) ouvrent une issue.
+fermée. Une alerte déclenchée (`Fired`) ouvre une issue ; une alerte déjà résolue (`Resolved`)
+aussi : AL-04 se résout seule en 90 minutes environ, et GitHub lance la vigie rarement. Sans cela,
+un incident résolu entre deux passages ne laisserait aucune issue. L'alerte garde son identifiant à
+la résolution : l'anti-doublon vaut pour les deux états.
 
 Bibliothèque standard seulement : le script tourne tel quel sur le runner de GitHub Actions.
 Usage : `python3 vigie.py alertes.json issues.json`.
@@ -16,6 +19,7 @@ from pathlib import Path
 from typing import Any
 
 MARQUEUR = "<!-- alerte-azure: {} -->"
+CONDITIONS = ("Fired", "Resolved")
 GRAVITES = {
     "Sev0": "critique",
     "Sev1": "erreur",
@@ -47,6 +51,7 @@ def corps(alerte: dict[str, Any]) -> str:
         f"| Gravité | {gravite} ({GRAVITES.get(gravite, 'non précisée')}) |",
         f"| Ressource visée | {nom_regle(e.get('targetResource', ''))} |",
         f"| État de l'alerte | {e.get('alertState', 'inconnu')} |",
+        f"| Condition à la lecture | {e.get('monitorCondition', 'inconnue')} |",
         "| Détection | Automatique : règle Azure Monitor, puis workflow `vigie` |",
         "",
         "## Symptôme",
@@ -64,12 +69,12 @@ def corps(alerte: dict[str, Any]) -> str:
 
 
 def a_ouvrir(reponse: dict[str, Any], issues: list[dict[str, Any]]) -> list[dict[str, str]]:
-    """Les issues à créer : une par alerte déclenchée dont aucune issue ne porte l'identifiant."""
+    """Les issues à créer : une par alerte, déclenchée ou résolue, qu'aucune issue ne porte."""
     connues = "\n".join(i.get("body") or "" for i in issues)
     nouvelles = []
     for alerte in reponse.get("value", []):
         e = alerte.get("properties", {}).get("essentials", {})
-        if e.get("monitorCondition") != "Fired" or not alerte.get("id"):
+        if e.get("monitorCondition") not in CONDITIONS or not alerte.get("id"):
             continue
         if MARQUEUR.format(alerte["id"]) in connues:
             continue
