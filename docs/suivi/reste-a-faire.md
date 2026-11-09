@@ -51,19 +51,23 @@ qui en découlent (`docs/decisions.md`). Aucun dispositif organisé.
 - [x] Mettre en place la collecte : flux RSS ou alertes, et une fiche par information retenue
       (date, source, résumé, impact sur Muninn). Fait le 3 novembre : 14 sources
       (`docs/veille/sources.md`), collecte par `infra/veille/collecter.py`, 7 fiches.
-- [ ] Organiser le partage et le travail collectif, que le référentiel exige : un canal de
+- [x] Organiser le partage et le travail collectif, que le référentiel exige : un canal de
       partage, et un rituel court avec le pair ou le formateur, avec la trace d'au moins une
       séance. Décision du porteur du 3 novembre : pas de séance avec un pair ; la synthèse est
       publiée en document commentable et envoyée au formateur, et sert de support à l'oral blanc
       du 13 novembre. Le 3 novembre, le formateur a indiqué que l'envoi de la synthèse n'est
       pas nécessaire. Décision du porteur du 3 novembre : la présentation de la synthèse à
-      l'oral blanc du 13 novembre sert de séance tracée dans `docs/veille/seances/`.
-- [ ] Rédiger deux ou trois synthèses datées, chacune terminée par une recommandation pour le
+      l'oral blanc du 13 novembre sert de séance tracée dans `docs/veille/seances/`. Fait le
+      6 novembre : séance avec le formateur (`docs/veille/seances/2026-11-06.md`) ; l'oral blanc
+      en fera une seconde.
+- [x] Rédiger deux ou trois synthèses datées, chacune terminée par une recommandation pour le
       projet, reliée si besoin à une décision D-xx. Une faite le 3 novembre
-      (`docs/veille/syntheses/S-2026-11-03.md`, quatre recommandations, D-91 proposée).
-- [ ] Vérifier chaque affirmation réglementaire à la source officielle, et citer la page. Fait
+      (`docs/veille/syntheses/S-2026-11-03.md`, quatre recommandations, D-91 proposée) ; la
+      seconde le 5 novembre (`S-2026-11-05.md`, trois recommandations, D-94 et D-95).
+- [x] Vérifier chaque affirmation réglementaire à la source officielle, et citer la page. Fait
       pour les fiches 01, 03 (en partie) et 05 ; reste le texte de L.223-1 et du décret
-      n° 2026-662 (fiche 04), et l'annexe III du règlement sur l'IA (fiche 03).
+      n° 2026-662 (fiche 04), et l'annexe III du règlement sur l'IA (fiche 03) : lus le
+      5 novembre (fiches V-2026-11-05-02 et 03).
 
 **Preuve attendue :** `docs/veille/` avec le registre des sources, les fiches, les synthèses et
 la trace de partage. Les deux cases de C6 sont alors cochées.
@@ -279,8 +283,8 @@ Ils ne correspondent à aucune case, mais renforcent C20 et C21 s'ils sont trait
 Cocher ici quand la preuve est dans le dépôt, puis cocher la case correspondante de
 `competences.md` et mettre son compteur à jour.
 
-- [ ] C6 · dispositif de veille (`docs/veille/`)
-- [ ] C6 · synthèses et recommandations
+- [x] C6 · dispositif de veille (`docs/veille/` ; séance du 6 novembre)
+- [x] C6 · synthèses et recommandations (S-2026-11-03, S-2026-11-05 ; D-91, D-94, D-95)
 - [x] C7 · benchmark complet (`docs/v1/benchmark-services-ia/`, 3 novembre)
 - [x] C8 · demande de zéro rétention tracée (D-89)
 - [x] C19 · environnement de test (workflow et exécution, D-90)
@@ -288,7 +292,7 @@ Cocher ici quand la preuve est dans le dépôt, puis cocher la case correspondan
   ; limite écrite)
 - [x] C21 · incident provoqué, résolu et documenté (exercice du 26 octobre, décision du porteur)
 - [x] C21 · renfort : fiche de l'exercice (INC-12) et fiche INC-11
-- [ ] C10 · audit RGAA manuel (`docs/v1/accessibilite/`)
+- [x] C10 · audit RGAA manuel (`docs/v1/accessibilite/`, 5 novembre, PR n° 221 et 222)
 
 Une fois les sept cases cochées : 61 sur 61. Les compétences concernées passent alors en
 « Preuve produite », puis en « Validée » sur décision du porteur.

@@ -100,3 +100,33 @@ B est écarté pour l'agent : aucune sortie exploitable, appels d'outils mal for
 - Réglage de montage fait pendant l'essai, avant la mesure : le nom de l'outil est ajouté aux
   messages d'outil (format documenté par Mistral, accepté par A) ; il ne change pas le
   comportement de B.
+
+## 6. Complément du 9 novembre 2026 : démarche éco-responsable
+
+Critère absent du protocole, ajouté après coup pour répondre au référentiel de C7 ; il ne change
+pas la décision D-61. Il porte sur les informations publiées, lues le 9 novembre 2026, et sur un
+indicateur tiré de la mesure du 16 octobre.
+
+| Fournisseur           | Ce qui est publié                                                                                                                                                                                                              | Ce qui manque                                                                                      |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| Microsoft (Azure)     | Outil gratuit de mesure des émissions par ressource et par région, données mensuelles (« Carbon optimization ») ; engagements à 2030 : « carbon negative », « water positive », « zero waste »                                 | Aucune donnée par requête ou par jeton trouvée ; couverture des déploiements de modèles non écrite |
+| OpenAI (modèle A)     | Une valeur moyenne par requête de ChatGPT (0,34 Wh), donnée par son dirigeant dans un billet, sans méthode ni périmètre                                                                                                        | Aucune donnée par modèle ; la valeur ne s'applique pas à gpt-5.4-mini                              |
+| Mistral AI (modèle B) | Analyse de cycle de vie publiée le 22 juillet 2025, avec Carbone 4 et l'ADEME, selon la méthode « IA frugale » de l'AFNOR : 1,14 g CO₂e et 45 mL d'eau par réponse de 400 jetons sur Le Chat ; entraînement de Mistral Large 2 | Ne couvre pas Mistral Medium ; porte sur Le Chat, pas sur un déploiement Azure                     |
+
+Indicateur tiré de la mesure (`eval/t06/resultats.json`) : A consomme en moyenne 1 300 jetons
+par extraction (1 222 en entrée, 78 en sortie), B 7 270 (4 806 et 2 460), soit 5,6 fois plus, et
+20 fois plus de temps. Les jetons et la durée ne mesurent pas l'énergie : c'est un indice
+indirect, à taille de modèle inconnue. Une grille existe pour aller plus loin : l'AFNOR Spec 2314
+(juin 2024), non lue en entier.
+
+Sources, lues le 9 novembre 2026 :
+
+- Microsoft Learn, « Carbon optimization overview » :
+  <https://learn.microsoft.com/en-us/azure/carbon-optimization/overview>
+- Microsoft, engagements de durabilité :
+  <https://www.microsoft.com/en-us/corporate-responsibility/sustainability/>
+- Sam Altman, « The Gentle Singularity » : <https://blog.samaltman.com/the-gentle-singularity>
+- Mistral AI, « Our contribution to a global environmental standard for AI » :
+  <https://mistral.ai/news/our-contribution-to-a-global-environmental-standard-for-ai>
+- AFNOR, fiche de l'AFNOR Spec 2314 :
+  <https://www.boutique.afnor.org/en-gb/standard/afnor-spec-2314/fa208976/421140>

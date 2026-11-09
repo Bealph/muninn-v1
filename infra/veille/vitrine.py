@@ -194,6 +194,29 @@ def lire_glossaire(chemin: Path) -> list[dict[str, str]]:
     return [{"terme": r[0], "definition": r[1]} for r in rangs if len(r) >= 2]
 
 
+def lire_seances(dossier: Path) -> list[dict[str, Any]]:
+    """Séances (`seances/AAAA-MM-JJ.md`) : date, synthèse présentée, participants."""
+    resultat = []
+    for chemin in sorted(dossier.glob("????-??-??.md")):
+        lignes = chemin.read_text(encoding="utf-8").split("\n")
+        champs = {r[0]: r[1] for r in tableau(lignes) if len(r) >= 2}
+        support = re.search(r"S-\d{4}-\d{2}-\d{2}", champs.get("Support", ""))
+        participants = [p.strip() for p in champs.get("Participants", "").split(";")]
+        resultat.append({
+            "date": chemin.stem,
+            "synthese": support.group(0) if support else "",
+            "participants": [p for p in participants if p],
+        })  # fmt: skip
+    return resultat
+
+
+def decisions_consignees(chemin: Path) -> list[str]:
+    """Identifiants des décisions du journal (`docs/decisions.md`)."""
+    if not chemin.exists():
+        return []
+    return re.findall(r"^\| (D-\d+) ", chemin.read_text(encoding="utf-8"), flags=re.MULTILINE)
+
+
 def themes_du_readme(chemin: Path) -> list[str]:
     corps = sections(chemin.read_text(encoding="utf-8")).get("Thèmes", "")
     return [r[0] for r in tableau(corps.split("\n")) if r]
@@ -219,12 +242,18 @@ def donnees(veille: Path = VEILLE) -> dict[str, Any]:
             if f["entree"] and e["lien"] == f["entree"]:
                 e["fiche"] = f["id"]
     syntheses = sorted((veille / "syntheses").glob("S-*.md"))
+    synthese = lire_synthese(syntheses[-1]) if syntheses else None
+    if synthese is not None:
+        synthese["seances"] = [
+            s for s in lire_seances(veille / "seances") if s["synthese"] == syntheses[-1].stem
+        ]
     return {
         "themes": themes_du_readme(veille / "README.md"),
         "sources": sources,
         "collecte": collecte,
         "fiches": fiches,
-        "synthese": lire_synthese(syntheses[-1]) if syntheses else None,
+        "synthese": synthese,
+        "decisions": decisions_consignees(veille.parent / "decisions.md"),
         "glossaire": lire_glossaire(veille / "glossaire.md"),
     }
 

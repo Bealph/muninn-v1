@@ -144,7 +144,18 @@ input[type="search"] { width: 100%; }
     if (lecture !== "clair" && lecture !== "technique") lecture = "clair";
 
     const lead = el("p", { class: "lead" });
-    const decisions = Object.values(S.raisonnements).flatMap((r) => r.paragraphes).filter((p) => texteDe(p).startsWith("Décision proposée")).length;
+    // Fiches de cette collecte (leur code porte sa date), et non toutes les fiches du registre.
+    const fichesDuJour = D.fiches.filter((f) => f.code.startsWith("V-" + C.date)).length;
+    // Décisions proposées par la synthèse, et celles depuis consignées dans docs/decisions.md.
+    const proposees = Object.values(S.raisonnements).flatMap((r) => r.paragraphes).map(texteDe).filter((t) => t.startsWith("Décision proposée"))
+      .map((t) => (t.match(/D-\d+/) || [""])[0]);
+    const decisions = proposees.length;
+    const adoptees = proposees.filter((id) => id && (D.decisions || []).includes(id));
+    const libelleDecisions = adoptees.length === decisions && decisions > 0
+      ? (decisions > 1 ? "décisions adoptées" : "décision adoptée")
+      : (decisions > 1 ? "décisions proposées" : "décision proposée");
+    const seance = (S.seances || []).slice(-1)[0];
+    const invites = seance ? seance.participants.filter((p) => !/^porteur$/i.test(p)) : [];
     function remplirLead() {
       lead.replaceChildren(lecture === "clair" && S.chapeau_clair ? document.createTextNode(S.chapeau_clair) : segs(S.chapeau[0]));
       for (const r of document.querySelectorAll("[data-reco]")) r.render();
@@ -158,9 +169,10 @@ input[type="search"] { width: 100%; }
       el("span", { class: "sur", text: "Synthèse de veille" }),
       el("h1", { id: "titre-rapport", tabindex: "-1", text: S.titre }),
       lead,
+      seance ? el("p", { class: "chapo", text: "Présentée en séance le " + dateLongue(seance.date) + (invites.length ? " (" + invites.join(", ") + ")" : "") + (adoptees.length ? " ; " + adoptees.join(" et ") + (adoptees.length > 1 ? " adoptées." : " adoptée.") : ".") }) : null,
       bascule,
       el("ol", { class: "entonnoir", "aria-label": "Du volume collecté à la décision" },
-        [[C.total, "entrées collectées en " + C.jours + " jours"], [D.fiches.length, "fiches retenues"], [S.recommandations.length, "recommandations"], [decisions, decisions > 1 ? "décisions proposées" : "décision proposée"]]
+        [[C.total, "entrées collectées en " + C.jours + " jours"], [fichesDuJour, fichesDuJour > 1 ? "fiches retenues" : "fiche retenue"], [S.recommandations.length, "recommandations"], [decisions, libelleDecisions]]
           .map(([n, l]) => el("li", {}, el("span", { class: "nombre", text: String(n) }), el("span", { class: "libelle", text: l }))))));
 
     // Recommandations
@@ -187,7 +199,7 @@ input[type="search"] { width: 100%; }
       recos.append(carte);
     }
     racine.append(el("section", { "aria-labelledby": "t-recos" }, el("h2", { id: "t-recos", text: "Recommandations" }),
-      el("p", { class: "chapo", text: "Collecte du " + dateLongue(C.date) + " sur " + C.jours + " jours : " + C.total + " entrées issues de " + nbFlux + " flux" + (C.retirees ? " (" + C.retirees + " retirée" + (C.retirees > 1 ? "s" : "") + " par la règle d'exclusion)" : "") + ", plus les sources lues à la main ; " + D.fiches.length + " fiches retenues." }), recos));
+      el("p", { class: "chapo", text: "Collecte du " + dateLongue(C.date) + " sur " + C.jours + " jours : " + C.total + " entrées issues de " + nbFlux + " flux" + (C.retirees ? " (" + C.retirees + " retirée" + (C.retirees > 1 ? "s" : "") + " par la règle d'exclusion)" : "") + ", plus les sources lues à la main ; " + fichesDuJour + (fichesDuJour > 1 ? " fiches retenues" : " fiche retenue") + " (" + D.fiches.length + " depuis le début de la veille)." }), recos));
 
     for (const [n, r] of Object.entries(S.raisonnements)) {
       racine.append(el("section", { id: "raison-" + n, "aria-labelledby": "t-raison-" + n },

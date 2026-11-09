@@ -55,18 +55,43 @@ def test_la_collecte_la_plus_longue_l_emporte_a_date_egale() -> None:
 def test_donnees_reelles_coherentes() -> None:
     d = module().donnees()
     sources = {s["code"]: s for s in d["sources"]}
-    assert len(sources) == 14 and len(d["themes"]) == 8
+    assert len(sources) == 14 and len(d["themes"]) == 9
     assert {s["theme"] for s in sources.values()} <= set(d["themes"])
     c = d["collecte"]
-    assert c["fichier"] == "2026-11-03-30j.md" and c["total"] == 171 and c["retirees"] == 1
+    assert c["fichier"] == "2026-11-05-3j.md" and c["total"] == 57 and c["retirees"] == 0
     liees = {e["fiche"] for e in c["entrees"] if e["fiche"]}
-    assert len(liees) == 6  # la fiche 07 vient d'une source lue à la main
+    # Seules les fiches dont l'entrée figure dans la dernière collecte y sont reliées.
+    assert liees == {"v-2026-11-03-06", "v-2026-11-05-01"}
+    assert len(d["fiches"]) == 10
     assert all(f["en_clair"] and f["verification"] for f in d["fiches"])
     s = d["synthese"]
-    assert [r["n"] for r in s["recommandations"]] == ["R1", "R2", "R3", "R4"]
+    assert [r["n"] for r in s["recommandations"]] == ["R1", "R2", "R3"]
     assert all(r["en_clair"] for r in s["recommandations"]) and s["chapeau_clair"]
-    assert "R1" in s["raisonnements"] and len(s["sources_citees"]) == 3
+    assert set(s["raisonnements"]) == {"R1", "R3"} and len(s["sources_citees"]) == 1
     assert len(d["glossaire"]) >= 8
+    # La séance qui a présenté la synthèse, et ses décisions consignées depuis.
+    assert [(x["date"], x["participants"]) for x in s["seances"]] == [
+        ("2026-11-06", ["Porteur", "formateur"])
+    ]
+    assert {"D-91", "D-94", "D-95"} <= set(d["decisions"])
+
+
+def test_seances_rattachees_a_leur_synthese(tmp_path: Path) -> None:
+    m = module()
+    (tmp_path / "MODELE.md").write_text("| Support | `S-AAAA` |", encoding="utf-8")
+    (tmp_path / "2026-12-01.md").write_text(
+        "| Champ | Valeur |\n| --- | --- |\n| Participants | Porteur ; pair |\n"
+        "| Support | `../syntheses/S-2026-11-30.md` |\n",
+        encoding="utf-8",
+    )
+    assert m.lire_seances(tmp_path) == [
+        {"date": "2026-12-01", "synthese": "S-2026-11-30", "participants": ["Porteur", "pair"]}
+    ]
+    journal = tmp_path / "decisions.md"
+    lignes = "| ID | Date |\n| D-07 | 2026-10-12 |\n| D-12 | 2026-10-13 |\n"
+    journal.write_text(lignes, encoding="utf-8")
+    assert m.decisions_consignees(journal) == ["D-07", "D-12"]
+    assert m.decisions_consignees(tmp_path / "absent.md") == []
 
 
 def test_la_page_publiee_est_a_jour() -> None:

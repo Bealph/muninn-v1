@@ -33,3 +33,5 @@ CNIL.
 ## Suite
 
 Recommandation R3 de la synthèse S-2026-11-03.
+
+Lu au texte le 5 novembre : fiche V-2026-11-05-02.

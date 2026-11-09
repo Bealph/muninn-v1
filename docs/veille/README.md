@@ -17,8 +17,19 @@ synthèses datées, chacune terminée par une recommandation pour le projet.
 | Données personnelles        | Recommandations de la CNIL, IA et RGPD, enregistrement des appels                          | Registre RGPD, D-32, D-89                   |
 | Démarchage et téléphonie    | Consentement au démarchage, numérotation, renvoi d'appel                                   | Usage réel du raccordement (D-68)           |
 | Accessibilité               | WCAG, RGAA                                                                                 | C10                                         |
+| Marché et concurrence       | Réceptionnistes IA pour artisans, éditeurs de devis et de facturation, téléphonie IA       | Positionnement ; analyse stratégique        |
+
+La veille du marché et de la concurrence a commencé au cadrage, avant ce dispositif : l'analyse
+stratégique du 12 octobre 2026 (marché, concurrents, tendances, contraintes, sources citées) et les
+captures des sites concurrents du 23 octobre, dans le dossier du concept (hors du dépôt). Ajoutée
+comme thème le 9 novembre, à la suite de la séance avec le formateur ; elle se lit à la main, chaque
+mois, sur les sites des concurrents cités par l'analyse.
 
 ## Le dispositif
+
+Temps consacré : une heure par jour. S'y ajoutent des chaînes YouTube spécialisées, suivies hors
+du registre : une information qui en vient est confirmée à la source primaire avant d'entrer
+dans une fiche.
 
 1. **Sources** : le registre `sources.md` (type, fiabilité, fréquence de lecture) et son export
    `sources.opml`, à importer dans un lecteur de flux.
@@ -33,11 +44,15 @@ synthèses datées, chacune terminée par une recommandation pour le projet.
 4. **Synthèse** : toutes les deux semaines, ou dès qu'une fiche change un choix, une synthèse
    datée dans `syntheses/`, terminée par une recommandation, reliée à une décision D-xx si elle
    est retenue.
-5. **Partage et travail collectif** : le dépôt est le canal ; chaque synthèse est aussi publiée
-   en document commentable et envoyée au formateur, qui peut proposer des sources ou contester
-   une recommandation. Pas de séance avec un pair en V1 : la synthèse sert de support à l'oral
-   blanc du 13 novembre. La trace de chaque partage (envoi daté, retours reçus ou leur absence,
-   suites) va dans `seances/`.
+5. **Partage et travail collectif** : le dépôt est le canal, et la vitrine de la veille le support.
+   Chaque synthèse est présentée en séance courte (10 à 15 minutes) à au moins une personne
+   extérieure au projet, qui peut proposer des sources, contester une recommandation ou poser une
+   question ; les recommandations y sont discutées, puis je les tranche. Première séance avec le
+   formateur le 6 novembre, sur la synthèse S-2026-11-05 (`seances/2026-11-06.md`) ; la
+   présentation à l'oral blanc du 13 novembre en fait une seconde. La trace de chaque séance
+   (participants par leur rôle, sans nom ; apports ; décisions et leurs suites) va dans `seances/`,
+   sur le modèle
+   `seances/MODELE.md`.
 6. **Vitrine** : après chaque collecte, `python infra/veille/vitrine.py` régénère
    `vitrine.html`, une page qui présente le rapport (recommandations, fiches en clair et version
    technique, couverture des thèmes) et la collecte à trier ; elle est republiée au même lien

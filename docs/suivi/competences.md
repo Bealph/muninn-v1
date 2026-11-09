@@ -1,6 +1,6 @@
 # Suivi des compétences
 
-**Mis à jour le :** 3 novembre 2026 (C20 cochée : lancement planifié de la vigie constaté)
+**Mis à jour le :** 9 novembre 2026 (C6 cochée : séance de veille avec le formateur, D-94 et D-95 adoptées)
 
 Statuts : « À faire », « En cours », « Preuve produite », « Validée » (validée par le porteur).
 
@@ -20,7 +20,7 @@ Priorité : E2, E4 et E5, évalués au second oral (12 novembre 2026) ; E1 et E3
 
 | Code | Compétence (résumé)                                    | Phase | Preuve prévue                                                                                                                                                                                                                                                   | Statut          |
 | ---- | ------------------------------------------------------ | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| C6   | Veille technique et réglementaire organisée            | 0     | Dispositif de veille et synthèses                                                                                                                                                                                                                               | À faire         |
+| C6   | Veille technique et réglementaire organisée            | 0     | Dispositif de veille et synthèses ; séance avec le formateur (6 novembre) ; D-94, D-95                                                                                                                                                                          | Preuve produite |
 | C7   | Benchmark de services d'IA existants et recommandation | 0     | Grille comparative et recommandation argumentée ; banc d'essai des LLM T-06 (D-61) ; benchmark transcription, synthèse vocale et téléphonie : protocole commité avant la mesure, Azure AI Speech mesuré en production, relevés sourcés, rapport relu trois fois | Preuve produite |
 | C8   | Paramétrer un service d'IA selon sa documentation      | 4     | Configuration documentée et connecteurs intégrés ; déploiements Foundry en zone UE et authentification Entra ID (D-44 à D-46) ; zéro rétention tranchée (D-89)                                                                                                  | Preuve produite |
 
@@ -29,7 +29,7 @@ Priorité : E2, E4 et E5, évalués au second oral (12 novembre 2026) ; E1 et E3
 | Code | Compétence (résumé)                                            | Phase | Preuve prévue                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Statut          |
 | ---- | -------------------------------------------------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
 | C9   | API REST exposant un modèle d'IA                               | 2, 4  | Contrat de l'API d'extraction et DossierDraft 1.1 (phase 2) ; API en phase 4 ; route `POST /llm/essai` du squelette (sprint 2) ; API de l'agent `POST /v1/extract/text` et `POST /v1/demo/runs`, format d'erreur du contrat, Swagger, écran « Agent » (sprint 4, étape 8) ; route de revue `POST /v1/demo/runs/{draft_id}/review` (sprint 5, étape 2)                                                                                                                                                                                                                                                                                                                  | Preuve produite |
-| C10  | Intégrer l'API d'IA dans une application accessible            | 5     | Interface de démonstration, audit d'accessibilité ; console d'essai du LLM (sprint 2) ; correction et validation dans l'écran « Agent », accessibilité contrôlée (sprint 5, étape 2) ; écran « Démonstration » (appel joué à deux voix), relu WCAG 2.2 AA, quatre non-conformités corrigées avec tests de non-régression (sprint 5, étape 6)                                                                                                                                                                                                                                                                                                                           | En cours        |
+| C10  | Intégrer l'API d'IA dans une application accessible            | 5     | Interface de démonstration, audit d'accessibilité ; console d'essai du LLM (sprint 2) ; correction et validation dans l'écran « Agent », accessibilité contrôlée (sprint 5, étape 2) ; écran « Démonstration » (appel joué à deux voix), relu WCAG 2.2 AA, quatre non-conformités corrigées avec tests de non-régression (sprint 5, étape 6)                                                                                                                                                                                                                                                                                                                           | Preuve produite |
 | C11  | Monitorer un modèle d'IA (métriques, alertes, restitution)     | 2, 4  | Observabilité du modèle : métriques, dérive, 25 alertes (phase 2) ; mise en place en phase 4 ; Traces Langfuse sans contenu en production, coût et jetons par appel (sprint 4, étape 10, vérifié le 21 octobre) ; traces OpenTelemetry vers Application Insights vérifiées sur Azure, écran « Qualité » et trois règles d'alerte calculées par l'application, historique des alertes, classeur Azure Monitor (sprint 5, étapes 3 et 4, 23 octobre) ; dérive simulée : AL-01 allumée à l'écran (sprint 5, étape 5) ; AL-04 reçue par courriel lors de la panne simulée (étape 8) ; CA-8 mesuré trois fois en production, limite de la transcription documentée (INC-09) | Preuve produite |
 | C12  | Tests automatisés du modèle (données, préparation, évaluation) | 2, 4  | Cas VE-01 à VE-30, seuils de blocage (phase 1) ; tests en phase 4 ; Jeu V-08 figé et relu, harnais (Wilson, base sans outils, cas bloquants), campagne de référence 119/120 (sprint 4, étape 9 ; 118 à 119/120 sur trois campagnes du même paquet, base sans outils 117 à 118) ; critères vérifiés en production, contrat personnel (étapes 11, 12)                                                                                                                                                                                                                                                                                                                    | Preuve produite |
 | C13  | Livraison continue du modèle (approche MLOps)                  | 2, 4  | Chaîne LLMOps et AgentOps conçue (phase 2) ; workflows en phase 4 ; Évaluation en CI déclenchée par l'empreinte, bloquante ; CA-6 démontré (PR dégradée bloquée, D-79) ; reprise de la livraison sur erreur passagère d'Azure, testée (INC-05) ; nouvelle révision relue et vérifiée avant bascule dans les quatre scripts de livraison (INC-07) ; reprise sur ServerTimeout (INC-08) et sur révision dite invalide, limite des tests élargie (INC-10) ; schémas de la chaîne de livraison relus à la source                                                                                                                                                           | Preuve produite |
@@ -54,7 +54,7 @@ Priorité : E2, E4 et E5, évalués au second oral (12 novembre 2026) ; E1 et E3
 
 ## Preuves, case par case
 
-**Cases cochées : 58 sur 61** (au 3 novembre 2026). Plan et checklist des cases restantes :
+**Cases cochées : 61 sur 61** (au 9 novembre 2026). Plan et checklist des cases restantes :
 `docs/suivi/reste-a-faire.md`.
 
 Une case n'est cochée que si la preuve existe dans le dépôt. Source des preuves attendues :
@@ -93,10 +93,10 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 
 ### E2 : veille, benchmark, paramétrage (oral du 12 novembre)
 
-**C6** (0 sur 2)
+**C6** (2 sur 2)
 
-- [ ] Dispositif de veille : sources, collecte, partage (4 novembre)
-- [ ] Synthèses et recommandations (4 novembre)
+- [x] Dispositif de veille : sources, collecte, partage : `docs/veille/` (registre, collecte par flux, vitrine) ; séance avec le formateur le 6 novembre (`docs/veille/seances/2026-11-06.md`)
+- [x] Synthèses et recommandations : `docs/veille/syntheses/` (S-2026-11-03, S-2026-11-05 ; sept recommandations ; D-91, D-94, D-95)
 
 **C7** (3 sur 3)
 
@@ -119,12 +119,12 @@ ses cases sont cochées, puis à « Validée » sur décision du porteur.
 - [x] Route d'appel au LLM du squelette : `POST /llm/essai` (sprint 2)
 - [x] API d'extraction et OpenAPI : `src/muninn/api/agent.py`, contrat servi sous `/openapi.json` et `/docs` (sprint 4, PR n° 141 ; revue, sprint 5, PR n° 175)
 
-**C10** (3 sur 4)
+**C10** (4 sur 4)
 
 - [x] Exigences d'accessibilité : `docs/conception/sources_de_donnees/04-accessibilite-utilisabilite.md`
 - [x] Console qui appelle l'API, testée par le porteur : `docs/v1/sprints/sprint-2/preuves/`
 - [x] Contrôle axe-core automatisé en CI, WCAG 2.2 AA, sans manquement : `tests/test_accessibilite.py`, `.github/workflows/ci.yml` (sprint 2)
-- [ ] Audit RGAA manuel (6 novembre)
+- [x] Audit RGAA manuel : `docs/v1/accessibilite/` (protocole, grille des 106 critères sur 5 écrans, 77,8 % puis 100 %, 16 non-conformités corrigées et testées, parcours NVDA 24/24 en production, rapport, déclaration, vitrine ; PR n° 221 et 222, 5 novembre)
 
 **C11** (3 sur 3)
 

@@ -34,3 +34,5 @@ risque. C'est un choix de périmètre du projet, non vérifié au texte du règl
 
 Question ouverte : confirmer au texte du règlement (annexe III) que l'usage de Muninn n'y figure
 pas, avant un usage réel.
+
+Lu au texte le 5 novembre : fiche V-2026-11-05-03.
