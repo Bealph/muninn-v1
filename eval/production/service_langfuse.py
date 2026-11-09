@@ -8,6 +8,10 @@ ressource. Attendu : `muninn-api` après le correctif, `unknown_service` avant. 
 des réglages de l'application et ne sont jamais affichées. Une pause sépare deux appels, et un
 429 est repris après le délai indiqué par Langfuse. Résultat du 2 novembre 2026 :
 `docs/v1/sprints/sprint-5/incidents/INC-11-service-inconnu-dans-langfuse.md`.
+
+Points d'accès : `GET /api/public/v2/observations` (racines pour les traces, puis observations
+d'une trace). `GET /api/public/traces` et `GET /api/public/observations` (v1) sont retirés de
+Langfuse Cloud le 16 novembre 2026 (https://langfuse.com/faq/all/deprecated-api-migration).
 """
 
 import time
@@ -31,6 +35,9 @@ def lire(client: httpx.Client, chemin: str, params: dict[str, Any]) -> Any:
     raise SystemExit("Langfuse limite toujours le débit : relancer dans quelques minutes.")
 
 
+V2 = "/api/public/v2/observations"
+
+
 def chercher(objet: Any, cle: str) -> Any:
     """Première valeur de `cle` trouvée dans un objet JSON imbriqué."""
     if isinstance(objet, dict):
@@ -48,6 +55,13 @@ def chercher(objet: Any, cle: str) -> Any:
     return None
 
 
+def service(metadata: Any) -> Any:
+    """`service.name` de la ressource : clé aplatie en v2, objet imbriqué en v1."""
+    if isinstance(metadata, dict) and "resourceAttributes.service.name" in metadata:
+        return metadata["resourceAttributes.service.name"]
+    return chercher(metadata, "service.name")
+
+
 def main() -> None:
     s = get_settings()
     if s.langfuse_public_key is None or s.langfuse_secret_key is None:
@@ -61,16 +75,14 @@ def main() -> None:
     projets = lire(client, "/api/public/projects", {})
     print("Projet :", [p.get("name") for p in projets.get("data", [])])
 
-    recentes = lire(client, "/api/public/traces", {"limit": 50}).get("data", [])
+    # Une trace = son observation racine. Champs `core,basic` : traceId, startTime, environment.
+    racines = {"isRootObservation": "true", "limit": 50, "fields": "core,basic"}
+    recentes = lire(client, V2, racines).get("data", [])
     # Avant le correctif (fusion du 29 octobre, 16:56 UTC), jusqu'à V-13 (21 octobre).
     anciennes = lire(
         client,
-        "/api/public/traces",
-        {
-            "limit": 50,
-            "fromTimestamp": "2026-10-21T00:00:00Z",
-            "toTimestamp": "2026-10-29T16:56:00Z",
-        },
+        V2,
+        racines | {"fromStartTime": "2026-10-21T00:00:00Z", "toStartTime": "2026-10-29T16:56:00Z"},
     ).get("data", [])
     lignes = recentes + anciennes
     print(f"Traces lues : {len(recentes)} récentes, {len(anciennes)} avant le correctif")
@@ -78,17 +90,17 @@ def main() -> None:
     vus: set[str] = set()
     echantillon = []
     for i, t in enumerate(lignes):
-        jour = (t.get("timestamp") or "")[:10]
+        jour = (t.get("startTime") or "")[:10]
         if i < 5 or jour not in vus:
             echantillon.append(t)
             vus.add(jour)
     for t in echantillon:
-        obs = lire(client, "/api/public/observations", {"traceId": t["id"], "limit": 5})
-        services = {
-            str(chercher(o.get("metadata"), "service.name")) for o in obs.get("data", [])
-        } or {"aucune observation"}
+        obs = lire(client, V2, {"traceId": t["traceId"], "limit": 5, "fields": "core,metadata"})
+        services = {str(service(o.get("metadata"))) for o in obs.get("data", [])} or {
+            "aucune observation"
+        }
         print(
-            f"{t.get('timestamp', '?')[:19]}Z  env={t.get('environment', '?'):<14}"
+            f"{t.get('startTime', '?')[:19]}Z  env={t.get('environment', '?'):<14}"
             f" service.name={', '.join(sorted(services))}"
         )
 
