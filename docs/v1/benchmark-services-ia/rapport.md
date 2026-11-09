@@ -46,6 +46,58 @@ Pour un lecteur non spécialiste ; chaque phrase reprend le rapport, sans rien y
   l'instant : ces deux engagements seront exigés par écrit avant tout contrat ; le choix se fera
   après la V1 (décision consignée D-93).
 
+## Selon le référentiel
+
+Ajoutée le 9 novembre 2026, après la séance de veille du 6 novembre
+(`docs/veille/seances/2026-11-06.md`) : le benchmark relu selon les activités de la compétence C7.
+Chaque phrase reprend le protocole, le rapport ou les relevés, sans rien y ajouter.
+
+### Le besoin
+
+Les besoins viennent de la conception de Muninn, pas des offres (protocole, section 2).
+
+- Transcription : écrire ce que dit l'appelant en français, séparer sa voix de celle de l'agent,
+  rendre les chiffres exacts (numéro de téléphone, code postal), en moins de 30 s.
+- Synthèse vocale : deux voix françaises distinctes, qui lisent correctement les numéros ; l'agent
+  s'annonce comme automatique dès sa première phrase.
+- Téléphonie : un numéro français qui reçoit les appels renvoyés par le mobile de l'artisan,
+  transmet le numéro d'origine et le son de l'appel en temps réel, pour un coût compatible avec le
+  budget de 60 € par mois.
+- Pour les trois : traitement dans l'Union européenne et aucun entraînement de modèle sur nos
+  données. Aucun compte n'est ouvert chez un nouveau fournisseur pour essayer (R10).
+
+### Les services étudiés, et ceux qui ne l'ont pas été
+
+| Catégorie       | Étudiés (cinq au plus)                                                  | Non étudiés, et pourquoi                                                                                                                                 |
+| --------------- | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Transcription   | Azure (en place), OVHcloud, Speechmatics, Gladia, Mistral Voxtral 3     | AWS Transcribe, Deepgram, AssemblyAI, Scaleway : faute de place, aucun jugement porté ; Google Speech-to-Text, relevé en annexe ; OpenAI, hors UE (D-50) |
+| Synthèse vocale | Azure (en place), Amazon Polly, Google, Mistral Voxtral TTS, ElevenLabs | OVHcloud : pas de voix française ; Scaleway : pas de synthèse ; Acapela : ni documentation ni prix publics ; ReadSpeaker : faute de temps                |
+| Téléphonie      | Twilio, Sinch, Vonage, OVHcloud, Azure Communication Services           | Telnyx : aucune entité dans l'UE trouvée ; Plivo, Infobip, Telesign : faute de place, non lus                                                            |
+
+### L'adéquation au besoin
+
+| Catégorie       | Recommandation                                                                  | Écartés, et pourquoi                                                                                                                                        |
+| --------------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Transcription   | Garder Azure, seul mesurable ; puis Speechmatics (réserve sur l'UE) et OVHcloud | Gladia : traitement dans l'UE non établi, engagement contradictoire sur l'entraînement. Voxtral 3 : entraînement autorisé en préversion, français non listé |
+| Synthèse vocale | Garder Azure ; Google et Polly proches, avec des réserves                       | Voxtral TTS : UE non établie, entraînement autorisé en préversion. ElevenLabs : UE non établie                                                              |
+| Téléphonie      | Aucun service ne passe la grille ; aucun n'est recommandé                       | Twilio : texte contraire sur l'entraînement. Sinch, Vonage, OVHcloud : UE ou entraînement non établis. Azure : plus de numéro pour un nouveau client        |
+
+### Contraintes et prérequis
+
+- Pour Azure, retenu en transcription et en synthèse vocale, les prérequis sont déjà en place : la
+  ressource Azure du projet et une identité pour s'authentifier sans mot de passe.
+- Contrainte pour la suite : quand le texte arrive en flux, le SSML n'est pas accepté ; les
+  numéros devront être écrits sous leur forme parlée avant la synthèse.
+- Téléphonie : l'absence d'entraînement sur le contenu des appels et le traitement dans l'UE
+  seront exigés par écrit avant tout contrat ; le choix se fera après la V1 (D-93).
+- Hors d'Azure, la comparaison est faite sur la documentation officielle : rien n'a été essayé
+  (R10).
+
+### Le critère environnemental
+
+Le protocole n'a pas de critère environnemental, et ce benchmark ne l'a pas évalué. La démarche
+éco-responsable des modèles de langage est au rapport du banc d'essai T-06, section 6.
+
 ## 2. Règles d'application de la grille
 
 - **Un éliminatoire n'est satisfait que s'il est établi par une source officielle.** Une valeur

@@ -31,6 +31,12 @@ td.c-non { box-shadow: inset 3px 0 0 var(--non); }
 .liste .liste { margin-top: 0.5rem; }
 .liste .suite { margin: 0.6rem 0 0; }
 .liste + .chapo, .defile + .chapo, .defile + .liste { margin-top: 1.25rem; }
+/* Un tableau défilant n'apporte pas sa hauteur minimale à la grille de la section : le titre en
+   marge, réparti sur ses 40 rangées, laissait un blanc sous un tableau placé en tête. Des rangées
+   à la hauteur de leur contenu l'évitent. */
+.sections > section { grid-auto-rows: max-content; }
+/* Sur un écran étroit, un tableau de texte garde des colonnes lisibles et défile dans son cadre. */
+@media (max-width: 720px) { .defile:not(.grille) table { min-width: 36rem; } }
 .preuves a { font-weight: 600; }
 @media (max-width: 720px) {
   .entonnoir.trois { grid-template-columns: minmax(0, 1fr); }
@@ -130,6 +136,10 @@ td.c-non { box-shadow: inset 3px 0 0 var(--non); }
         [[D.services, "services comparés sur une même grille"], [passent, "passent les critères éliminatoires"], [retenus, "services recommandés"]]
           .map(([n, l]) => el("li", {}, el("span", { class: "nombre", text: String(n) }), el("span", { class: "libelle", text: l }))))));
     racine.append(section("reponses", "La réponse", el("p", { class: "chapo", text: "Une recommandation par catégorie, avec la condition qui l'accompagne." }), cartes));
+    // Lecture selon le référentiel de C7 : besoin, services étudiés, adéquation, contraintes,
+    // critère environnemental (section « Selon le référentiel » du rapport).
+    D.referentiel.parties.forEach((p, k) => racine.append(section("referentiel-" + (k + 1), p.titre,
+      ...(k === 0 ? D.referentiel.intro.map((b) => bloc(b)) : []), ...p.blocs.map((b) => bloc(b)))));
     racine.append(section("regles", "Comment la grille est appliquée", ...D.regles.map((b) => bloc(b))));
     racine.append(section("ecarts", "Écarts au protocole", ...D.ecarts.map((b) => bloc(b))));
     racine.append(section("limites", "Limites", ...D.limites.map((b) => bloc(b))));

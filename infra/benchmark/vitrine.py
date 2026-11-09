@@ -1,10 +1,11 @@
 """Vitrine du benchmark C7 : une page web autonome tirée de `docs/v1/benchmark-services-ia/`.
 
-Lit le rapport (`rapport.md` : réponse courte, couche « En clair », règles, mesure, grilles des
-trois catégories, écarts, limites), la mesure la plus récente (`mesures/azure-speech-*.json`) et
-la liste des relevés, puis écrit `vitrine.html` : le modèle `vitrine_modele.html` avec la charte
-commune des vitrines (`infra/vitrine/`) et les données en JSON. Aucune saisie à la main : la page
-se régénère après chaque modification du rapport.
+Lit le rapport (`rapport.md` : réponse courte, couche « En clair », lecture « Selon le
+référentiel », règles, mesure, grilles des trois catégories, écarts, limites), la mesure la plus
+récente (`mesures/azure-speech-*.json`) et la liste des relevés, puis écrit `vitrine.html` : le
+modèle `vitrine_modele.html` avec la charte commune des vitrines (`infra/vitrine/`) et les
+données en JSON. Aucune saisie à la main : la page se régénère après chaque modification du
+rapport.
 
 Le texte du rapport n'est jamais interprété comme du HTML : les passages en ligne (code, liens,
 gras) sont découpés en segments typés, que la page assemble avec `textContent`.
@@ -176,6 +177,18 @@ def en_clair(corps: str) -> dict[str, str]:
     return resultat
 
 
+def parties(corps: str) -> dict[str, Any]:
+    """Une section découpée par ses titres de niveau 3 : l'introduction, puis chaque partie."""
+    morceaux = re.split(r"^### (.+)$", corps, flags=re.M)
+    return {
+        "intro": blocs(morceaux[0]) if morceaux[0].strip() else [],
+        "parties": [
+            {"titre": morceaux[i].strip(), "blocs": blocs(morceaux[i + 1])}
+            for i in range(1, len(morceaux), 2)
+        ],
+    }
+
+
 def mesure_recente(dossier: Path) -> dict[str, Any]:
     fichiers = sorted((dossier / "mesures").glob("azure-speech-*.json"))
     if not fichiers:
@@ -218,6 +231,7 @@ def donnees(dossier: Path = DOSSIER) -> dict[str, Any]:
         "chapeau_clair": clair.get("Chapeau", ""),
         "mesure_clair": clair.get("Mesure", ""),
         "reponse": reponse,
+        "referentiel": parties(s.get("Selon le référentiel", "")),
         "regles": blocs(s.get("Règles d'application de la grille", "")),
         "mesure": {
             "titre": titre_mesure,

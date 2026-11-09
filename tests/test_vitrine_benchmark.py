@@ -70,6 +70,21 @@ def test_donnees_reelles_coherentes() -> None:
     r = d["mesure"]["resultats"]
     assert r["appels_mesures"] == 48 and r["groupes_chiffres_exacts"] == 69
     assert d["regles"] and d["ecarts"] and d["limites"] and "D-93" in d["decisions"]
+    assert [p["titre"] for p in d["referentiel"]["parties"]] == [
+        "Le besoin",
+        "Les services étudiés, et ceux qui ne l'ont pas été",
+        "L'adéquation au besoin",
+        "Contraintes et prérequis",
+        "Le critère environnemental",
+    ]
+    assert d["referentiel"]["intro"] and all(p["blocs"] for p in d["referentiel"]["parties"])
+
+
+def test_parties_decoupees_par_titres_de_niveau_3() -> None:
+    p = module().parties("Intro.\n\n### Un\n\n- a\n\n### Deux\n\nTexte.")
+    assert [x["titre"] for x in p["parties"]] == ["Un", "Deux"]
+    assert p["intro"][0]["type"] == "p" and p["parties"][0]["blocs"][0]["type"] == "liste"
+    assert module().parties("") == {"intro": [], "parties": []}
 
 
 def test_le_json_ne_peut_pas_fermer_la_balise_script(tmp_path: Path) -> None:
